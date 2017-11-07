@@ -685,8 +685,6 @@ namespace SM64DSe
                 GL.Disable(EnableCap.Lighting);
             }
 
-            Console.WriteLine(m_XScale + ", " + m_YScale);
-
             GL.Begin(PrimitiveType.TriangleStrip);
             GL.Vertex3(-halfWidth, 0, -s);
             GL.Vertex3(-halfWidth, m_YScale, -s);
