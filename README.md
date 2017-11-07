@@ -15,3 +15,15 @@ Changelog:
 -path objects draw the node-connecting lines when highlighted
 
 -added buttons for copying and pasting the objects coordinates
+
+
+Changes v1.1:
+-new interface for editing object properties
+
+-paths now show up as closed if they are
+
+-double clicking an object in the objectlist snaps the camera to it (for example usefull to find the level entrances)
+
+-in the 3d model tab you can select single areas to show up (pretty usefull to see what is going to be visible when entering a door)
+
+-some BugFixes
