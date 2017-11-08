@@ -45,13 +45,14 @@ namespace SM64DSe
             this.val_area = new System.Windows.Forms.NumericUpDown();
             this.lbl_area = new System.Windows.Forms.Label();
             this.box_fogSettings = new System.Windows.Forms.GroupBox();
-            this.check_displayFog = new System.Windows.Forms.CheckBox();
+            this.box_color = new System.Windows.Forms.Panel();
             this.lbl_r = new System.Windows.Forms.Label();
-            this.lbl_g = new System.Windows.Forms.Label();
-            this.lbl_b = new System.Windows.Forms.Label();
             this.val_r = new System.Windows.Forms.NumericUpDown();
-            this.val_g = new System.Windows.Forms.NumericUpDown();
+            this.lbl_g = new System.Windows.Forms.Label();
             this.val_b = new System.Windows.Forms.NumericUpDown();
+            this.lbl_b = new System.Windows.Forms.Label();
+            this.val_g = new System.Windows.Forms.NumericUpDown();
+            this.check_displayFog = new System.Windows.Forms.CheckBox();
             this.val_endDistance = new System.Windows.Forms.NumericUpDown();
             this.lbl_endDistance = new System.Windows.Forms.Label();
             this.val_startDistance = new System.Windows.Forms.NumericUpDown();
@@ -154,7 +155,7 @@ namespace SM64DSe
             this.btnStarAll = new System.Windows.Forms.ToolStripButton();
             this.ssStatusBar = new System.Windows.Forms.StatusStrip();
             this.slStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.box_color = new System.Windows.Forms.Panel();
+            this.spcPropertyInterface = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.spcMainContainer)).BeginInit();
             this.spcMainContainer.Panel1.SuspendLayout();
             this.spcMainContainer.Panel2.SuspendLayout();
@@ -170,9 +171,10 @@ namespace SM64DSe
             ((System.ComponentModel.ISupportInitialize)(this.val_objectId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_area)).BeginInit();
             this.box_fogSettings.SuspendLayout();
+            this.box_color.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.val_r)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.val_g)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_b)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.val_g)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_endDistance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_startDistance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnToogleCollapseColor)).BeginInit();
@@ -192,7 +194,10 @@ namespace SM64DSe
             this.tsViewActions.SuspendLayout();
             this.tsToolBar.SuspendLayout();
             this.ssStatusBar.SuspendLayout();
-            this.box_color.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spcPropertyInterface)).BeginInit();
+            this.spcPropertyInterface.Panel1.SuspendLayout();
+            this.spcPropertyInterface.Panel2.SuspendLayout();
+            this.spcPropertyInterface.SuspendLayout();
             this.SuspendLayout();
             // 
             // spcMainContainer
@@ -232,11 +237,9 @@ namespace SM64DSe
             // 
             // spcLeftPanel.Panel2
             // 
-            this.spcLeftPanel.Panel2.Controls.Add(this.tc_switchPropertyInterface);
-            this.spcLeftPanel.Panel2.Controls.Add(this.btnPasteCoordinates);
-            this.spcLeftPanel.Panel2.Controls.Add(this.btnCopyCoordinates);
+            this.spcLeftPanel.Panel2.Controls.Add(this.spcPropertyInterface);
             this.spcLeftPanel.Size = new System.Drawing.Size(264, 354);
-            this.spcLeftPanel.SplitterDistance = 76;
+            this.spcLeftPanel.SplitterDistance = 75;
             this.spcLeftPanel.TabIndex = 1;
             // 
             // tvObjectList
@@ -246,7 +249,7 @@ namespace SM64DSe
             this.tvObjectList.HideSelection = false;
             this.tvObjectList.Location = new System.Drawing.Point(0, 0);
             this.tvObjectList.Name = "tvObjectList";
-            this.tvObjectList.Size = new System.Drawing.Size(264, 76);
+            this.tvObjectList.Size = new System.Drawing.Size(264, 75);
             this.tvObjectList.TabIndex = 0;
             this.tvObjectList.TabStop = false;
             this.tvObjectList.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.tvObjectList_DrawNode);
@@ -257,7 +260,8 @@ namespace SM64DSe
             // 
             this.tc_switchPropertyInterface.Controls.Add(this.tab_newInterface);
             this.tc_switchPropertyInterface.Controls.Add(this.tab_tableInterface);
-            this.tc_switchPropertyInterface.Location = new System.Drawing.Point(3, 3);
+            this.tc_switchPropertyInterface.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tc_switchPropertyInterface.Location = new System.Drawing.Point(0, 0);
             this.tc_switchPropertyInterface.Name = "tc_switchPropertyInterface";
             this.tc_switchPropertyInterface.SelectedIndex = 0;
             this.tc_switchPropertyInterface.Size = new System.Drawing.Size(264, 243);
@@ -411,17 +415,18 @@ namespace SM64DSe
             this.box_fogSettings.Text = "Fog Settings";
             this.box_fogSettings.Visible = false;
             // 
-            // check_displayFog
+            // box_color
             // 
-            this.check_displayFog.AutoSize = true;
-            this.check_displayFog.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.check_displayFog.Location = new System.Drawing.Point(16, 19);
-            this.check_displayFog.Name = "check_displayFog";
-            this.check_displayFog.Size = new System.Drawing.Size(78, 17);
-            this.check_displayFog.TabIndex = 15;
-            this.check_displayFog.Text = "Display fog";
-            this.check_displayFog.UseVisualStyleBackColor = true;
-            this.check_displayFog.CheckedChanged += new System.EventHandler(this.ValueChanged);
+            this.box_color.Controls.Add(this.lbl_r);
+            this.box_color.Controls.Add(this.val_r);
+            this.box_color.Controls.Add(this.lbl_g);
+            this.box_color.Controls.Add(this.val_b);
+            this.box_color.Controls.Add(this.lbl_b);
+            this.box_color.Controls.Add(this.val_g);
+            this.box_color.Location = new System.Drawing.Point(0, 37);
+            this.box_color.Name = "box_color";
+            this.box_color.Size = new System.Drawing.Size(242, 34);
+            this.box_color.TabIndex = 16;
             // 
             // lbl_r
             // 
@@ -431,24 +436,6 @@ namespace SM64DSe
             this.lbl_r.Size = new System.Drawing.Size(13, 13);
             this.lbl_r.TabIndex = 2;
             this.lbl_r.Text = "r:";
-            // 
-            // lbl_g
-            // 
-            this.lbl_g.AutoSize = true;
-            this.lbl_g.Location = new System.Drawing.Point(84, 10);
-            this.lbl_g.Name = "lbl_g";
-            this.lbl_g.Size = new System.Drawing.Size(16, 13);
-            this.lbl_g.TabIndex = 3;
-            this.lbl_g.Text = "g:";
-            // 
-            // lbl_b
-            // 
-            this.lbl_b.AutoSize = true;
-            this.lbl_b.Location = new System.Drawing.Point(160, 10);
-            this.lbl_b.Name = "lbl_b";
-            this.lbl_b.Size = new System.Drawing.Size(16, 13);
-            this.lbl_b.TabIndex = 4;
-            this.lbl_b.Text = "b:";
             // 
             // val_r
             // 
@@ -464,19 +451,14 @@ namespace SM64DSe
             this.val_r.TabIndex = 3;
             this.val_r.ValueChanged += new System.EventHandler(this.ValueChanged);
             // 
-            // val_g
+            // lbl_g
             // 
-            this.val_g.Location = new System.Drawing.Point(102, 8);
-            this.val_g.Margin = new System.Windows.Forms.Padding(1, 3, 3, 3);
-            this.val_g.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.val_g.Name = "val_g";
-            this.val_g.Size = new System.Drawing.Size(52, 20);
-            this.val_g.TabIndex = 4;
-            this.val_g.ValueChanged += new System.EventHandler(this.ValueChanged);
+            this.lbl_g.AutoSize = true;
+            this.lbl_g.Location = new System.Drawing.Point(84, 10);
+            this.lbl_g.Name = "lbl_g";
+            this.lbl_g.Size = new System.Drawing.Size(16, 13);
+            this.lbl_g.TabIndex = 3;
+            this.lbl_g.Text = "g:";
             // 
             // val_b
             // 
@@ -491,6 +473,41 @@ namespace SM64DSe
             this.val_b.Size = new System.Drawing.Size(58, 20);
             this.val_b.TabIndex = 5;
             this.val_b.ValueChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // lbl_b
+            // 
+            this.lbl_b.AutoSize = true;
+            this.lbl_b.Location = new System.Drawing.Point(160, 10);
+            this.lbl_b.Name = "lbl_b";
+            this.lbl_b.Size = new System.Drawing.Size(16, 13);
+            this.lbl_b.TabIndex = 4;
+            this.lbl_b.Text = "b:";
+            // 
+            // val_g
+            // 
+            this.val_g.Location = new System.Drawing.Point(102, 8);
+            this.val_g.Margin = new System.Windows.Forms.Padding(1, 3, 3, 3);
+            this.val_g.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.val_g.Name = "val_g";
+            this.val_g.Size = new System.Drawing.Size(52, 20);
+            this.val_g.TabIndex = 4;
+            this.val_g.ValueChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // check_displayFog
+            // 
+            this.check_displayFog.AutoSize = true;
+            this.check_displayFog.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.check_displayFog.Location = new System.Drawing.Point(16, 19);
+            this.check_displayFog.Name = "check_displayFog";
+            this.check_displayFog.Size = new System.Drawing.Size(78, 17);
+            this.check_displayFog.TabIndex = 15;
+            this.check_displayFog.Text = "Display fog";
+            this.check_displayFog.UseVisualStyleBackColor = true;
+            this.check_displayFog.CheckedChanged += new System.EventHandler(this.ValueChanged);
             // 
             // val_endDistance
             // 
@@ -822,7 +839,7 @@ namespace SM64DSe
             // btnPasteCoordinates
             // 
             this.btnPasteCoordinates.Enabled = false;
-            this.btnPasteCoordinates.Location = new System.Drawing.Point(134, 251);
+            this.btnPasteCoordinates.Location = new System.Drawing.Point(134, 0);
             this.btnPasteCoordinates.Name = "btnPasteCoordinates";
             this.btnPasteCoordinates.Size = new System.Drawing.Size(130, 23);
             this.btnPasteCoordinates.TabIndex = 2;
@@ -833,7 +850,7 @@ namespace SM64DSe
             // 
             // btnCopyCoordinates
             // 
-            this.btnCopyCoordinates.Location = new System.Drawing.Point(0, 251);
+            this.btnCopyCoordinates.Location = new System.Drawing.Point(0, 0);
             this.btnCopyCoordinates.Name = "btnCopyCoordinates";
             this.btnCopyCoordinates.Size = new System.Drawing.Size(128, 23);
             this.btnCopyCoordinates.TabIndex = 1;
@@ -1620,18 +1637,24 @@ namespace SM64DSe
             this.slStatusLabel.Paint += new System.Windows.Forms.PaintEventHandler(this.slStatusLabel_Paint);
             this.slStatusLabel.TextChanged += new System.EventHandler(this.slStatusLabel_TextChanged);
             // 
-            // box_color
+            // spcPropertyInterface
             // 
-            this.box_color.Controls.Add(this.lbl_r);
-            this.box_color.Controls.Add(this.val_r);
-            this.box_color.Controls.Add(this.lbl_g);
-            this.box_color.Controls.Add(this.val_b);
-            this.box_color.Controls.Add(this.lbl_b);
-            this.box_color.Controls.Add(this.val_g);
-            this.box_color.Location = new System.Drawing.Point(0, 37);
-            this.box_color.Name = "box_color";
-            this.box_color.Size = new System.Drawing.Size(242, 34);
-            this.box_color.TabIndex = 16;
+            this.spcPropertyInterface.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spcPropertyInterface.Location = new System.Drawing.Point(0, 0);
+            this.spcPropertyInterface.Name = "spcPropertyInterface";
+            this.spcPropertyInterface.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // spcPropertyInterface.Panel1
+            // 
+            this.spcPropertyInterface.Panel1.Controls.Add(this.tc_switchPropertyInterface);
+            // 
+            // spcPropertyInterface.Panel2
+            // 
+            this.spcPropertyInterface.Panel2.Controls.Add(this.btnPasteCoordinates);
+            this.spcPropertyInterface.Panel2.Controls.Add(this.btnCopyCoordinates);
+            this.spcPropertyInterface.Size = new System.Drawing.Size(264, 275);
+            this.spcPropertyInterface.SplitterDistance = 245;
+            this.spcPropertyInterface.TabIndex = 1;
             // 
             // LevelEditorForm
             // 
@@ -1666,9 +1689,11 @@ namespace SM64DSe
             ((System.ComponentModel.ISupportInitialize)(this.val_area)).EndInit();
             this.box_fogSettings.ResumeLayout(false);
             this.box_fogSettings.PerformLayout();
+            this.box_color.ResumeLayout(false);
+            this.box_color.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.val_r)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.val_g)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_b)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.val_g)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_endDistance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_startDistance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnToogleCollapseColor)).EndInit();
@@ -1694,8 +1719,10 @@ namespace SM64DSe
             this.tsToolBar.PerformLayout();
             this.ssStatusBar.ResumeLayout(false);
             this.ssStatusBar.PerformLayout();
-            this.box_color.ResumeLayout(false);
-            this.box_color.PerformLayout();
+            this.spcPropertyInterface.Panel1.ResumeLayout(false);
+            this.spcPropertyInterface.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.spcPropertyInterface)).EndInit();
+            this.spcPropertyInterface.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1828,5 +1855,6 @@ namespace SM64DSe
         private System.Windows.Forms.NumericUpDown val_endDistance;
         private System.Windows.Forms.Label lbl_endDistance;
         private System.Windows.Forms.Panel box_color;
+        private System.Windows.Forms.SplitContainer spcPropertyInterface;
     }
 }

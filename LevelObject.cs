@@ -193,6 +193,7 @@ namespace SM64DSe
 
             m_Renderer = InitialiseRenderer();
             m_KCLName = InitializeKCL();
+            Console.WriteLine(m_KCLName);
             m_ParameterFields = new ParameterField[]
             {
                 new DefaultField("Parameter 1",0,16){ Name = "1. Parameter" },
@@ -1351,14 +1352,14 @@ namespace SM64DSe
 
             m_ParameterFields = new ParameterField[]
             {
-                new ListField("Parameter 1", 8, 4, cameraModes) {Name = "100coins" },
-                new ListField("Parameter 1", 12, 4, cameraModes) {Name = "1. Star" },
-                new ListField("Parameter 2", 8, 4, cameraModes) {Name = "2. Star" },
-                new ListField("Parameter 2", 12, 4, cameraModes) {Name = "3. Star" },
-                new ListField("Parameter 3", 8, 4, cameraModes) {Name = "4. Star" },
-                new ListField("Parameter 3", 12, 4, cameraModes) {Name = "5. Star" },
-                new ListField("Parameter 4", 8, 4, cameraModes) {Name = "6. Star" },
-                new ListField("Parameter 4", 12, 4, cameraModes) {Name = "7. Star" }
+                new ListField("Parameter 1", 12, 4, cameraModes) {Name = "100coins" },
+                new ListField("Parameter 1", 8, 4, cameraModes) {Name = "1. Star" },
+                new ListField("Parameter 2", 12, 4, cameraModes) {Name = "2. Star" },
+                new ListField("Parameter 2", 8, 4, cameraModes) {Name = "3. Star" },
+                new ListField("Parameter 3", 12, 4, cameraModes) {Name = "4. Star" },
+                new ListField("Parameter 3", 8, 4, cameraModes) {Name = "5. Star" },
+                new ListField("Parameter 4", 12, 4, cameraModes) {Name = "6. Star" },
+                new ListField("Parameter 4", 8, 4, cameraModes) {Name = "7. Star" }
             };
             m_Properties = new PropertyTable();
             GenerateProperties();

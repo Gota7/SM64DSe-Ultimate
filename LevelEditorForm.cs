@@ -2819,6 +2819,8 @@ namespace SM64DSe
         {
             if (m_SelectedObject == null)
             {
+                pgObjectProperties.SelectedObject = null;
+                pgObjectProperties.Refresh();
                 return;
             }
             
