@@ -430,11 +430,15 @@ namespace SM64DSe
                         float opposite = nodes[next].Position.X - nodes[i].Position.X;
                         float adjacent = nodes[next].Position.Z - nodes[i].Position.Z;
                         float rotY = MathHelper.RadiansToDegrees((float)Math.Atan(opposite / adjacent));
+                        
                         if (adjacent >= 0)
                         {
                             rotY += 180;
                         }
-                        ((PathPointObject)nodes[i]).m_Renderer = new ColourArrowRenderer(Color.FromArgb(0, 255, 255), Color.FromArgb(0, 64, 64), false, 0f, rotY, 0f);
+                        if (float.IsNaN(rotY))
+                            ((PathPointObject)nodes[i]).m_Renderer = new ColorCubeRenderer(Color.FromArgb(0, 255, 255), Color.FromArgb(0, 64, 64), false);
+                        else
+                            ((PathPointObject)nodes[i]).m_Renderer = new ColourArrowRenderer(Color.FromArgb(0, 255, 255), Color.FromArgb(0, 64, 64), false, 0f, rotY, 0f);
                     }
                 }
             }
@@ -489,7 +493,7 @@ namespace SM64DSe
                         btnRemoveAll.Visible = true;
                         btnReplaceObjModel.Visible = true;
                         btnExportObjectModel.Visible = true;
-                        btnOffsetAllCoords.Visible = true;
+                        btnAddPathNode.Visible = true;
 
                         TreeNode objectNode = new TreeNode("Objects");
                         objectNode.Name = "object";
@@ -535,40 +539,38 @@ namespace SM64DSe
 
                 case EditMode.PATHS:
                     {
-                        btnAddPathNodes.Visible = true;
                         btnAddPath.Visible = true;
                         btnRemoveSel.Visible = true;
                         btnRemoveAll.Visible = true;
-
-                        TreeNode pathsNode = new TreeNode("Paths");
-                        pathsNode.Name = "path";
-                        TreeNode pathNodesNode = new TreeNode("Path Nodes");
-                        pathNodesNode.Name = "path_node";
-
+                        
                         IEnumerable<LevelObject> paths = m_Level.GetAllObjectsByType(LevelObject.Type.PATH);
-                        for (int i = 0; i < paths.Count(); i++)
-                        {
-                            pathsNode.Nodes.Add(paths.ElementAt(i).m_UniqueID.ToString("X8"), paths.ElementAt(i).GetDescription() + " " + i.ToString("D4")).Tag = 
-                                paths.ElementAt(i).m_UniqueID;
-                        }
-
                         IEnumerable<LevelObject> pathNodes = m_Level.GetAllObjectsByType(LevelObject.Type.PATH_NODE)
                             .OrderBy(obj => ((PathPointObject)obj).m_NodeID);
-                        for (int i = 0; i < pathNodes.Count(); i++)
-                        {
-                            LevelObject node = pathNodes.ElementAt(i);
-                            pathNodesNode.Nodes.Add(node.m_UniqueID.ToString("X8"), node.GetDescription() + " " + i.ToString("D4")).Tag = 
-                                node.m_UniqueID;
-                        }
 
-                        tvObjectList.Nodes.Add(pathsNode);
-                        tvObjectList.Nodes.Add(pathNodesNode);
-
-                        btnAddPathNodes.DropDownItems.Clear();
+                        TreeNode pathsNode = new TreeNode("Paths");
+                        pathsNode.Name = "paths";
+                        pathsNode.Expand();
                         for (int i = 0; i < paths.Count(); i++)
                         {
-                            btnAddPathNodes.DropDownItems.Add("Add Node to Path " + i).Tag = i.ToString();
+                            PathObject path = (PathObject)paths.ElementAt(i);
+                            path.m_PathID = (ushort)i;
+
+                            TreeNode pathTreeNode = new TreeNode(paths.ElementAt(i).GetDescription());
+                            pathTreeNode.Name = "path"+i;
+                            pathTreeNode.Tag = paths.ElementAt(i).m_UniqueID;
+
+                            int offset = path.Parameters[0];
+                            for (int j = 0; j < path.Parameters[1]; j++)
+                            {
+                                PathPointObject node = (PathPointObject)pathNodes.ElementAt(offset+j);
+                                node.ParentPath = (ushort)i;
+                                node.m_IndexInPath = (byte)j;
+                                pathTreeNode.Nodes.Add(node.m_UniqueID.ToString("X8"), node.GetDescription()).Tag =
+                                    node.m_UniqueID;
+                            }
+                            pathsNode.Nodes.Add(pathTreeNode);
                         }
+                        tvObjectList.Nodes.Add(pathsNode);
                     }
                     break;
 
@@ -616,7 +618,36 @@ namespace SM64DSe
                     break;
             }
 
-            tvObjectList.ExpandAll();
+            if (!(m_EditMode==EditMode.PATHS))
+                tvObjectList.ExpandAll();
+        }
+
+        private void PopulatePathNodes(int pathId)
+        {
+            IEnumerable<LevelObject> paths = m_Level.GetAllObjectsByType(LevelObject.Type.PATH);
+            IEnumerable<LevelObject> pathNodes = m_Level.GetAllObjectsByType(LevelObject.Type.PATH_NODE)
+                            .OrderBy(obj => ((PathPointObject)obj).m_NodeID);
+
+
+            PathObject path = (PathObject)paths.ElementAt(pathId);
+
+            TreeNode pathTreeNode = tvObjectList.Nodes[0].Nodes["path" + pathId];
+
+            int offset = path.Parameters[0];
+            pathTreeNode.Nodes.Clear();
+            for (int i = 0; i < path.Parameters[1]; i++)
+            {
+                PathPointObject node = (PathPointObject)pathNodes.ElementAt(offset + i);
+                node.ParentPath = (ushort)pathId;
+                node.m_IndexInPath = (byte)i;
+                pathTreeNode.Nodes.Add(node.m_UniqueID.ToString("X8"), node.GetDescription()).Tag =
+                    node.m_UniqueID;
+                if (node == m_SelectedObject)
+                {
+                    tvObjectList.SelectedNode = pathTreeNode.Nodes[i];
+                    m_nextObjectToSelect = node;
+                }
+            }
         }
 
         private void UpdateTransformProperties()
@@ -642,6 +673,7 @@ namespace SM64DSe
 
         private LevelObject AddObject(LevelObject.Type type, ushort id, int layer, int area)
         {
+            IEnumerable<LevelObject> paths;
             LevelObject obj = null;
             string parentnode = null;
             switch (type)
@@ -655,14 +687,27 @@ namespace SM64DSe
                     obj = m_Level.AddEntranceObject(layer);
                     break;
                 case LevelObject.Type.PATH_NODE:
-                    parentnode = "path_node";
+                    parentnode = "path"+m_CurrentPathID;
+                    
+                    PathPointObject point = m_Level.AddPathPointObject(m_CurrentPathID);
+                    point.m_IndexInPath = 0;
+                    obj = point;
 
-                    IEnumerable<LevelObject> paths = m_Level.GetAllObjectsByType(LevelObject.Type.PATH);
-                    PathObject path = (PathObject)paths.ElementAt(m_CurrentPathID);
-
-                    obj = m_Level.AddPathPointObject(path);
                     break;
-                case LevelObject.Type.PATH: parentnode = "path"; obj = m_Level.AddPathObject(); break;
+                case LevelObject.Type.PATH:
+                    paths = m_Level.GetAllObjectsByType(LevelObject.Type.PATH);
+                    PathObject path = m_Level.AddPathObject();
+                    int pathId = path.m_PathID;
+                    TreeNode pathTreeNode = new TreeNode(path.GetDescription());
+                    pathTreeNode.Name = "path" + pathId;
+                    pathTreeNode.Tag = path.m_UniqueID;
+                    tvObjectList.Nodes[0].Nodes.Add(pathTreeNode);
+                    path.GenerateProperties();
+                    //add a node to the paths
+                    obj = m_Level.AddPathPointObject(pathId);
+                    m_SelectedObject = obj;
+                    PopulatePathNodes(pathId);
+                    return obj;
                 case LevelObject.Type.VIEW: parentnode = "view";  obj = m_Level.AddViewObject(); break;
                 case LevelObject.Type.SIMPLE:
                     parentnode = "object";
@@ -686,7 +731,7 @@ namespace SM64DSe
 
             return obj;
         }
-
+        
         private void RemoveObject(LevelObject obj, bool bulk = false)
         {
             if (m_Level.RemoveObject(obj))
@@ -700,15 +745,36 @@ namespace SM64DSe
                     if (obj.m_Type == LevelObject.Type.ENTRANCE)
                     {
                         IEnumerable<LevelObject> toupdate = m_Level.GetAllObjectsByType(LevelObject.Type.ENTRANCE)
-                            .Where(obj2 => ((EntranceObject)obj2).m_EntranceID > ((EntranceObject)obj).m_EntranceID);
+                            .Where(obj2 => ((EntranceObject)obj2).m_EntranceID >= ((EntranceObject)obj).m_EntranceID);
                         foreach (LevelObject entrance in toupdate)
                         {
                             tvObjectList.Nodes.Find(entrance.m_UniqueID.ToString("X8"), true)[0].Text = entrance.GetDescription();
                         }
                     }
-                    else if (obj.m_Type == LevelObject.Type.PATH_NODE || obj.m_Type == LevelObject.Type.PATH)
+                    else if (obj.m_Type == LevelObject.Type.VIEW)
+                    {
+                        IEnumerable<LevelObject> toupdate = m_Level.GetAllObjectsByType(LevelObject.Type.VIEW)
+                            .Where(obj2 => ((ViewObject)obj2).m_ViewID >= ((ViewObject)obj).m_ViewID);
+                        foreach (LevelObject view in toupdate)
+                        {
+                            tvObjectList.Nodes.Find(view.m_UniqueID.ToString("X8"), true)[0].Text = view.GetDescription();
+                        }
+                    }
+                    else if (obj.m_Type == LevelObject.Type.PATH)
                     {
                         PopulateObjectList();
+                    }
+                    else if (obj.m_Type == LevelObject.Type.PATH_NODE)
+                    {
+                        LevelObject[] paths = m_Level.GetAllObjectsByType(LevelObject.Type.PATH).ToArray();
+                        PathPointObject pathPoint = (PathPointObject)obj;
+                        PathObject parent = (PathObject)paths[pathPoint.ParentPath];
+                        if (parent.Parameters[1] < 1)
+                        {
+                            RemoveObject(parent);
+                            return;
+                        }
+                        PopulatePathNodes(((PathPointObject)obj).ParentPath);
                     }
                 }
             }
@@ -796,6 +862,7 @@ namespace SM64DSe
         private uint m_LastClicked;
         private LevelObject m_HoveredObject;
         private LevelObject m_SelectedObject;
+        private LevelObject m_nextObjectToSelect = null;//the object to be selected when one has been removed
         private LevelObject m_CopiedObject;
         private uint m_ObjectBeingPlaced;
         private bool m_ShiftPressed;
@@ -1757,9 +1824,14 @@ namespace SM64DSe
                 }
                 PropertyTable ptable = m_SelectedObject.m_Properties;
                 RenderPathHilite(nodes, ((float)ptable["Parameter 5"]==255.0f),k_SelectionColor, m_SelectHiliteDL);
+                btnAddPathNode.Visible = true;
             }
             else
+            {
                 RenderObjectHilite(m_SelectedObject, k_SelectionColor, m_SelectHiliteDL);
+                if (m_SelectedObject.m_Type == LevelObject.Type.PATH_NODE)
+                    btnAddPathNode.Visible = true;
+            }
             glLevelView.Refresh();
         }
 
@@ -1888,9 +1960,13 @@ namespace SM64DSe
             LevelObject obj = m_SelectedObject;
             RemoveObject(obj);
             RefreshObjects(obj.m_Layer);
-            m_SelectedObject = null;
-            clear_newInterface();
+            Console.WriteLine("now select: "+m_nextObjectToSelect);
+            m_SelectedObject = m_nextObjectToSelect;
+            clearActiveTab();
             slStatusLabel.Text = "Object removed.";
+
+            m_nextObjectToSelect = null;
+            Console.WriteLine("Selected is now: "+m_SelectedObject);
         }
 
         private void btnRemoveAll_Click(object sender, EventArgs e)
@@ -1963,16 +2039,15 @@ namespace SM64DSe
                     }
                     else 
                     {
-                        switch (parentNode.Name)
+                        if (parentNode.Name == "paths")
                         {
-                            case "path":
-                                RemoveObjects(m_Level.GetAllObjectsByType(LevelObject.Type.PATH).ToList());
-                                slStatusLabel.Text = "Path objects removed.";
-                                break;
-                            case "path_node":
-                                RemoveObjects(m_Level.GetAllObjectsByType(LevelObject.Type.PATH_NODE).ToList());
-                                slStatusLabel.Text = "Path node objects removed.";
-                                break;
+                            RemoveObjects(m_Level.GetAllObjectsByType(LevelObject.Type.PATH).ToList());
+                            slStatusLabel.Text = "Path objects removed.";
+                        }
+                        else if (parentNode.Name.StartsWith("path"))
+                        {
+                            RemoveObjects(m_Level.GetAllObjectsByType(LevelObject.Type.PATH_NODE).ToList());
+                            slStatusLabel.Text = "Path node objects removed.";
                         }
                     }
                     break;
@@ -2200,51 +2275,32 @@ namespace SM64DSe
         }
 
         private int m_CurrentPathID = -1;
-        void btnAddPathNodes_DropDownItemClicked(object sender, System.Windows.Forms.ToolStripItemClickedEventArgs e)
+
+        private void btnAddPathNode_Click(object sender, EventArgs e)
         {
+            if (m_SelectedObject == null)
+                return;
             m_ObjectBeingPlaced = (int)LevelObject.Type.PATH_NODE << 16;
 
-            // Parse path to which node is to be added
-            m_CurrentPathID = int.Parse(e.ClickedItem.Tag.ToString());
-
-            List<LevelObject> paths = m_Level.GetAllObjectsByType(LevelObject.Type.PATH).ToList();
-            List<LevelObject> pathNodes = m_Level.GetAllObjectsByType(LevelObject.Type.PATH_NODE)
-                .OrderBy(obj1 => ((PathPointObject)obj1).m_NodeID).ToList();
-
-            PathObject path = (PathObject)paths[m_CurrentPathID];
-            int nodeID = path.Parameters[0] + path.Parameters[1];
-
-            // Update Node ID's of following path nodes
-            for (int i = pathNodes.Count - 1; i >= nodeID; i--)
+            int nodeIndex = -1;
+            if (m_SelectedObject.m_Type == LevelObject.Type.PATH)
             {
-                PathPointObject node = (PathPointObject)pathNodes[i];
-                node.m_NodeID++;
+                m_CurrentPathID = ((PathObject)m_SelectedObject).m_PathID;
             }
+            else if (m_SelectedObject.m_Type == LevelObject.Type.PATH_NODE)
+            {
+                PathPointObject pathPoint = (PathPointObject)m_SelectedObject;
+                m_CurrentPathID = pathPoint.ParentPath;
+                nodeIndex = pathPoint.m_IndexInPath+1;
+            }
+            else return;
 
-            // If possible, create object after last node in path
-            LevelObject obj = AddObject(LevelObject.Type.PATH_NODE, 0, 0, 0);
-            obj.GenerateProperties();
-
+            PathPointObject obj = m_Level.AddPathPointObject(m_CurrentPathID,nodeIndex);
+            
             if (obj.m_Properties.Properties.IndexOf("X position") != -1)
             {
                 btnCopyCoordinates.Visible = true;
                 btnPasteCoordinates.Visible = true;
-            }
-
-            // Update start indices and lengths of paths
-            for (int i = m_CurrentPathID; i < paths.Count; i++)
-            {
-                if (i == m_CurrentPathID)
-                {
-                    // Increase length of parent path
-                    paths[i].Parameters[1] += 1;
-                }
-                else if (i > m_CurrentPathID)
-                {
-                    // Increase start node index for all following paths
-                    paths[i].Parameters[0] += 1;
-                }
-                paths[i].GenerateProperties();
             }
 
             m_Selected = obj.m_UniqueID;
@@ -2258,7 +2314,7 @@ namespace SM64DSe
             initializeActiveTab();
 
             RefreshObjects(m_SelectedObject.m_Layer);
-            PopulateObjectList();
+            PopulatePathNodes(m_CurrentPathID);
 
             if (!m_ShiftPressed)
             {
@@ -2653,7 +2709,7 @@ namespace SM64DSe
 
             UpdateTransformProperties();
         }
-
+        
         private void btnOrthView_Click(object sender, EventArgs e)
         {
             if (!btnOrthView.Checked)
@@ -3023,7 +3079,6 @@ namespace SM64DSe
             String newBitString = bitString.Remove(offset, size);
             String insertString = Convert.ToString(Convert.ToUInt16(insertValue) & (ushort)Math.Pow(2, size) - 1, 2).PadLeft(size, '0');
             newBitString = newBitString.Insert(offset, insertString);
-            Console.WriteLine("Stringlength: "+newBitString.Length);
             return Convert.ToUInt16(newBitString, 2);
         }
     }

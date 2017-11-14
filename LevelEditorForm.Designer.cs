@@ -33,6 +33,7 @@ namespace SM64DSe
             this.spcMainContainer = new System.Windows.Forms.SplitContainer();
             this.spcLeftPanel = new System.Windows.Forms.SplitContainer();
             this.tvObjectList = new System.Windows.Forms.TreeView();
+            this.spcPropertyInterface = new System.Windows.Forms.SplitContainer();
             this.tc_switchPropertyInterface = new System.Windows.Forms.TabControl();
             this.tab_newInterface = new System.Windows.Forms.TabPage();
             this.box_general = new System.Windows.Forms.GroupBox();
@@ -93,7 +94,6 @@ namespace SM64DSe
             this.btnRemoveAll = new System.Windows.Forms.ToolStripButton();
             this.btnReplaceObjModel = new System.Windows.Forms.ToolStripButton();
             this.btnExportObjectModel = new System.Windows.Forms.ToolStripButton();
-            this.btnAddPathNodes = new System.Windows.Forms.ToolStripDropDownButton();
             this.btnAddPath = new System.Windows.Forms.ToolStripButton();
             this.btnAddMisc = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,6 +103,7 @@ namespace SM64DSe
             this.btnImportOtherModel = new System.Windows.Forms.ToolStripButton();
             this.btnExportOtherModel = new System.Windows.Forms.ToolStripButton();
             this.btnOffsetAllCoords = new System.Windows.Forms.ToolStripButton();
+            this.btnAddPathNode = new System.Windows.Forms.ToolStripButton();
             this.glLevelView = new OpenTK.GLControl();
             this.tsViewActions = new System.Windows.Forms.ToolStrip();
             this.btnLOL = new System.Windows.Forms.ToolStripButton();
@@ -155,7 +156,6 @@ namespace SM64DSe
             this.btnStarAll = new System.Windows.Forms.ToolStripButton();
             this.ssStatusBar = new System.Windows.Forms.StatusStrip();
             this.slStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.spcPropertyInterface = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.spcMainContainer)).BeginInit();
             this.spcMainContainer.Panel1.SuspendLayout();
             this.spcMainContainer.Panel2.SuspendLayout();
@@ -164,6 +164,10 @@ namespace SM64DSe
             this.spcLeftPanel.Panel1.SuspendLayout();
             this.spcLeftPanel.Panel2.SuspendLayout();
             this.spcLeftPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spcPropertyInterface)).BeginInit();
+            this.spcPropertyInterface.Panel1.SuspendLayout();
+            this.spcPropertyInterface.Panel2.SuspendLayout();
+            this.spcPropertyInterface.SuspendLayout();
             this.tc_switchPropertyInterface.SuspendLayout();
             this.tab_newInterface.SuspendLayout();
             this.box_general.SuspendLayout();
@@ -194,10 +198,6 @@ namespace SM64DSe
             this.tsViewActions.SuspendLayout();
             this.tsToolBar.SuspendLayout();
             this.ssStatusBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spcPropertyInterface)).BeginInit();
-            this.spcPropertyInterface.Panel1.SuspendLayout();
-            this.spcPropertyInterface.Panel2.SuspendLayout();
-            this.spcPropertyInterface.SuspendLayout();
             this.SuspendLayout();
             // 
             // spcMainContainer
@@ -255,6 +255,25 @@ namespace SM64DSe
             this.tvObjectList.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.tvObjectList_DrawNode);
             this.tvObjectList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvObjectList_AfterSelect);
             this.tvObjectList.DoubleClick += new System.EventHandler(this.tvObjectList_DoubleClick);
+            // 
+            // spcPropertyInterface
+            // 
+            this.spcPropertyInterface.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.spcPropertyInterface.Location = new System.Drawing.Point(0, 0);
+            this.spcPropertyInterface.Name = "spcPropertyInterface";
+            this.spcPropertyInterface.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // spcPropertyInterface.Panel1
+            // 
+            this.spcPropertyInterface.Panel1.Controls.Add(this.tc_switchPropertyInterface);
+            // 
+            // spcPropertyInterface.Panel2
+            // 
+            this.spcPropertyInterface.Panel2.Controls.Add(this.btnPasteCoordinates);
+            this.spcPropertyInterface.Panel2.Controls.Add(this.btnCopyCoordinates);
+            this.spcPropertyInterface.Size = new System.Drawing.Size(264, 275);
+            this.spcPropertyInterface.SplitterDistance = 245;
+            this.spcPropertyInterface.TabIndex = 1;
             // 
             // tc_switchPropertyInterface
             // 
@@ -871,12 +890,12 @@ namespace SM64DSe
             this.btnRemoveAll,
             this.btnReplaceObjModel,
             this.btnExportObjectModel,
-            this.btnAddPathNodes,
             this.btnAddPath,
             this.btnAddMisc,
             this.btnImportOtherModel,
             this.btnExportOtherModel,
-            this.btnOffsetAllCoords});
+            this.btnOffsetAllCoords,
+            this.btnAddPathNode});
             this.tsEditActions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.tsEditActions.Location = new System.Drawing.Point(0, 0);
             this.tsEditActions.Name = "tsEditActions";
@@ -1022,17 +1041,6 @@ namespace SM64DSe
             this.btnExportObjectModel.Text = "Export model";
             this.btnExportObjectModel.Click += new System.EventHandler(this.btnExportObjectModel_Click);
             // 
-            // btnAddPathNodes
-            // 
-            this.btnAddPathNodes.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnAddPathNodes.Image = ((System.Drawing.Image)(resources.GetObject("btnAddPathNodes.Image")));
-            this.btnAddPathNodes.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddPathNodes.Name = "btnAddPathNodes";
-            this.btnAddPathNodes.Size = new System.Drawing.Size(101, 19);
-            this.btnAddPathNodes.Text = "Add Path Node";
-            this.btnAddPathNodes.ToolTipText = "Add Node To Path";
-            this.btnAddPathNodes.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.btnAddPathNodes_DropDownItemClicked);
-            // 
             // btnAddPath
             // 
             this.btnAddPath.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -1110,7 +1118,15 @@ namespace SM64DSe
             this.btnOffsetAllCoords.Name = "btnOffsetAllCoords";
             this.btnOffsetAllCoords.Size = new System.Drawing.Size(106, 19);
             this.btnOffsetAllCoords.Text = "Offset All Co-ords";
-            this.btnOffsetAllCoords.Click += new System.EventHandler(this.btnOffsetAllCoords_Click);
+            // 
+            // btnAddPathNode
+            // 
+            this.btnAddPathNode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnAddPathNode.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddPathNode.Name = "btnAddPathNode";
+            this.btnAddPathNode.Size = new System.Drawing.Size(92, 19);
+            this.btnAddPathNode.Text = "Add Path Node";
+            this.btnAddPathNode.Click += new System.EventHandler(this.btnAddPathNode_Click);
             // 
             // glLevelView
             // 
@@ -1637,25 +1653,6 @@ namespace SM64DSe
             this.slStatusLabel.Paint += new System.Windows.Forms.PaintEventHandler(this.slStatusLabel_Paint);
             this.slStatusLabel.TextChanged += new System.EventHandler(this.slStatusLabel_TextChanged);
             // 
-            // spcPropertyInterface
-            // 
-            this.spcPropertyInterface.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.spcPropertyInterface.Location = new System.Drawing.Point(0, 0);
-            this.spcPropertyInterface.Name = "spcPropertyInterface";
-            this.spcPropertyInterface.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // spcPropertyInterface.Panel1
-            // 
-            this.spcPropertyInterface.Panel1.Controls.Add(this.tc_switchPropertyInterface);
-            // 
-            // spcPropertyInterface.Panel2
-            // 
-            this.spcPropertyInterface.Panel2.Controls.Add(this.btnPasteCoordinates);
-            this.spcPropertyInterface.Panel2.Controls.Add(this.btnCopyCoordinates);
-            this.spcPropertyInterface.Size = new System.Drawing.Size(264, 275);
-            this.spcPropertyInterface.SplitterDistance = 245;
-            this.spcPropertyInterface.TabIndex = 1;
-            // 
             // LevelEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1680,6 +1677,10 @@ namespace SM64DSe
             this.spcLeftPanel.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spcLeftPanel)).EndInit();
             this.spcLeftPanel.ResumeLayout(false);
+            this.spcPropertyInterface.Panel1.ResumeLayout(false);
+            this.spcPropertyInterface.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.spcPropertyInterface)).EndInit();
+            this.spcPropertyInterface.ResumeLayout(false);
             this.tc_switchPropertyInterface.ResumeLayout(false);
             this.tab_newInterface.ResumeLayout(false);
             this.box_general.ResumeLayout(false);
@@ -1719,10 +1720,6 @@ namespace SM64DSe
             this.tsToolBar.PerformLayout();
             this.ssStatusBar.ResumeLayout(false);
             this.ssStatusBar.PerformLayout();
-            this.spcPropertyInterface.Panel1.ResumeLayout(false);
-            this.spcPropertyInterface.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.spcPropertyInterface)).EndInit();
-            this.spcPropertyInterface.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1776,7 +1773,6 @@ namespace SM64DSe
         private System.Windows.Forms.ToolStripButton btnExportObjectModel;
         private System.Windows.Forms.ToolStripButton btnEditTexAnim;
         private System.Windows.Forms.ToolStripButton btnCLPS;
-        private System.Windows.Forms.ToolStripDropDownButton btnAddPathNodes;
         private System.Windows.Forms.ToolStripButton btnAddPath;
         private System.Windows.Forms.ToolStripDropDownButton btnAddMisc;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
@@ -1785,7 +1781,7 @@ namespace SM64DSe
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripButton btnImportOtherModel;
         private System.Windows.Forms.ToolStripButton btnExportOtherModel;
-        private System.Windows.Forms.ToolStripButton btnOffsetAllCoords;
+        private System.Windows.Forms.ToolStripButton btnAddPathNode;
         private System.Windows.Forms.ToolStripButton btnExportLevelModel;
         private System.Windows.Forms.ToolStripButton btnImportXML;
         private System.Windows.Forms.ToolStripButton btnExportXML;
@@ -1856,5 +1852,6 @@ namespace SM64DSe
         private System.Windows.Forms.Label lbl_endDistance;
         private System.Windows.Forms.Panel box_color;
         private System.Windows.Forms.SplitContainer spcPropertyInterface;
+        private System.Windows.Forms.ToolStripButton btnOffsetAllCoords;
     }
 }

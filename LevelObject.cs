@@ -789,11 +789,16 @@ namespace SM64DSe
 
     public class PathPointObject : LevelObject
     {
+        public ushort ParentPath;
+        public byte m_IndexInPath; 
+
         public PathPointObject(INitroROMBlock data, int num, int nodeID)
             : base(data, 0)
         {
             m_UniqueID = (uint)(0x30000000 | num);
             m_Type = Type.PATH_NODE;
+            ParentPath = 0;
+            m_IndexInPath = 0;
             m_NodeID = nodeID;
 
             Position.X = (float)((short)data.Read16(0x0)) / 1000f;
@@ -815,7 +820,7 @@ namespace SM64DSe
 
         public override string GetDescription()
         {
-            return "Path Node";
+            return "Path Node " + m_IndexInPath;
         }
 
         public override bool SupportsRotation() { return false; }
@@ -854,10 +859,13 @@ namespace SM64DSe
 
     public class PathObject : LevelObject
     {
-        public PathObject(INitroROMBlock data, int num)
+        public ushort m_PathID;
+
+        public PathObject(INitroROMBlock data, int num, ushort id)
             : base(data, 0)
         {
             m_UniqueID = (uint)(0x30000000 | num);
+            m_PathID = id;
             m_Type = Type.PATH;
 
             Parameters = new ushort[5];
@@ -869,8 +877,8 @@ namespace SM64DSe
 
             m_ParameterFields = new ParameterField[]
             {
-                new DefaultField("Start Node",0,16){Name = "startNode", Description = "The index of the first node in this Path", DislpayInHex = false},
-                new DefaultField("Length",8,8){Name = "pathLength", Description = "How many nodes are in this Path", DislpayInHex = false},
+                //new DefaultField("Start Node",0,16){Name = "startNode", Description = "The index of the first node in this Path", DislpayInHex = false},
+                //new DefaultField("Length",8,8){Name = "pathLength", Description = "How many nodes are in this Path", DislpayInHex = false},
                 new DefaultField("Parameter 3",8,8){Name = "1. Parameter"},
                 new DefaultField("Parameter 4",8,8){Name = "2. Parameter", Description = "1 to 3 are different speeds for wind/quicksand/water/conveyorBelt paths?"},
                 new DefaultField("Parameter 5",8,8){Name = "3. Parameter", Description = "FF means path is closed, everything else is Unkown"}
@@ -881,21 +889,21 @@ namespace SM64DSe
 
         public override string GetDescription()
         {
-            return "Path";
+            return "Path " + m_PathID;
         }
 
         public override void GenerateProperties()
         {
             m_Properties.Properties.Clear();
 
-            m_Properties.Properties.Add(new PropertySpec("Start Node", typeof(float), "General", "Index of starting node.", (float)Parameters[0], "", typeof(FloatTypeConverter)));
-            m_Properties.Properties.Add(new PropertySpec("Length", typeof(float), "General", "Number of nodes in path.", (float)Parameters[1], "", typeof(FloatTypeConverter)));
+            //m_Properties.Properties.Add(new PropertySpec("Start Node", typeof(float), "General", "Index of starting node.", (float)Parameters[0], "", typeof(FloatTypeConverter)));
+            //m_Properties.Properties.Add(new PropertySpec("Length", typeof(float), "General", "Number of nodes in path.", (float)Parameters[1], "", typeof(FloatTypeConverter)));
             m_Properties.Properties.Add(new PropertySpec("Parameter 3", typeof(float), "General", "Unknown", (float)Parameters[2], "", typeof(FloatTypeConverter)));
             m_Properties.Properties.Add(new PropertySpec("Parameter 4", typeof(float), "General", "Unknown", (float)Parameters[3], "", typeof(FloatTypeConverter)));
             m_Properties.Properties.Add(new PropertySpec("Parameter 5", typeof(float), "General", "Unknown", (float)Parameters[4], "", typeof(FloatTypeConverter)));
 
-            m_Properties["Start Node"] = (float)Parameters[0];
-            m_Properties["Length"] = (float)Parameters[1];
+            //m_Properties["Start Node"] = (float)Parameters[0];
+            //m_Properties["Length"] = (float)Parameters[1];
             m_Properties["Parameter 3"] = (float)Parameters[2];
             m_Properties["Parameter 4"] = (float)Parameters[3];
             m_Properties["Parameter 5"] = (float)Parameters[4];
@@ -934,10 +942,13 @@ namespace SM64DSe
 
     public class ViewObject : LevelObject
     {
-        public ViewObject(INitroROMBlock data, int num)
+        public int m_ViewID;
+
+        public ViewObject(INitroROMBlock data, int num, int id)
             : base(data, 0)
         {
             m_UniqueID = (uint)(0x40000000 | num);
+            m_ViewID = id;
             m_Type = LevelObject.Type.VIEW;
 
             Position.X = (float)((short)data.Read16(0x2)) / 1000.0f;
@@ -977,7 +988,8 @@ namespace SM64DSe
 
         public override string GetDescription()
         {
-            return "View";
+            // TODO describe better
+            return string.Format("[{0}] View", m_ViewID);
         }
 
         public override void GenerateProperties()
@@ -1716,9 +1728,7 @@ namespace SM64DSe
             Description = "No Description Provided";
 
             m_offset = Math.Min(offset, 16);
-            Console.WriteLine("offset: " + m_offset);
             m_length = Math.Min(length, 16 - m_offset);
-            Console.WriteLine("length: " + m_length);
             m_pgFieldName = pgFieldName;
         }
 
