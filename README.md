@@ -27,3 +27,14 @@ Changes v1.1:
 -in the 3d model tab you can select single areas to show up (pretty usefull to see what is going to be visible when entering a door)
 
 -some BugFixes
+
+Changes v1.2:
+-views now have index numbers like entrances
+
+-nodes are now ordered by their path
+
+-adding new PathNodes is much easier
+
+-the parameters for the paths startindex and its length are removed as they aren't needed and would screw up everything
+
+-saving won't screw up your paths anymore (at least i hope so)
