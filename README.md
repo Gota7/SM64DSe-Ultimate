@@ -38,3 +38,12 @@ Changes v1.2:
 -the parameters for the paths startindex and its length are removed as they aren't needed and would screw up everything
 
 -saving won't screw up your paths anymore (at least i hope so)
+
+Changes v1.3:
+-if Model 3D Tab is active and an area is selected, the editor will only show the models that will be rendered
+
+-updated and added some star / star marker models, so you know what object you are actually dealing with
+
+-filetype filtering for selecting a: BMD, KCL, BTP, BCA, NCG/ICG, NCL/ICL, ISC/NSC -file
+
+-replacing a texture in the Texture Editor should now be possible for every texture, but you have to make sure that the correct palette is selected, because the auto selected one is not always what you want
