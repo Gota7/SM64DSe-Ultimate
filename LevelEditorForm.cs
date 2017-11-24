@@ -50,6 +50,7 @@ namespace SM64DSe
         private int box_parameters_NextHeight = 18;
 
         private int m_areaCount = 1;
+        private int m_currentArea = -1;
 
         public ToolTip defaultToolTip;
 
@@ -298,12 +299,51 @@ namespace SM64DSe
             }
             else
             {
-                IEnumerable<LevelObject> objects = m_Level.m_LevelObjects.Values.Where(obj => obj.m_Layer == layer);
+                IEnumerable<LevelObject> objects;
+                if ((m_EditMode == EditMode.MODEL)&&(m_currentArea>-1))
+                {
+                    Console.WriteLine("Render area objects");
+                    
+                    objects = m_Level.m_LevelObjects.Values.
+                        Where(obj => (ShowsForArea(obj, layer)));
+                    
+                }
+                else
+                {
+                    Console.WriteLine("Render all objects");
+                    objects = m_Level.m_LevelObjects.Values.Where(obj => obj.m_Layer == layer);
+                }
                 foreach (LevelObject obj in objects)
                     obj.Render(mode);
             }
 
             GL.EndList();
+        }
+
+        private bool ShowsForArea(LevelObject obj, int layer)
+        {
+            if ((obj.m_UniqueID >> 28) == 1)
+            {
+                if (obj.m_Area == m_currentArea)
+                {
+                    if (obj.m_Layer == layer)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else if ((obj.m_UniqueID >> 28) == 2)
+            {
+                if (obj.m_Type == LevelObject.Type.DOOR)
+                {
+                    DoorObject door = (DoorObject)obj;
+                    if ((door.InAreaID == m_currentArea) || (door.OutAreaID == m_currentArea))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private void RenderObjectHilite(LevelObject obj, Color color, int dlist)
@@ -479,9 +519,13 @@ namespace SM64DSe
                         btnExportOtherModel.Visible = Properties.Settings.Default.UseSimpleModelAndCollisionMapImporters;
 
                         tvObjectList.Nodes.Add("model", "All Areas").Tag = -1;
+                        Console.WriteLine("currentArea: " + m_currentArea);
                         for (int i = 0; i<m_areaCount; i++)
                         {
-                            tvObjectList.Nodes.Add("model", "Area "+i).Tag = i;
+                            TreeNode node = tvObjectList.Nodes.Add("model", "Area "+i);
+                            node.Tag = i;
+                            if (i == m_currentArea)
+                                tvObjectList.SelectedNode = node;
                         }
                     }
                     break;
@@ -1026,7 +1070,7 @@ namespace SM64DSe
         {
             if (!m_GLLoaded) return;
             glLevelView.Context.MakeCurrent(glLevelView.WindowInfo);
-
+            
             // lol temporary
             GL.MatrixMode(MatrixMode.Projection);
             Matrix4 projmtx = (!m_OrthView) ? Matrix4.CreatePerspectiveFieldOfView(k_FOV, m_AspectRatio, k_zNear, k_zFar) : 
@@ -1105,6 +1149,51 @@ namespace SM64DSe
             // highlight outlines
             if (m_SelectedObject != null && m_SelectedObject != m_HoveredObject) GL.CallList(m_SelectHiliteDL);
             if (m_HoveredObject != null) GL.CallList(m_HoverHiliteDL);
+
+            //deactivated until i know how to implement it in a usefull way
+            /*
+            GL.DepthFunc(DepthFunction.Always);
+            
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
+
+            float x = m_MouseCoords.X;
+            float y = m_MouseCoords.Y;
+            float s = 0.08f;
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.Disable(EnableCap.Lighting);
+            GL.Disable(EnableCap.AlphaTest);
+            GL.Disable(EnableCap.Blend);
+            //GL.Color4(Color.FromArgb(255, 255, 200, 0));
+            GL.Translate(
+                -1 + x / (float)glLevelView.Width*2f, 
+                1 - y / (float)glLevelView.Height*2f, 
+                0);
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Vertex3(0, 0, 0);
+            GL.Vertex3(0, s, 0);
+            for (int i = 0; i <= 5; i++)
+            {
+                GL.Vertex3(Math.Sin(i * 1.25664) * s, Math.Cos(i * 1.25664) * s, 0);
+                GL.Vertex3(Math.Sin(i * 1.25664 + 0.62832) * s * 0.5, Math.Cos(i * 1.25664 + 0.62832) * s * 0.5, 0);
+            }
+            GL.End();
+
+            GL.Color4(Color.FromArgb(255, 0, 0, 0));
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex3(0, s, 0);
+            for (int i = 0; i <= 5; i++)
+            {
+                GL.Vertex3(Math.Sin(i * 1.25664) * s, Math.Cos(i * 1.25664) * s, 0);
+                GL.Vertex3(Math.Sin(i * 1.25664 + 0.62832) * s * 0.5, Math.Cos(i * 1.25664 + 0.62832) * s * 0.5, 0);
+            }
+            GL.End();
+            GL.DepthFunc(DepthFunction.Less);
+            */
 
             glLevelView.SwapBuffers();
         }
@@ -1659,10 +1748,26 @@ namespace SM64DSe
             btnEditMisc.Checked = false;
             btn.Checked = true;
 
+            EditMode lastMode = m_EditMode;
             m_EditMode = (EditMode)int.Parse((string)btn.Tag);
 
             for (int l = 0; l < 8; l++)
-                RenderObjectLists(RenderMode.Picking, l);
+            {
+                if (l == m_AuxLayerNum)
+                {
+                    RefreshObjects(l);
+                    if ((lastMode==EditMode.MODEL)!= (m_EditMode == EditMode.MODEL))
+                    {
+                        RefreshObjects(0);
+                        if (m_EditMode != EditMode.MODEL)
+                            RenderLevelAreas(-1);
+                    }
+                }
+                else
+                    RenderObjectLists(RenderMode.Picking, l);
+                
+            }
+
             PopulateObjectList();
 
             glLevelView.Refresh();
@@ -1784,7 +1889,10 @@ namespace SM64DSe
         {
             if (m_EditMode==EditMode.MODEL)
             {
-                RenderLevelAreas((int)e.Node.Tag);
+                m_currentArea = (int)e.Node.Tag;
+                RenderLevelAreas(m_currentArea);
+                RefreshObjects(m_AuxLayerNum);
+                RefreshObjects(0);
                 return;
             }
             if (e.Node.Tag == null)

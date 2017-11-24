@@ -95,9 +95,9 @@ namespace SM64DSe
                 case 58: ret = new NormalBMDRenderer("data/enemy/piano/piano.bmd", 0.008f); break;
                 case 59: ret = new NormalBMDRenderer("data/enemy/pakkun/pakkun_model.bmd", 0.008f); break;
                     // 60 STAR CAMERA
-                case 61: ret = new NormalBMDRenderer("data/normal_obj/star/obj_star.bmd", 0.008f); break;
+                case 61: ret = new StarRenderer(obj); break;
                 case 62: ret = new NormalBMDRenderer("data/normal_obj/star/obj_star_silver.bmd", 0.008f); break;
-                case 63: ret = new StarMarkerRenderer(obj.Parameters[0]); break;
+                case 63: ret = new StarRenderer(obj); break;
                 case 64: ret = new NormalBMDRenderer("data/enemy/battan/battan.bmd", 0.008f); break;
                 case 65: ret = new NormalBMDRenderer("data/enemy/battan_king/battan_king.bmd", 0.008f); break;
                 case 66: ret = new NormalBMDRenderer("data/enemy/dosune/dosune.bmd", 0.008f); break;
@@ -558,100 +558,138 @@ namespace SM64DSe
         private float m_height;
     }
 
-
-    class StarMarkerRenderer : ObjectRenderer
+    class StarRenderer : ObjectRenderer
     {
-        public StarMarkerRenderer(ushort param)
+        private bool m_showsStar = false;
+        private NormalBMDRenderer m_ModelRenderer = null;
+        private NormalBMDRenderer m_StarRenderer = null;
+
+        public StarRenderer(LevelObject obj)
         {
-            m_pString = param.ToString("X4");
+            char startype = obj.Parameters[0].ToString("X4")[2];
+            if (obj.ID == 63)
+            {
+                switch (startype)
+                {
+                    case '0':
+                        m_ModelRenderer = new NormalBMDRenderer("data/normal_obj/star/star_base.bmd", 0.008f);
+                        m_Filename = "data/normal_obj/star/star_base.bmd";
+                        break;
+                    case '1':
+                        m_ModelRenderer = new NormalBMDRenderer("data/normal_obj/star_box/star_box.bmd", 0.008f);
+                        m_Filename = "data/normal_obj/star_box/star_box.bmd";
+                        break;
+                    case '4':
+                        m_ModelRenderer = new NormalBMDRenderer("data/normal_obj/star_box/star_box.bmd", 0.008f);
+                        m_Filename = "data/normal_obj/star_box/star_box.bmd";
+                        break;
+                    case '6':
+                        m_ModelRenderer = new NormalBMDRenderer("data/normal_obj/star_box/star_box.bmd", 0.008f);
+                        m_Filename = "data/normal_obj/star_box/star_box.bmd";
+                        m_showsStar = true;
+                        break;
+                    default:
+                        m_showsStar = true;
+                        break;
+                }
+            }
+            else if (obj.ID == 61)
+            {
+                switch (startype)
+                {
+                    case '6':
+                        m_ModelRenderer = new NormalBMDRenderer("data/normal_obj/star_box/star_box.bmd", 0.008f);
+                        m_Filename = "data/normal_obj/star_box/star_box.bmd";
+                        m_showsStar = true;
+                        break;
+                    default:
+                        m_StarRenderer = new NormalBMDRenderer("data/normal_obj/star/obj_star.bmd", 0.008f);
+                        m_Filename = "data/normal_obj/star/obj_star.bmd";
+                        m_showsStar = true;
+                        break;
+                }
+            }
+            else
+            {
+                m_showsStar = true;
+            }
         }
 
         public override bool GottaRender(RenderMode mode)
         {
-            if (mode == RenderMode.Opaque) return false;
-            else return true;
+            bool star = false;
+            bool additional = false;
+            if (m_showsStar)
+                star = (m_StarRenderer != null) ? m_StarRenderer.GottaRender(mode) : mode != RenderMode.Opaque;
+            
+            additional = (m_ModelRenderer != null) ? m_ModelRenderer.GottaRender(mode) : false;
+            return star || additional;
         }
 
         public override void Render(RenderMode mode)
         {
-            const float s = 0.08f;
-
-            if (mode != RenderMode.Picking)
+            if (m_showsStar)
             {
-                GL.BindTexture(TextureTarget.Texture2D, 0);
-                GL.Color4(Color.FromArgb(100, 255, 200, 0));
-                GL.Disable(EnableCap.Lighting);
-                if (m_pString[2] == '0')
+                if (m_StarRenderer != null)
                 {
-                    GL.Color4(Color.FromArgb(0, 20, 100));
+                    m_StarRenderer.Render(mode);
                 }
-            }
-            if (m_pString[2] == '0')
-            {
-                GL.Begin(PrimitiveType.TriangleFan);
-                GL.Vertex3(0, 0, 0);
-                GL.Vertex3(0, 0, s);
-                for (int i = 0; i <= 5; i++)
+                else
                 {
-                    GL.Vertex3(Math.Sin(i * 1.25664) * s, 0, Math.Cos(i * 1.25664) * s);
-                    GL.Vertex3(Math.Sin(i * 1.25664 + 0.62832) * s * 0.5, 0, Math.Cos(i * 1.25664 + 0.62832) * s * 0.5);
-                }
-                GL.End();
-                
-                GL.Begin(PrimitiveType.TriangleFan);
-                GL.Vertex3(0, -0.25 * s, 0);
-                GL.Vertex3(0, 0, s);
-                for (int i = 4; i >= 0; i--)
-                {
-                    GL.Vertex3(Math.Sin(i * 1.25664 + 0.62832) * s * 0.5, 0, Math.Cos(i * 1.25664 + 0.62832) * s * 0.5);
-                    GL.Vertex3(Math.Sin(i * 1.25664) * s, 0, Math.Cos(i * 1.25664) * s);
-                }
-                GL.End();
-                
-            }
-            else
-            {
-                GL.Begin(PrimitiveType.TriangleFan);
-                GL.Vertex3(0, 0, 0.25 * s);
-                GL.Vertex3(0, s, 0);
-                for (int i = 0; i <= 5; i++)
-                {
-                    GL.Vertex3(Math.Sin(i * 1.25664) * s, Math.Cos(i * 1.25664) * s, 0);
-                    GL.Vertex3(Math.Sin(i * 1.25664 + 0.62832) * s * 0.5, Math.Cos(i * 1.25664 + 0.62832) * s * 0.5, 0);
-                }
-                GL.End();
+                    const float s = 0.08f;
 
-                GL.Begin(PrimitiveType.TriangleFan);
-                GL.Vertex3(0, 0, -0.25 * s);
-                GL.Vertex3(0, s, 0);
-                for (int i = 4; i >= 0; i--)
-                {
-                    GL.Vertex3(Math.Sin(i * 1.25664 + 0.62832) * s * 0.5, Math.Cos(i * 1.25664 + 0.62832) * s * 0.5, 0);
-                    GL.Vertex3(Math.Sin(i * 1.25664) * s, Math.Cos(i * 1.25664) * s, 0);
-                }
-                GL.End();
-
-
-                if (mode != RenderMode.Picking)
-                {
-                    GL.LineWidth(2.0f);
-                    GL.Color4(Color.FromArgb(255, 200, 0));
-
-                    GL.Begin(PrimitiveType.LineLoop);
+                    if (mode != RenderMode.Picking)
+                    {
+                        GL.BindTexture(TextureTarget.Texture2D, 0);
+                        GL.Color4(Color.FromArgb(100, 255, 200, 0));
+                        GL.Disable(EnableCap.Lighting);
+                    }
+                    GL.Begin(PrimitiveType.TriangleFan);
+                    GL.Vertex3(0, 0, 0.25 * s);
                     GL.Vertex3(0, s, 0);
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i <= 5; i++)
                     {
                         GL.Vertex3(Math.Sin(i * 1.25664) * s, Math.Cos(i * 1.25664) * s, 0);
                         GL.Vertex3(Math.Sin(i * 1.25664 + 0.62832) * s * 0.5, Math.Cos(i * 1.25664 + 0.62832) * s * 0.5, 0);
                     }
                     GL.End();
-                    
+
+                    GL.Begin(PrimitiveType.TriangleFan);
+                    GL.Vertex3(0, 0, -0.25 * s);
+                    GL.Vertex3(0, s, 0);
+                    for (int i = 4; i >= 0; i--)
+                    {
+                        GL.Vertex3(Math.Sin(i * 1.25664 + 0.62832) * s * 0.5, Math.Cos(i * 1.25664 + 0.62832) * s * 0.5, 0);
+                        GL.Vertex3(Math.Sin(i * 1.25664) * s, Math.Cos(i * 1.25664) * s, 0);
+                    }
+                    GL.End();
+
+
+                    if (mode != RenderMode.Picking)
+                    {
+                        GL.LineWidth(2.0f);
+                        GL.Color4(Color.FromArgb(255, 200, 0));
+
+                        GL.Begin(PrimitiveType.LineLoop);
+                        GL.Vertex3(0, s, 0);
+                        for (int i = 0; i < 5; i++)
+                        {
+                            GL.Vertex3(Math.Sin(i * 1.25664) * s, Math.Cos(i * 1.25664) * s, 0);
+                            GL.Vertex3(Math.Sin(i * 1.25664 + 0.62832) * s * 0.5, Math.Cos(i * 1.25664 + 0.62832) * s * 0.5, 0);
+                        }
+                        GL.End();
+
+                    }
                 }
             }
+            if (m_ModelRenderer != null) m_ModelRenderer.Render(mode);
         }
 
-
-        private String m_pString;
+        public override void Release()
+        {
+            if (m_ModelRenderer != null) m_ModelRenderer.Release();
+            if (m_StarRenderer != null) m_StarRenderer.Release();
+        }
     }
 
     class ExitRenderer : ObjectRenderer

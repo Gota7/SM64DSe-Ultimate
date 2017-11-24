@@ -39,7 +39,7 @@ namespace SM64DSe
         public LevelObject(INitroROMBlock data, int layer)
         {
             m_Layer = layer;
-            m_Area = 0;
+            m_Area = -1;
 
             //m_TestMatrix = new Matrix4(1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f);
         }

@@ -1467,7 +1467,7 @@ namespace SM64DSe
             this.btnEdit3DModel.Name = "btnEdit3DModel";
             this.btnEdit3DModel.Size = new System.Drawing.Size(62, 22);
             this.btnEdit3DModel.Tag = "0";
-            this.btnEdit3DModel.Text = "3D model";
+            this.btnEdit3DModel.Text = "3D Model";
             this.btnEdit3DModel.ToolTipText = "Let\'s add polygons!";
             this.btnEdit3DModel.Click += new System.EventHandler(this.btnEditXXX_Click);
             // 
