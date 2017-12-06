@@ -543,7 +543,7 @@ namespace SM64DSe
                 GL.End();
 
                 GL.Begin(PrimitiveType.Lines);
-                GL.Vertex3(-s, s, s);
+                GL.Vertex3(-s, m_height, s);
                 GL.Vertex3(-s, -s, s);
                 GL.Vertex3(-s, m_height, -s);
                 GL.Vertex3(-s, -s, -s);
@@ -960,6 +960,8 @@ namespace SM64DSe
     {
         private float m_XScale, m_YScale, m_XRotation;
 
+        private bool m_Mirror;
+
         public PaintingRenderer(ushort param, ushort param2)
         {
             string[] ptgnames = { "for_bh", "for_bk", "for_ki", "for_sm", "for_cv_ex5", "for_fl", "for_dl", "for_wl",
@@ -970,6 +972,8 @@ namespace SM64DSe
             string filename = "data/picture/" + ptgnames[ptgid] + ".bmd";
             m_XScale = (float)((param & 0xF) + 1) / 16f;
             m_YScale = (float)(((param >> 4) & 0xF) + 1) / 16f;
+            m_Mirror = (((param >> 13) & 0x3) == 3); //no way to show it properly
+
             m_XRotation = 360.0f / 65536.0f*(float)param2;
 
             Construct(filename, 0.128f);
@@ -980,7 +984,6 @@ namespace SM64DSe
             GL.Rotate(m_XRotation, 1f, 0f, 0f);
             GL.Scale(m_XScale, m_YScale, 1f);
             GL.Translate(0f, 0.8f, 0f);
-            //if (m_Mirror) GL.Scale(-1f, 1f, 1f);
             base.Render(mode);
         }
     }

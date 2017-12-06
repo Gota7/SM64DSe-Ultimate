@@ -49,6 +49,11 @@ namespace SM64DSe
         private int box_fogSettings_NextHeight = 18;
         private int box_parameters_NextHeight = 18;
 
+        private Button btnOpenRawEditor = new Button();
+        public RawEditorForm m_rawEditor;
+
+        private bool m_wasMinimized = false;
+
         private int m_areaCount = 1;
         private int m_currentArea = -1;
 
@@ -133,9 +138,12 @@ namespace SM64DSe
         public LevelEditorForm(NitroROM rom, int levelid)
         {
             InitializeComponent();
+            
+            btnOpenRawEditor.Text = "Raw Editor";
+            btnOpenRawEditor.Click += btnOpenRawEditor_Click;
 
             this.Text = string.Format("[{0}] {1} - {2} {3}", levelid, Strings.LevelNames[levelid], Program.AppTitle, Program.AppVersion);
-
+            
             m_MouseDown = MouseButtons.None;
 
             m_ROM = rom;
@@ -702,7 +710,6 @@ namespace SM64DSe
             ptable["Z position"] = m_SelectedObject.Position.Z;
             if (m_SelectedObject.SupportsRotation())
                 ptable["Y rotation"] = m_SelectedObject.YRotation;
-            pgObjectProperties.Refresh();
         }
         
         private NitroROM m_ROM;
@@ -863,7 +870,8 @@ namespace SM64DSe
             m_LastHovered = obj.m_UniqueID;
             m_LastClicked = obj.m_UniqueID;
 
-            initializeActiveTab();
+            UpdateObjectForRawEditor();
+            initializePropertyInterface();
 
             RefreshObjects(m_SelectedObject.m_Layer);
         }
@@ -1275,7 +1283,8 @@ namespace SM64DSe
                 m_LastHovered = obj.m_UniqueID;
                 m_LastClicked = obj.m_UniqueID;
 
-                initializeActiveTab();
+                UpdateObjectForRawEditor();
+                initializePropertyInterface();
 
                 RefreshObjects(m_SelectedObject.m_Layer);
 
@@ -1355,7 +1364,8 @@ namespace SM64DSe
                         m_LastSelected = m_Selected;
                         m_SelectedObject = obj;
 
-                        initializeActiveTab();
+                        UpdateObjectForRawEditor();
+                        initializePropertyInterface();
 
                         if (obj.m_Properties.Properties.IndexOf("X position") != -1)
                         {
@@ -1372,7 +1382,8 @@ namespace SM64DSe
                     m_LastSelected = 0xFFFFFFFF;
                     m_SelectedObject = null;
 
-                    clearActiveTab();
+                    UpdateObjectForRawEditor();
+                    clearPropertyInterface();
 
                     btnCopyCoordinates.Visible = false;
                     btnPasteCoordinates.Visible = false;
@@ -1517,7 +1528,7 @@ namespace SM64DSe
                         SnapToGrid(ref m_SelectedObject.Position);
                     }
 
-                    updateActiveTab();
+                    updatePropertyInterface();
                 }
             }
             //else
@@ -1587,7 +1598,7 @@ namespace SM64DSe
 
                 m_SelectedObject.Position = m_SelObjPrevPos + m_SelObjTotalMov;
                 
-                updateActiveTab();;
+                updatePropertyInterface();;
             }
             else
             {
@@ -1654,9 +1665,7 @@ namespace SM64DSe
         private void LevelEditorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // save confirmation goes here
-
             ReleaseModels();
-
             Program.m_LevelEditors.Remove(this);
         }
 
@@ -1708,7 +1717,9 @@ namespace SM64DSe
                 {
                     m_Selected = m_LastSelected = 0xFFFFFFFF;
                     m_SelectedObject = null;
-                    clearActiveTab();
+
+                    UpdateObjectForRawEditor();
+                    clearPropertyInterface();
                 }
                 
             }
@@ -1727,7 +1738,9 @@ namespace SM64DSe
                 {
                     m_Selected = m_LastSelected = 0xFFFFFFFF;
                     m_SelectedObject = null;
-                    clearActiveTab();
+
+                    UpdateObjectForRawEditor();
+                    clearPropertyInterface();
                 }
 
             }
@@ -1906,7 +1919,8 @@ namespace SM64DSe
             m_Selected = m_LastSelected = objid;
             m_SelectedObject = m_Level.m_LevelObjects[objid];
 
-            initializeActiveTab();
+            UpdateObjectForRawEditor();
+            initializePropertyInterface();
 
             if (m_SelectedObject.m_Properties.Properties.IndexOf("X position") != -1)
             {
@@ -1941,75 +1955,6 @@ namespace SM64DSe
                     btnAddPathNode.Visible = true;
             }
             glLevelView.Refresh();
-        }
-
-        private void pgObjectProperties_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-
-            if (m_SelectedObject == null) // should never happen but we never know
-            {
-                MessageBox.Show("No object was selected. This shouldn't have happened. Tell Mega-Mario about it.", "Bug!");
-                return;
-            }
-
-            if (e.ChangedItem.Label == "Object ID")
-            {
-                if (IsSimpleObject((ushort)e.ChangedItem.Value) ^ IsSimpleObject(m_SelectedObject.ID))
-                {
-                    ConvertLevelObject((ushort)e.ChangedItem.Value);
-                    return;
-                }
-            }
-
-            if (e.ChangedItem.Label == "Star")
-            {
-                int newstar;
-                if (e.ChangedItem.Value is int) newstar = (int)e.ChangedItem.Value;
-                else if ((string)e.ChangedItem.Value == "All") newstar = 0;
-                else newstar = int.Parse((string)e.ChangedItem.Value);
-
-                int lastLayer = m_SelectedObject.m_Layer;
-                m_SelectedObject.m_Layer = newstar;
-
-                //refresh the involved layers
-                RefreshObjects(lastLayer);
-                RefreshObjects(newstar);
-
-                if (m_AuxLayerNum != newstar)
-                {
-                    switch (newstar)
-                    {
-                        case 0:
-                            if (!btnStarAll.Checked)
-                                btnStarAll.PerformClick();
-                            break;
-                        case 1: btnStar1.PerformClick(); break;
-                        case 2: btnStar2.PerformClick(); break;
-                        case 3: btnStar3.PerformClick(); break;
-                        case 4: btnStar4.PerformClick(); break;
-                        case 5: btnStar5.PerformClick(); break;
-                        case 6: btnStar6.PerformClick(); break;
-                        case 7: btnStar7.PerformClick(); break;
-                    }
-                }
-                return;
-            }
-
-            if (e.ChangedItem.Label == "Area")
-            {
-                int area = (int)e.ChangedItem.Value;
-                if (area >= 0 && area < 8)
-                    m_SelectedObject.m_Area = area;
-                return;
-            }
-
-            int actmask = m_SelectedObject.SetProperty(e.ChangedItem.Label, e.ChangedItem.Value);
-            if ((actmask & 4) != 0)
-                tvObjectList.Nodes.Find(m_SelectedObject.m_UniqueID.ToString("X8"), true)[0].Text = m_SelectedObject.GetDescription();
-            if ((actmask & 2) != 0)
-                pgObjectProperties.Refresh();
-            if ((actmask & 1) != 0)
-                RefreshObjects(m_SelectedObject.m_Layer);
         }
 
         private void btnAddObject_Click(object sender, EventArgs e)
@@ -2070,7 +2015,9 @@ namespace SM64DSe
             RefreshObjects(obj.m_Layer);
             Console.WriteLine("now select: "+m_nextObjectToSelect);
             m_SelectedObject = m_nextObjectToSelect;
-            clearActiveTab();
+
+            UpdateObjectForRawEditor();
+            clearPropertyInterface();
             slStatusLabel.Text = "Object removed.";
 
             m_nextObjectToSelect = null;
@@ -2371,7 +2318,8 @@ namespace SM64DSe
             m_LastHovered = obj.m_UniqueID;
             m_LastClicked = obj.m_UniqueID;
 
-            initializeActiveTab();
+            UpdateObjectForRawEditor();
+            initializePropertyInterface();
 
             RefreshObjects(m_SelectedObject.m_Layer);
 
@@ -2419,7 +2367,8 @@ namespace SM64DSe
             m_LastHovered = obj.m_UniqueID;
             m_LastClicked = obj.m_UniqueID;
 
-            initializeActiveTab();
+            UpdateObjectForRawEditor();
+            initializePropertyInterface();
 
             RefreshObjects(m_SelectedObject.m_Layer);
             PopulatePathNodes(m_CurrentPathID);
@@ -2458,7 +2407,8 @@ namespace SM64DSe
             m_LastHovered = obj.m_UniqueID;
             m_LastClicked = obj.m_UniqueID;
 
-            initializeActiveTab();
+            UpdateObjectForRawEditor();
+            initializePropertyInterface();
 
             RefreshObjects(m_SelectedObject.m_Layer);
 
@@ -2596,7 +2546,7 @@ namespace SM64DSe
             if (m_SelectedObject != null)
             {
                 m_SelectedObject.Position = m_copiedPosition;
-                updateActiveTab();;
+                updatePropertyInterface();;
             }
                 
         }
@@ -2723,13 +2673,11 @@ namespace SM64DSe
             {
                 newValue = (check_displayFog.Checked?1f:0f);
                 propertyName = "Density";
-                m_SelectedObject.m_Properties[propertyName] = newValue;
             }
             else if (sender ==  val_r)
             {
                 newValue = (float)val_r.Value;
                 propertyName = "RGB R Value";
-                m_SelectedObject.m_Properties[propertyName] = newValue;
                 box_color.BackColor = Color.FromArgb(
                     (int)val_r.Value,
                     (int)val_g.Value,
@@ -2740,7 +2688,6 @@ namespace SM64DSe
             {
                 newValue = (float)val_g.Value;
                 propertyName = "RGB G Value";
-                m_SelectedObject.m_Properties[propertyName] = newValue;
                 box_color.BackColor = Color.FromArgb(
                     (int)val_r.Value,
                     (int)val_g.Value,
@@ -2751,7 +2698,6 @@ namespace SM64DSe
             {
                 newValue = (float)val_b.Value;
                 propertyName = "RGB B Value";
-                m_SelectedObject.m_Properties[propertyName] = newValue;
                 box_color.BackColor = Color.FromArgb(
                     (int)val_r.Value,
                     (int)val_g.Value,
@@ -2762,13 +2708,11 @@ namespace SM64DSe
             {
                 newValue = (float)val_startDistance.Value;
                 propertyName = "Start Distance";
-                m_SelectedObject.m_Properties[propertyName] = newValue;
             }
             else if (sender == val_endDistance)
             {
                 newValue = (float)val_endDistance.Value;
                 propertyName = "End Distance";
-                m_SelectedObject.m_Properties[propertyName] = newValue;
             }
             else if (m_SelectedObject.m_ParameterFields!=null)
             {
@@ -2779,45 +2723,58 @@ namespace SM64DSe
                         //Console.WriteLine(field.m_pgFieldName);
                         //access Properties
                         PropertyTable ptable = m_SelectedObject.m_Properties;
-                        //covert parameter Property to binary
-                        ushort newVal = InsertBits(ptable[field.m_pgFieldName], field.getValue(), field.m_offset, field.m_length);
+
+                        bool floatToFloat = ((ptable[field.m_pgFieldName] is float) && (field is FloatField));
+                        float newFloat = 0f;
+                        ushort newUshort = 0;
+                        if (floatToFloat)
+                            newFloat = ((FloatField)field).getFloatValue();
+                        else
+                            newUshort = InsertBits(ptable[field.m_pgFieldName], field.getValue(), field.m_offset, field.m_length);
                         
                         propertyName = field.m_pgFieldName;
                         if (ptable[field.m_pgFieldName] is float)
                         {
-                            newValue = (float)newVal;
+                            if (floatToFloat)
+                                newValue = newFloat;
+                            else
+                                newValue = (float)newUshort;
                         }
                         else if (ptable[field.m_pgFieldName] is int)
                         {
-                            newValue = (int)newVal;
+                            newValue = (int)newUshort;
                         }
                         else if (ptable[field.m_pgFieldName] is ushort)
                         {
-                            newValue = newVal;
+                            newValue = newUshort;
                         }
                         else
                         {
                             return;
                         }
-                        ptable[propertyName] = newValue;
                     }
                 }
             } else
             {
                 return;
             }
-                
+
+            SetProperty(propertyName, newValue);
+        }
+        
+        public void SetProperty(string propertyName, object newValue)
+        {
+            m_SelectedObject.m_Properties[propertyName] = newValue;
+
             int actmask = m_SelectedObject.SetProperty(propertyName, newValue);
             if ((actmask & 4) != 0)
                 tvObjectList.Nodes.Find(m_SelectedObject.m_UniqueID.ToString("X8"), true)[0].Text = m_SelectedObject.GetDescription();
-            if ((actmask & 2) != 0)
-                pgObjectProperties.Refresh();
             if ((actmask & 1) != 0)
                 RefreshObjects(m_SelectedObject.m_Layer);
 
             UpdateTransformProperties();
         }
-        
+
         private void btnOrthView_Click(object sender, EventArgs e)
         {
             if (!btnOrthView.Checked)
@@ -2859,17 +2816,24 @@ namespace SM64DSe
 
         private void tc_switchPropertyInterface_SelectedIndexChanged(object sender, EventArgs e)
         {
-            initializeActiveTab();
+            UpdateObjectForRawEditor();
+            initializePropertyInterface();
         }
         
-        private void initialize_newInterface()
+        private void UpdateObjectForRawEditor()
+        {
+            if (m_rawEditor!=null)
+                m_rawEditor.UpdateForObject(m_SelectedObject);
+        }
+
+        public void initializePropertyInterface()
         {
             if (m_SelectedObject == null)
             {
-                clear_newInterface();
+                clearPropertyInterface();
                 return;
             }
-
+            
             System.Boolean displayGeneral = m_SelectedObject.SupportsActs();
             System.Boolean displayPos =     m_SelectedObject.HasPosition();
             System.Boolean displayRot =     m_SelectedObject.SupportsRotation();
@@ -2883,7 +2847,7 @@ namespace SM64DSe
             box_general.Visible = displayGeneral;
             if (displayGeneral)
             {
-                nextBoxSnapY = snapControlVertically(box_general, nextBoxSnapY);
+                nextBoxSnapY = Helper.snapControlVertically(box_general, nextBoxSnapY);
                 val_act.SelectedIndex = m_SelectedObject.m_Layer;
 
                 val_area.Enabled = !(m_SelectedObject is ExitObject);
@@ -2898,7 +2862,7 @@ namespace SM64DSe
             box_position.Visible = displayPos;
             if (displayPos)
             {
-                nextBoxSnapY = snapControlVertically(box_position, nextBoxSnapY);
+                nextBoxSnapY = Helper.snapControlVertically(box_position, nextBoxSnapY);
 
                 val_posX.Value = (Decimal)m_SelectedObject.Position.X;
                 val_posY.Value = (Decimal)m_SelectedObject.Position.Y;
@@ -2907,14 +2871,14 @@ namespace SM64DSe
             box_rotation.Visible = displayRot;
             if (displayRot)
             {
-                nextBoxSnapY = snapControlVertically(box_rotation, nextBoxSnapY);
+                nextBoxSnapY = Helper.snapControlVertically(box_rotation, nextBoxSnapY);
 
                 val_rotY.Value = (Decimal)m_SelectedObject.YRotation;
             }
             box_fogSettings.Visible = displayFog;
             if (displayFog)
             {
-                nextBoxSnapY = snapControlVertically(box_fogSettings, nextBoxSnapY);
+                nextBoxSnapY = Helper.snapControlVertically(box_fogSettings, nextBoxSnapY);
 
                 check_displayFog.Checked = (m_SelectedObject.Parameters[0] != 0);
                 val_r.Value =              m_SelectedObject.Parameters[1];
@@ -2938,60 +2902,61 @@ namespace SM64DSe
                 {
                     Control keep = box_parameters.Controls[0];
                     box_parameters.Controls.Clear();
+                    Console.WriteLine("Initialize Parameterfields");
                     box_parameters.Controls.Add(keep);
                     
                     foreach (ParameterField field in m_SelectedObject.m_ParameterFields)
                     {
-                        object value = m_SelectedObject.m_Properties[field.m_pgFieldName];
+                        PropertyTable ptable = m_SelectedObject.m_Properties;
+                        object value = ptable[field.m_pgFieldName];
                         
                         //Console.WriteLine(value.GetType());
-                        ushort extractedValue = ExtractBits(value, field.m_offset, field.m_length);
                         Label label = field.GetLabel();
                         Control control = field.GetControl(this);
-                        field.setValue(extractedValue);
+
+                        bool floatToFloat = ((ptable[field.m_pgFieldName] is float) && (field is FloatField));
+                        if (floatToFloat)
+                        {
+                            float newValue = (float)value;
+                            FloatField floatField = (FloatField)field;
+                            floatField.setFloatValue(newValue);
+                        }
+                        else
+                        {
+                            ushort extractedValue = ExtractBits(value, field.m_offset, field.m_length);
+                            field.setValue(extractedValue);
+                        }
 
                         box_parameters.Controls.Add(label);
                         box_parameters.Controls.Add(control);
 
                         //snap Vertically
-                        snapControlVertically(label, nextFieldSnapY);
-                        nextFieldSnapY = snapControlVertically(control, nextFieldSnapY);
+                        Helper.snapControlVertically(label, nextFieldSnapY);
+                        nextFieldSnapY = Helper.snapControlVertically(control, nextFieldSnapY);
 
                         //snap Horizontally
                         int nextSnapX = 0;
-                        nextSnapX = snapControlHorizontally(label, nextSnapX);
-                        snapControlHorizontally(control, nextSnapX);
+                        nextSnapX = Helper.snapControlHorizontally(label, nextSnapX);
+                        Helper.snapControlHorizontally(control, nextSnapX);
 
 
+                    }
+
+                    if ((m_SelectedObject is SimpleObject) || (m_SelectedObject is StandardObject) || (m_SelectedObject is PathObject))
+                    {
+                        box_parameters.Controls.Add(btnOpenRawEditor);
+                        nextFieldSnapY = Helper.snapControlVertically(btnOpenRawEditor, nextFieldSnapY,2);
                     }
                 }
                 
                 box_parameters.Height = nextFieldSnapY;
-                nextBoxSnapY = snapControlVertically(box_parameters, nextBoxSnapY);
+                nextBoxSnapY = Helper.snapControlVertically(box_parameters, nextBoxSnapY);
             }
             
             settingValues = false;
-
-            if (nextBoxSnapY == 0)
-            {
-                tc_switchPropertyInterface.SelectedIndex = 1;
-                initialize_oldInterface();
-            }
         }
 
-        private void initialize_oldInterface()
-        {
-            if (m_SelectedObject == null)
-            {
-                pgObjectProperties.SelectedObject = null;
-                pgObjectProperties.Refresh();
-                return;
-            }
-            
-            pgObjectProperties.SelectedObject = m_SelectedObject.m_Properties;
-        }
-
-        private void update_newInterface()
+        private void updatePropertyInterface()
         {
             settingValues = true;
             val_posX.Value = (Decimal)m_SelectedObject.Position.X;
@@ -3005,33 +2970,13 @@ namespace SM64DSe
             settingValues = false;
         }
 
-        private void update_oldInterface()
-        {
-            UpdateTransformProperties();
-
-            RefreshObjects(m_SelectedObject.m_Layer);
-        }
-
-        private void clear_newInterface()
+        private void clearPropertyInterface()
         {
             box_general.Visible = false;
             box_position.Visible = false;
             box_rotation.Visible = false;
             box_fogSettings.Visible = false;
             box_parameters.Visible = false;
-        }
-
-        private void clear_oldInterface()
-        {
-            pgObjectProperties.SelectedObject = null;
-        }
-        
-        private int snapControlHorizontally(Control control, int snapPos)
-        {
-            int newX = snapPos;
-            int newY = control.Location.Y;
-            control.Location = new Point(newX, newY);
-            return snapPos+ control.Width;
         }
 
         private void tvObjectList_DoubleClick(object sender, EventArgs e)
@@ -3050,7 +2995,7 @@ namespace SM64DSe
             int storedValue = box_position.Height;
             box_position.Height = box_position_NextHeight;
             box_position_NextHeight = storedValue;
-            initialize_newInterface();
+            initializePropertyInterface();
         }
 
         private void btnToogleCollapseRotation_Click(object sender, EventArgs e)
@@ -3058,7 +3003,7 @@ namespace SM64DSe
             int storedValue = box_rotation.Height;
             box_rotation.Height = box_rotation_NextHeight;
             box_rotation_NextHeight = storedValue;
-            initialize_newInterface();
+            initializePropertyInterface();
         }
 
         private void btnToogleCollapseColor_Click(object sender, EventArgs e)
@@ -3066,7 +3011,7 @@ namespace SM64DSe
             int storedValue = box_fogSettings.Height;
             box_fogSettings.Height = box_fogSettings_NextHeight;
             box_fogSettings_NextHeight = storedValue;
-            initialize_newInterface();
+            initializePropertyInterface();
         }
 
         private void btnToogleCollapseParameters_Click(object sender, EventArgs e)
@@ -3074,15 +3019,7 @@ namespace SM64DSe
             int storedValue = box_parameters.Height;
             box_parameters.Height = box_parameters_NextHeight;
             box_parameters_NextHeight = storedValue;
-            initialize_newInterface();
-        }
-
-        private int snapControlVertically(Control control, int snapPos)
-        {
-            int newX = control.Location.X;
-            int newY = snapPos;
-            control.Location = new Point(newX, newY);
-            return snapPos + control.Height;
+            initializePropertyInterface();
         }
 
         private void btnToogleCollapseGeneral_Click(object sender, EventArgs e)
@@ -3090,7 +3027,7 @@ namespace SM64DSe
             int storedValue = box_general.Height;
             box_general.Height = box_general_NextHeight;
             box_general_NextHeight = storedValue;
-            initialize_newInterface();
+            initializePropertyInterface();
         }
 
         private void btnOpenObjectList_Click(object sender, EventArgs e)
@@ -3103,39 +3040,11 @@ namespace SM64DSe
             }
         }
 
-        private void initializeActiveTab()
+        private void btnOpenRawEditor_Click(object sender, EventArgs e)
         {
-            if (tc_switchPropertyInterface.SelectedTab == tab_newInterface)
-            {
-                initialize_newInterface();
-            }
-            else
-            {
-                initialize_oldInterface();
-            }
-        }
-
-        private void updateActiveTab()
-        {
-            if(tc_switchPropertyInterface.SelectedTab==tab_newInterface)
-            {
-                update_newInterface();
-            } else
-            {
-                update_oldInterface();
-            }
-        }
-
-        private void clearActiveTab()
-        {
-            if (tc_switchPropertyInterface.SelectedTab == tab_newInterface)
-            {
-                clear_newInterface();
-            }
-            else
-            {
-                clear_oldInterface();
-            }
+            if (m_rawEditor==null)
+                m_rawEditor = new RawEditorForm(this);
+            m_rawEditor.ShowForObject(m_SelectedObject);
         }
 
         private void ConvertLevelObject(ushort newid)
@@ -3157,7 +3066,8 @@ namespace SM64DSe
             m_LastHovered = obj.m_UniqueID;
             m_LastClicked = obj.m_UniqueID;
 
-            initializeActiveTab();
+            UpdateObjectForRawEditor();
+            initializePropertyInterface();
 
             if (obj.m_Properties.Properties.IndexOf("X position") != -1)
             {

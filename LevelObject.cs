@@ -194,12 +194,7 @@ namespace SM64DSe
             m_Renderer = InitialiseRenderer();
             m_KCLName = InitializeKCL();
             Console.WriteLine(m_KCLName);
-            m_ParameterFields = new ParameterField[]
-            {
-                new DefaultField("Parameter 1",0,16){ Name = "1. Parameter" },
-                new DefaultField("Parameter 2",0,16){ Name = "2. Parameter" },
-                new DefaultField("Parameter 3",0,16){ Name = "3. Parameter" }
-            };
+            m_ParameterFields = ParameterField.ParameterFieldsForObject(this);
             m_Properties = new PropertyTable();
             GenerateProperties();
         }
@@ -347,10 +342,7 @@ namespace SM64DSe
 
             m_Renderer = InitialiseRenderer();
             m_KCLName = InitializeKCL();
-            m_ParameterFields = new ParameterField[]
-            {
-                new DefaultField("Parameter 1",0,16){ Name = "1. Parameter" },
-            };
+            m_ParameterFields = ParameterField.ParameterFieldsForObject(this);
             m_Properties = new PropertyTable();
             GenerateProperties();
         }
@@ -573,7 +565,7 @@ namespace SM64DSe
             {
                 new ListField("Destination level",8,8,ComboBoxInfoFromStrings(Strings.LevelNames)){Name = "Destination level"},
                 new DefaultField("Destination entrance",8,8){ Name = "Destination entrance", Description = "The Entrance you spawn at in the level", DislpayInHex = false },
-                new DefaultField("Parameter 1",0,16){ Name = "X-rotation" },
+                new FloatConvertField("Parameter 1",0,16,0x1000,22.5f){ Name = "X Rotation"},
                 new DefaultField("Parameter 2",4,4){ Name = "width", Description = "The width of the exits trigger area", DislpayInHex = false },
                 new DefaultField("Parameter 2",0,4){ Name = "height", Description = "The height of the exits trigger area", DislpayInHex = false },
                 new DefaultField("Parameter 2",8,8){ Name = "returnEntrance", Description = "The Entrance you spawn at, if you die or collect a star/key, 255 means you spawn at the default Entrance in Peachs Castle", DislpayInHex = false }
@@ -1207,6 +1199,10 @@ namespace SM64DSe
 
             Parameters = new ushort[1];
             Parameters[0] = data.Read16(0);
+            m_ParameterFields = new ParameterField[]
+            {
+                new FloatField("Scale")
+            };
 
             m_Properties = new PropertyTable();
             GenerateProperties();
@@ -1721,11 +1717,101 @@ namespace SM64DSe
 
         public String Name;
         public String Description;
+        public bool UpdateOnChange;
+
+        public static ParameterField[] ParameterFieldsForObject(LevelObject obj)
+        {
+            ushort objectID;
+            if ((obj is SimpleObject)||(obj is StandardObject)) {
+                objectID = obj.ID;
+            }
+            else
+            {
+                return new ParameterField[] { };
+            }
+            ParameterField[] fields = new ParameterField[] { };
+            switch(objectID) {
+                case 30: //? Block
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",8,8,new object[]{
+                            0,"Coin",
+                            1,"Power Star",
+                            2,"1 Up Mushroom",
+                            3,"Greenshell",
+                            4,"Super Mushroom",
+                            5,"Feather(Mario), Power Flower(Other)",
+                            6,"Power Flower",
+                            7,"Lit Bob-omb(Mario), PowerFlower(Other)"
+                        }){ Name = "Content" },
+                        new DefaultField("Parameter 1",0,8){ Name = "Parameter" }
+                    };
+                case 42: //Painting
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",0,3,new object[]{
+                            0,"Normal",
+                            1,"Always wobbling",
+                            2,"Never wobbling",
+                            3,"Mirrored"
+                        }){ Name = "Painting Mode" },
+                        new ListField("Parameter 1",3,5,LevelObject.ComboBoxInfoFromStrings(Strings.PaintingNames)){ Name = "Picture" },
+                        new DefaultField("Parameter 1",12,4){ Name = "Width" },
+                        new DefaultField("Parameter 1",8,4){ Name = "Height" },
+                        new FloatConvertField("Parameter 2",0,16,0x1000,22.5f){ Name = "X Rotation"}
+                    };
+                case 61: //Power Star
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star" },
+                        new ListField("Parameter 1",8,4,new object[]{
+                            0,"Normal",
+                            1,"Jumping around",
+                            2,"100-Coin Star",
+                            3,"VS-Star",
+                            4,"Just spawned?",
+                            5,"Incollectable when already collected?",
+                            6,"Silver-Star Star",
+                            7,"Minimap only"
+                        }){ Name = "Type" }
+                    };
+                case 63: //Star Marker
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star" },
+                        new ListField("Parameter 1",8,4,new object[]{
+                            0,"Red Coin Shadow Star",
+                            1,"VS-Star Container",
+                            2,"Default StarSpawner",
+                            4,"StarSphere(No Function?)",
+                            6,"SwitchStar",
+                            10,"Same as 2?"
+                        }){ Name = "Type" }
+                    };
+                default:
+                    return new ParameterField[] { };
+            }
+        }
 
         public ParameterField(string pgFieldName, int offset, int length)
         {
             Name = "Unknown";
             Description = "No Description Provided";
+            UpdateOnChange = false;
 
             m_offset = Math.Min(offset, 16);
             m_length = Math.Min(length, 16 - m_offset);
@@ -1741,17 +1827,19 @@ namespace SM64DSe
             if (m_Control == null)
             {
                 Label label = new Label();
-                label.Text = "Parameter " + m_offset + "+" + m_length;
-                m_Control = label;
             }
             return m_Control;
         }
 
-        public virtual Label GetLabel()
+        public Label GetLabel()
         {
-            if(m_label == null)
+            if (m_label == null)
             {
-                m_label = new Label();
+                m_label = new Label()
+                {
+                    Text = Name,
+                    TextAlign = ContentAlignment.MiddleLeft
+                };
             }
             return m_label;
         }
@@ -1784,8 +1872,8 @@ namespace SM64DSe
 
         public override void setValue(object newValue) {
             Console.WriteLine(newValue);
-
-            m_input.Value = Convert.ToDecimal(newValue);
+            Decimal maxVal = (Decimal)Math.Pow(2d, m_length);
+            m_input.Value = Math.Min(Math.Max(0,Convert.ToDecimal(newValue)),maxVal);
         }
 
         public override Control GetControl(LevelEditorForm editorForm)
@@ -1802,16 +1890,6 @@ namespace SM64DSe
                 editorForm.defaultToolTip.SetToolTip(this.m_input, Description);
             }
             return m_input;
-        }
-
-        public override Label GetLabel()
-        {
-            if (m_label == null)
-            {
-                m_label = new Label();
-                m_label.Text = Name;
-            }
-            return m_label;
         }
     }
 
@@ -1888,30 +1966,91 @@ namespace SM64DSe
             }
             return m_comboBox;
         }
-
-        public override Label GetLabel()
-        {
-            if (m_label == null)
-            {
-                m_label = new Label
-                {
-                    Text = Name
-                };
-            }
-            return m_label;
-        }
     }
 
     public class FloatField : ParameterField
     {
-        public string Name;
-        public string Description;
-        public bool updateAfterChange;
+        NumericUpDown m_input;
         public FloatField(string pgFieldname)
-            : base(pgFieldname,0,0)
+            : base(pgFieldname, 0, 0)
         {
-            Name = "Unknown";
-            Description = "No Desc. provided";
+
+        }
+        
+        public float getFloatValue()
+        {
+            return (float)m_input.Value;
+        }
+        
+        public void setFloatValue(float newValue)
+        {
+            Console.WriteLine(newValue);
+            m_input.Value = (Decimal)newValue;
+        }
+
+        public override Control GetControl(LevelEditorForm editorForm)
+        {
+            if (m_input == null)
+            {
+                m_input = new NumericUpDown
+                {
+                    Maximum = Decimal.MaxValue,
+                    DecimalPlaces = 3
+                };
+                m_input.ValueChanged += new EventHandler(editorForm.ValueChanged);
+
+                editorForm.defaultToolTip.SetToolTip(this.m_input, Description);
+            }
+            return m_input;
+        }
+    }
+
+    public class FloatConvertField : ParameterField
+    {
+        NumericUpDown m_input;
+        ushort m_stepInUshort;
+        float m_stepInFloat;
+        Decimal MaxValue;
+        public FloatConvertField(string pgFieldname, int offset, int length, ushort stepInUshort, float stepInFloat)
+            : base(pgFieldname, offset, length)
+        {
+            m_stepInUshort = stepInUshort;
+            m_stepInFloat = stepInFloat;
+
+            MaxValue = (Decimal)((Math.Pow(2, m_length) - 1)*(m_stepInFloat/m_stepInUshort)); //this should be overwritten
+        }
+
+        public override ushort getValue()
+        {
+            ushort val = (ushort)(m_input.Value * (Decimal)(m_stepInUshort / m_stepInFloat));
+            ushort bitMask = ((ushort)(Math.Pow(2, m_length) - 1));
+            return (ushort)(val & bitMask);
+        }
+
+        public override void setValue(object newValue)
+        {
+            Console.WriteLine(newValue);
+
+            Decimal covertedValue = Convert.ToDecimal(newValue) * (Decimal)(m_stepInFloat / m_stepInUshort);
+
+            m_input.Value = Math.Min(Math.Max(0, Convert.ToDecimal(covertedValue)), MaxValue);
+        }
+
+        public override Control GetControl(LevelEditorForm editorForm)
+        {
+            if (m_input == null)
+            {
+                m_input = new NumericUpDown
+                {
+                    Increment = (Decimal)m_stepInFloat,
+                    Maximum = MaxValue,
+                    DecimalPlaces = 3
+                };
+                m_input.ValueChanged += new EventHandler(editorForm.ValueChanged);
+
+                editorForm.defaultToolTip.SetToolTip(this.m_input, Description);
+            }
+            return m_input;
         }
     }
 

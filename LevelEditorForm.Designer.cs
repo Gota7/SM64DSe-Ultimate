@@ -34,8 +34,6 @@ namespace SM64DSe
             this.spcLeftPanel = new System.Windows.Forms.SplitContainer();
             this.tvObjectList = new System.Windows.Forms.TreeView();
             this.spcPropertyInterface = new System.Windows.Forms.SplitContainer();
-            this.tc_switchPropertyInterface = new System.Windows.Forms.TabControl();
-            this.tab_newInterface = new System.Windows.Forms.TabPage();
             this.box_general = new System.Windows.Forms.GroupBox();
             this.btnOpenObjectList = new System.Windows.Forms.Button();
             this.val_act = new System.Windows.Forms.ComboBox();
@@ -75,8 +73,6 @@ namespace SM64DSe
             this.lbl_posY = new System.Windows.Forms.Label();
             this.val_posX = new System.Windows.Forms.NumericUpDown();
             this.lbl_posX = new System.Windows.Forms.Label();
-            this.tab_tableInterface = new System.Windows.Forms.TabPage();
-            this.pgObjectProperties = new System.Windows.Forms.PropertyGrid();
             this.btnPasteCoordinates = new System.Windows.Forms.Button();
             this.btnCopyCoordinates = new System.Windows.Forms.Button();
             this.tsEditActions = new System.Windows.Forms.ToolStrip();
@@ -89,6 +85,7 @@ namespace SM64DSe
             this.btnAddAreaWarp = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddTpSrc = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddTpDst = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddView = new System.Windows.Forms.ToolStripButton();
             this.btnRemoveSel = new System.Windows.Forms.ToolStripButton();
             this.btnRemoveAll = new System.Windows.Forms.ToolStripButton();
@@ -168,8 +165,6 @@ namespace SM64DSe
             this.spcPropertyInterface.Panel1.SuspendLayout();
             this.spcPropertyInterface.Panel2.SuspendLayout();
             this.spcPropertyInterface.SuspendLayout();
-            this.tc_switchPropertyInterface.SuspendLayout();
-            this.tab_newInterface.SuspendLayout();
             this.box_general.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnToogleCollapseGeneral)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_objectId)).BeginInit();
@@ -193,7 +188,6 @@ namespace SM64DSe
             ((System.ComponentModel.ISupportInitialize)(this.val_posZ)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_posY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_posX)).BeginInit();
-            this.tab_tableInterface.SuspendLayout();
             this.tsEditActions.SuspendLayout();
             this.tsViewActions.SuspendLayout();
             this.tsToolBar.SuspendLayout();
@@ -220,7 +214,7 @@ namespace SM64DSe
             this.spcMainContainer.Panel2.Controls.Add(this.glLevelView);
             this.spcMainContainer.Panel2.Controls.Add(this.tsViewActions);
             this.spcMainContainer.Size = new System.Drawing.Size(957, 486);
-            this.spcMainContainer.SplitterDistance = 264;
+            this.spcMainContainer.SplitterDistance = 289;
             this.spcMainContainer.TabIndex = 0;
             // 
             // spcLeftPanel
@@ -238,7 +232,7 @@ namespace SM64DSe
             // spcLeftPanel.Panel2
             // 
             this.spcLeftPanel.Panel2.Controls.Add(this.spcPropertyInterface);
-            this.spcLeftPanel.Size = new System.Drawing.Size(264, 354);
+            this.spcLeftPanel.Size = new System.Drawing.Size(289, 354);
             this.spcLeftPanel.SplitterDistance = 75;
             this.spcLeftPanel.TabIndex = 1;
             // 
@@ -249,7 +243,7 @@ namespace SM64DSe
             this.tvObjectList.HideSelection = false;
             this.tvObjectList.Location = new System.Drawing.Point(0, 0);
             this.tvObjectList.Name = "tvObjectList";
-            this.tvObjectList.Size = new System.Drawing.Size(264, 75);
+            this.tvObjectList.Size = new System.Drawing.Size(289, 75);
             this.tvObjectList.TabIndex = 0;
             this.tvObjectList.TabStop = false;
             this.tvObjectList.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.tvObjectList_DrawNode);
@@ -265,46 +259,25 @@ namespace SM64DSe
             // 
             // spcPropertyInterface.Panel1
             // 
-            this.spcPropertyInterface.Panel1.Controls.Add(this.tc_switchPropertyInterface);
+            this.spcPropertyInterface.Panel1.AutoScroll = true;
+            this.spcPropertyInterface.Panel1.Controls.Add(this.box_position);
+            this.spcPropertyInterface.Panel1.Controls.Add(this.box_rotation);
+            this.spcPropertyInterface.Panel1.Controls.Add(this.box_parameters);
+            this.spcPropertyInterface.Panel1.Controls.Add(this.box_fogSettings);
+            this.spcPropertyInterface.Panel1.Controls.Add(this.box_general);
             // 
             // spcPropertyInterface.Panel2
             // 
             this.spcPropertyInterface.Panel2.Controls.Add(this.btnPasteCoordinates);
             this.spcPropertyInterface.Panel2.Controls.Add(this.btnCopyCoordinates);
-            this.spcPropertyInterface.Size = new System.Drawing.Size(264, 275);
+            this.spcPropertyInterface.Size = new System.Drawing.Size(289, 275);
             this.spcPropertyInterface.SplitterDistance = 245;
             this.spcPropertyInterface.TabIndex = 1;
             // 
-            // tc_switchPropertyInterface
-            // 
-            this.tc_switchPropertyInterface.Controls.Add(this.tab_newInterface);
-            this.tc_switchPropertyInterface.Controls.Add(this.tab_tableInterface);
-            this.tc_switchPropertyInterface.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tc_switchPropertyInterface.Location = new System.Drawing.Point(0, 0);
-            this.tc_switchPropertyInterface.Name = "tc_switchPropertyInterface";
-            this.tc_switchPropertyInterface.SelectedIndex = 0;
-            this.tc_switchPropertyInterface.Size = new System.Drawing.Size(264, 243);
-            this.tc_switchPropertyInterface.TabIndex = 1;
-            this.tc_switchPropertyInterface.SelectedIndexChanged += new System.EventHandler(this.tc_switchPropertyInterface_SelectedIndexChanged);
-            // 
-            // tab_newInterface
-            // 
-            this.tab_newInterface.AutoScroll = true;
-            this.tab_newInterface.Controls.Add(this.box_general);
-            this.tab_newInterface.Controls.Add(this.box_fogSettings);
-            this.tab_newInterface.Controls.Add(this.box_parameters);
-            this.tab_newInterface.Controls.Add(this.box_rotation);
-            this.tab_newInterface.Controls.Add(this.box_position);
-            this.tab_newInterface.Location = new System.Drawing.Point(4, 22);
-            this.tab_newInterface.Margin = new System.Windows.Forms.Padding(0);
-            this.tab_newInterface.Name = "tab_newInterface";
-            this.tab_newInterface.Size = new System.Drawing.Size(256, 217);
-            this.tab_newInterface.TabIndex = 0;
-            this.tab_newInterface.Text = "New Interface";
-            this.tab_newInterface.UseVisualStyleBackColor = true;
-            // 
             // box_general
             // 
+            this.box_general.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.box_general.Controls.Add(this.btnOpenObjectList);
             this.box_general.Controls.Add(this.val_act);
             this.box_general.Controls.Add(this.btnToogleCollapseGeneral);
@@ -314,9 +287,9 @@ namespace SM64DSe
             this.box_general.Controls.Add(this.val_area);
             this.box_general.Controls.Add(this.lbl_area);
             this.box_general.Cursor = System.Windows.Forms.Cursors.Default;
-            this.box_general.Location = new System.Drawing.Point(6, 3);
+            this.box_general.Location = new System.Drawing.Point(3, -18);
             this.box_general.Name = "box_general";
-            this.box_general.Size = new System.Drawing.Size(244, 68);
+            this.box_general.Size = new System.Drawing.Size(266, 68);
             this.box_general.TabIndex = 10;
             this.box_general.TabStop = false;
             this.box_general.Text = "General";
@@ -353,8 +326,9 @@ namespace SM64DSe
             // 
             // btnToogleCollapseGeneral
             // 
+            this.btnToogleCollapseGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseGeneral.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseGeneral.Location = new System.Drawing.Point(225, 0);
+            this.btnToogleCollapseGeneral.Location = new System.Drawing.Point(250, 0);
             this.btnToogleCollapseGeneral.Name = "btnToogleCollapseGeneral";
             this.btnToogleCollapseGeneral.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseGeneral.TabIndex = 9;
@@ -418,6 +392,8 @@ namespace SM64DSe
             // 
             // box_fogSettings
             // 
+            this.box_fogSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.box_fogSettings.Controls.Add(this.box_color);
             this.box_fogSettings.Controls.Add(this.check_displayFog);
             this.box_fogSettings.Controls.Add(this.val_endDistance);
@@ -426,9 +402,9 @@ namespace SM64DSe
             this.box_fogSettings.Controls.Add(this.lbl_startDistance);
             this.box_fogSettings.Controls.Add(this.btnToogleCollapseColor);
             this.box_fogSettings.Cursor = System.Windows.Forms.Cursors.Default;
-            this.box_fogSettings.Location = new System.Drawing.Point(6, 167);
+            this.box_fogSettings.Location = new System.Drawing.Point(3, 266);
             this.box_fogSettings.Name = "box_fogSettings";
-            this.box_fogSettings.Size = new System.Drawing.Size(244, 132);
+            this.box_fogSettings.Size = new System.Drawing.Size(266, 132);
             this.box_fogSettings.TabIndex = 6;
             this.box_fogSettings.TabStop = false;
             this.box_fogSettings.Text = "Fog Settings";
@@ -578,8 +554,9 @@ namespace SM64DSe
             // 
             // btnToogleCollapseColor
             // 
+            this.btnToogleCollapseColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseColor.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseColor.Location = new System.Drawing.Point(225, 0);
+            this.btnToogleCollapseColor.Location = new System.Drawing.Point(250, 0);
             this.btnToogleCollapseColor.Name = "btnToogleCollapseColor";
             this.btnToogleCollapseColor.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseColor.TabIndex = 9;
@@ -588,11 +565,13 @@ namespace SM64DSe
             // 
             // box_parameters
             // 
+            this.box_parameters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.box_parameters.Controls.Add(this.btnToogleCollapseParameters);
             this.box_parameters.Cursor = System.Windows.Forms.Cursors.Default;
-            this.box_parameters.Location = new System.Drawing.Point(6, 305);
+            this.box_parameters.Location = new System.Drawing.Point(3, 145);
             this.box_parameters.Name = "box_parameters";
-            this.box_parameters.Size = new System.Drawing.Size(244, 115);
+            this.box_parameters.Size = new System.Drawing.Size(266, 115);
             this.box_parameters.TabIndex = 9;
             this.box_parameters.TabStop = false;
             this.box_parameters.Text = "Parameters";
@@ -600,8 +579,9 @@ namespace SM64DSe
             // 
             // btnToogleCollapseParameters
             // 
+            this.btnToogleCollapseParameters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseParameters.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseParameters.Location = new System.Drawing.Point(225, 0);
+            this.btnToogleCollapseParameters.Location = new System.Drawing.Point(250, 0);
             this.btnToogleCollapseParameters.Name = "btnToogleCollapseParameters";
             this.btnToogleCollapseParameters.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseParameters.TabIndex = 10;
@@ -610,15 +590,17 @@ namespace SM64DSe
             // 
             // box_rotation
             // 
+            this.box_rotation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.box_rotation.Controls.Add(this.btnToogleCollapseRotation);
             this.box_rotation.Controls.Add(this.val_rotY);
             this.box_rotation.Controls.Add(this.val_rotX);
             this.box_rotation.Controls.Add(this.lbl_rotY);
             this.box_rotation.Controls.Add(this.lbl_rotX);
             this.box_rotation.Cursor = System.Windows.Forms.Cursors.Default;
-            this.box_rotation.Location = new System.Drawing.Point(6, 122);
+            this.box_rotation.Location = new System.Drawing.Point(3, 101);
             this.box_rotation.Name = "box_rotation";
-            this.box_rotation.Size = new System.Drawing.Size(244, 39);
+            this.box_rotation.Size = new System.Drawing.Size(266, 39);
             this.box_rotation.TabIndex = 6;
             this.box_rotation.TabStop = false;
             this.box_rotation.Text = "Rotation";
@@ -626,8 +608,9 @@ namespace SM64DSe
             // 
             // btnToogleCollapseRotation
             // 
+            this.btnToogleCollapseRotation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseRotation.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseRotation.Location = new System.Drawing.Point(225, 0);
+            this.btnToogleCollapseRotation.Location = new System.Drawing.Point(250, -1);
             this.btnToogleCollapseRotation.Name = "btnToogleCollapseRotation";
             this.btnToogleCollapseRotation.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseRotation.TabIndex = 8;
@@ -704,6 +687,8 @@ namespace SM64DSe
             // 
             // box_position
             // 
+            this.box_position.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.box_position.Controls.Add(this.btnToogleCollapsePosition);
             this.box_position.Controls.Add(this.val_posZ);
             this.box_position.Controls.Add(this.val_posY);
@@ -712,9 +697,9 @@ namespace SM64DSe
             this.box_position.Controls.Add(this.val_posX);
             this.box_position.Controls.Add(this.lbl_posX);
             this.box_position.Cursor = System.Windows.Forms.Cursors.Default;
-            this.box_position.Location = new System.Drawing.Point(6, 77);
+            this.box_position.Location = new System.Drawing.Point(3, 56);
             this.box_position.Name = "box_position";
-            this.box_position.Size = new System.Drawing.Size(244, 39);
+            this.box_position.Size = new System.Drawing.Size(266, 39);
             this.box_position.TabIndex = 2;
             this.box_position.TabStop = false;
             this.box_position.Text = "Position";
@@ -722,8 +707,9 @@ namespace SM64DSe
             // 
             // btnToogleCollapsePosition
             // 
+            this.btnToogleCollapsePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapsePosition.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapsePosition.Location = new System.Drawing.Point(225, 0);
+            this.btnToogleCollapsePosition.Location = new System.Drawing.Point(250, 0);
             this.btnToogleCollapsePosition.Name = "btnToogleCollapsePosition";
             this.btnToogleCollapsePosition.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapsePosition.TabIndex = 7;
@@ -832,29 +818,6 @@ namespace SM64DSe
             this.lbl_posX.TabIndex = 2;
             this.lbl_posX.Text = "x:";
             // 
-            // tab_tableInterface
-            // 
-            this.tab_tableInterface.Controls.Add(this.pgObjectProperties);
-            this.tab_tableInterface.Location = new System.Drawing.Point(4, 22);
-            this.tab_tableInterface.Name = "tab_tableInterface";
-            this.tab_tableInterface.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_tableInterface.Size = new System.Drawing.Size(256, 217);
-            this.tab_tableInterface.TabIndex = 1;
-            this.tab_tableInterface.Text = "Table Interface";
-            this.tab_tableInterface.UseVisualStyleBackColor = true;
-            // 
-            // pgObjectProperties
-            // 
-            this.pgObjectProperties.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pgObjectProperties.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.pgObjectProperties.Location = new System.Drawing.Point(3, 3);
-            this.pgObjectProperties.Name = "pgObjectProperties";
-            this.pgObjectProperties.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.pgObjectProperties.Size = new System.Drawing.Size(250, 211);
-            this.pgObjectProperties.TabIndex = 0;
-            this.pgObjectProperties.ToolbarVisible = false;
-            this.pgObjectProperties.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgObjectProperties_PropertyValueChanged);
-            // 
             // btnPasteCoordinates
             // 
             this.btnPasteCoordinates.Enabled = false;
@@ -899,7 +862,7 @@ namespace SM64DSe
             this.tsEditActions.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.tsEditActions.Location = new System.Drawing.Point(0, 0);
             this.tsEditActions.Name = "tsEditActions";
-            this.tsEditActions.Size = new System.Drawing.Size(264, 132);
+            this.tsEditActions.Size = new System.Drawing.Size(289, 132);
             this.tsEditActions.TabIndex = 0;
             this.tsEditActions.Text = "toolStrip1";
             // 
@@ -943,7 +906,8 @@ namespace SM64DSe
             this.btnAddExit,
             this.btnAddAreaWarp,
             this.btnAddTpSrc,
-            this.btnAddTpDst});
+            this.btnAddTpDst,
+            this.toolStripMenuItem5});
             this.btnAddWarp.Image = ((System.Drawing.Image)(resources.GetObject("btnAddWarp.Image")));
             this.btnAddWarp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddWarp.Name = "btnAddWarp";
@@ -954,7 +918,7 @@ namespace SM64DSe
             // btnAddEntrance
             // 
             this.btnAddEntrance.Name = "btnAddEntrance";
-            this.btnAddEntrance.Size = new System.Drawing.Size(179, 22);
+            this.btnAddEntrance.Size = new System.Drawing.Size(180, 22);
             this.btnAddEntrance.Tag = "1";
             this.btnAddEntrance.Text = "Entrance";
             this.btnAddEntrance.Click += new System.EventHandler(this.btnAddWhatever_Click);
@@ -962,7 +926,7 @@ namespace SM64DSe
             // btnAddExit
             // 
             this.btnAddExit.Name = "btnAddExit";
-            this.btnAddExit.Size = new System.Drawing.Size(179, 22);
+            this.btnAddExit.Size = new System.Drawing.Size(180, 22);
             this.btnAddExit.Tag = "10";
             this.btnAddExit.Text = "Exit";
             this.btnAddExit.Click += new System.EventHandler(this.btnAddWhatever_Click);
@@ -970,7 +934,7 @@ namespace SM64DSe
             // btnAddAreaWarp
             // 
             this.btnAddAreaWarp.Name = "btnAddAreaWarp";
-            this.btnAddAreaWarp.Size = new System.Drawing.Size(179, 22);
+            this.btnAddAreaWarp.Size = new System.Drawing.Size(180, 22);
             this.btnAddAreaWarp.Tag = "9";
             this.btnAddAreaWarp.Text = "Door";
             this.btnAddAreaWarp.Click += new System.EventHandler(this.btnAddWhatever_Click);
@@ -978,7 +942,7 @@ namespace SM64DSe
             // btnAddTpSrc
             // 
             this.btnAddTpSrc.Name = "btnAddTpSrc";
-            this.btnAddTpSrc.Size = new System.Drawing.Size(179, 22);
+            this.btnAddTpSrc.Size = new System.Drawing.Size(180, 22);
             this.btnAddTpSrc.Tag = "6";
             this.btnAddTpSrc.Text = "Teleport source";
             this.btnAddTpSrc.Click += new System.EventHandler(this.btnAddWhatever_Click);
@@ -986,10 +950,16 @@ namespace SM64DSe
             // btnAddTpDst
             // 
             this.btnAddTpDst.Name = "btnAddTpDst";
-            this.btnAddTpDst.Size = new System.Drawing.Size(179, 22);
+            this.btnAddTpDst.Size = new System.Drawing.Size(180, 22);
             this.btnAddTpDst.Tag = "7";
             this.btnAddTpDst.Text = "Teleport destination";
             this.btnAddTpDst.Click += new System.EventHandler(this.btnAddWhatever_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem5.Text = "toolStripMenuItem5";
             // 
             // btnAddView
             // 
@@ -1134,7 +1104,7 @@ namespace SM64DSe
             this.glLevelView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.glLevelView.Location = new System.Drawing.Point(0, 25);
             this.glLevelView.Name = "glLevelView";
-            this.glLevelView.Size = new System.Drawing.Size(689, 461);
+            this.glLevelView.Size = new System.Drawing.Size(664, 461);
             this.glLevelView.TabIndex = 1;
             this.glLevelView.VSync = false;
             this.glLevelView.Load += new System.EventHandler(this.glLevelView_Load);
@@ -1161,7 +1131,7 @@ namespace SM64DSe
             this.btnMakeOverlay});
             this.tsViewActions.Location = new System.Drawing.Point(0, 0);
             this.tsViewActions.Name = "tsViewActions";
-            this.tsViewActions.Size = new System.Drawing.Size(689, 25);
+            this.tsViewActions.Size = new System.Drawing.Size(664, 25);
             this.tsViewActions.TabIndex = 0;
             this.tsViewActions.Text = "toolStrip2";
             // 
@@ -1681,8 +1651,6 @@ namespace SM64DSe
             this.spcPropertyInterface.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spcPropertyInterface)).EndInit();
             this.spcPropertyInterface.ResumeLayout(false);
-            this.tc_switchPropertyInterface.ResumeLayout(false);
-            this.tab_newInterface.ResumeLayout(false);
             this.box_general.ResumeLayout(false);
             this.box_general.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnToogleCollapseGeneral)).EndInit();
@@ -1711,7 +1679,6 @@ namespace SM64DSe
             ((System.ComponentModel.ISupportInitialize)(this.val_posZ)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_posY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.val_posX)).EndInit();
-            this.tab_tableInterface.ResumeLayout(false);
             this.tsEditActions.ResumeLayout(false);
             this.tsEditActions.PerformLayout();
             this.tsViewActions.ResumeLayout(false);
@@ -1808,8 +1775,6 @@ namespace SM64DSe
         private System.Windows.Forms.ToolStripButton btnRemoveAll;
         private System.Windows.Forms.Button btnCopyCoordinates;
         private System.Windows.Forms.Button btnPasteCoordinates;
-        private System.Windows.Forms.TabControl tc_switchPropertyInterface;
-        private System.Windows.Forms.TabPage tab_newInterface;
         private System.Windows.Forms.GroupBox box_parameters;
         private System.Windows.Forms.GroupBox box_rotation;
         private System.Windows.Forms.NumericUpDown val_rotX;
@@ -1822,8 +1787,6 @@ namespace SM64DSe
         private System.Windows.Forms.Label lbl_posY;
         private System.Windows.Forms.NumericUpDown val_posX;
         private System.Windows.Forms.Label lbl_posX;
-        private System.Windows.Forms.TabPage tab_tableInterface;
-        private System.Windows.Forms.PropertyGrid pgObjectProperties;
         private System.Windows.Forms.GroupBox box_fogSettings;
         private System.Windows.Forms.NumericUpDown val_b;
         private System.Windows.Forms.NumericUpDown val_g;
@@ -1853,5 +1816,6 @@ namespace SM64DSe
         private System.Windows.Forms.Panel box_color;
         private System.Windows.Forms.SplitContainer spcPropertyInterface;
         private System.Windows.Forms.ToolStripButton btnOffsetAllCoords;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
     }
 }
