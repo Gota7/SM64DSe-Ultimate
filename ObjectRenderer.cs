@@ -712,7 +712,7 @@ namespace SM64DSe
 
         public override void Render(RenderMode mode)
         {
-            const float s = 0.04f;
+            const float s = 0.02f;
             float halfWidth = m_XScale*0.5f;
             GL.Rotate(m_XRotation, 1f, 0f, 0f);
 
@@ -1082,6 +1082,8 @@ namespace SM64DSe
     {
         public FlPuzzleRenderer(int npart)
         {
+            if (npart > 13)
+                npart = 13;
             string filename = "data/special_obj/fl_puzzle/fl_14_" + npart.ToString("D2") + ".bmd";
             Construct(filename, 0.008f);
         }

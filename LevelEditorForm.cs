@@ -310,7 +310,6 @@ namespace SM64DSe
                 IEnumerable<LevelObject> objects;
                 if ((m_EditMode == EditMode.MODEL)&&(m_currentArea>-1))
                 {
-                    Console.WriteLine("Render area objects");
                     
                     objects = m_Level.m_LevelObjects.Values.
                         Where(obj => (ShowsForArea(obj, layer)));
@@ -318,7 +317,6 @@ namespace SM64DSe
                 }
                 else
                 {
-                    Console.WriteLine("Render all objects");
                     objects = m_Level.m_LevelObjects.Values.Where(obj => obj.m_Layer == layer);
                 }
                 foreach (LevelObject obj in objects)
@@ -494,7 +492,6 @@ namespace SM64DSe
 
         public void RefreshObjects(int layer)
         {
-            Console.WriteLine("RefreshLayer " + layer);
             AlignPathNodes();
 
             RenderObjectLists(RenderMode.Opaque, layer);
@@ -527,7 +524,6 @@ namespace SM64DSe
                         btnExportOtherModel.Visible = Properties.Settings.Default.UseSimpleModelAndCollisionMapImporters;
 
                         tvObjectList.Nodes.Add("model", "All Areas").Tag = -1;
-                        Console.WriteLine("currentArea: " + m_currentArea);
                         for (int i = 0; i<m_areaCount; i++)
                         {
                             TreeNode node = tvObjectList.Nodes.Add("model", "Area "+i);
@@ -2013,7 +2009,6 @@ namespace SM64DSe
             LevelObject obj = m_SelectedObject;
             RemoveObject(obj);
             RefreshObjects(obj.m_Layer);
-            Console.WriteLine("now select: "+m_nextObjectToSelect);
             m_SelectedObject = m_nextObjectToSelect;
 
             UpdateObjectForRawEditor();
@@ -2021,7 +2016,6 @@ namespace SM64DSe
             slStatusLabel.Text = "Object removed.";
 
             m_nextObjectToSelect = null;
-            Console.WriteLine("Selected is now: "+m_SelectedObject);
         }
 
         private void btnRemoveAll_Click(object sender, EventArgs e)
@@ -2720,7 +2714,6 @@ namespace SM64DSe
                 {
                     if (field.GetControl(this)==sender)
                     {
-                        //Console.WriteLine(field.m_pgFieldName);
                         //access Properties
                         PropertyTable ptable = m_SelectedObject.m_Properties;
 
@@ -2752,6 +2745,7 @@ namespace SM64DSe
                         {
                             return;
                         }
+                        UpdateParameterForRawEditor(propertyName,Convert.ToUInt16(newValue));
                     }
                 }
             } else
@@ -2824,6 +2818,12 @@ namespace SM64DSe
         {
             if (m_rawEditor!=null)
                 m_rawEditor.UpdateForObject(m_SelectedObject);
+        }
+
+        private void UpdateParameterForRawEditor(string name, ushort value)
+        {
+            if (m_rawEditor != null)
+                m_rawEditor.UpdateParameter(name, value);
         }
 
         public void initializePropertyInterface()
@@ -2902,7 +2902,6 @@ namespace SM64DSe
                 {
                     Control keep = box_parameters.Controls[0];
                     box_parameters.Controls.Clear();
-                    Console.WriteLine("Initialize Parameterfields");
                     box_parameters.Controls.Add(keep);
                     
                     foreach (ParameterField field in m_SelectedObject.m_ParameterFields)
@@ -2910,7 +2909,6 @@ namespace SM64DSe
                         PropertyTable ptable = m_SelectedObject.m_Properties;
                         object value = ptable[field.m_pgFieldName];
                         
-                        //Console.WriteLine(value.GetType());
                         Label label = field.GetLabel();
                         Control control = field.GetControl(this);
 

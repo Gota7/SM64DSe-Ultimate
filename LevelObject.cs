@@ -115,7 +115,6 @@ namespace SM64DSe
                 list[index++] = i;
                 list[index++] = strings[i];
             }
-            Console.WriteLine("List length: " + list.Length);
             return list;
         }
 
@@ -193,7 +192,6 @@ namespace SM64DSe
 
             m_Renderer = InitialiseRenderer();
             m_KCLName = InitializeKCL();
-            Console.WriteLine(m_KCLName);
             m_ParameterFields = ParameterField.ParameterFieldsForObject(this);
             m_Properties = new PropertyTable();
             GenerateProperties();
@@ -1871,7 +1869,6 @@ namespace SM64DSe
         }
 
         public override void setValue(object newValue) {
-            Console.WriteLine(newValue);
             Decimal maxVal = (Decimal)Math.Pow(2d, m_length);
             m_input.Value = Math.Min(Math.Max(0,Convert.ToDecimal(newValue)),maxVal);
         }
@@ -1916,7 +1913,6 @@ namespace SM64DSe
         public override void setValue(object value)
         {
             ushort newValue = Convert.ToUInt16(value);
-            Console.WriteLine(newValue);
 
             int index = m_valueList.IndexOf(newValue);
 
@@ -1984,7 +1980,6 @@ namespace SM64DSe
         
         public void setFloatValue(float newValue)
         {
-            Console.WriteLine(newValue);
             m_input.Value = (Decimal)newValue;
         }
 
@@ -2029,7 +2024,6 @@ namespace SM64DSe
 
         public override void setValue(object newValue)
         {
-            Console.WriteLine(newValue);
 
             Decimal covertedValue = Convert.ToDecimal(newValue) * (Decimal)(m_stepInFloat / m_stepInUshort);
 

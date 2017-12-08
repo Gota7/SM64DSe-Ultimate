@@ -15,11 +15,46 @@ namespace SM64DSe
         LevelEditorForm m_parent;
         bool m_displayInBinary;
 
+        RawUshortEdit m_parameter1Ctrl;
+        RawUshortEdit m_parameter2Ctrl;
+        RawUshortEdit m_parameter3Ctrl;
+        RawUshortEdit m_parameter4Ctrl;
+        RawUshortEdit m_parameter5Ctrl;
+        Label m_NothingCtrl;
+
         public RawEditorForm(LevelEditorForm levelEditor)
         {
             m_parent = levelEditor;
             m_displayInBinary = false;
             InitializeComponent();
+
+            //parameter 1
+            m_parameter1Ctrl = new RawUshortEdit(0, valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
+            m_parameter1Ctrl.MouseDown += DeselectOthers;
+            m_parameter1Ctrl.Tag = "Parameter 1";
+
+            //parameter 2
+            m_parameter2Ctrl = new RawUshortEdit(0, valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
+            m_parameter2Ctrl.MouseDown += DeselectOthers;
+            m_parameter2Ctrl.Tag = "Parameter 2";
+
+            //parameter 3
+            m_parameter3Ctrl = new RawUshortEdit(0, valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
+            m_parameter3Ctrl.MouseDown += DeselectOthers;
+            m_parameter3Ctrl.Tag = "Parameter 3";
+
+            //parameter 4
+            m_parameter4Ctrl = new RawUshortEdit(0, valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
+            m_parameter4Ctrl.MouseDown += DeselectOthers;
+            m_parameter4Ctrl.Tag = "Parameter 2";
+
+            //parameter 5
+            m_parameter5Ctrl = new RawUshortEdit(0, valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
+            m_parameter5Ctrl.MouseDown += DeselectOthers;
+            m_parameter5Ctrl.Tag = "Parameter 3";
+
+            //Noting
+            m_NothingCtrl = new Label() { Text = "No Raw Editing available for this Object", Width = 300 };
         }
 
         public void ShowForObject(LevelObject obj)
@@ -31,78 +66,71 @@ namespace SM64DSe
             UpdateForObject(obj);
         }
 
+        public void UpdateParameter(string name, ushort value)
+        {
+            foreach (Control ctrl in panControls.Controls)
+            {
+                if ((ctrl is RawUshortEdit) && ((string)ctrl.Tag == name))
+                    ((RawUshortEdit)ctrl).SetValue(value);
+            }
+        }
         public void UpdateForObject(LevelObject obj)
         {
+            Console.WriteLine("Refresh GUI");
             panControls.Controls.Clear();
-            Control ctrl;
 
             int nextSnapY = 7;
             if (obj is StandardObject)
             {
                 //Parameter 1
-                ctrl = new RawUshortEdit(obj.Parameters[0], valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
-                ctrl.MouseDown += DeselectOthers;
-                ctrl.Tag = "Parameter 1";
-                panControls.Controls.Add(ctrl);
-                nextSnapY = Helper.snapControlVertically(ctrl, nextSnapY) + 7;
+                panControls.Controls.Add(m_parameter1Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter1Ctrl, nextSnapY) + 7;
+                m_parameter1Ctrl.SetValue(obj.Parameters[0]);
 
                 //Parameter 2
-                ctrl = new RawUshortEdit(obj.Parameters[1], valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
-                ctrl.MouseDown += DeselectOthers;
-                panControls.Controls.Add(ctrl);
-                ctrl.Tag = "Parameter 2";
-                nextSnapY = Helper.snapControlVertically(ctrl, nextSnapY) + 7;
+                panControls.Controls.Add(m_parameter2Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter2Ctrl, nextSnapY) + 7;
+                m_parameter2Ctrl.SetValue(obj.Parameters[1]);
 
                 //Parameter 3
-                ctrl = new RawUshortEdit(obj.Parameters[2], valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
-                ctrl.MouseDown += DeselectOthers;
-                panControls.Controls.Add(ctrl);
-                ctrl.Tag = "Parameter 3";
-                nextSnapY = Helper.snapControlVertically(ctrl, nextSnapY) + 7;
+                panControls.Controls.Add(m_parameter3Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter3Ctrl, nextSnapY) + 7;
+                m_parameter3Ctrl.SetValue(obj.Parameters[2]);
             }
             else if (obj is SimpleObject)
             {
                 //Parameter 1
-                ctrl = new RawUshortEdit(obj.Parameters[0], valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
-                ctrl.MouseDown += DeselectOthers;
-                ctrl.Tag = "Parameter 1";
-                panControls.Controls.Add(ctrl);
-                nextSnapY = Helper.snapControlVertically(ctrl, nextSnapY) + 7;
+                panControls.Controls.Add(m_parameter1Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter1Ctrl, nextSnapY) + 7;
+                m_parameter1Ctrl.SetValue(obj.Parameters[0]);
             }
             else if (obj is PathObject)
             {
                 //Parameter 1
-                ctrl = new RawUshortEdit(obj.Parameters[2], valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
-                ctrl.MouseDown += DeselectOthers;
-                ctrl.Tag = "Parameter 3";
-                panControls.Controls.Add(ctrl);
-                nextSnapY = Helper.snapControlVertically(ctrl, nextSnapY) + 7;
+                panControls.Controls.Add(m_parameter3Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter3Ctrl, nextSnapY) + 7;
+                m_parameter3Ctrl.SetValue(obj.Parameters[2]);
 
                 //Parameter 2
-                ctrl = new RawUshortEdit(obj.Parameters[3], valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
-                ctrl.MouseDown += DeselectOthers;
-                panControls.Controls.Add(ctrl);
-                ctrl.Tag = "Parameter 4";
-                nextSnapY = Helper.snapControlVertically(ctrl, nextSnapY) + 7;
+                panControls.Controls.Add(m_parameter4Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter4Ctrl, nextSnapY) + 7;
+                m_parameter4Ctrl.SetValue(obj.Parameters[3]);
 
                 //Parameter 3
-                ctrl = new RawUshortEdit(obj.Parameters[4], valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
-                ctrl.MouseDown += DeselectOthers;
-                panControls.Controls.Add(ctrl);
-                ctrl.Tag = "Parameter 5";
-                nextSnapY = Helper.snapControlVertically(ctrl, nextSnapY) + 7;
+                panControls.Controls.Add(m_parameter5Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter5Ctrl, nextSnapY) + 7;
+                m_parameter5Ctrl.SetValue(obj.Parameters[4]);
             }
             else
             {
-                ctrl = new Label() { Text = "No Raw Editing available for this Object", Width = 300 };
-                panControls.Controls.Add(ctrl);
-                Helper.snapControlVertically(ctrl, nextSnapY);
+                
+                panControls.Controls.Add(m_NothingCtrl);
+                Helper.snapControlVertically(m_NothingCtrl, nextSnapY);
             }
         }
 
         private void DeselectOthers(object sender, MouseEventArgs e)
         {
-            Console.WriteLine("DeselectOthers");
             foreach (Control ctrl in panControls.Controls)
             {
                 if ((ctrl is RawUshortEdit) && (ctrl != sender))
@@ -172,12 +200,10 @@ namespace SM64DSe
             Console.WriteLine("Created");
             m_valueInput = valueInput;
             m_valueInput.ValueChanged += M_valueInput_ValueChanged;
-            m_valueToEdit = value;
-            m_inBinary = !displayBinary;//Quick workaround for the SetBinary to work
-            SetBinary(displayBinary);
+            m_inBinary = displayBinary;
             m_selectionStartIndex = -1;
             m_selectionEndIndex = 0;
-            m_settingValues = false;
+            SetValue(value);
         }
 
         private void M_valueInput_ValueChanged(object sender, EventArgs e)
@@ -189,7 +215,6 @@ namespace SM64DSe
         public void Deselect()
         {
             m_selectionStartIndex = -1;
-            //Console.WriteLine("Deselected");
             Refresh();
         }
 
@@ -205,7 +230,6 @@ namespace SM64DSe
             int selectionStart = m_selectionStartIndex;
             int selectionLength = (m_selectionEndIndex - m_selectionStartIndex) + 1;
             string stringValue = Convert.ToString(value, m_inBinary?2:16).PadLeft(selectionLength,'0');
-            //Console.WriteLine(stringValue);
             if (stringValue.Length<= selectionLength)
             {
                 string stringWithGap = m_stringRepresentation.Remove(selectionStart, selectionLength);
@@ -222,8 +246,49 @@ namespace SM64DSe
             return m_valueToEdit;
         }
 
+        public void SetValue(ushort value)
+        {
+            m_valueToEdit = value;
+            if (m_inBinary)
+            {
+                Width = 320;
+                Height = 20;
+                m_fieldWidth = 20;
+                m_stringRepresentation = Convert.ToString(m_valueToEdit, 2).PadLeft(16, '0');
+                if (m_selectionStartIndex != -1)
+                {
+                    int selectionStart = m_selectionStartIndex;
+                    int selectionLength = (m_selectionEndIndex - m_selectionStartIndex) + 1;
+                    m_settingValues = true; //prevent the valueChanged event
+
+                    m_valueInput.Value = Convert.ToUInt16(m_stringRepresentation.Substring(selectionStart, selectionLength), 2);
+
+                    m_settingValues = false;
+                }
+            }
+            else
+            {
+                Width = 160;
+                Height = 20;
+                m_fieldWidth = 40;
+                m_stringRepresentation = Convert.ToString(m_valueToEdit, 16).PadLeft(4, '0');
+                if (m_selectionStartIndex != -1)
+                {
+                    int selectionStart = m_selectionStartIndex;
+                    int selectionLength = (m_selectionEndIndex - m_selectionStartIndex) + 1;
+                    m_settingValues = true; //prevent the valueChanged event
+                    
+                    m_valueInput.Value = Convert.ToUInt16(m_stringRepresentation.Substring(selectionStart, selectionLength), 16);
+
+                    m_settingValues = false;
+                }
+            }
+            Refresh();
+        }
+
         public void SetBinary(bool value)
         {
+            Console.WriteLine("Set Binary");
             if (value == m_inBinary)
                 return;
             if (value)
@@ -274,7 +339,6 @@ namespace SM64DSe
             else
             {
                 m_valueToEdit = Convert.ToUInt16(m_stringRepresentation, 16);
-                Console.WriteLine("Value after insert: " + m_valueToEdit);
             }
         }
 
