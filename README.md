@@ -60,6 +60,7 @@ The .exe file is in bin/release
 -i fixed the one missing line of the Pole Renderer (i doubt anybody recognized, but it looks more right now)
 <br/>
 -btw. figured out a 4th parameter for Painting, its kind of a mode
+<<<<<<< HEAD
 
 <h4>Changes v1.4.1:</h4><br/>
 -i fixed some things regarding the new Raw Editor of 1.4
@@ -67,3 +68,5 @@ The .exe file is in bin/release
 -the exit area markers are a bit thinner now so selecting entrances will be easier in some cases
 <br/>
 -the bowser puzzle renderer wont crash anymore when setting the piece index too high
+=======
+>>>>>>> 503c8cc53318f3319d3a2d2a77b082f78e282f2d
