@@ -1800,6 +1800,28 @@ namespace SM64DSe
                             10,"Same as 2?"
                         }){ Name = "Type" }
                     };
+                case 15: //Goomba
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"Never",
+                            1,"Only if Player is unlocked",
+                            2,"Always",
+                            15,"Never"
+                        }){ Name = "Show Cap" },
+                        new ListField("Parameter 1",8,4,new object[]{
+                            0,"Nothing",
+                            1,"Silver-Star",
+                            2,"Nothing",
+                            15,"Nothing"
+                        }){ Name = "Spawns" },
+                        new ListField("Parameter 1",12,4,new object[]{
+                            15,"None",
+                            1,"For Mario",
+                            2,"For Luigi",
+                            3,"For Wario",
+                            15,"None"
+                        }){ Name = "Wears Cap" }
+                    };
                 default:
                     return new ParameterField[] { };
             }

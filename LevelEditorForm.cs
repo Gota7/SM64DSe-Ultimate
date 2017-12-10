@@ -52,12 +52,37 @@ namespace SM64DSe
         private Button btnOpenRawEditor = new Button();
         public RawEditorForm m_rawEditor;
 
-        private bool m_wasMinimized = false;
-
         private int m_areaCount = 1;
         private int m_currentArea = -1;
+        public bool[] m_levelModelDisplayFlags = new bool[] { true, true, false, false };
 
         public ToolTip defaultToolTip;
+
+        private System.Windows.Forms.Timer m_texAnimTimer;
+        private int m_texAnimFrame = 0;
+        private void InitTimer()
+        {
+            m_texAnimTimer = new System.Windows.Forms.Timer();
+            m_texAnimTimer.Interval = (int)(1000f / 30f);
+            m_texAnimTimer.Tick += new EventHandler(m_AnimationTimer_Tick);
+        }
+
+        private void StartTimer()
+        {
+            m_texAnimFrame = 0;
+            m_texAnimTimer.Start();
+        }
+
+        private void StopTimer()
+        {
+            m_texAnimTimer.Stop();
+        }
+
+        private void m_AnimationTimer_Tick(object sender, EventArgs e)
+        {
+            RenderLevelAreas(m_currentArea);
+            m_texAnimFrame++;
+        }
 
         private void LevelEditorForm_Load(object sender, EventArgs e)
         {
@@ -138,7 +163,8 @@ namespace SM64DSe
         public LevelEditorForm(NitroROM rom, int levelid)
         {
             InitializeComponent();
-            
+            InitTimer();
+
             btnOpenRawEditor.Text = "Raw Editor";
             btnOpenRawEditor.Click += btnOpenRawEditor_Click;
 
@@ -204,6 +230,12 @@ namespace SM64DSe
             glLevelView.Refresh();
         }
 
+        public void setDisplayFlag(int flag, bool value)
+        {
+            m_levelModelDisplayFlags[flag] = value;
+            RenderLevelAreas(m_currentArea);
+        }
+
         public void UpdateLevelModel()
         {
             if (m_LevelModel != null)
@@ -220,18 +252,38 @@ namespace SM64DSe
         {
             m_LevelModelDLs = new int[m_LevelModel.m_ModelChunks.Length, 3];
 
+            LevelTexAnim texAnim;
+
             for (int c = 0; c < m_LevelModel.m_ModelChunks.Length; c++)
             {
                 if ((area > -1) && (c != area))
                     continue;
                 m_LevelModelDLs[c, 0] = GL.GenLists(1);
                 GL.NewList(m_LevelModelDLs[c, 0], ListMode.Compile);
-                m_LevelModel.m_ModelChunks[c].Render(RenderMode.Opaque, 1.0f);
+                if (area == -1)
+                    m_LevelModel.m_ModelChunks[c].Render(RenderMode.Opaque, 1.0f, m_levelModelDisplayFlags);
+                else
+                {
+                    LevelTexAnim[] anims = m_Level.m_TexAnims.Where(obj => obj.m_Area == c).ToArray();
+                    if (anims.Length > 0)
+                        m_LevelModel.m_ModelChunks[c].Render(RenderMode.Opaque, 1.0f, m_levelModelDisplayFlags, anims[0], m_texAnimFrame);
+                    else
+                        m_LevelModel.m_ModelChunks[c].Render(RenderMode.Opaque, 1.0f, m_levelModelDisplayFlags);
+                }
                 GL.EndList();
 
                 m_LevelModelDLs[c, 1] = GL.GenLists(1);
                 GL.NewList(m_LevelModelDLs[c, 1], ListMode.Compile);
-                m_LevelModel.m_ModelChunks[c].Render(RenderMode.Translucent, 1.0f);
+                if (area == -1)
+                    m_LevelModel.m_ModelChunks[c].Render(RenderMode.Translucent, 1.0f, m_levelModelDisplayFlags);
+                else
+                {
+                    LevelTexAnim[] anims = m_Level.m_TexAnims.Where(obj => obj.m_Area == c).ToArray();
+                    if (anims.Length > 0)
+                        m_LevelModel.m_ModelChunks[c].Render(RenderMode.Translucent, 1.0f, m_levelModelDisplayFlags, anims[0], m_texAnimFrame);
+                    else
+                        m_LevelModel.m_ModelChunks[c].Render(RenderMode.Translucent, 1.0f, m_levelModelDisplayFlags);
+                }
                 GL.EndList();
 
                 m_LevelModelDLs[c, 2] = GL.GenLists(1);
@@ -1662,6 +1714,7 @@ namespace SM64DSe
         {
             // save confirmation goes here
             ReleaseModels();
+            StopTimer();
             Program.m_LevelEditors.Remove(this);
         }
 
@@ -1759,6 +1812,8 @@ namespace SM64DSe
 
             EditMode lastMode = m_EditMode;
             m_EditMode = (EditMode)int.Parse((string)btn.Tag);
+            if (m_EditMode != EditMode.MODEL)
+                StopTimer();
 
             for (int l = 0; l < 8; l++)
             {
@@ -1769,7 +1824,10 @@ namespace SM64DSe
                     {
                         RefreshObjects(0);
                         if (m_EditMode != EditMode.MODEL)
-                            RenderLevelAreas(-1);
+                        {
+                            m_currentArea = -1;
+                            RenderLevelAreas(m_currentArea);
+                        }
                     }
                 }
                 else
@@ -1902,6 +1960,13 @@ namespace SM64DSe
                 RenderLevelAreas(m_currentArea);
                 RefreshObjects(m_AuxLayerNum);
                 RefreshObjects(0);
+                if (m_currentArea > -1)
+                {
+                    Console.WriteLine("Start Animation");
+                    StartTimer();
+                }
+                else
+                    StopTimer();
                 return;
             }
             if (e.Node.Tag == null)
@@ -2132,9 +2197,6 @@ namespace SM64DSe
                     btnRemoveSel.PerformClick(); // quick cheat
             }
 
-            if (e.KeyCode == Keys.Q)
-                btnLOL.PerformClick();
-
             // Front, side, top, left, back, and bottom views
             if (e.Alt)
             {
@@ -2227,13 +2289,6 @@ namespace SM64DSe
             string filename = "level" + m_LevelID.ToString() + "_overlay.bin";
             System.IO.File.WriteAllBytes(filename, ovl.m_Data);
             slStatusLabel.Text = "Level overlay dumped to " + filename;
-        }
-
-        private void btnLOL_Click(object sender, EventArgs e)
-        {
-            lol++;
-            if (lol >= KCL.OctreeNode.m_List.Count) lol = 0;
-            glLevelView.Refresh();
         }
 
         private void btnEditMinimap_Click(object sender, EventArgs e)
@@ -3036,6 +3091,11 @@ namespace SM64DSe
             {
                 val_objectId.Value = dlg.ObjectID;
             }
+        }
+        
+        private void btnOpenDisplayOptions_Click(object sender, EventArgs e)
+        {
+            new LevelDisplaySettingsForm(this).Show(this);
         }
 
         private void btnOpenRawEditor_Click(object sender, EventArgs e)

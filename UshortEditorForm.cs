@@ -165,12 +165,12 @@ namespace SM64DSe
             if (valueInput.Hexadecimal)
             {
                 valueInput.Hexadecimal = false;
-                btnToogleHex.Text = "Dec";
+                btnToogleHex.Text = "Hex";
             }
             else
             {
                 valueInput.Hexadecimal = true;
-                btnToogleHex.Text = "Hex";
+                btnToogleHex.Text = "Dec";
             }
         }
     }
