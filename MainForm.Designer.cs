@@ -56,6 +56,7 @@
             this.mnitToolsBTPEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.mnitToolsTextEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.mnitToolsSoundBrowser = new System.Windows.Forms.ToolStripMenuItem();
+            this.bMDKLCEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnitToolsImageEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.sfdSaveFile = new System.Windows.Forms.SaveFileDialog();
@@ -65,6 +66,8 @@
             this.tbcMainFormTabControl = new System.Windows.Forms.TabControl();
             this.tbpLevels = new System.Windows.Forms.TabPage();
             this.splitContainerLevels = new System.Windows.Forms.SplitContainer();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.cbLevelListDisplay = new System.Windows.Forms.ComboBox();
             this.lbxLevels = new System.Windows.Forms.ListBox();
             this.btnEditCollisionMap = new System.Windows.Forms.Button();
             this.btnEditLevel = new System.Windows.Forms.Button();
@@ -298,7 +301,8 @@
             this.mnitToolsModelAnimationEditor,
             this.mnitToolsBTPEditor,
             this.mnitToolsTextEditor,
-            this.mnitToolsSoundBrowser});
+            this.mnitToolsSoundBrowser,
+            this.bMDKLCEditorToolStripMenuItem});
             this.btnTools.Enabled = false;
             this.btnTools.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnTools.Name = "btnTools";
@@ -346,6 +350,13 @@
             this.mnitToolsSoundBrowser.Size = new System.Drawing.Size(256, 22);
             this.mnitToolsSoundBrowser.Text = "Sound Browser";
             this.mnitToolsSoundBrowser.Click += new System.EventHandler(this.mnitToolsSoundBrowser_Click);
+            // 
+            // bMDKLCEditorToolStripMenuItem
+            // 
+            this.bMDKLCEditorToolStripMenuItem.Name = "bMDKLCEditorToolStripMenuItem";
+            this.bMDKLCEditorToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.bMDKLCEditorToolStripMenuItem.Text = "BMD/KLC Editor";
+            this.bMDKLCEditorToolStripMenuItem.Click += new System.EventHandler(this.bMDKLCEditorToolStripMenuItem_Click);
             // 
             // mnitToolsImageEditor
             // 
@@ -425,6 +436,8 @@
             // 
             // splitContainerLevels.Panel1
             // 
+            this.splitContainerLevels.Panel1.Controls.Add(this.btnRefresh);
+            this.splitContainerLevels.Panel1.Controls.Add(this.cbLevelListDisplay);
             this.splitContainerLevels.Panel1.Controls.Add(this.lbxLevels);
             // 
             // splitContainerLevels.Panel2
@@ -432,18 +445,49 @@
             this.splitContainerLevels.Panel2.Controls.Add(this.btnEditCollisionMap);
             this.splitContainerLevels.Panel2.Controls.Add(this.btnEditLevel);
             this.splitContainerLevels.Size = new System.Drawing.Size(494, 353);
-            this.splitContainerLevels.SplitterDistance = 322;
+            this.splitContainerLevels.SplitterDistance = 324;
             this.splitContainerLevels.TabIndex = 0;
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.AllowDrop = true;
+            this.btnRefresh.Enabled = false;
+            this.btnRefresh.Location = new System.Drawing.Point(203, 0);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(75, 21);
+            this.btnRefresh.TabIndex = 4;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // cbLevelListDisplay
+            // 
+            this.cbLevelListDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbLevelListDisplay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLevelListDisplay.Enabled = false;
+            this.cbLevelListDisplay.FormattingEnabled = true;
+            this.cbLevelListDisplay.Items.AddRange(new object[] {
+            "Default",
+            "Id+Internal Name",
+            "ShortDefault+InternalString",
+            "Optimized Internal String"});
+            this.cbLevelListDisplay.Location = new System.Drawing.Point(284, 0);
+            this.cbLevelListDisplay.Name = "cbLevelListDisplay";
+            this.cbLevelListDisplay.Size = new System.Drawing.Size(205, 21);
+            this.cbLevelListDisplay.TabIndex = 3;
+            this.cbLevelListDisplay.SelectedIndexChanged += new System.EventHandler(this.cbLevelListDisplay_SelectedIndexChanged);
             // 
             // lbxLevels
             // 
-            this.lbxLevels.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbxLevels.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbxLevels.FormattingEnabled = true;
             this.lbxLevels.IntegralHeight = false;
-            this.lbxLevels.Location = new System.Drawing.Point(0, 0);
+            this.lbxLevels.Location = new System.Drawing.Point(0, 24);
             this.lbxLevels.Margin = new System.Windows.Forms.Padding(0);
             this.lbxLevels.Name = "lbxLevels";
-            this.lbxLevels.Size = new System.Drawing.Size(494, 322);
+            this.lbxLevels.Size = new System.Drawing.Size(489, 300);
             this.lbxLevels.TabIndex = 2;
             this.lbxLevels.SelectedIndexChanged += new System.EventHandler(this.lbxLevels_SelectedIndexChanged);
             this.lbxLevels.DoubleClick += new System.EventHandler(this.lbxLevels_DoubleClick);
@@ -758,7 +802,6 @@
         private System.Windows.Forms.TreeView tvARM9Overlays;
         private System.Windows.Forms.ToolStripMenuItem mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainerLevels;
-        private System.Windows.Forms.ListBox lbxLevels;
         private System.Windows.Forms.Button btnEditCollisionMap;
         private System.Windows.Forms.Button btnEditLevel;
         private System.Windows.Forms.ToolStripDropDownButton btnTools;
@@ -776,6 +819,10 @@
         private System.Windows.Forms.ToolStripMenuItem mnitASMHackingGeneration;
         private System.Windows.Forms.ToolStripMenuItem platformEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator tssASMHacking001;
+        private System.Windows.Forms.ToolStripMenuItem bMDKLCEditorToolStripMenuItem;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.ComboBox cbLevelListDisplay;
+        private System.Windows.Forms.ListBox lbxLevels;
     }
 }
 

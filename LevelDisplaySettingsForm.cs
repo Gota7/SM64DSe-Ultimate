@@ -20,6 +20,8 @@ namespace SM64DSe
             checkVtxColors.Checked = m_parent.m_levelModelDisplayFlags[1];
             checkWireframe.Checked = m_parent.m_levelModelDisplayFlags[2];
             checkPolylistTypes.Checked = m_parent.m_levelModelDisplayFlags[3];
+            valFarClipping.Value = m_parent.GetFarClipping();
+            valFOV.Value = m_parent.GetFOVangle();
         }
 
         private void checkTextures_Click(object sender, EventArgs e)
@@ -44,6 +46,43 @@ namespace SM64DSe
         {
             CheckBox check = (CheckBox)sender;
             m_parent.setDisplayFlag(3, check.Checked);
+        }
+
+        private void PerspectiveBtn_Click(object sender, EventArgs e)
+        {
+            
+            if (sender == btnTop)
+                    m_parent.ChangePerspective((float)Math.PI / 2,(float)Math.PI / 2);
+
+            else if(sender == btnBottom)
+                m_parent.ChangePerspective((float)Math.PI / 2, -(float)Math.PI / 2);
+
+            else if (sender == btnLeft)
+                m_parent.ChangePerspective((float)Math.PI, 0);
+
+            else if (sender == btnRight)
+                m_parent.ChangePerspective(0, 0);
+
+            else if(sender == btnFront)
+                m_parent.ChangePerspective((float)Math.PI / 2,0);
+
+            else if(sender == btnBack)
+                m_parent.ChangePerspective(-(float)Math.PI / 2,0);
+        }
+
+        private void valFarClipping_ValueChanged(object sender, EventArgs e)
+        {
+            m_parent.SetFarClipping((int)valFarClipping.Value);
+        }
+
+        private void valFOV_ValueChanged(object sender, EventArgs e)
+        {
+            m_parent.SetFOV((int)valFOV.Value);
+        }
+
+        private void btnToogleOrtho_Click(object sender, EventArgs e)
+        {
+            m_parent.ToogleOrtho();
         }
     }
 }

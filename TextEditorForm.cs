@@ -321,7 +321,7 @@ namespace SM64DSe
             return encodedString;
         }
 
-        private static void LoadCharList(string txtName, BiDictionaryOneToOne<byte, string> charList,
+        public static void LoadCharList(string txtName, BiDictionaryOneToOne<byte, string> charList,
             Dictionary<string, uint> sizeList)
         {
             string filename = Path.Combine(Application.StartupPath, txtName);
@@ -376,6 +376,7 @@ namespace SM64DSe
             int index = lbxMsgList.SelectedIndex;
             ReadStrings("data/message/msg_data_" + langNames[langIndex] + ".bin");//Reload texts after saving
             lbxMsgList.SelectedIndex = index;
+            Program.m_ROM.UpdateStrings();
         }
 
         private void UpdateEntries(String msg, int index)

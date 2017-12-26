@@ -78,3 +78,12 @@ The .exe file is in bin/release
 -swapped hex dec for ushort, just realized that they are wrong
 <br>
 -single areas in the 3d model tab now show their texture animation
+
+<h4>Changes v1.6</h4><br>
+-you can choose if you want to see the actual Level Names in the levellist, pretty usefull if you can't remember where you put your levels
+<br/>
+-hovering over an act in the in the actbar (at the top of the level editor) tells you the mission title if availible
+<br/>
+-there are some more functions for the level display settings (including: perspectives, view distance and FOV(EXPERIMENTAL))
+<br/>
+-there is a completely new texture animation editor, editing and creating textures has never been easier, it has a UV preview, a texture preview, a timeline and support for KEYFRAMES!

@@ -136,5 +136,8 @@ Z:\nds hacking\my own SM64DSe 2.3.5\bin\Release\SM64DSe.pdb
 Z:\nds hacking\my own SM64DSe 2.3.5\obj\Release\SM64DSe.RawEditorForm.resources
 Z:\nds hacking\my own SM64DSe 2.3.5\bin\Release\Xceed.Wpf.AvalonDock.dll
 Z:\nds hacking\my own SM64DSe 2.3.5\bin\Release\Xceed.Wpf.AvalonDock.pdb
-Z:\nds hacking\my own SM64DSe 2.3.5\obj\Release\SM64DSe.csprojResolveAssemblyReference.cache
 Z:\nds hacking\my own SM64DSe 2.3.5\obj\Release\SM64DSe.LevelDisplaySettingsForm.resources
+Z:\nds hacking\my own SM64DSe 2.3.5\obj\Release\SM64DSe.BMD_KLC_Editor.resources
+Z:\nds hacking\my own SM64DSe 2.3.5\obj\Release\SM64DSe.SM64DSFormats.BetterTextureAnimationEditor.resources
+Z:\nds hacking\my own SM64DSe 2.3.5\obj\Release\SM64DSe.csprojResolveAssemblyReference.cache
+Z:\nds hacking\my own SM64DSe 2.3.5\obj\Release\SM64DSe.SM64DSFormats.CreateNewLevelAnimationDialog.resources

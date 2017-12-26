@@ -111,9 +111,12 @@ namespace SM64DSe.ImportExport.Loaders.InternalLoaders
                         byte value = (byte)(lights >> i);
                         material.m_Lights[i] = (value == 1);
                     }
-
+                    Console.WriteLine("Materials Start");
                     if (!m_Model.m_Materials.ContainsKey(material.m_ID))
+                    {
                         m_Model.m_Materials.Add(material.m_ID, material);
+                    }
+                    Console.WriteLine("Materials End");
 
                     if (!bone.m_MaterialsInBranch.Contains(matgroup.m_Name))
                     {

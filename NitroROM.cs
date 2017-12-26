@@ -33,6 +33,8 @@ namespace SM64DSe
     {
         const int ROM_END_MARGIN = 0x88;
 
+        string[] m_MsgData;
+
         public NitroROM(string path)
         {
             m_Path = path;
@@ -221,6 +223,8 @@ namespace SM64DSe
 	        }
         	
 	        EndRW();
+
+            UpdateStrings();
         }
 
         public void LoadTables()
@@ -358,6 +362,149 @@ namespace SM64DSe
             }
 
             return new NitroFile(this, m_FileTable[intid]);
+        }
+
+        public String GetInternalLevelNameFromID(int id)
+        {
+            ushort actSelectID = GetActSelectorIdByLevelID(id);
+            
+            return NameForActSelectID(actSelectID);
+        }
+
+        public ushort GetActSelectorIdByLevelID(int id)
+        {
+            BeginRW();
+            ushort actSelectID = Read8((uint)(Helper.GetActSelectorIDTableAddress() + id));
+            EndRW();
+            return actSelectID;
+        }
+
+        public String GetActDescription(int levelID, int actID)
+        {
+            int actSelectId = GetActSelectorIdByLevelID(levelID);
+            if (actSelectId < 16)
+                return m_MsgData[0x1B4 + actSelectId * 7 + actID];
+            return "Star"+ (actID+1);
+        }
+
+        public String NameForActSelectID(int actSelectID)
+        {
+            if (actSelectID < 29)
+            {
+                try
+                {
+                    return m_MsgData[0x196 + actSelectID];
+                }
+                catch (Exception)
+                {
+                    return "Name not Found";
+                }
+            }
+            if (actSelectID == 29)
+            {
+                return "Hub";
+            }
+            if (actSelectID == 255)
+            {
+                return "Test Map";
+            }
+            return actSelectID.ToString();
+        }
+
+        public void UpdateStrings()
+        {
+            NitroFile msgFile;
+            try
+            {
+                msgFile = GetFileFromName("data/message/msg_data_nes.bin");
+                Console.WriteLine(" !Any Other!");
+            }
+            catch (Exception)
+            {
+                try
+                {
+                    msgFile = GetFileFromName("data/message/msg_data_eng.bin");
+                    Console.WriteLine(" !European!");
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine(" !Not Supported!");
+                    return;
+                }
+            }
+            BiDictionaryOneToOne<byte, string> BASIC_EUR_US_CHARS = new BiDictionaryOneToOne<byte, string>();
+            Dictionary<string, uint> BASIC_EUR_US_SIZES = new Dictionary<string, uint>();
+
+            TextEditorForm.LoadCharList("basic_eur_us_chars.txt", BASIC_EUR_US_CHARS, BASIC_EUR_US_SIZES);
+
+            // Most of this is copied from TextEditorForm.ReadStrings()!
+
+            uint inf1size = msgFile.Read32(0x24);
+            ushort numentries = msgFile.Read16(0x28);
+
+            m_MsgData = new string[numentries];
+            
+            for (int i = 0; i < m_MsgData.Length; i++)
+            {
+                uint straddr = msgFile.Read32((uint)(0x30 + i * 8));
+                straddr += 0x20 + inf1size + 0x8;
+
+                int length = 0;
+
+                string thetext = "";
+                for (; ; )
+                {
+                    byte cur;
+                    try
+                    {
+                        cur = msgFile.Read8(straddr);
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                    straddr++;
+                    length++;
+                    char thechar = '\0';
+                    
+                        if ((cur >= 0x00 && cur <= 0x4F) || (cur >= 0xEE && cur <= 0xFB))
+                        {
+                            thetext += BASIC_EUR_US_CHARS.GetByFirst(cur);
+                            straddr += (BASIC_EUR_US_SIZES[BASIC_EUR_US_CHARS.GetByFirst(cur)] - 1);
+                            //length += (int)(BASIC_EUR_US_SIZES[BASIC_EUR_US_CHARS.GetByFirst(cur)] - 1);
+                        }
+                        //I don't care about these for now
+                        /*
+                        else if (cur >= 0x50 && cur <= 0xCF)
+                        {
+                            thetext += EXTENDED_ASCII_CHARS.GetByFirst(cur);
+                            straddr += (EXTENDED_ASCII_SIZES[EXTENDED_ASCII_CHARS.GetByFirst(cur)] - 1);
+                            length += (int)(EXTENDED_ASCII_SIZES[EXTENDED_ASCII_CHARS.GetByFirst(cur)] - 1);
+                        }
+                        */
+
+                    if (thechar != '\0')
+                        thetext += thechar;
+                    else if (cur == 0xFD)
+                        thetext += "\r\n";
+                    else if (cur == 0xFF)
+                        break;
+                    else if (cur == 0xFE)// Special Character
+                    {
+                        int len = msgFile.Read8(straddr);
+                        thetext += "[\\r]";
+                        thetext += String.Format("{0:X2}", cur);
+                        for (int spec = 0; spec < len - 1; spec++)
+                        {
+                            thetext += String.Format("{0:X2}", msgFile.Read8((uint)(straddr + spec)));
+                        }
+                        //length += (len - 1);// Already increased by 1 at start
+                        straddr += (uint)(len - 1);
+                    }
+                }
+
+                m_MsgData[i] = thetext;
+            }
         }
 
         public string GetFileNameFromID(ushort id)

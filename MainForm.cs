@@ -45,8 +45,7 @@ namespace SM64DSe
                 while (Program.m_LevelEditors.Count > 0)
                     Program.m_LevelEditors[0].Close();
 
-                lbxLevels.Items.Clear();
-
+                
                 Program.m_ROM.EndRW();
             }
 
@@ -122,7 +121,13 @@ namespace SM64DSe
 
             // Program.m_ShaderCache = new ShaderCache();
 
-            lbxLevels.Items.AddRange(Strings.LevelNames);
+            btnRefresh.Enabled = true;
+            cbLevelListDisplay.Enabled = true;
+
+            if (cbLevelListDisplay.SelectedIndex == -1)
+                cbLevelListDisplay.SelectedIndex = 0;
+            else
+                btnRefresh.PerformClick();
 
             this.tvFileList.Nodes.Clear();
             ROMFileSelect.LoadFileList(this.tvFileList);
@@ -635,6 +640,101 @@ namespace SM64DSe
         private void platformEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new Templates.PlatformTemplateForm().Show();
+        }
+
+        private void bMDKLCEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ROMFileSelect rfs = new ROMFileSelect("Select a BMD or KLC file",new string[] { ".bmd", ".klc" });
+            if (rfs.ShowDialog(this) == DialogResult.OK)
+            {
+                new BMD_KLC_Editor(rfs.m_SelectedFile).Show();
+            }
+
+
+        }
+
+        private void cbLevelListDisplay_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnRefresh.PerformClick();
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            lbxLevels.Items.Clear();
+
+            int i = 0;
+            if (cbLevelListDisplay.SelectedIndex == 0)
+            {
+                foreach (String lvlName in Strings.LevelNames)
+                {
+                    lbxLevels.Items.Add(lvlName);
+                    i++;
+                }
+            } else if (cbLevelListDisplay.SelectedIndex == 1)
+            {
+                foreach (String lvlName in Strings.ShortLvlNames)
+                {
+                    lbxLevels.Items.Add(i + "\t[" + Program.m_ROM.GetInternalLevelNameFromID(i) + "]");
+                    i++;
+                }
+            } else if (cbLevelListDisplay.SelectedIndex == 2)
+            {
+                foreach (String lvlName in Strings.ShortLvlNames)
+                {
+                    lbxLevels.Items.Add(lvlName + " [" + Program.m_ROM.GetInternalLevelNameFromID(i) + "]");
+                    i++;
+                }
+            } else {
+                int hubCounter = 1;
+                foreach (String lvlName in Strings.ShortLvlNames)
+                {
+                    ushort selectorId = Program.m_ROM.GetActSelectorIdByLevelID(i);
+                    String lvlString = "";
+                    if (selectorId < 29)
+                    {
+                        lvlString = Program.m_ROM.GetInternalLevelNameFromID(i);
+                        while (lvlString.StartsWith(" "))
+                            lvlString = lvlString.Remove(0, 1);
+
+                        if (selectorId < 16)
+                        {
+                            if (lvlString.StartsWith((selectorId + 1).ToString()))
+                                lvlString = lvlString.Remove(0, selectorId.ToString().Length + 1);
+                        }
+                        while (lvlString.StartsWith(" "))
+                            lvlString = lvlString.Remove(0, 1);
+
+
+                        String optimizedLvlString = "";
+                        char lastChar = ' ';
+                        foreach(char c in lvlString)
+                        {
+                            string letter = c.ToString();
+                            if (lastChar == ' ')
+                                optimizedLvlString = optimizedLvlString + letter.ToUpper();
+                            else
+                                optimizedLvlString = optimizedLvlString + letter.ToLower();
+                            lastChar = c;
+                        }
+                        lvlString = optimizedLvlString;
+                    }
+                    else if (selectorId == 29)
+                    {
+                        lvlString = "Part " + hubCounter + " of the Hubworld";
+                        hubCounter++;
+                    }
+                    else if (selectorId == 255)
+                    {
+                        lvlString = "TestMap";
+                    }
+                    else
+                    {
+                        lvlString = "Cant find a Levelname for ActSelectorID " + i;
+                    }
+                    lbxLevels.Items.Add(lvlString);
+                    i++;
+                }
+            }
         }
     }
 }

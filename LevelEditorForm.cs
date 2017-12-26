@@ -70,12 +70,14 @@ namespace SM64DSe
         private void StartTimer()
         {
             m_texAnimFrame = 0;
+            m_texAnimTimer.Enabled = true;
             m_texAnimTimer.Start();
         }
 
         private void StopTimer()
         {
             m_texAnimTimer.Stop();
+            m_texAnimTimer.Enabled = false;
         }
 
         private void m_AnimationTimer_Tick(object sender, EventArgs e)
@@ -105,20 +107,6 @@ namespace SM64DSe
             defaultToolTip.SetToolTip(this.val_r, "The Fogs red Color Value");
             defaultToolTip.SetToolTip(this.val_g, "The Fogs green Color Value");
             defaultToolTip.SetToolTip(this.val_b, "The Fogs blue Color Value");
-        }
-
-        private void ClampRotation(ref float val, float twopi)
-        {
-            if (val > twopi)
-            {
-                while (val > twopi)
-                    val -= twopi;
-            }
-            else if (val < -twopi)
-            {
-                while (val < -twopi)
-                    val += twopi;
-            }
         }
 
         private bool IsSimpleObject(ushort id)
@@ -168,7 +156,7 @@ namespace SM64DSe
             btnOpenRawEditor.Text = "Raw Editor";
             btnOpenRawEditor.Click += btnOpenRawEditor_Click;
 
-            this.Text = string.Format("[{0}] {1} - {2} {3}", levelid, Strings.LevelNames[levelid], Program.AppTitle, Program.AppVersion);
+            this.Text = string.Format("[{0}] {1} [{2}] - {3} {4}", levelid, Strings.LevelNames[levelid], Program.m_ROM.GetInternalLevelNameFromID(levelid), Program.AppTitle, Program.AppVersion);
             
             m_MouseDown = MouseButtons.None;
 
@@ -179,6 +167,13 @@ namespace SM64DSe
 
             btnStar1.Checked = true;
             btnStarAll.Checked = true;
+            btnStar1.ToolTipText = Program.m_ROM.GetActDescription(levelid, 0);
+            btnStar2.ToolTipText = Program.m_ROM.GetActDescription(levelid, 1);
+            btnStar3.ToolTipText = Program.m_ROM.GetActDescription(levelid, 2);
+            btnStar4.ToolTipText = Program.m_ROM.GetActDescription(levelid, 3);
+            btnStar5.ToolTipText = Program.m_ROM.GetActDescription(levelid, 4);
+            btnStar6.ToolTipText = Program.m_ROM.GetActDescription(levelid, 5);
+            btnStar7.ToolTipText = Program.m_ROM.GetActDescription(levelid, 6);
             m_ShowCommonLayer = true;
             m_AuxLayerNum = 1;
             btnEditObjects.Checked = true;
@@ -930,8 +925,8 @@ namespace SM64DSe
         private bool m_GLLoaded;
 
         private const float k_zNear = 0.01f;
-        private const float k_zFar = 1000f;
-        private const float k_FOV = (float)(70f * Math.PI) / 180f;
+        private float m_zFar = 1000f;
+        private float m_FOV = (float)(70f * Math.PI) / 180f;
 
         private Vector2 m_CamRotation;
         private Vector3 m_CamTarget;
@@ -968,7 +963,7 @@ namespace SM64DSe
         private bool m_ShiftPressed;
 
         private BMD m_SkyboxModel;
-        private BMD m_LevelModel;
+        public BMD m_LevelModel;
         private KCL m_LevelCollMap;
 
         private int m_SkyboxDL;
@@ -1032,7 +1027,7 @@ namespace SM64DSe
             m_AspectRatio = (float)glLevelView.Width / (float)glLevelView.Height;
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            Matrix4 projmtx = Matrix4.CreatePerspectiveFieldOfView(k_FOV, m_AspectRatio, k_zNear, k_zFar);
+            Matrix4 projmtx = Matrix4.CreatePerspectiveFieldOfView(m_FOV, m_AspectRatio, k_zNear, m_zFar);
             GL.MultMatrix(ref projmtx);
 
             GL.Enable(EnableCap.DepthTest);
@@ -1062,8 +1057,8 @@ namespace SM64DSe
             m_CamDistance = 1.0f;//6.5f;
             UpdateCamera();
 
-            m_PixelFactorX = ((2f * (float)Math.Tan(k_FOV / 2f) * m_AspectRatio) / (float)(glLevelView.Width));
-            m_PixelFactorY = ((2f * (float)Math.Tan(k_FOV / 2f)) / (float)(glLevelView.Height));
+            m_PixelFactorX = ((2f * (float)Math.Tan(m_FOV / 2f) * m_AspectRatio) / (float)(glLevelView.Width));
+            m_PixelFactorY = ((2f * (float)Math.Tan(m_FOV / 2f)) / (float)(glLevelView.Height));
 
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
@@ -1113,11 +1108,11 @@ namespace SM64DSe
 
             m_AspectRatio = (float)glLevelView.Width / (float)glLevelView.Height;
             GL.MatrixMode(MatrixMode.Projection);
-            Matrix4 projmtx = Matrix4.CreatePerspectiveFieldOfView(k_FOV, m_AspectRatio, k_zNear, k_zFar);
+            Matrix4 projmtx = Matrix4.CreatePerspectiveFieldOfView(m_FOV, m_AspectRatio, k_zNear, m_zFar);
             GL.LoadMatrix(ref projmtx);
 
-            m_PixelFactorX = ((2f * (float)Math.Tan(k_FOV / 2f) * m_AspectRatio) / (float)(glLevelView.Width));
-            m_PixelFactorY = ((2f * (float)Math.Tan(k_FOV / 2f)) / (float)(glLevelView.Height));
+            m_PixelFactorX = ((2f * (float)Math.Tan(m_FOV / 2f) * m_AspectRatio) / (float)(glLevelView.Width));
+            m_PixelFactorY = ((2f * (float)Math.Tan(m_FOV / 2f)) / (float)(glLevelView.Height));
         }
 
         int lol = 0;
@@ -1129,8 +1124,8 @@ namespace SM64DSe
             
             // lol temporary
             GL.MatrixMode(MatrixMode.Projection);
-            Matrix4 projmtx = (!m_OrthView) ? Matrix4.CreatePerspectiveFieldOfView(k_FOV, m_AspectRatio, k_zNear, k_zFar) : 
-                Matrix4.CreateOrthographic(m_OrthZoom, m_OrthZoom / m_AspectRatio, k_zNear, k_zFar);
+            Matrix4 projmtx = (!m_OrthView) ? Matrix4.CreatePerspectiveFieldOfView(m_FOV, m_AspectRatio, k_zNear, m_zFar) : 
+                Matrix4.CreateOrthographic(m_OrthZoom, m_OrthZoom / m_AspectRatio, k_zNear, m_zFar);
             GL.LoadMatrix(ref projmtx);
 
             // Pass 1 - picking mode rendering (render stuff with fake colors that identify objects)
@@ -1157,7 +1152,7 @@ namespace SM64DSe
 
             GL.Flush();
             GL.ReadPixels(m_MouseCoords.X, glLevelView.Height - m_MouseCoords.Y, 1, 1, PixelFormat.DepthComponent, PixelType.Float, ref m_PickingModelDepth);
-            m_PickingModelDepth = -(k_zFar * k_zNear / (m_PickingModelDepth * (k_zFar - k_zNear) - k_zFar));
+            m_PickingModelDepth = -(m_zFar * k_zNear / (m_PickingModelDepth * (m_zFar - k_zNear) - m_zFar));
 
             if (m_ShowCommonLayer) GL.CallList(m_ObjectDLs[0, 2]);
             if (m_AuxLayerNum > 0) GL.CallList(m_ObjectDLs[m_AuxLayerNum, 2]);
@@ -1167,7 +1162,7 @@ namespace SM64DSe
 
             // depth math from http://www.opengl.org/resources/faq/technical/depthbuffer.htm
             GL.ReadPixels(m_MouseCoords.X, glLevelView.Height - m_MouseCoords.Y, 1, 1, PixelFormat.DepthComponent, PixelType.Float, ref m_PickingDepth);
-            m_PickingDepth = -(k_zFar * k_zNear / (m_PickingDepth * (k_zFar - k_zNear) - k_zFar));
+            m_PickingDepth = -(m_zFar * k_zNear / (m_PickingDepth * (m_zFar - k_zNear) - m_zFar));
 
             // Pass 2 - real rendering
 
@@ -1288,7 +1283,7 @@ namespace SM64DSe
                 if (m_RestrPlaneEnabled)
                 {
                     Vector3 start = Get3DCoords(e.Location, k_zNear);
-                    Vector3 dir = Get3DCoords(e.Location, k_zFar) - Get3DCoords(e.Location, k_zNear);
+                    Vector3 dir = Get3DCoords(e.Location, m_zFar) - Get3DCoords(e.Location, k_zNear);
                     Vector3? hit = null;
 
                     //Snap to restriction plane
@@ -1306,7 +1301,7 @@ namespace SM64DSe
                 {
                     //Try to snap the object to the ground
                     KCL.RaycastResult? hit = TotalKCLRaycast(Get3DCoords(e.Location, k_zNear),
-                    Get3DCoords(e.Location, k_zFar) - Get3DCoords(e.Location, k_zNear));
+                    Get3DCoords(e.Location, m_zFar) - Get3DCoords(e.Location, k_zNear));
                     obj.Position = (hit != null) ? ((KCL.RaycastResult)hit).m_Point : Get3DCoords(e.Location, 2.0f);
                 }
 
@@ -1478,8 +1473,8 @@ namespace SM64DSe
                         //m_CamRotation.X -= (float)Math.Tan((xdelta * m_PixelFactorX) / m_PickingDepth);//xdelta * m_PixelFactorX * m_PickingDepth;
                         //m_CamRotation.Y -= ydelta * m_PixelFactorY * m_PickingDepth;
 
-                        ClampRotation(ref m_CamRotation.X, (float)Math.PI * 2.0f);
-                        ClampRotation(ref m_CamRotation.Y, (float)Math.PI * 2.0f);
+                        Helper.ClampRotation(ref m_CamRotation.X);
+                        Helper.ClampRotation(ref m_CamRotation.Y);
                     }
                     else if (m_MouseDown == MouseButtons.Left)
                     {
@@ -1556,7 +1551,7 @@ namespace SM64DSe
                         if (m_RestrPlaneEnabled)
                         {
                             Vector3 start = Get3DCoords(e.Location, k_zNear);
-                            Vector3 dir = Get3DCoords(e.Location, k_zFar) - Get3DCoords(e.Location, k_zNear);
+                            Vector3 dir = Get3DCoords(e.Location, m_zFar) - Get3DCoords(e.Location, k_zNear);
                             Vector3? hit = null;
 
                             //Snap to restriction plane
@@ -2334,7 +2329,8 @@ namespace SM64DSe
 
         private void btnEditTexAnim_Click(object sender, EventArgs e)
         {
-            new TextureAnimationForm(m_Level).Show(this);
+            new BetterTextureAnimationEditor(this).Show(this);
+            //new TextureAnimationForm(m_Level).Show(this);
         }
 
         private void btnCLPS_Click(object sender, EventArgs e)
@@ -2667,7 +2663,7 @@ namespace SM64DSe
             }
             else if(sender == val_rotY)
             {
-                val_rotY.Value = Wrap((float)(val_rotY.Value + 180), 360) - 180;
+                val_rotY.Value = (Decimal)Helper.Wrap((float)(val_rotY.Value + 180), 360) - 180;
                 propertyName = "Y rotation";
                 newValue = (float)val_rotY.Value;
 
@@ -2822,6 +2818,41 @@ namespace SM64DSe
                 RefreshObjects(m_SelectedObject.m_Layer);
 
             UpdateTransformProperties();
+        }
+
+        public void ChangePerspective(float rotX,float rotY)
+        {
+            m_CamRotation.X = rotX;
+            m_CamRotation.Y = rotY;
+            UpdateCamera(); glLevelView.Refresh();
+        }
+
+        public void SetFOV(int angle)
+        {
+            m_FOV = (float)(angle * Math.PI) / 180f;
+            glLevelView.Refresh();
+        }
+
+        public void SetFarClipping(int distance)
+        {
+            m_zFar = distance;
+            glLevelView.Refresh();
+        }
+
+        public int GetFOVangle()
+        {
+            return (int)Math.Round((m_FOV * 180) / Math.PI);
+        }
+
+        public int GetFarClipping()
+        {
+            return (int)m_zFar;
+        }
+
+        public void ToogleOrtho()
+        {
+            btnOrthView.PerformClick();
+
         }
 
         private void btnOrthView_Click(object sender, EventArgs e)
@@ -3134,12 +3165,6 @@ namespace SM64DSe
             }
 
             RefreshObjects(obj.m_Layer);
-        }
-
-        public Decimal Wrap(float a, float b)
-        {
-            return (Decimal)(a - b * Math.Floor(a / b));
-
         }
 
         public ushort ExtractBits(object value, int offset, int size)

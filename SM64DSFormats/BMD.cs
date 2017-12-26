@@ -325,7 +325,9 @@ namespace SM64DSe
             {
                 AddPointer((uint)(m_PalChunksOffset + (i * 16) + 0));
                 AddPointer((uint)(m_PalChunksOffset + (i * 16) + 4));
-                m_PaletteIDs.Add(m_File.ReadString(m_File.Read32((uint)(m_PalChunksOffset + (16 * i))), 0), (uint)i);
+                string key = m_File.ReadString(m_File.Read32((uint)(m_PalChunksOffset + (16 * i))), 0);
+                if (!m_PaletteIDs.ContainsKey(key))
+                    m_PaletteIDs.Add(key, (uint)i);
             }
             m_NumMatChunks = m_File.Read32(0x24);
             m_MatChunksOffset = m_File.Read32(0x28);
@@ -545,7 +547,8 @@ namespace SM64DSe
                 if (!m_Textures.ContainsKey(entry.Key))
                 {
                     Console.WriteLine("NOT IN TEXTURES: "+entry.Key);
-                    uint palID = Math.Min(m_PaletteIDs.ElementAt(index).Value, (uint)m_PaletteIDs.Count-1);
+                    uint palID = Math.Min(m_PaletteIDs.ElementAt(Math.Min(index, m_PaletteIDs.Count-1)).Value, (uint)m_PaletteIDs.Count-1);
+                    Console.WriteLine(palID);
                     ReadTexture(entry.Value, palID);
                 }
                 index++;
@@ -979,6 +982,7 @@ namespace SM64DSe
                                 if (matgroup.m_GLTextureID != 0 && vtx.m_TexCoord != null)
                                 {
                                     Vector2 coord = (Vector2)vtx.m_TexCoord;
+                                    coord = Vector2.Transform(coord, Quaternion.FromAxisAngle(Vector3.UnitZ, matgroup.m_TexCoordRot * 0.0174533f));
                                     if (texAnim != null)
                                     {
                                         List<LevelTexAnim.Def> entries = texAnim.m_Defs;
@@ -986,15 +990,15 @@ namespace SM64DSe
                                         {
                                             if (entry.m_MaterialName == matgroup.m_Name)
                                             {
-                                                float transX = AnimationValue(entry.m_TranslationXValues,texAnimFrame);
-                                                float transY = AnimationValue(entry.m_TranslationYValues, texAnimFrame);
+                                                float scaleValue = LevelTexAnim.AnimationValue(entry.m_ScaleValues, texAnimFrame,(int)texAnim.m_NumFrames);
+                                                coord = Vector2.Multiply(coord, scaleValue);
+
+                                                float transX = LevelTexAnim.AnimationValue(entry.m_TranslationXValues,texAnimFrame, (int)texAnim.m_NumFrames);
+                                                float transY = LevelTexAnim.AnimationValue(entry.m_TranslationYValues, texAnimFrame, (int)texAnim.m_NumFrames);
                                                 coord = Vector2.Add(coord,new Vector2(transX, transY));
 
-                                                float angle = AnimationValue(entry.m_RotationValues, texAnimFrame);
+                                                float angle = LevelTexAnim.AnimationValue(entry.m_RotationValues, texAnimFrame, (int)texAnim.m_NumFrames);
                                                 coord = Vector2.Transform(coord, Quaternion.FromAxisAngle(Vector3.UnitZ, angle* 0.0174533f));
-
-                                                float scaleValue = AnimationValue(entry.m_ScaleValues, texAnimFrame);
-                                                coord = Vector2.Multiply(coord, scaleValue);
                                             }
                                         }
                                     }
@@ -1205,15 +1209,6 @@ namespace SM64DSe
                 }
 
                 return rendered_something;
-            }
-
-            public static float AnimationValue(List<float> values, int frame)
-            {
-                int length = values.Count;
-                if (length > 0)
-                    return values[frame % length];
-                else
-                    return 0;
             }
         }
 

@@ -38,6 +38,27 @@ namespace SM64DSe
         
         private static readonly DateTime FirstOfJanuary1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
+        public static void ClampRotation(ref float val)
+        {
+            float twopi = (float)Math.PI * 2f;
+            if (val > twopi)
+            {
+                while (val > twopi)
+                    val -= twopi;
+            }
+            else if (val < -twopi)
+            {
+                while (val < -twopi)
+                    val += twopi;
+            }
+        }
+
+        public static float Wrap(float a, float b)
+        {
+            return (float)(a - b * Math.Floor(a / b));
+
+        }
+
         public static ushort ColorToBGR15(Color color)
         {
             uint r = (uint)((color.R & 0xF8) >> 3);

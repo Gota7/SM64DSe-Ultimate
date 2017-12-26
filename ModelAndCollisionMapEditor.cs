@@ -398,7 +398,10 @@ namespace SM64DSe
                     byte[] palette = textureDefNitroTexture.GetNitroPalette();
                     byte[] paletteCopy = new byte[palette.Length];
                     Array.Copy(palette, paletteCopy, palette.Length);
-                    m_WorkingPalettesCopy.Add(textureDefNitroTexture.GetPalName(), paletteCopy);
+                    string key = textureDefNitroTexture.GetPalName();
+
+                    if (!m_WorkingPalettesCopy.ContainsKey(key))
+                        m_WorkingPalettesCopy.Add(key, paletteCopy);
                 }
 
                 foreach (ModelBase.MaterialDef material in m_ModelBase.m_Materials.Values)

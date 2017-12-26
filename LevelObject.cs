@@ -1489,6 +1489,19 @@ namespace SM64DSe
             m_Defs = new List<Def>();
         }
 
+        public static float AnimationValue(List<float> values, int frame, int length)
+        {
+            if (values.Count > 0 && length > 0)
+            {
+                if (frame % length < values.Count)
+                    return values[frame % length];
+                else
+                    return values.Last();
+            }
+            else
+                return 0;
+        }
+
         public LevelTexAnim(NitroOverlay ovl, int area, int numAreas, 
             byte levelFormatVersion = Level.k_LevelFormatVersion)
         {
