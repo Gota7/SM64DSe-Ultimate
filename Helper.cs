@@ -37,6 +37,21 @@ namespace SM64DSe
         public static readonly Color LIGHT_RED = Color.FromArgb(230, 100, 100);
         
         private static readonly DateTime FirstOfJanuary1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        
+        public static string getDirectory(String filePath)
+        {
+            String directory = "";
+            string[] parts = filePath.Split('/');
+            int i = 0;
+            foreach (String part in parts)
+            {
+                Console.WriteLine(part);
+                if (!part.EndsWith(".bmd"))
+                    directory += part + "/";
+                i++;
+            }
+            return directory;
+        }
 
         public static void ClampRotation(ref float val)
         {

@@ -911,7 +911,7 @@ namespace SM64DSe
                         else
                             GL.Disable(EnableCap.CullFace);
 
-                        /*if ((matgroup.m_PolyAttribs & 0xF) != 0x0)
+                        if (((matgroup.m_PolyAttribs & 0xF) != 0x0)&&!m_Billboard&&(!matgroup.IsTranslucent()))
                         {
                             GL.Enable(EnableCap.Lighting);
 
@@ -924,13 +924,14 @@ namespace SM64DSe
                             if ((matgroup.m_PolyAttribs & 0x8) != 0x0) GL.Enable(EnableCap.Light3);
                             else GL.Disable(EnableCap.Light3);
 
+                            
+
                             GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Diffuse, matgroup.m_DiffuseColor);
                             GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Ambient, matgroup.m_AmbientColor);
                             GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Specular, matgroup.m_SpecularColor);
                             GL.Material(MaterialFace.FrontAndBack, MaterialParameter.Emission, matgroup.m_EmissionColor);
-                        }
-                        else*/
-                        GL.Disable(EnableCap.Lighting);
+                        }else
+                            GL.Disable(EnableCap.Lighting);
                         if (customRenderFlags[0])
                         {
                             GL.BindTexture(TextureTarget.Texture2D, matgroup.m_GLTextureID);
@@ -979,32 +980,53 @@ namespace SM64DSe
                             {
                                 if(customRenderFlags[1])
                                     GL.Color4(vtx.m_Color);
-                                if (matgroup.m_GLTextureID != 0 && vtx.m_TexCoord != null)
+                                
+                                if (matgroup.m_GLTextureID != 0)
                                 {
-                                    Vector2 coord = (Vector2)vtx.m_TexCoord;
-                                    coord = Vector2.Transform(coord, Quaternion.FromAxisAngle(Vector3.UnitZ, matgroup.m_TexCoordRot * 0.0174533f));
-                                    if (texAnim != null)
+                                    Vector2 normalizedTranslation = Vector2.Divide(matgroup.m_TexCoordTrans, new Vector2(matgroup.m_Texture.m_Width, matgroup.m_Texture.m_Height));
+                                    if (vtx.m_TexCoord != null)
                                     {
-                                        List<LevelTexAnim.Def> entries = texAnim.m_Defs;
-                                        foreach (LevelTexAnim.Def entry in entries)
+                                        Vector2 coord = (Vector2)vtx.m_TexCoord;
+                                        if (texAnim != null)
                                         {
-                                            if (entry.m_MaterialName == matgroup.m_Name)
+                                            List<LevelTexAnim.Def> entries = texAnim.m_Defs;
+                                            foreach (LevelTexAnim.Def entry in entries)
                                             {
-                                                float scaleValue = LevelTexAnim.AnimationValue(entry.m_ScaleValues, texAnimFrame,(int)texAnim.m_NumFrames);
-                                                coord = Vector2.Multiply(coord, scaleValue);
+                                                if (entry.m_MaterialName == matgroup.m_Name)
+                                                {
 
-                                                float transX = LevelTexAnim.AnimationValue(entry.m_TranslationXValues,texAnimFrame, (int)texAnim.m_NumFrames);
-                                                float transY = LevelTexAnim.AnimationValue(entry.m_TranslationYValues, texAnimFrame, (int)texAnim.m_NumFrames);
-                                                coord = Vector2.Add(coord,new Vector2(transX, transY));
+                                                    float scaleValue = LevelTexAnim.AnimationValue(entry.m_ScaleValues, texAnimFrame, (int)texAnim.m_NumFrames);
+                                                    coord = coord * scaleValue;
 
-                                                float angle = LevelTexAnim.AnimationValue(entry.m_RotationValues, texAnimFrame, (int)texAnim.m_NumFrames);
-                                                coord = Vector2.Transform(coord, Quaternion.FromAxisAngle(Vector3.UnitZ, angle* 0.0174533f));
+                                                    float angle = LevelTexAnim.AnimationValue(entry.m_RotationValues, texAnimFrame, (int)texAnim.m_NumFrames);
+                                                    coord = Vector2.Transform(coord, Quaternion.FromAxisAngle(Vector3.UnitZ, (angle + matgroup.m_TexCoordRot) * 0.0174533f));
+
+                                                    float transX = LevelTexAnim.AnimationValue(entry.m_TranslationXValues, texAnimFrame, (int)texAnim.m_NumFrames);
+                                                    float transY = LevelTexAnim.AnimationValue(entry.m_TranslationYValues, texAnimFrame, (int)texAnim.m_NumFrames);
+                                                    coord = Vector2.Add(coord, Vector2.Add(new Vector2(transX, transY), normalizedTranslation));
+                                                }
                                             }
                                         }
-                                    }
-                                    GL.TexCoord2(coord);
-                                }
+                                        else
+                                        {
+                                            coord = Vector2.Transform(coord, Quaternion.FromAxisAngle(Vector3.UnitZ, matgroup.m_TexCoordRot * 0.0174533f));
 
+                                            coord = Vector2.Add(coord, normalizedTranslation);
+                                        }
+                                        GL.TexCoord2(coord);
+
+                                    }
+                                    else if ((matgroup.m_TexParams >> 30 == 2) && vtx.m_Normal.HasValue)
+                                    {
+                                        Vector2 coord = ((Vector3)vtx.m_Normal).Xy;
+
+                                        coord = Vector2.Transform(coord, Quaternion.FromAxisAngle(Vector3.UnitZ, matgroup.m_TexCoordRot * 0.0174533f));
+
+                                        coord = Vector2.Add(coord, normalizedTranslation);
+
+                                        GL.TexCoord2(coord);
+                                    }
+                                }
                                 if ((matgroup.m_PolyAttribs & 0xF) != 0x0 && vtx.m_Normal != null)
                                     GL.Normal3((Vector3)vtx.m_Normal);
 

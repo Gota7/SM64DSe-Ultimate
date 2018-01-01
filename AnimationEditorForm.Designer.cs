@@ -61,12 +61,16 @@
             this.glModelView = new SM64DSe.FormControls.ModelGLControl();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnExportDAE = new System.Windows.Forms.ToolStripButton();
+            this.tsModelPreview = new System.Windows.Forms.ToolStrip();
+            this.lblModelPreviewScale = new System.Windows.Forms.ToolStripLabel();
+            this.txtModelPreviewScale = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.gbImportAnimation.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.tsModelPreview.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -102,6 +106,8 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.txtModelPreviewScale);
+            this.splitContainer1.Panel2.Controls.Add(this.tsModelPreview);
             this.splitContainer1.Panel2.Controls.Add(this.glModelView);
             this.splitContainer1.Size = new System.Drawing.Size(794, 431);
             this.splitContainer1.SplitterDistance = 230;
@@ -411,6 +417,30 @@
             this.btnExportDAE.ToolTipText = "Export model and animation to COLLADA DAE";
             this.btnExportDAE.Click += new System.EventHandler(this.btnExportToDAE_Click);
             // 
+            // tsModelPreview
+            // 
+            this.tsModelPreview.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblModelPreviewScale});
+            this.tsModelPreview.Location = new System.Drawing.Point(0, 0);
+            this.tsModelPreview.Name = "tsModelPreview";
+            this.tsModelPreview.Size = new System.Drawing.Size(560, 25);
+            this.tsModelPreview.TabIndex = 2;
+            this.tsModelPreview.Text = "toolStrip1";
+            // 
+            // lblModelPreviewScale
+            // 
+            this.lblModelPreviewScale.Name = "lblModelPreviewScale";
+            this.lblModelPreviewScale.Size = new System.Drawing.Size(81, 22);
+            this.lblModelPreviewScale.Text = "Preview Scale:";
+            // 
+            // txtModelPreviewScale
+            // 
+            this.txtModelPreviewScale.Location = new System.Drawing.Point(96, 3);
+            this.txtModelPreviewScale.Name = "txtModelPreviewScale";
+            this.txtModelPreviewScale.Size = new System.Drawing.Size(106, 20);
+            this.txtModelPreviewScale.TabIndex = 16;
+            this.txtModelPreviewScale.TextChanged += new System.EventHandler(this.txtModelPreviewScale_TextChanged);
+            // 
             // AnimationEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -425,12 +455,15 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.gbImportAnimation.ResumeLayout(false);
             this.gbImportAnimation.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.tsModelPreview.ResumeLayout(false);
+            this.tsModelPreview.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -470,5 +503,8 @@
         private System.Windows.Forms.TextBox txtScale;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkOptimise;
+        private System.Windows.Forms.ToolStrip tsModelPreview;
+        private System.Windows.Forms.ToolStripLabel lblModelPreviewScale;
+        private System.Windows.Forms.TextBox txtModelPreviewScale;
     }
 }

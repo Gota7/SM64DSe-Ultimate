@@ -87,3 +87,18 @@ The .exe file is in bin/release
 -there are some more functions for the level display settings (including: perspectives, view distance and FOV(EXPERIMENTAL))
 <br/>
 -there is a completely new texture animation editor, editing and creating textures has never been easier, it has a UV preview, a texture preview, a timeline and support for KEYFRAMES!
+
+<h4>Changes v1.7</h4><br/>
+-enabled lightning for proper shading
+<br/>
+-configured the model render to apply texture more accurate, especially for stars
+<br/>
+-better Goomboss renderer showning it's position and path
+<br/>
+-added a FlamethrowerRenderer showing the right position, rotation and (accurate) length
+<br/>
+-added preview scale widget for the Model Animation Editor
+<br/>
+-if you want to choose an animation for a model, you will automaticly start in the directory of the model
+<br/>
+-added an option to merge all files from the archieves to the fileSelect

@@ -22,6 +22,7 @@ namespace SM64DSe
         private int m_AnimationNumFrames = -1;
         private bool m_LoopAnimation = true;
         private bool m_Running = false;
+        private float m_ModelPreviewScale = 1f;
 
         private int[] m_DisplayLists = new int[1];
 
@@ -48,10 +49,13 @@ namespace SM64DSe
 
             GL.FrontFace(FrontFaceDirection.Ccw);
 
-            GL.Disable(EnableCap.Lighting);
+            GL.Enable(EnableCap.Lighting);
+            GL.Light(LightName.Light0, LightParameter.Position, new Vector4(1.0f, 1.0f, 1.0f, 0.0f));
+            GL.Light(LightName.Light0, LightParameter.Ambient, Color.White);
+            GL.Light(LightName.Light0, LightParameter.Diffuse, Color.White);
+            GL.Light(LightName.Light0, LightParameter.Specular, Color.White);
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
-            GL.Disable(EnableCap.Lighting);
             GL.PushMatrix();
             
             GL.Scale(1f, 1f, 1f);
@@ -63,12 +67,12 @@ namespace SM64DSe
 
             dl[0] = GL.GenLists(1);
             GL.NewList(dl[0], ListMode.Compile);
-            m_BMD.Render(RenderMode.Opaque, 1f, m_BCA, m_AnimationFrameNumber);
+            m_BMD.Render(RenderMode.Opaque, m_ModelPreviewScale, m_BCA, m_AnimationFrameNumber);
             //GL.EndList();
 
             dl[1] = GL.GenLists(1);
             GL.NewList(dl[1], ListMode.Compile);
-            m_BMD.Render(RenderMode.Translucent, 1f, m_BCA, m_AnimationFrameNumber);
+            m_BMD.Render(RenderMode.Translucent, m_ModelPreviewScale, m_BCA, m_AnimationFrameNumber);
             GL.EndList();
 
             GL.PopMatrix();
@@ -149,7 +153,12 @@ namespace SM64DSe
         {
             bool wasRunning = m_Running;
 
-            m_ROMFileSelect.ReInitialize("Please select an animation (BCA) file to open.", new String[] { ".bca" });
+            String startFolder = "";
+            if (m_BMD != null)
+            {
+                startFolder = Helper.getDirectory(m_BMD.m_FileName);
+            }
+            m_ROMFileSelect.ReInitialize("Please select an animation (BCA) file to open.", new String[] { ".bca" }, startFolder);
             var result = m_ROMFileSelect.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -361,6 +370,14 @@ namespace SM64DSe
         private void AnimationEditorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             StopTimer();
+        }
+
+        private void txtModelPreviewScale_TextChanged(object sender, EventArgs e)
+        {
+            if (Helper.TryParseFloat(txtModelPreviewScale, out m_ModelPreviewScale))
+            {
+                PrerenderModel();
+            }
         }
     }
 }

@@ -1041,9 +1041,9 @@ namespace SM64DSe
             // lighting!
             //GL.Light(LightName.Light0, LightParameter.Position, new Vector4(0.0f, -0.646484375f, -0.646484375f, 0.0f));
             GL.Light(LightName.Light0, LightParameter.Position, new Vector4(1.0f, 1.0f, 1.0f, 0.0f));
-            GL.Light(LightName.Light0, LightParameter.Ambient, Color.SkyBlue);
-            GL.Light(LightName.Light0, LightParameter.Diffuse, Color.SkyBlue);
-            GL.Light(LightName.Light0, LightParameter.Specular, Color.SkyBlue);
+            GL.Light(LightName.Light0, LightParameter.Ambient, Color.White);
+            GL.Light(LightName.Light0, LightParameter.Diffuse, Color.White);
+            GL.Light(LightName.Light0, LightParameter.Specular, Color.White);
             /*GL.Light(LightName.Light1, LightParameter.Position, new Vector4(-0.666015625f, -0.35546875f, -0.1103515625f, 0.0f));
             GL.Light(LightName.Light1, LightParameter.Ambient, Color.Red);
             GL.Light(LightName.Light1, LightParameter.Diffuse, Color.Red);
@@ -1957,7 +1957,6 @@ namespace SM64DSe
                 RefreshObjects(0);
                 if (m_currentArea > -1)
                 {
-                    Console.WriteLine("Start Animation");
                     StartTimer();
                 }
                 else

@@ -92,7 +92,7 @@ namespace SM64DSe
             return dl;
         }
 
-        public static int[] GetDisplayLists(BMD model,BCA animation, int frame)
+        public static int[] GetDisplayLists(BMD model,BCA animation = null, int frame = -1)
         {
             if (model == null || !m_Models.ContainsKey(model.m_FileName))
                 return null;

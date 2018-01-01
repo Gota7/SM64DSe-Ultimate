@@ -52,7 +52,7 @@ namespace SM64DSe
                 case 15: ret = new NormalBMDRenderer("data/enemy/kuribo/kuribo_model.bmd", 0.008f); break;
                 case 16: ret = new NormalBMDRenderer("data/enemy/kuribo/kuribo_model.bmd", 0.002f); break;
                 case 17: ret = new NormalBMDRenderer("data/enemy/kuribo/kuribo_model.bmd", 0.016f); break;
-                case 18: ret = new NormalBMDRenderer("data/enemy/kuriking/kuriking_model.bmd", 0.008f); break;
+                case 18: ret = new GoombossRender(); break;
                 case 19: ret = new NormalBMDRenderer("data/enemy/bombhei/bombhei.bmd", 0.008f); break;
                 case 20: ret = new NormalBMDRenderer("data/enemy/bombhei/red_bombhei.bmd", 0.008f); break;
                 case 21: ret = new NormalBMDRenderer("data/enemy/nokonoko/nokonoko" + ((obj.Parameters[0] & 1) != 0 ? "_red" : "") + ".bmd", 0.008f); break;
@@ -88,8 +88,8 @@ namespace SM64DSe
                 case 51: ret = new NormalBMDRenderer("data/special_obj/b_wan_shutter/b_wan_shutter.bmd", 0.008f); break;
                 case 52: ret = new NormalBMDRenderer("data/enemy/water_bomb/water_bomb.bmd", 0.008f); break;
                 //case 53: ret = new NormalBMDRenderer("data/normal_obj/birds/birds.bmd", 0.008f); break;
-                    // 54  FISH
-                //case 55: ret = new NormalBMDRenderer("data/normal_obj/butterfly/butterfly.bmd", 0.008f); break;
+                case 54: ret = new FishRenderer((obj.Parameters[0] & 0xF)); break;
+                case 55: ret = new ButterflyRenderer(); break;
                 case 56: ret = new NormalBMDRenderer("data/enemy/bombking/bomb_king.bmd", 0.008f); break;
                 case 57: ret = new NormalBMDRenderer("data/enemy/snowman/snowman_model.bmd", 0.008f); break;
                 case 58: ret = new NormalBMDRenderer("data/enemy/piano/piano.bmd", 0.008f); break;
@@ -298,6 +298,8 @@ namespace SM64DSe
                 case 261: ret = new NormalBMDRenderer("data/enemy/moray/moray.bmd", 0.008f); break;
                 case 262: ret = new NormalBMDRenderer("data/normal_obj/obj_kumo/obj_kumo.bmd", 0.008f); break;
                 case 263: ret = new NormalBMDRenderer("data/normal_obj/obj_shell/obj_shell.bmd", 0.008f); break;
+                // 264-265
+                case 266: ret = new FlameThrowerRenderer(obj.Parameters[1]); break;
                     // 264-272
                 case 273: ret = new C1TrapRenderer(); break;
                 case 274: ret = new NormalBMDRenderer("data/special_obj/c1_hikari/c1_hikari.bmd", 0.008f); break;
@@ -492,6 +494,7 @@ namespace SM64DSe
 
             if (mode != RenderMode.Picking)
             {
+                GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Blend);
                 GL.BindTexture(TextureTarget.Texture2D, 0);
                 GL.Color4(Color.FromArgb(100, m_FillColor));
                 GL.Disable(EnableCap.Lighting);
@@ -640,6 +643,7 @@ namespace SM64DSe
 
                     if (mode != RenderMode.Picking)
                     {
+                        GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Blend);
                         GL.BindTexture(TextureTarget.Texture2D, 0);
                         GL.Color4(Color.FromArgb(100, 255, 200, 0));
                         GL.Disable(EnableCap.Lighting);
@@ -718,6 +722,7 @@ namespace SM64DSe
 
             if (mode != RenderMode.Picking)
             {
+                GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Blend);
                 GL.BindTexture(TextureTarget.Texture2D, 0);
                 GL.Color4(Color.FromArgb(100, 255, 0, 0));
                 GL.Disable(EnableCap.Lighting);
@@ -956,11 +961,13 @@ namespace SM64DSe
     }
 
 
-    class PaintingRenderer : NormalBMDRenderer
+    class PaintingRenderer : ObjectRenderer
     {
         private float m_XScale, m_YScale, m_XRotation;
 
-        private bool m_Mirror;
+        private bool m_Mirrored;
+
+        private int m_GLTextureID;
 
         public PaintingRenderer(ushort param, ushort param2)
         {
@@ -970,21 +977,62 @@ namespace SM64DSe
             int ptgid = (param >> 8) & 0x1F;
             if (ptgid > 18) ptgid = 18;
             string filename = "data/picture/" + ptgnames[ptgid] + ".bmd";
-            m_XScale = (float)((param & 0xF) + 1) / 16f;
-            m_YScale = (float)(((param >> 4) & 0xF) + 1) / 16f;
-            m_Mirror = (((param >> 13) & 0x3) == 3); //no way to show it properly
+            m_XScale = (float)((param & 0xF) + 1) * 0.1f;
+            m_YScale = (float)(((param >> 4) & 0xF) + 1)* 0.1f;
+            m_Mirrored = (((param >> 13) & 0x3) == 3);
+
+            SM64DSFormats.NitroTexture texture = new BMD(Program.m_ROM.GetFileFromName(filename)).m_Textures.First().Value;
 
             m_XRotation = 360.0f / 65536.0f*(float)param2;
 
-            Construct(filename, 0.128f);
+            m_GLTextureID = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, m_GLTextureID);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Four, (int)texture.m_Width, (int)texture.m_Height,
+                0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, texture.GetARGB());
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Clamp);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Clamp);
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            if (mode == RenderMode.Translucent) return false;
+            else return true;
         }
 
         public override void Render(RenderMode mode)
         {
             GL.Rotate(m_XRotation, 1f, 0f, 0f);
-            GL.Scale(m_XScale, m_YScale, 1f);
-            GL.Translate(0f, 0.8f, 0f);
-            base.Render(mode);
+
+            GL.Enable(EnableCap.CullFace);
+            GL.CullFace(CullFaceMode.Back);
+            GL.Disable(EnableCap.Lighting);
+            if (mode != RenderMode.Picking)
+            {
+                GL.BindTexture(TextureTarget.Texture2D, m_GLTextureID);
+                GL.Color4(Color.White);
+            }
+
+            float halfWidth = m_XScale * 0.5f;
+
+            GL.Begin(PrimitiveType.Quads);
+
+            GL.TexCoord2(m_Mirrored ? 1 : 0, 1);
+            GL.Vertex3(-halfWidth, 0, 0);
+
+            GL.TexCoord2(m_Mirrored ? 0 : 1, 1);
+            GL.Vertex3(halfWidth, 0, 0);
+
+            GL.TexCoord2(m_Mirrored ? 0 : 1, 0);
+            GL.Vertex3(halfWidth, m_YScale, 0);
+
+            GL.TexCoord2(m_Mirrored ? 1 : 0, 0);
+            GL.Vertex3(-halfWidth, m_YScale, 0);
+
+            GL.End();
         }
     }
 
@@ -1255,6 +1303,45 @@ namespace SM64DSe
         }
     }
 
+    class GoombossRender : ObjectRenderer
+    {
+        NormalBMDRenderer m_bmdRenderer;
+        public GoombossRender()
+        {
+            m_bmdRenderer = new NormalBMDRenderer("data/enemy/kuriking/kuriking_model.bmd", 0.01f);
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            return m_bmdRenderer.GottaRender(mode);
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            if (mode != RenderMode.Picking)
+            {
+                GL.Color4(Color.White);
+                GL.LineWidth(4);
+                GL.Begin(PrimitiveType.LineLoop);
+                for (int i = 0; i < 16; i++)
+                {
+                    GL.Vertex3(Math.Sin(Math.PI / 8 * i) * 1.4, 0, Math.Cos(Math.PI / 8 * i) * 1.4);
+                }
+                GL.End();
+            }
+            GL.PushMatrix();
+            GL.Rotate(360/16*13, Vector3.UnitY);
+            GL.Translate(1.4, 0, 0);
+            m_bmdRenderer.Render(mode);
+            GL.PopMatrix();
+        }
+
+        public override void Release()
+        {
+            m_bmdRenderer.Release();
+        }
+    }
+
     class DoubleRenderer : ObjectRenderer
     {
         protected NormalBMDRenderer m_PrimaryRenderer, m_SecondaryRenderer;
@@ -1418,5 +1505,141 @@ namespace SM64DSe
 
         private Color m_BorderColor, m_FillColor;
         private bool m_ShowAxes;
+    }
+
+    class ButterflyRenderer : NormalBMDRenderer
+    {
+        public ButterflyRenderer()
+            : base("data/normal_obj/butterfly/butterfly.bmd", 1f)
+        {
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            GL.PushMatrix();
+            GL.Scale(0.008f, 0.008f, 0.008f);
+
+            GL.Translate(10, 10, 10);
+            base.Render(mode);
+            GL.Translate(-18, 5, -12);
+            GL.Rotate(45, Vector3.UnitX);
+            base.Render(mode);
+            GL.Translate(15, 0, 8);
+            GL.Rotate(-90, Vector3.UnitX);
+            base.Render(mode);
+            GL.PopMatrix();
+        }
+    }
+
+    class FishRenderer : NormalBMDRenderer
+    {
+        int m_count;
+        public FishRenderer(int count)
+            : base("data/normal_obj/fish/fish.bmd", 1f)
+        {
+            m_count = count;
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            GL.PushMatrix();
+            GL.Scale(0.008f, 0.008f, 0.008f);
+
+            for (int i = 0; i < m_count; i++)
+            {
+                GL.Rotate(360 / m_count, Vector3.UnitY);
+                GL.Translate(10, 0, 0);
+                base.Render(mode);
+            }
+            GL.PopMatrix();
+        }
+    }
+
+    class FlameThrowerRenderer : ObjectRenderer
+    {
+        private float m_XRotation;
+        public FlameThrowerRenderer(ushort param2)
+        {
+            m_XRotation = 360.0f / 65536.0f * (float)param2;
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            if (mode == RenderMode.Opaque) return false;
+            else return true;
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            const float s1 = 0.04f;
+            const float s2 = 0.12f;
+            const float length = 1.4f;
+
+            if (mode != RenderMode.Picking)
+            {
+                GL.BindTexture(TextureTarget.Texture2D, 0);
+                GL.Color4(Color.FromArgb(200,127,0,0));
+                GL.Disable(EnableCap.Lighting);
+            }
+            GL.PushMatrix();
+            GL.Translate(0, 0.04, 0);
+            GL.Rotate(m_XRotation, 1f, 0f, 0f);
+
+            GL.Begin(PrimitiveType.TriangleStrip);
+            GL.Vertex3(-s1, -s1, 0);
+            GL.Vertex3(-s1, s1, 0);
+            GL.Vertex3(s1, -s1, 0);
+            GL.Vertex3(s1, s1, 0);
+            GL.Vertex3(s2, -s2, length);
+            GL.Vertex3(s2, s2, length);
+            GL.Vertex3(-s2, -s2, length);
+            GL.Vertex3(-s2, s2, length);
+            GL.Vertex3(-s1, -s1, 0);
+            GL.Vertex3(-s1, s1, 0);
+            GL.End();
+
+            GL.Begin(PrimitiveType.TriangleStrip);
+            GL.Vertex3(-s1, s1, 0);
+            GL.Vertex3(-s2, s2, length);
+            GL.Vertex3(s1, s1, 0);
+            GL.Vertex3(s2, s2, length);
+            GL.End();
+
+            GL.Begin(PrimitiveType.TriangleStrip);
+            GL.Vertex3(-s1, -s1, 0);
+            GL.Vertex3(s1, -s1, 0);
+            GL.Vertex3(-s2, -s2, length);
+            GL.Vertex3(s2, -s2, length);
+            GL.End();
+            
+            if (mode != RenderMode.Picking)
+            {
+                GL.LineWidth(2.0f);
+                GL.Color4(Color.FromArgb(255,0,0));
+
+                GL.Begin(PrimitiveType.LineStrip);
+                GL.Vertex3(s2, s2, length);
+                GL.Vertex3(-s2, s2, length);
+                GL.Vertex3(-s1, s1, 0);
+                GL.Vertex3(s1, s1, 0);
+                GL.Vertex3(s2, s2, length);
+                GL.Vertex3(s2, -s2, length);
+                GL.Vertex3(-s2, -s2, length);
+                GL.Vertex3(-s1, -s1, 0);
+                GL.Vertex3(s1, -s1, 0);
+                GL.Vertex3(s2, -s2, length);
+                GL.End();
+
+                GL.Begin(PrimitiveType.Lines);
+                GL.Vertex3(-s2, s2, length);
+                GL.Vertex3(-s2, -s2, length);
+                GL.Vertex3(-s1, s1, 0);
+                GL.Vertex3(-s1, -s1, 0);
+                GL.Vertex3(s1, s1, 0);
+                GL.Vertex3(s1, -s1, 0);
+                GL.End();
+            }
+            GL.PopMatrix();
+        }
     }
 }

@@ -508,7 +508,11 @@ namespace SM64DSe
 
             if (m_ModelSourceLoaded)
             {
-                GL.Disable(EnableCap.Lighting);
+                GL.Enable(EnableCap.Lighting);
+                GL.Light(LightName.Light0, LightParameter.Position, new Vector4(1.0f, 1.0f, 1.0f, 0.0f));
+                GL.Light(LightName.Light0, LightParameter.Ambient, Color.White);
+                GL.Light(LightName.Light0, LightParameter.Diffuse, Color.White);
+                GL.Light(LightName.Light0, LightParameter.Specular, Color.White);
                 GL.PushMatrix();
                 GL.Scale(previewScale);
                 GL.FrontFace(FrontFaceDirection.Ccw);

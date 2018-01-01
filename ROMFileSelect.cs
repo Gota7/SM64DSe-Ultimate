@@ -14,6 +14,7 @@ namespace SM64DSe
         public String m_SelectedFile = "";
 
         private String[] m_fileFilters;
+        private String m_directory;
 
         public ROMFileSelect()
         {
@@ -21,28 +22,34 @@ namespace SM64DSe
             LoadFileList(this.tvFiles);
         }
 
-        public ROMFileSelect(String title, String[] filters = null)
+        public ROMFileSelect(String title, String[] filters = null, String startFolder = "")
         {
             InitializeComponent();
             this.Text = title;
-
-            LoadFileList(this.tvFiles,filters);
+            m_fileFilters = filters;
+            m_directory = startFolder;
+            LoadFileList(this.tvFiles,filters,startFolder);
         }
 
-        public void ReInitialize(String title, String[] filters = null)
+        public void ReInitialize(String title, String[] filters = null, String startFolder = "")
         {
             this.Text = title;
             this.tvFiles.Nodes.Clear();
-            LoadFileList(this.tvFiles, filters);
+            m_fileFilters = filters;
+            m_directory = startFolder;
+            if ((startFolder != "")==checkMergeArcs.Checked)
+                LoadFileList(this.tvFiles, filters, m_directory, checkMergeArcs.Checked);
+            else
+                checkMergeArcs.Checked = (startFolder != "");
         }
 
-        public static void LoadFileList(TreeView tvFileList, String[] filters = null)
+        public static void LoadFileList(TreeView tvFileList, String[] filters = null, String startFolder = "", bool mergeArcs = false)
         {
             NitroROM.FileEntry[] files = Program.m_ROM.GetFileEntries();
             TreeNode node = tvFileList.Nodes.Add("root", "ROM File System");
 
             EnsureAllDirsExist(tvFileList); //just in case a directory doesn't have files
-            LoadFiles(tvFileList, node, files, new NARC.FileEntry[] { },filters);
+            LoadFiles(tvFileList, node, files, new NARC.FileEntry[] { },filters,startFolder,mergeArcs);
 
             node.Expand();
         }
@@ -55,7 +62,7 @@ namespace SM64DSe
                 EnsureDirExists(dirs[i].FullName, dirs[i].FullName, tvFileList.Nodes["root"]);
         }
 
-        private static void LoadFiles(TreeView tvFileList, TreeNode node, NitroROM.FileEntry[] files, NARC.FileEntry[] filesNARC, String[] filters = null)
+        private static void LoadFiles(TreeView tvFileList, TreeNode node, NitroROM.FileEntry[] files, NARC.FileEntry[] filesNARC, String[] filters = null, String startFolder = "", bool mergeArcs = false)
         {
             TreeNode parent = node;
             String[] names = new String[0];
@@ -88,7 +95,7 @@ namespace SM64DSe
                     if ( !(passedFilters || names[i].EndsWith(".narc")) )
                         continue;
                 }
-                
+
                 String[] parts = names[i].Split('/');
 
                 if (parts.Length == 1)
@@ -111,15 +118,29 @@ namespace SM64DSe
                                 dirName += parts[k] + "/";
                             if (j == parts.Length - 1)
                                 dirName = dirName.Substring(0, dirName.Length - 1);
-
-                            node.Nodes.Add(parts[j], parts[j]).Tag = dirName;
+                            if (!(parts[j].EndsWith(".narc")&&mergeArcs))
+                                node.Nodes.Add(parts[j], parts[j]).Tag = dirName;
                         }
                         node = node.Nodes[parts[j]];
+                        if ((!parts[j].EndsWith(".narc"))&&mergeArcs)
+                        {
+                            if ((string)node.Tag == startFolder)
+                            {
+                                tvFileList.SelectedNode = node;
+                                node.EnsureVisible();
+                                node.Expand();
+                            }
+                        }
 
                         if (parts[j].EndsWith(".narc"))
                         {
-                            LoadFiles(tvFileList, node, new NitroROM.FileEntry[] { }, 
-                                new NARC(Program.m_ROM, Program.m_ROM.GetFileIDFromName(files[i].FullName)).GetFileEntries(),filters);
+                            TreeNode rootNode;
+                            if (mergeArcs)
+                                rootNode = tvFileList.Nodes["root"];
+                            else
+                                rootNode = node;
+                            LoadFiles(tvFileList, rootNode, new NitroROM.FileEntry[] { }, 
+                                new NARC(Program.m_ROM, Program.m_ROM.GetFileIDFromName(files[i].FullName)).GetFileEntries(),filters,startFolder,mergeArcs);
                         }
                     }
                 }
@@ -216,12 +237,24 @@ namespace SM64DSe
             if (e.Node == null || e.Node.Tag == null)
                 m_SelectedFile = "";
             else
+            {
                 m_SelectedFile = e.Node.Tag.ToString();
+                if (m_SelectedFile.Contains('.'))
+                    m_directory = Helper.getDirectory(m_SelectedFile);
+                else
+                    m_directory = m_SelectedFile;
+            }
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void checkMergeArcs_CheckedChanged(object sender, EventArgs e)
+        {
+            this.tvFiles.Nodes.Clear();
+            LoadFileList(this.tvFiles, m_fileFilters, m_directory, checkMergeArcs.Checked);
         }
     }
 }
