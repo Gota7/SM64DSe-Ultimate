@@ -1836,7 +1836,11 @@ namespace SM64DSe
                         }){ Name = "Wears Cap" }
                     };
                 default:
-                    return new ParameterField[] { };
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 0, 16) {Name = "1. Parameter" },
+                        new DefaultField("Parameter 2", 0, 16) {Name = "2. Parameter" },
+                        new DefaultField("Parameter 3", 0, 16) {Name = "3. Parameter" }
+                    };
             }
         }
 

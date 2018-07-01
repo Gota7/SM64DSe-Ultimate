@@ -141,3 +141,45 @@ Z:\nds hacking\my own SM64DSe 2.3.5\obj\Release\SM64DSe.BMD_KLC_Editor.resources
 Z:\nds hacking\my own SM64DSe 2.3.5\obj\Release\SM64DSe.SM64DSFormats.BetterTextureAnimationEditor.resources
 Z:\nds hacking\my own SM64DSe 2.3.5\obj\Release\SM64DSe.SM64DSFormats.CreateNewLevelAnimationDialog.resources
 Z:\nds hacking\my own SM64DSe 2.3.5\obj\Release\SM64DSe.csprojResolveAssemblyReference.cache
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\bin\Release\SM64DSe.exe.config
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\bin\Release\SM64DSe.exe
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\bin\Release\SM64DSe.pdb
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\bin\Release\Xceed.Wpf.AvalonDock.dll
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\bin\Release\Xceed.Wpf.AvalonDock.pdb
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.csprojResolveAssemblyReference.cache
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.AdditionalPatchesForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.AnimationEditorForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.BMD_KLC_Editor.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.CLPS_Form.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.CodeCompilerForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.CodeFixerForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.ExceptionMessageBox.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.ImportImage4BPP.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.KCLEditorForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.LevelDisplaySettingsForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.LevelEditorForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.LevelSettingsForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.MainForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.MinimapEditor.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.ModelAndCollisionMapEditor.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.ModelImporter.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.ObjectListForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.OffsetAllObjectCoordsForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.ProgressDialog.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.Properties.Resources.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.ROMFileSelect.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.SDATInfoEditor.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.SettingsForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.SM64DSFormats.BetterTextureAnimationEditor.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.SM64DSFormats.CreateNewLevelAnimationDialog.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.SoundViewForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.Templates.PlatformTemplateForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.TextEditorForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.TextureAnimationForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.TextureEditorForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.RawEditorForm.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.csproj.GenerateResource.cache
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.csproj.CoreCompileInputs.cache
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.csproj.CopyComplete
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.exe
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.pdb
