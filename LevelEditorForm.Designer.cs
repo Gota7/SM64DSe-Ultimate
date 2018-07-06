@@ -105,9 +105,7 @@ namespace SM64DSe
             this.tsViewActions = new System.Windows.Forms.ToolStrip();
             this.btnImportXML = new System.Windows.Forms.ToolStripButton();
             this.btnExportXML = new System.Windows.Forms.ToolStripButton();
-            this.btnScreenshot = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnOrthView = new System.Windows.Forms.ToolStripButton();
             this.menuGridSettings = new System.Windows.Forms.ToolStripDropDownButton();
             this.txtGridSizeX = new System.Windows.Forms.ToolStripTextBox();
             this.txtGridSizeY = new System.Windows.Forms.ToolStripTextBox();
@@ -124,7 +122,10 @@ namespace SM64DSe
             this.txtRstPlaneOffX = new System.Windows.Forms.ToolStripTextBox();
             this.txtRstPlaneOffY = new System.Windows.Forms.ToolStripTextBox();
             this.txtRstPlaneOffZ = new System.Windows.Forms.ToolStripTextBox();
+            this.btnScreenshot = new System.Windows.Forms.ToolStripButton();
+            this.btnOpenDisplayOptions = new System.Windows.Forms.ToolStripButton();
             this.btnMakeOverlay = new System.Windows.Forms.ToolStripButton();
+            this.btnOrthView = new System.Windows.Forms.ToolStripButton();
             this.tsToolBar = new System.Windows.Forms.ToolStrip();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -152,7 +153,6 @@ namespace SM64DSe
             this.btnStarAll = new System.Windows.Forms.ToolStripButton();
             this.ssStatusBar = new System.Windows.Forms.StatusStrip();
             this.slStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnOpenDisplayOptions = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.spcMainContainer)).BeginInit();
             this.spcMainContainer.Panel1.SuspendLayout();
             this.spcMainContainer.Panel2.SuspendLayout();
@@ -288,7 +288,7 @@ namespace SM64DSe
             this.box_position.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_position.Location = new System.Drawing.Point(3, 56);
             this.box_position.Name = "box_position";
-            this.box_position.Size = new System.Drawing.Size(249, 39);
+            this.box_position.Size = new System.Drawing.Size(232, 39);
             this.box_position.TabIndex = 2;
             this.box_position.TabStop = false;
             this.box_position.Text = "Position";
@@ -298,7 +298,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapsePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapsePosition.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapsePosition.Location = new System.Drawing.Point(233, 0);
+            this.btnToogleCollapsePosition.Location = new System.Drawing.Point(216, 0);
             this.btnToogleCollapsePosition.Name = "btnToogleCollapsePosition";
             this.btnToogleCollapsePosition.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapsePosition.TabIndex = 7;
@@ -419,7 +419,7 @@ namespace SM64DSe
             this.box_rotation.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_rotation.Location = new System.Drawing.Point(3, 101);
             this.box_rotation.Name = "box_rotation";
-            this.box_rotation.Size = new System.Drawing.Size(249, 39);
+            this.box_rotation.Size = new System.Drawing.Size(232, 39);
             this.box_rotation.TabIndex = 6;
             this.box_rotation.TabStop = false;
             this.box_rotation.Text = "Rotation";
@@ -429,7 +429,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseRotation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseRotation.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseRotation.Location = new System.Drawing.Point(233, -1);
+            this.btnToogleCollapseRotation.Location = new System.Drawing.Point(216, -1);
             this.btnToogleCollapseRotation.Name = "btnToogleCollapseRotation";
             this.btnToogleCollapseRotation.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseRotation.TabIndex = 8;
@@ -512,7 +512,7 @@ namespace SM64DSe
             this.box_parameters.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_parameters.Location = new System.Drawing.Point(3, 145);
             this.box_parameters.Name = "box_parameters";
-            this.box_parameters.Size = new System.Drawing.Size(249, 115);
+            this.box_parameters.Size = new System.Drawing.Size(232, 115);
             this.box_parameters.TabIndex = 9;
             this.box_parameters.TabStop = false;
             this.box_parameters.Text = "Parameters";
@@ -522,7 +522,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseParameters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseParameters.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseParameters.Location = new System.Drawing.Point(233, 0);
+            this.btnToogleCollapseParameters.Location = new System.Drawing.Point(216, 0);
             this.btnToogleCollapseParameters.Name = "btnToogleCollapseParameters";
             this.btnToogleCollapseParameters.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseParameters.TabIndex = 10;
@@ -543,7 +543,7 @@ namespace SM64DSe
             this.box_fogSettings.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_fogSettings.Location = new System.Drawing.Point(3, 266);
             this.box_fogSettings.Name = "box_fogSettings";
-            this.box_fogSettings.Size = new System.Drawing.Size(249, 132);
+            this.box_fogSettings.Size = new System.Drawing.Size(232, 132);
             this.box_fogSettings.TabIndex = 6;
             this.box_fogSettings.TabStop = false;
             this.box_fogSettings.Text = "Fog Settings";
@@ -695,7 +695,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseColor.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseColor.Location = new System.Drawing.Point(233, 0);
+            this.btnToogleCollapseColor.Location = new System.Drawing.Point(216, 0);
             this.btnToogleCollapseColor.Name = "btnToogleCollapseColor";
             this.btnToogleCollapseColor.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseColor.TabIndex = 9;
@@ -717,7 +717,7 @@ namespace SM64DSe
             this.box_general.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_general.Location = new System.Drawing.Point(3, -18);
             this.box_general.Name = "box_general";
-            this.box_general.Size = new System.Drawing.Size(249, 68);
+            this.box_general.Size = new System.Drawing.Size(232, 68);
             this.box_general.TabIndex = 10;
             this.box_general.TabStop = false;
             this.box_general.Text = "General";
@@ -756,7 +756,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseGeneral.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseGeneral.Location = new System.Drawing.Point(233, 0);
+            this.btnToogleCollapseGeneral.Location = new System.Drawing.Point(216, 0);
             this.btnToogleCollapseGeneral.Name = "btnToogleCollapseGeneral";
             this.btnToogleCollapseGeneral.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseGeneral.TabIndex = 9;
@@ -1088,6 +1088,7 @@ namespace SM64DSe
             this.btnOffsetAllCoords.Name = "btnOffsetAllCoords";
             this.btnOffsetAllCoords.Size = new System.Drawing.Size(106, 19);
             this.btnOffsetAllCoords.Text = "Offset All Co-ords";
+            this.btnOffsetAllCoords.Click += new System.EventHandler(this.btnOffsetAllCoords_Click_1);
             // 
             // btnAddPathNode
             // 
@@ -1153,31 +1154,11 @@ namespace SM64DSe
             this.btnExportXML.Text = "Export XML";
             this.btnExportXML.Click += new System.EventHandler(this.btnExportXML_Click);
             // 
-            // btnScreenshot
-            // 
-            this.btnScreenshot.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnScreenshot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnScreenshot.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnScreenshot.Name = "btnScreenshot";
-            this.btnScreenshot.Size = new System.Drawing.Size(69, 22);
-            this.btnScreenshot.Text = "Screenshot";
-            this.btnScreenshot.Click += new System.EventHandler(this.btnScreenshot_Click);
-            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnOrthView
-            // 
-            this.btnOrthView.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnOrthView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnOrthView.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOrthView.Name = "btnOrthView";
-            this.btnOrthView.Size = new System.Drawing.Size(100, 19);
-            this.btnOrthView.Text = "Orthogonal View";
-            this.btnOrthView.Click += new System.EventHandler(this.btnOrthView_Click);
             // 
             // menuGridSettings
             // 
@@ -1305,6 +1286,26 @@ namespace SM64DSe
             this.txtRstPlaneOffZ.Text = "0.0";
             this.txtRstPlaneOffZ.ToolTipText = "Distance from Origin";
             // 
+            // btnScreenshot
+            // 
+            this.btnScreenshot.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnScreenshot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnScreenshot.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnScreenshot.Name = "btnScreenshot";
+            this.btnScreenshot.Size = new System.Drawing.Size(69, 22);
+            this.btnScreenshot.Text = "Screenshot";
+            this.btnScreenshot.Click += new System.EventHandler(this.btnScreenshot_Click);
+            // 
+            // btnOpenDisplayOptions
+            // 
+            this.btnOpenDisplayOptions.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnOpenDisplayOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnOpenDisplayOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOpenDisplayOptions.Name = "btnOpenDisplayOptions";
+            this.btnOpenDisplayOptions.Size = new System.Drawing.Size(94, 22);
+            this.btnOpenDisplayOptions.Text = "Display Options";
+            this.btnOpenDisplayOptions.Click += new System.EventHandler(this.btnOpenDisplayOptions_Click);
+            // 
             // btnMakeOverlay
             // 
             this.btnMakeOverlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -1314,6 +1315,16 @@ namespace SM64DSe
             this.btnMakeOverlay.Text = "Make Level Overlay";
             this.btnMakeOverlay.ToolTipText = "Ready to show off your level coding skills?";
             this.btnMakeOverlay.Click += new System.EventHandler(this.btnMakeOverlay_Click);
+            // 
+            // btnOrthView
+            // 
+            this.btnOrthView.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnOrthView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnOrthView.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOrthView.Name = "btnOrthView";
+            this.btnOrthView.Size = new System.Drawing.Size(100, 19);
+            this.btnOrthView.Text = "Orthogonal View";
+            this.btnOrthView.Click += new System.EventHandler(this.btnOrthView_Click);
             // 
             // tsToolBar
             // 
@@ -1609,16 +1620,6 @@ namespace SM64DSe
             this.slStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.slStatusLabel.Paint += new System.Windows.Forms.PaintEventHandler(this.slStatusLabel_Paint);
             this.slStatusLabel.TextChanged += new System.EventHandler(this.slStatusLabel_TextChanged);
-            // 
-            // btnOpenDisplayOptions
-            // 
-            this.btnOpenDisplayOptions.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnOpenDisplayOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnOpenDisplayOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOpenDisplayOptions.Name = "btnOpenDisplayOptions";
-            this.btnOpenDisplayOptions.Size = new System.Drawing.Size(94, 22);
-            this.btnOpenDisplayOptions.Text = "Display Options";
-            this.btnOpenDisplayOptions.Click += new System.EventHandler(this.btnOpenDisplayOptions_Click);
             // 
             // LevelEditorForm
             // 

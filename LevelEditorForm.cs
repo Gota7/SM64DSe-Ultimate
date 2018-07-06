@@ -589,6 +589,7 @@ namespace SM64DSe
                         btnReplaceObjModel.Visible = true;
                         btnExportObjectModel.Visible = true;
                         btnAddPathNode.Visible = true;
+                        btnOffsetAllCoords.Visible = true;
 
                         TreeNode objectNode = new TreeNode("Objects");
                         objectNode.Name = "object";
@@ -3122,7 +3123,12 @@ namespace SM64DSe
                 val_objectId.Value = dlg.ObjectID;
             }
         }
-        
+
+        private void btnOffsetAllCoords_Click_1(object sender, EventArgs e)
+        {
+            new OffsetAllObjectCoordsForm().Show(this);
+        }
+
         private void btnOpenDisplayOptions_Click(object sender, EventArgs e)
         {
             new LevelDisplaySettingsForm(this).Show(this);
