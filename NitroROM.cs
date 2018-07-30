@@ -221,8 +221,16 @@ namespace SM64DSe
 
 		        m_OverlayEntries[oe.ID] = oe;
 	        }
-        	
-	        EndRW();
+
+            //screw the l that looks like a 1
+            //            \/
+            NitroOverlay ov0 = new NitroOverlay(this, 0);
+            //And of course, fix those hardcoded values
+            //Who expected a new object to be inserted, anyway?
+            m_FileTableOffset = ov0.ReadPointer(0xA4);
+            m_FileTableLength = ov0.Read32(0x9C);
+
+            EndRW();
 
             UpdateStrings();
         }
@@ -231,14 +239,19 @@ namespace SM64DSe
         {
             m_FileTable = new ushort[m_FileTableLength];
 
-	        NitroOverlay ovl0 = new NitroOverlay(this, 0);
-	        for (uint i = 0; i < m_FileTableLength; i++)
-	        {
-		        uint str_offset = ovl0.ReadPointer(m_FileTableOffset + (i*4));
-		        string fname = ovl0.ReadString(str_offset, 0);
-		        m_FileTable[i] = GetFileIDFromName(fname);
-                m_FileEntries[GetFileIDFromName(fname)].InternalID = (ushort)i;
-	        }
+            NitroOverlay ovl0 = new NitroOverlay(this, 0);
+            for (uint i = 0; i < m_FileTableLength; i++)
+            {
+                if (ovl0.Read32(m_FileTableOffset + (i * 4)) != 0)
+                {
+                    uint str_offset = ovl0.ReadPointer(m_FileTableOffset + (i * 4));
+                    string fname = ovl0.ReadString(str_offset, 0);
+                    m_FileTable[i] = GetFileIDFromName(fname);
+                    m_FileEntries[GetFileIDFromName(fname)].InternalID = (ushort)i;
+                }
+                else
+                    m_FileTable[i] = 0xffff;
+            }
 
             m_FileStream.Position = m_LevelOvlIDTableOffset;
             m_LevelOvlIDTable = new uint[52];
@@ -748,7 +761,7 @@ namespace SM64DSe
             oe.BSSSize = 0;
 	        m_OverlayEntries[id] = oe;
 
-	        return id;
+            return id;
         }
 
 
