@@ -89,6 +89,7 @@
             this.btnReplaceOverlay = new System.Windows.Forms.Button();
             this.btnExtractOverlay = new System.Windows.Forms.Button();
             this.btnDecompressOverlay = new System.Windows.Forms.Button();
+            this.dLPatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsToolBar.SuspendLayout();
             this.ssStatusBar.SuspendLayout();
             this.tbcMainFormTabControl.SuspendLayout();
@@ -234,7 +235,8 @@
             this.mnitASMHackingCompilation,
             this.mnitASMHackingGeneration,
             this.tssASMHacking001,
-            this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem});
+            this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem,
+            this.dLPatchToolStripMenuItem});
             this.btnASMHacking.Enabled = false;
             this.btnASMHacking.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnASMHacking.Name = "btnASMHacking";
@@ -253,14 +255,14 @@
             // mnitASMHackingCompilationCodeCompiler
             // 
             this.mnitASMHackingCompilationCodeCompiler.Name = "mnitASMHackingCompilationCodeCompiler";
-            this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(159, 22);
+            this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(180, 22);
             this.mnitASMHackingCompilationCodeCompiler.Text = "Code Compiler";
             this.mnitASMHackingCompilationCodeCompiler.Click += new System.EventHandler(this.mnitASMHackingCompilationCodeCompiler_Click);
             // 
             // mnitASMHackingCompilationFixCodeOffsets
             // 
             this.mnitASMHackingCompilationFixCodeOffsets.Name = "mnitASMHackingCompilationFixCodeOffsets";
-            this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(159, 22);
+            this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(180, 22);
             this.mnitASMHackingCompilationFixCodeOffsets.Text = "Fix Code Offsets";
             this.mnitASMHackingCompilationFixCodeOffsets.Click += new System.EventHandler(this.mnitASMHackingCompilationFixCodeOffsets_Click);
             // 
@@ -275,7 +277,7 @@
             // platformEditorToolStripMenuItem
             // 
             this.platformEditorToolStripMenuItem.Name = "platformEditorToolStripMenuItem";
-            this.platformEditorToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.platformEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.platformEditorToolStripMenuItem.Text = "Platform Editor";
             this.platformEditorToolStripMenuItem.Click += new System.EventHandler(this.platformEditorToolStripMenuItem_Click);
             // 
@@ -723,6 +725,13 @@
             this.btnDecompressOverlay.Text = "Decompress Overlay";
             this.btnDecompressOverlay.UseVisualStyleBackColor = true;
             // 
+            // dLPatchToolStripMenuItem
+            // 
+            this.dLPatchToolStripMenuItem.Name = "dLPatchToolStripMenuItem";
+            this.dLPatchToolStripMenuItem.Size = new System.Drawing.Size(303, 22);
+            this.dLPatchToolStripMenuItem.Text = "DL Patch";
+            this.dLPatchToolStripMenuItem.Click += new System.EventHandler(this.dLPatchToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -823,6 +832,7 @@
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.ComboBox cbLevelListDisplay;
         private System.Windows.Forms.ListBox lbxLevels;
+        private System.Windows.Forms.ToolStripMenuItem dLPatchToolStripMenuItem;
     }
 }
 
