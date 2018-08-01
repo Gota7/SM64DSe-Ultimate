@@ -49,6 +49,7 @@
             this.platformEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tssASMHacking001 = new System.Windows.Forms.ToolStripSeparator();
             this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dLPatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnTools = new System.Windows.Forms.ToolStripDropDownButton();
             this.mnitToolsModelAndCollisionMapImporter = new System.Windows.Forms.ToolStripMenuItem();
             this.mnitToolsCollisionMapEditor = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,7 +90,6 @@
             this.btnReplaceOverlay = new System.Windows.Forms.Button();
             this.btnExtractOverlay = new System.Windows.Forms.Button();
             this.btnDecompressOverlay = new System.Windows.Forms.Button();
-            this.dLPatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsToolBar.SuspendLayout();
             this.ssStatusBar.SuspendLayout();
             this.tbcMainFormTabControl.SuspendLayout();
@@ -255,14 +255,14 @@
             // mnitASMHackingCompilationCodeCompiler
             // 
             this.mnitASMHackingCompilationCodeCompiler.Name = "mnitASMHackingCompilationCodeCompiler";
-            this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(180, 22);
+            this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(159, 22);
             this.mnitASMHackingCompilationCodeCompiler.Text = "Code Compiler";
             this.mnitASMHackingCompilationCodeCompiler.Click += new System.EventHandler(this.mnitASMHackingCompilationCodeCompiler_Click);
             // 
             // mnitASMHackingCompilationFixCodeOffsets
             // 
             this.mnitASMHackingCompilationFixCodeOffsets.Name = "mnitASMHackingCompilationFixCodeOffsets";
-            this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(180, 22);
+            this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(159, 22);
             this.mnitASMHackingCompilationFixCodeOffsets.Text = "Fix Code Offsets";
             this.mnitASMHackingCompilationFixCodeOffsets.Click += new System.EventHandler(this.mnitASMHackingCompilationFixCodeOffsets_Click);
             // 
@@ -277,7 +277,7 @@
             // platformEditorToolStripMenuItem
             // 
             this.platformEditorToolStripMenuItem.Name = "platformEditorToolStripMenuItem";
-            this.platformEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.platformEditorToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.platformEditorToolStripMenuItem.Text = "Platform Editor";
             this.platformEditorToolStripMenuItem.Click += new System.EventHandler(this.platformEditorToolStripMenuItem_Click);
             // 
@@ -292,6 +292,13 @@
             this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem.Size = new System.Drawing.Size(303, 22);
             this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem.Text = "Toggle Suitability for NSMBe ASM Patching";
             this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem.Click += new System.EventHandler(this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem_Click);
+            // 
+            // dLPatchToolStripMenuItem
+            // 
+            this.dLPatchToolStripMenuItem.Name = "dLPatchToolStripMenuItem";
+            this.dLPatchToolStripMenuItem.Size = new System.Drawing.Size(303, 22);
+            this.dLPatchToolStripMenuItem.Text = "DL Patch";
+            this.dLPatchToolStripMenuItem.Click += new System.EventHandler(this.dLPatchToolStripMenuItem_Click);
             // 
             // btnTools
             // 
@@ -724,13 +731,6 @@
             this.btnDecompressOverlay.TabIndex = 9;
             this.btnDecompressOverlay.Text = "Decompress Overlay";
             this.btnDecompressOverlay.UseVisualStyleBackColor = true;
-            // 
-            // dLPatchToolStripMenuItem
-            // 
-            this.dLPatchToolStripMenuItem.Name = "dLPatchToolStripMenuItem";
-            this.dLPatchToolStripMenuItem.Size = new System.Drawing.Size(303, 22);
-            this.dLPatchToolStripMenuItem.Text = "DL Patch";
-            this.dLPatchToolStripMenuItem.Click += new System.EventHandler(this.dLPatchToolStripMenuItem_Click);
             // 
             // MainForm
             // 

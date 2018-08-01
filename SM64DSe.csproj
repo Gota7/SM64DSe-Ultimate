@@ -230,6 +230,12 @@
     <Compile Include="SM64DSFormats\CreateNewLevelAnimationDialog.Designer.cs">
       <DependentUpon>CreateNewLevelAnimationDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="SM64DSFormats\DL Editor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SM64DSFormats\DL Editor.Designer.cs">
+      <DependentUpon>DL Editor.cs</DependentUpon>
+    </Compile>
     <Compile Include="SM64DSFormats\KCL.cs" />
     <Compile Include="KCLEditorForm.cs">
       <SubType>Form</SubType>
@@ -434,6 +440,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SM64DSFormats\CreateNewLevelAnimationDialog.resx">
       <DependentUpon>CreateNewLevelAnimationDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SM64DSFormats\DL Editor.resx">
+      <DependentUpon>DL Editor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SoundViewForm.resx">
       <DependentUpon>SoundViewForm.cs</DependentUpon>

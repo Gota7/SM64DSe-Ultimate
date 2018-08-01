@@ -190,6 +190,7 @@ namespace SM64DSe
             m_ShiftPressed = false;
 
             btnMakeOverlay.Visible = (Program.m_ROM.m_Version == NitroROM.Version.EUR);
+            btnDls.Visible = (Program.m_ROM.m_Version == NitroROM.Version.EUR);
 
             slStatusLabel.Text = "Ready";
         }
@@ -3127,6 +3128,17 @@ namespace SM64DSe
         private void btnOffsetAllCoords_Click_1(object sender, EventArgs e)
         {
             new OffsetAllObjectCoordsForm().Show(this);
+        }
+
+        private void btnDls_Click(object sender, EventArgs e)
+        {
+
+            if (!Patcher.PatchMaker.PatchToSupportBigASMHacks())
+                return;
+
+            //Show DL editor.
+            new DL_Editor(this).ShowDialog(this);
+
         }
 
         private void btnOpenDisplayOptions_Click(object sender, EventArgs e)
