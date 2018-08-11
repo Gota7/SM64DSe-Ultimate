@@ -23,6 +23,7 @@ namespace SM64DSe
         private const int FORE_COLOR = 0xB7B7B7;
 
         string kpsFileOpen = "";
+        string kplPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\kuppaLib.kpl";
         NitroFile nf;
 
 
@@ -43,7 +44,7 @@ namespace SM64DSe
             // BASIC CONFIG
             InitStyle(ref kps);
             InitStyle(ref kpl);
-            LoadKPL("kuppaLib.kpl");
+            LoadKPL(kplPath);
 
             // HIGHLIGHTING
             kpl.Lexer = Lexer.Container;
@@ -1006,7 +1007,7 @@ namespace SM64DSe
 
         private void saveKPLButton_ButtonClick_1(object sender, EventArgs e)
         {
-            File.WriteAllText("kuppaLib.kpl", kpl.Text);
+            File.WriteAllText(kplPath, kpl.Text);
         }
 
         private void saveDKLAndKPSButton_ButtonClick(object sender, EventArgs e)
