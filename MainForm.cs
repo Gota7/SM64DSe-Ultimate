@@ -794,5 +794,11 @@ namespace SM64DSe
             }
 
         }
+
+        private void kuppaScriptEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            KuppaScriptEditor kse = new KuppaScriptEditor();
+            kse.Show();
+        }
     }
 }

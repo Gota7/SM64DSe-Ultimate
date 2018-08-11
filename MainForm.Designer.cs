@@ -58,6 +58,7 @@
             this.mnitToolsTextEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.mnitToolsSoundBrowser = new System.Windows.Forms.ToolStripMenuItem();
             this.bMDKLCEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kuppaScriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnitToolsImageEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.sfdSaveFile = new System.Windows.Forms.SaveFileDialog();
@@ -311,7 +312,8 @@
             this.mnitToolsBTPEditor,
             this.mnitToolsTextEditor,
             this.mnitToolsSoundBrowser,
-            this.bMDKLCEditorToolStripMenuItem});
+            this.bMDKLCEditorToolStripMenuItem,
+            this.kuppaScriptEditorToolStripMenuItem});
             this.btnTools.Enabled = false;
             this.btnTools.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnTools.Name = "btnTools";
@@ -366,6 +368,13 @@
             this.bMDKLCEditorToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.bMDKLCEditorToolStripMenuItem.Text = "BMD/KLC Editor";
             this.bMDKLCEditorToolStripMenuItem.Click += new System.EventHandler(this.bMDKLCEditorToolStripMenuItem_Click);
+            // 
+            // kuppaScriptEditorToolStripMenuItem
+            // 
+            this.kuppaScriptEditorToolStripMenuItem.Name = "kuppaScriptEditorToolStripMenuItem";
+            this.kuppaScriptEditorToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.kuppaScriptEditorToolStripMenuItem.Text = "Kuppa Script Editor";
+            this.kuppaScriptEditorToolStripMenuItem.Click += new System.EventHandler(this.kuppaScriptEditorToolStripMenuItem_Click);
             // 
             // mnitToolsImageEditor
             // 
@@ -833,6 +842,7 @@
         private System.Windows.Forms.ComboBox cbLevelListDisplay;
         private System.Windows.Forms.ListBox lbxLevels;
         private System.Windows.Forms.ToolStripMenuItem dLPatchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem kuppaScriptEditorToolStripMenuItem;
     }
 }
 

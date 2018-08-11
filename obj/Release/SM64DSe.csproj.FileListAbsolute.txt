@@ -184,3 +184,7 @@ C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-
 C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.exe
 C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.pdb
 C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.SM64DSFormats.DL_Editor.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\bin\Release\ScintillaNET.dll
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\bin\Release\ScintillaNET.xml
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.KuppaScriptEditor.resources
+C:\Users\samsp\Documents\Visual Studio 2017\Projects\GIT\my-improved-version-of-sm64dse\bin\Release\kuppaLib.kpl
