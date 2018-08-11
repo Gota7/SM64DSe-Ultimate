@@ -50,6 +50,10 @@ namespace SM64DSe
             kpl.StyleNeeded += new EventHandler<StyleNeededEventArgs>(this.KPL_StyleNeeded);
             StyleKPL(0, kpl.Text.Length);
 
+            kps.Lexer = Lexer.Container;
+            kps.StyleNeeded += new EventHandler<StyleNeededEventArgs>(this.KPS_StyleNeeded);
+            StyleKPL(0, kps.Text.Length);
+
         }
 
 
@@ -116,14 +120,27 @@ namespace SM64DSe
             StyleKPL(startPos, endPos);
         }
 
+        private void KPS_StyleNeeded(object sender, StyleNeededEventArgs e)
+        {
+            var startPos = kps.GetEndStyled();
+            var endPos = e.Position;
+
+            if (startPos >= 500) { startPos -= 500; } else { startPos = 0; }
+            if ((kps.Text.Length - endPos) >= 500) { endPos += 500; } else { endPos = kps.Text.Length; }
+
+            StyleKPS(startPos, endPos);
+        }
+
+
+
         public void StyleKPL(int startPos, int endPos) {
             
             //Syntax highlighting.
 
             kpl.Styles[1].ForeColor = IntToColor(0xE7E7E7);
             kpl.Styles[2].ForeColor = Color.Red;
-            kpl.Styles[3].ForeColor = Color.Blue;
-            kpl.Styles[4].ForeColor = Color.Blue;
+            kpl.Styles[3].ForeColor = IntToColor(0x6A76D1);
+            kpl.Styles[4].ForeColor = IntToColor(0x6A76D1);
             kpl.Styles[5].ForeColor = Color.Violet;
             kpl.Styles[6].ForeColor = Color.Violet;
             kpl.Styles[7].ForeColor = Color.Cyan;
@@ -278,10 +295,139 @@ namespace SM64DSe
         }
 
 
+        public void StyleKPS(int startPos, int endPos)
+        {
+
+            //Syntax highlighting.
+
+            kps.Styles[1].ForeColor = IntToColor(0xE7E7E7);
+            kps.Styles[2].ForeColor = Color.Red;
+            kps.Styles[3].ForeColor = IntToColor(0x6A76D1);
+            kps.Styles[4].ForeColor = IntToColor(0x6A76D1);
+            kps.Styles[5].ForeColor = Color.Violet;
+            kps.Styles[6].ForeColor = Color.Violet;
+            kps.Styles[7].ForeColor = Color.Cyan;
+
+            kpsStyleState stateToBe = kpsStyleState.UNK;
+            kpsStyleState state = kpsStyleState.UNK;
+
+            int lineStartPosition = 0;
+
+            for (int i = startPos; i < endPos; i++)
+            {
+
+                char c = kps.Text[i];
+                state = stateToBe;
+
+                switch (c)
+                {
+
+                    case '\n':
+                        lineStartPosition = i;
+                        if (state != kpsStyleState.MultiComment)
+                        {
+                            state = kpsStyleState.UNK;
+                            stateToBe = kpsStyleState.UNK;
+                        }
+                        break;
+
+                    case '\r':
+                        lineStartPosition = i;
+                        if (state != kpsStyleState.MultiComment)
+                        {
+                            state = kpsStyleState.UNK;
+                            stateToBe = kpsStyleState.UNK;
+                        }
+                        break;
+
+                    case '/':
+                        try
+                        {
+
+                            if (state != kpsStyleState.Comment && state != kpsStyleState.MultiComment)
+                            {
+                                if (kps.Text[i + 1] == '/' || kps.Text[i - 1] == '/')
+                                {
+                                    state = kpsStyleState.Comment;
+                                    stateToBe = kpsStyleState.Comment;
+                                    i = lineStartPosition;
+                                }
+
+                                else if (kps.Text[i + 1] == '*')
+                                {
+                                    state = kpsStyleState.MultiComment;
+                                    stateToBe = kpsStyleState.MultiComment;
+                                    i = lineStartPosition;
+                                }
+                            }
+
+                            if (state == kpsStyleState.MultiComment)
+                            {
+                                if (kps.Text[i - 1] == '*')
+                                {
+                                    stateToBe = kpsStyleState.UNK;
+                                }
+                            }
+
+                        }
+                        catch
+                        {
+
+                        }
+                        break;
+
+                }
+
+
+                switch (state)
+                {
+
+                    case kpsStyleState.Comment:
+                        kps.StartStyling(i);
+                        kps.SetStyling(1, 3);
+                        break;
+
+                    case kpsStyleState.MultiComment:
+                        kps.StartStyling(i);
+                        kps.SetStyling(1, 4);
+                        break;
+
+                    case kpsStyleState.Character:
+                        kps.StartStyling(i);
+                        kps.SetStyling(1, 5);
+                        break;
+
+                    case kpsStyleState.Argument:
+                        kps.StartStyling(i);
+                        kps.SetStyling(1, 6);
+                        break;
+
+                    case kpsStyleState.TimeFrame:
+                        kps.StartStyling(i);
+                        kps.SetStyling(1, 7);
+                        break;
+
+                    default:
+                        kps.StartStyling(i);
+                        kps.SetStyling(1, 1);
+                        break;
+
+                }
+
+            }
+
+        }
 
         public enum KPLStyleState {
 
             UNK, Number, Flag, Header, Comment, CommentPending, MultiComment, InstructionNumber
+
+        }
+
+        public enum kpsStyleState
+        {
+
+            UNK, Argument, Comment, CommentPending, MultiComment, TimeFrame, Character
 
         }
 
