@@ -125,8 +125,8 @@ namespace SM64DSe
             var startPos = kps.GetEndStyled();
             var endPos = e.Position;
 
-            if (startPos >= 500) { startPos -= 500; } else { startPos = 0; }
-            if ((kps.Text.Length - endPos) >= 500) { endPos += 500; } else { endPos = kps.Text.Length; }
+            if (startPos >= 750) { startPos -= 750; } else { startPos = 0; }
+            if ((kps.Text.Length - endPos) >= 750) { endPos += 750; } else { endPos = kps.Text.Length; }
 
             StyleKPS(startPos, endPos);
         }
@@ -138,7 +138,7 @@ namespace SM64DSe
             //Syntax highlighting.
 
             kpl.Styles[1].ForeColor = IntToColor(0xE7E7E7);
-            kpl.Styles[2].ForeColor = Color.Red;
+            kpl.Styles[2].ForeColor = IntToColor(0xFF7777);
             kpl.Styles[3].ForeColor = IntToColor(0x6A76D1);
             kpl.Styles[4].ForeColor = IntToColor(0x6A76D1);
             kpl.Styles[5].ForeColor = Color.Violet;
@@ -299,14 +299,13 @@ namespace SM64DSe
         {
 
             //Syntax highlighting.
-
             kps.Styles[1].ForeColor = IntToColor(0xE7E7E7);
-            kps.Styles[2].ForeColor = Color.Red;
+            kps.Styles[2].ForeColor = IntToColor(0xFF7777);
             kps.Styles[3].ForeColor = IntToColor(0x6A76D1);
             kps.Styles[4].ForeColor = IntToColor(0x6A76D1);
-            kps.Styles[5].ForeColor = Color.Violet;
+            kps.Styles[5].ForeColor = Color.Cyan;
             kps.Styles[6].ForeColor = Color.Violet;
-            kps.Styles[7].ForeColor = Color.Cyan;
+            kps.Styles[7].ForeColor = IntToColor(0xFF7777);
 
             kpsStyleState stateToBe = kpsStyleState.UNK;
             kpsStyleState state = kpsStyleState.UNK;
@@ -337,6 +336,56 @@ namespace SM64DSe
                         {
                             state = kpsStyleState.UNK;
                             stateToBe = kpsStyleState.UNK;
+                        }
+                        break;
+
+                    case '{':
+                        if (state != kpsStyleState.Comment && state != kpsStyleState.MultiComment)
+                        {
+                            stateToBe = kpsStyleState.Character;
+                        }
+                        break;
+
+                    case '}':
+                    case ')':
+                    case ']':
+                        if (state != kpsStyleState.Comment && state != kpsStyleState.MultiComment)
+                        {
+                            stateToBe = kpsStyleState.UNK;
+                            state = kpsStyleState.UNK;
+                        }
+                        break;
+
+                    case '[':
+                        if (state != kpsStyleState.Comment && state != kpsStyleState.MultiComment)
+                        {
+                            stateToBe = kpsStyleState.Argument;
+                        }
+                        break;
+
+                    case '(':
+                        if (state != kpsStyleState.Comment && state != kpsStyleState.MultiComment)
+                        {
+                            stateToBe = kpsStyleState.TimeFrame;
+                        }
+                        break;
+
+                    case ',':
+                        if (state != kpsStyleState.Comment && state != kpsStyleState.MultiComment)
+                        {
+                            switch (state) {
+
+                                case kpsStyleState.TimeFrame:
+                                    state = kpsStyleState.UNK;
+                                    stateToBe = kpsStyleState.TimeFrame;
+                                    break;
+
+                                case kpsStyleState.Argument:
+                                    state = kpsStyleState.UNK;
+                                    stateToBe = kpsStyleState.Argument;
+                                    break;
+
+                            }
                         }
                         break;
 
