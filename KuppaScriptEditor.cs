@@ -22,7 +22,7 @@ namespace SM64DSe
         private const int BACK_COLOR = 0x2F2F2F;
         private const int FORE_COLOR = 0xB7B7B7;
 
-        string oldFile;
+        string kpsFileOpen = "";
         NitroFile nf;
 
 
@@ -193,13 +193,13 @@ namespace SM64DSe
                                 {
                                     state = KPLStyleState.Comment;
                                     stateToBe = KPLStyleState.Comment;
-                                    i = lineStartPosition;
+                                    if (kpl.Text[i - 1] == '/') { kpl.StartStyling(i - 1); kpl.SetStyling(1, 3); }
                                 }
                                 
                                 else if (kpl.Text[i + 1] == '*') {
                                     state = KPLStyleState.MultiComment;
                                     stateToBe = KPLStyleState.MultiComment;
-                                    i = lineStartPosition;
+                                    if (kpl.Text[i - 1] == '/') { kpl.StartStyling(i - 1); kpl.SetStyling(1, 3); }
                                 }
                             }
 
@@ -214,12 +214,30 @@ namespace SM64DSe
                         }
                         break;
 
+                    case '[':
+                        if (state != KPLStyleState.Comment && state != KPLStyleState.MultiComment)
+                        {
+
+                            stateToBe = KPLStyleState.Flag;
+                            state = KPLStyleState.UNK;
+
+                        }
+                        break;
 
                     case ']':
+                        if (state != KPLStyleState.Comment && state != KPLStyleState.MultiComment)
+                        {
+
+                            stateToBe = KPLStyleState.UNK;
+                            state = KPLStyleState.UNK;
+
+                        }
+                        break;
+
                     case ',':
                         if (state != KPLStyleState.Comment && state != KPLStyleState.MultiComment) {
 
-                            stateToBe = KPLStyleState.UNK;
+                            stateToBe = KPLStyleState.Flag;
                             state = KPLStyleState.UNK;
 
                         }
@@ -231,26 +249,18 @@ namespace SM64DSe
                 if (c == '0' || c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7' || c == '8' || c == '9')
                 {
 
-                    if (state != KPLStyleState.Comment && state != KPLStyleState.MultiComment) {
+                    if (state != KPLStyleState.Comment && state != KPLStyleState.MultiComment && state != KPLStyleState.Flag) {
+
                         try
                         {
-                            if (kpl.Text[i - 1] == '[' || kpl.Text[i - 1] == ' ' || kpl.Text[i - 1] == ',')
+                            if (kpl.Text[i - 2] == '\t' || kpl.Text[i - 1] == '\t')
                             {
-                                stateToBe = KPLStyleState.UNK;
-                                state = KPLStyleState.Number;
-
-                                if (kpl.Text[i + 1] == 'h' || kpl.Text[i + 1] == 'b' || kpl.Text[i + 1] == 'i')
-                                {
-                                    stateToBe = KPLStyleState.Flag;
-                                }
-
-                            }
-                            else if ((kpl.Text[i - 1] != 'a' && kpl.Text[i - 1] != 'b' && kpl.Text[i - 1] != 'c' && kpl.Text[i - 1] != 'd' && kpl.Text[i - 1] != 'e' && kpl.Text[i - 1] != 'f' && kpl.Text[i - 1] != 'g' && kpl.Text[i - 1] != 'h' && kpl.Text[i - 1] != 'i' && kpl.Text[i - 1] != 'j' && kpl.Text[i - 1] != 'k' && kpl.Text[i - 1] != 'l' && kpl.Text[i - 1] != 'm' && kpl.Text[i - 1] != 'n' && kpl.Text[i - 1] != 'o' && kpl.Text[i - 1] != 'p' && kpl.Text[i - 1] != 'q' && kpl.Text[i - 1] != 'R' && kpl.Text[i - 1] != 's' && kpl.Text[i - 1] != 't' && kpl.Text[i - 1] != 'u' && kpl.Text[i - 1] != 'v' && kpl.Text[i - 1] != 'w' && kpl.Text[i - 1] != 'x' && kpl.Text[i - 1] != 'y' && kpl.Text[i - 1] != 'z' && kpl.Text[i - 1] != '1') || kpl.Text[i - 2] == '\t') {
                                 state = KPLStyleState.InstructionNumber;
                                 stateToBe = KPLStyleState.UNK;
                             }
                         }
                         catch { }
+
                     }
 
                 }
@@ -363,6 +373,13 @@ namespace SM64DSe
                         }
                         break;
 
+                    case ';':
+                        if (state != kpsStyleState.MultiComment)
+                        {
+                            stateToBe = kpsStyleState.Comment;
+                        }
+                        break;
+
                     case '(':
                         if (state != kpsStyleState.Comment && state != kpsStyleState.MultiComment)
                         {
@@ -399,14 +416,14 @@ namespace SM64DSe
                                 {
                                     state = kpsStyleState.Comment;
                                     stateToBe = kpsStyleState.Comment;
-                                    i = lineStartPosition;
+                                    if (kps.Text[i - 1] == '/') { kps.StartStyling(i - 1); kps.SetStyling(1, 3); }
                                 }
 
                                 else if (kps.Text[i + 1] == '*')
                                 {
                                     state = kpsStyleState.MultiComment;
                                     stateToBe = kpsStyleState.MultiComment;
-                                    i = lineStartPosition;
+                                    if (kps.Text[i - 1] == '/') { kps.StartStyling(i - 1); kps.SetStyling(1, 3); }
                                 }
                             }
 
@@ -482,13 +499,21 @@ namespace SM64DSe
 
 
         /// <summary>
-        /// Save KPL.
+        /// Save output KPS.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void saveKPLButton_ButtonClick(object sender, EventArgs e)
         {
-            File.WriteAllText("kuppaLib.kpl", kpl.Text);
+
+            kpsSelector.ShowDialog();
+            if (kpsSelector.FileName != "") {
+
+                kpsFileOpen = kpsSelector.FileName;
+                kpsSelector.FileName = "";
+
+            }
+
         }
 
 
@@ -828,6 +853,7 @@ namespace SM64DSe
 
                     case 1:
                         kps.Text = File.ReadAllText(importer.FileName);
+                        kpsFileOpen = importer.FileName;
                         break;
 
                     case 2:
@@ -976,6 +1002,76 @@ namespace SM64DSe
 
         }
 
+
+
+        private void saveKPLButton_ButtonClick_1(object sender, EventArgs e)
+        {
+            File.WriteAllText("kuppaLib.kpl", kpl.Text);
+        }
+
+        private void saveDKLAndKPSButton_ButtonClick(object sender, EventArgs e)
+        {
+            if (nf == null)
+            {
+                MessageBox.Show("No file opened!");
+            }
+            else
+            {
+
+                if (kpsFileOpen == "")
+                {
+
+                    MessageBox.Show("No output KPS file selected!");
+
+                }
+                else
+                {
+
+                    byte[] h = GetDKL();
+                    if (h != null)
+                    {
+                        nf.m_Data = h;
+                        nf.SaveChanges();
+                        File.WriteAllText(kpsFileOpen, kps.Text);
+                    }
+
+                }
+
+            }
+        }
+
+        private void saveBINAndKPSButton_ButtonClick(object sender, EventArgs e)
+        {
+
+            if (nf == null)
+            {
+                MessageBox.Show("No file opened!");
+            }
+            else
+            {
+
+                if (kpsFileOpen == "")
+                {
+
+                    MessageBox.Show("No output KPS file selected!");
+
+                }
+                else
+                {
+
+                    byte[] h = GetBIN();
+                    if (h != null)
+                    {
+                        nf.m_Data = h;
+                        nf.SaveChanges();
+                        File.WriteAllText(kpsFileOpen, kps.Text);
+                    }
+
+                }
+
+            }
+
+        }
     }
 
 }

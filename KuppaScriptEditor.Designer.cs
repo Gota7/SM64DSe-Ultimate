@@ -32,22 +32,28 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.saveDKLButton = new System.Windows.Forms.ToolStripSplitButton();
             this.saveBINButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.saveAsDKLButton = new System.Windows.Forms.ToolStripSplitButton();
             this.saveAsBINButton = new System.Windows.Forms.ToolStripSplitButton();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.saveKPLButton = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.changeOutputKPSButton = new System.Windows.Forms.ToolStripSplitButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.kpsPanel = new System.Windows.Forms.Panel();
             this.kplPanel = new System.Windows.Forms.Panel();
             this.exporter = new System.Windows.Forms.SaveFileDialog();
             this.importer = new System.Windows.Forms.OpenFileDialog();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.saveDKLAndKPSButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.saveBINAndKPSButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.saveKPLButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.kpsSelector = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -80,28 +86,28 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            // 
-            // exportToolStripMenuItem
-            // 
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.exportToolStripMenuItem.Text = "Export";
-            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.importToolStripMenuItem.Text = "Import";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.exportToolStripMenuItem.Text = "Export";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -114,6 +120,11 @@
             this.saveAsDKLButton,
             this.saveAsBINButton,
             this.toolStripStatusLabel2,
+            this.saveDKLAndKPSButton,
+            this.saveBINAndKPSButton,
+            this.toolStripStatusLabel3,
+            this.changeOutputKPSButton,
+            this.toolStripStatusLabel4,
             this.saveKPLButton});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
@@ -143,6 +154,12 @@
             this.saveBINButton.Text = "Save BIN";
             this.saveBINButton.ButtonClick += new System.EventHandler(this.saveBINButton_ButtonClick);
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel1.Text = "|";
+            // 
             // saveAsDKLButton
             // 
             this.saveAsDKLButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -165,29 +182,23 @@
             this.saveAsBINButton.Text = "Save As BIN";
             this.saveAsBINButton.ButtonClick += new System.EventHandler(this.saveAsBINButton_ButtonClick);
             // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
-            this.toolStripStatusLabel1.Text = "|";
-            // 
-            // saveKPLButton
-            // 
-            this.saveKPLButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.saveKPLButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.saveKPLButton.DropDownButtonWidth = 0;
-            this.saveKPLButton.Image = ((System.Drawing.Image)(resources.GetObject("saveKPLButton.Image")));
-            this.saveKPLButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveKPLButton.Name = "saveKPLButton";
-            this.saveKPLButton.Size = new System.Drawing.Size(59, 20);
-            this.saveKPLButton.Text = "Save KPL";
-            this.saveKPLButton.ButtonClick += new System.EventHandler(this.saveKPLButton_ButtonClick);
-            // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(10, 17);
             this.toolStripStatusLabel2.Text = "|";
+            // 
+            // changeOutputKPSButton
+            // 
+            this.changeOutputKPSButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.changeOutputKPSButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.changeOutputKPSButton.DropDownButtonWidth = 0;
+            this.changeOutputKPSButton.Image = ((System.Drawing.Image)(resources.GetObject("changeOutputKPSButton.Image")));
+            this.changeOutputKPSButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.changeOutputKPSButton.Name = "changeOutputKPSButton";
+            this.changeOutputKPSButton.Size = new System.Drawing.Size(117, 20);
+            this.changeOutputKPSButton.Text = "Change Output KPS";
+            this.changeOutputKPSButton.ButtonClick += new System.EventHandler(this.saveKPLButton_ButtonClick);
             // 
             // splitContainer1
             // 
@@ -234,6 +245,57 @@
             this.importer.Filter = "Kuppa Script|*.kps|Dynamic Kuppa Library|*.dkl|Kuppa Binary|*.bin";
             this.importer.RestoreDirectory = true;
             // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel3.Text = "|";
+            // 
+            // saveDKLAndKPSButton
+            // 
+            this.saveDKLAndKPSButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.saveDKLAndKPSButton.DropDownButtonWidth = 0;
+            this.saveDKLAndKPSButton.Image = ((System.Drawing.Image)(resources.GetObject("saveDKLAndKPSButton.Image")));
+            this.saveDKLAndKPSButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveDKLAndKPSButton.Name = "saveDKLAndKPSButton";
+            this.saveDKLAndKPSButton.Size = new System.Drawing.Size(108, 20);
+            this.saveDKLAndKPSButton.Text = "Save DKL And KPS";
+            this.saveDKLAndKPSButton.ButtonClick += new System.EventHandler(this.saveDKLAndKPSButton_ButtonClick);
+            // 
+            // saveBINAndKPSButton
+            // 
+            this.saveBINAndKPSButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.saveBINAndKPSButton.DropDownButtonWidth = 0;
+            this.saveBINAndKPSButton.Image = ((System.Drawing.Image)(resources.GetObject("saveBINAndKPSButton.Image")));
+            this.saveBINAndKPSButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveBINAndKPSButton.Name = "saveBINAndKPSButton";
+            this.saveBINAndKPSButton.Size = new System.Drawing.Size(106, 20);
+            this.saveBINAndKPSButton.Text = "Save BIN And KPS";
+            this.saveBINAndKPSButton.ButtonClick += new System.EventHandler(this.saveBINAndKPSButton_ButtonClick);
+            // 
+            // toolStripStatusLabel4
+            // 
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(10, 17);
+            this.toolStripStatusLabel4.Text = "|";
+            // 
+            // saveKPLButton
+            // 
+            this.saveKPLButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.saveKPLButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.saveKPLButton.DropDownButtonWidth = 0;
+            this.saveKPLButton.Image = ((System.Drawing.Image)(resources.GetObject("saveKPLButton.Image")));
+            this.saveKPLButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveKPLButton.Name = "saveKPLButton";
+            this.saveKPLButton.Size = new System.Drawing.Size(59, 20);
+            this.saveKPLButton.Text = "Save KPL";
+            this.saveKPLButton.ButtonClick += new System.EventHandler(this.saveKPLButton_ButtonClick_1);
+            // 
+            // kpsSelector
+            // 
+            this.kpsSelector.Filter = "Kuppa Script|*.kps";
+            this.kpsSelector.RestoreDirectory = true;
+            // 
             // KuppaScriptEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -274,12 +336,18 @@
         private System.Windows.Forms.ToolStripSplitButton saveAsDKLButton;
         private System.Windows.Forms.ToolStripSplitButton saveAsBINButton;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripSplitButton saveKPLButton;
+        private System.Windows.Forms.ToolStripSplitButton changeOutputKPSButton;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Panel kpsPanel;
         private System.Windows.Forms.Panel kplPanel;
         private System.Windows.Forms.SaveFileDialog exporter;
         private System.Windows.Forms.OpenFileDialog importer;
+        private System.Windows.Forms.ToolStripSplitButton saveDKLAndKPSButton;
+        private System.Windows.Forms.ToolStripSplitButton saveBINAndKPSButton;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripSplitButton saveKPLButton;
+        private System.Windows.Forms.SaveFileDialog kpsSelector;
     }
 }
