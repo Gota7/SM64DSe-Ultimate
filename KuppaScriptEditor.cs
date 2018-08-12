@@ -32,6 +32,12 @@ namespace SM64DSe
             InitializeComponent();
         }
 
+
+        /// <summary>
+        /// Load the editor.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void KuppaScriptEditor_Load(object sender, EventArgs e)
         {
 
@@ -58,6 +64,10 @@ namespace SM64DSe
         }
 
 
+        /// <summary>
+        /// Setup numbers on side.
+        /// </summary>
+        /// <param name="s"></param>
         private void InitNumberMargin(Scintilla s)
         {
 
@@ -74,6 +84,11 @@ namespace SM64DSe
 
         }
 
+
+        /// <summary>
+        /// Load KPL file.
+        /// </summary>
+        /// <param name="path"></param>
         private void LoadKPL(string path)
         {
             if (File.Exists(path))
@@ -86,12 +101,22 @@ namespace SM64DSe
             }
         }
 
+
+        /// <summary>
+        /// Int to color.
+        /// </summary>
+        /// <param name="rgb"></param>
+        /// <returns></returns>
         public static Color IntToColor(int rgb)
         {
             return Color.FromArgb(255, (byte)(rgb >> 16), (byte)(rgb >> 8), (byte)rgb);
         }
 
 
+        /// <summary>
+        /// Initialize style.
+        /// </summary>
+        /// <param name="s"></param>
         public void InitStyle(ref Scintilla s) {
 
             s.Dock = DockStyle.Fill;
@@ -110,6 +135,12 @@ namespace SM64DSe
 
         }
 
+
+        /// <summary>
+        /// KPL needs style.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void KPL_StyleNeeded(object sender, StyleNeededEventArgs e)
         {
             var startPos = kpl.GetEndStyled();
@@ -121,6 +152,12 @@ namespace SM64DSe
             StyleKPL(startPos, endPos);
         }
 
+
+        /// <summary>
+        /// KPS needs style.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void KPS_StyleNeeded(object sender, StyleNeededEventArgs e)
         {
             var startPos = kps.GetEndStyled();
@@ -133,7 +170,11 @@ namespace SM64DSe
         }
 
 
-
+        /// <summary>
+        /// Style the KPL.
+        /// </summary>
+        /// <param name="startPos"></param>
+        /// <param name="endPos"></param>
         public void StyleKPL(int startPos, int endPos) {
             
             //Syntax highlighting.
@@ -306,6 +347,11 @@ namespace SM64DSe
         }
 
 
+        /// <summary>
+        /// Style the KPS.
+        /// </summary>
+        /// <param name="startPos"></param>
+        /// <param name="endPos"></param>
         public void StyleKPS(int startPos, int endPos)
         {
 
@@ -485,12 +531,20 @@ namespace SM64DSe
 
         }
 
+
+        /// <summary>
+        /// KPL style states.
+        /// </summary>
         public enum KPLStyleState {
 
             UNK, Number, Flag, Header, Comment, CommentPending, MultiComment, InstructionNumber
 
         }
 
+
+        /// <summary>
+        /// KPS style states.
+        /// </summary>
         public enum kpsStyleState
         {
 
@@ -500,7 +554,7 @@ namespace SM64DSe
 
 
         /// <summary>
-        /// Save output KPS.
+        /// Change output KPS.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -584,7 +638,10 @@ namespace SM64DSe
         }
 
 
-
+        /// <summary>
+        /// Open a bin.
+        /// </summary>
+        /// <param name="bin"></param>
         public void OpenBin(byte[] bin) {
 
             bool garbage = true;
@@ -595,6 +652,11 @@ namespace SM64DSe
         }
 
 
+        /// <summary>
+        /// Open a dkl.
+        /// </summary>
+        /// <param name="bin"></param>
+        /// <param name="isLong"></param>
         public void OpenDkl(byte[] bin, bool isLong) {
 
             MemoryStream src = new MemoryStream(bin);
@@ -644,60 +706,6 @@ namespace SM64DSe
             }
 
         }
-
-
-        /// <summary>
-        /// Save DKL.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void saveDKLButton_ButtonClick(object sender, EventArgs e)
-        {
-
-            if (nf == null)
-            {
-                MessageBox.Show("No file opened!");
-            }
-            else
-            {
-
-                byte[] h = GetDKL();
-                if (h != null)
-                {
-                    nf.m_Data = h;
-                    nf.SaveChanges();
-                }
-
-            }
-
-        }
-
-
-        /// <summary>
-        /// Save bin.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void saveBINButton_ButtonClick(object sender, EventArgs e)
-        {
-
-            if (nf == null)
-            {
-                MessageBox.Show("No file opened!");
-            }
-            else
-            {
-
-                byte[] h = GetBIN();
-                if (h != null)
-                {
-                    nf.m_Data = h;
-                    nf.SaveChanges();
-                }
-
-            }
-
-            }
 
 
         /// <summary>
@@ -951,25 +959,57 @@ namespace SM64DSe
 
 
         /// <summary>
-        /// Save as DKL.
+        /// Change output KPS.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void saveAsDKLButton_ButtonClick(object sender, EventArgs e)
+        private void saveKPLButton_ButtonClick_1(object sender, EventArgs e)
+        {
+            File.WriteAllText(kplPath, kpl.Text);
+        }
+
+
+        /// <summary>
+        /// Save.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            ROMFileSelect r = new ROMFileSelect();
-            r.ShowDialog();
-            string file = r.m_SelectedFile;
-            if (file != null && file != "")
+            if (nf == null)
+            {
+                MessageBox.Show("No file opened!");
+            }
+            else
             {
 
-                nf = new NitroFile(Program.m_ROM, Program.m_ROM.GetFileIDFromName(file));
-                byte[] h = GetDKL();
+                if (saveKPSBox.Checked)
+                {
+                    if (kpsFileOpen == "")
+                    {
+
+                        MessageBox.Show("No output KPS file selected!");
+                        return;
+
+                    }
+                }
+
+                byte[] h = null;
+                if (dklMode.Checked)
+                {
+                    h = GetDKL();
+                }
+                else {
+                    h = GetBIN();
+                }
+
                 if (h != null)
                 {
                     nf.m_Data = h;
                     nf.SaveChanges();
+                    if (saveKPSBox.Checked) { File.WriteAllText(kpsFileOpen, kps.Text); }
+                    if (openROMBox.Checked) { System.Diagnostics.Process.Start(Program.m_ROMPath); }
                 }
 
             }
@@ -978,11 +1018,11 @@ namespace SM64DSe
 
 
         /// <summary>
-        /// Save as BIN.
+        /// Save As.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void saveAsBINButton_ButtonClick(object sender, EventArgs e)
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
             ROMFileSelect r = new ROMFileSelect();
@@ -992,11 +1032,34 @@ namespace SM64DSe
             {
 
                 nf = new NitroFile(Program.m_ROM, Program.m_ROM.GetFileIDFromName(file));
-                byte[] h = GetBIN();
+
+                if (saveKPSBox.Checked)
+                {
+                    if (kpsFileOpen == "")
+                    {
+
+                        MessageBox.Show("No output KPS file selected!");
+                        return;
+
+                    }
+                }
+
+                byte[] h = null;
+                if (dklMode.Checked)
+                {
+                    h = GetDKL();
+                }
+                else
+                {
+                    h = GetBIN();
+                }
+
                 if (h != null)
                 {
                     nf.m_Data = h;
                     nf.SaveChanges();
+                    if (saveKPSBox.Checked) { File.WriteAllText(kpsFileOpen, kps.Text); }
+                    if (openROMBox.Checked) { System.Diagnostics.Process.Start(Program.m_ROMPath); }
                 }
 
             }
@@ -1004,75 +1067,64 @@ namespace SM64DSe
         }
 
 
-
-        private void saveKPLButton_ButtonClick_1(object sender, EventArgs e)
+        /// <summary>
+        /// (Un)comment current line.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void uncommentCurrentLineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            File.WriteAllText(kplPath, kpl.Text);
-        }
 
-        private void saveDKLAndKPSButton_ButtonClick(object sender, EventArgs e)
-        {
-            if (nf == null)
-            {
-                MessageBox.Show("No file opened!");
-            }
-            else
+            if (kpl.ContainsFocus)
             {
 
-                if (kpsFileOpen == "")
+                var currentPos = kpl.CurrentPosition;
+                var currentLine = kpl.LineFromPosition(currentPos);
+
+                string[] kplArr = kpl.Text.Split('\n');
+                if (kplArr[currentLine].Contains("//"))
                 {
 
-                    MessageBox.Show("No output KPS file selected!");
+                    kplArr[currentLine] = kplArr[currentLine].Replace("//", "");
+
+                }
+                else {
+
+                    kplArr[currentLine] = "//" + kplArr[currentLine];
+
+                }
+
+                kpl.Text = String.Join("\n", kplArr);
+                kpl.GotoPosition(currentPos);
+
+            }
+            else {
+
+                var currentPos = kps.CurrentPosition;
+                var currentLine = kps.LineFromPosition(currentPos);
+
+                string[] kpsArr = kps.Text.Split('\n');
+                if (kpsArr[currentLine].Contains("//"))
+                {
+
+                    kpsArr[currentLine] = kpsArr[currentLine].Replace("//", "");
 
                 }
                 else
                 {
 
-                    byte[] h = GetDKL();
-                    if (h != null)
-                    {
-                        nf.m_Data = h;
-                        nf.SaveChanges();
-                        File.WriteAllText(kpsFileOpen, kps.Text);
-                    }
+                    kpsArr[currentLine] = "//" + kpsArr[currentLine];
 
                 }
 
+                kps.Text = String.Join("\n", kpsArr);
+                kps.GotoPosition(currentPos);
+
             }
+            
+
         }
 
-        private void saveBINAndKPSButton_ButtonClick(object sender, EventArgs e)
-        {
-
-            if (nf == null)
-            {
-                MessageBox.Show("No file opened!");
-            }
-            else
-            {
-
-                if (kpsFileOpen == "")
-                {
-
-                    MessageBox.Show("No output KPS file selected!");
-
-                }
-                else
-                {
-
-                    byte[] h = GetBIN();
-                    if (h != null)
-                    {
-                        nf.m_Data = h;
-                        nf.SaveChanges();
-                        File.WriteAllText(kpsFileOpen, kps.Text);
-                    }
-
-                }
-
-            }
-
-        }
     }
 
 }
