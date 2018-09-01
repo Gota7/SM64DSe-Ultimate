@@ -947,10 +947,10 @@
       <AddressDataPair>
         <Address>857708</Address>
         <Data>
-          <Byte>226</Byte>
-          <Byte>244</Byte>
-          <Byte>255</Byte>
-          <Byte>109</Byte>
+          <Byte>47</Byte>
+          <Byte>115</Byte>
+          <Byte>112</Byte>
+          <Byte>101</Byte>
         </Data>
       </AddressDataPair>
     </EURRestoreData>
