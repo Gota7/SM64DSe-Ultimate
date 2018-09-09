@@ -668,6 +668,9 @@ namespace SM64DSe
             LevelTexAnim.SaveAll(binWriter, m_TexAnims, areaTableOffset, (uint)m_NumAreas);
             if (DoesLevelSupportDynamicLibs())
             {
+                while (stream.Position % 2 != 0) {
+                    binWriter.Write((byte)0);
+                }
                 Helper.WritePosAndRestore(binWriter, 0x30, 0);
                 binWriter.Write((ushort)m_DynLibIDs.Count);
                 m_DynLibIDs.ForEach(x => binWriter.Write((ushort)x));
