@@ -34,7 +34,7 @@ namespace SM64DSe
 
             switch (obj.ID)
             {
-                // 0 -- PLAYER -- TODO
+                //case 0: ret = new PlayerRenderer(.008f); break;
                 case 1: ret = new NormalBMDRenderer("data/special_obj/ewb_ice/ewb_ice_a.bmd", 0.008f); break;
                 case 2: ret = new NormalBMDRenderer("data/special_obj/ewb_ice/ewb_ice_b.bmd", 0.008f); break;
                 case 3: ret = new NormalBMDRenderer("data/special_obj/ewb_ice/ewb_ice_c.bmd", 0.008f); break;
@@ -963,6 +963,68 @@ namespace SM64DSe
 
         private BMD m_Model;
         private int[] m_DisplayLists;
+    }
+
+
+    class PlayerRenderer : ObjectRenderer
+    {
+        public PlayerRenderer() { }
+        public PlayerRenderer(float scale)
+        {
+            Construct(scale);
+        }
+
+        public override void Release()
+        {
+            ModelCache.RemoveModel(m_Model);
+            ModelCache.RemoveModel(m_Head);
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            int dl = 0;
+            switch (mode)
+            {
+                case RenderMode.Opaque: dl = m_DisplayLists[0]; dl = m_DisplayListsHead[0]; break;
+                case RenderMode.Translucent: dl = m_DisplayLists[1]; dl = m_DisplayListsHead[1]; break;
+                case RenderMode.Picking: dl = m_DisplayLists[2]; dl = m_DisplayListsHead[2]; break;
+            }
+
+            return dl != 0;
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            GL.Scale(m_Scale);
+            switch (mode)
+            {
+                case RenderMode.Opaque: GL.CallList(m_DisplayLists[0]); GL.CallList(m_DisplayListsHead[0]); break;
+                case RenderMode.Translucent: GL.CallList(m_DisplayLists[1]); GL.CallList(m_DisplayListsHead[1]); break;
+                case RenderMode.Picking: GL.CallList(m_DisplayLists[2]); GL.CallList(m_DisplayListsHead[2]); break;
+            }
+        }
+
+        public void Construct(float scale)
+        {
+            m_Model = ModelCache.GetModel("data/player/mario_model.bmd");
+            m_Head = ModelCache.GetModel("data/player/mario_head_cap.bmd");
+            m_DisplayLists = ModelCache.GetDisplayLists(m_Model);
+            m_DisplayListsHead = ModelCache.GetDisplayLists(m_Head);
+            m_Scale = new Vector3(scale, scale, scale);
+            m_Filename = "data/player/mario_model.bmd";
+        }
+
+        public override void UpdateRenderer()
+        {
+            ModelCache.RemoveModel(m_Model);
+            ModelCache.RemoveModel(m_Head);
+            Construct(m_Scale.X);
+        }
+
+        private BMD m_Model;
+        private BMD m_Head;
+        private int[] m_DisplayLists;
+        private int[] m_DisplayListsHead;
     }
 
 
