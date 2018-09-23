@@ -57,6 +57,8 @@ namespace SM64DSe
             public int m_BankRequirement;
             public int m_NumBank, m_BankSetting;
 
+            public string m_IsCustomModelPath;
+
             public ParamInfo[] m_ParamInfo;
         }
 
@@ -67,8 +69,8 @@ namespace SM64DSe
 
         public static void Initialize()
         {
-            m_ObjectInfo = new ObjectInfo[326];
-            for (int i = 0; i < 326; i++)
+            m_ObjectInfo = new ObjectInfo[65536];
+            for (int i = 0; i < 65536; i++)
                 m_ObjectInfo[i] = new ObjectInfo();
 
             m_WebClient = new WebClient();
@@ -115,6 +117,7 @@ namespace SM64DSe
                 oinfo.m_Name = xr.ReadElementContentAsString();
                 xr.ReadToFollowing("internalname");
                 oinfo.m_InternalName = xr.ReadElementContentAsString();
+                if (oinfo.m_InternalName.StartsWith("@CUSTOM%")) { oinfo.m_IsCustomModelPath = oinfo.m_InternalName.Substring(8); } else { oinfo.m_IsCustomModelPath = null; }
 
                 if (oinfo.m_Name == "")
                     oinfo.m_Name = oinfo.m_InternalName;

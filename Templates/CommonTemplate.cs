@@ -99,10 +99,11 @@ namespace SM64DSe.Templates
         };
 
         public static void DocumentObject(string name, string codeName, int category,
-            ushort objectID, ushort actorID, string description, string bankReq)
+            ushort objectID, ushort actorID, string description, string bankReq, bool overrideCaps = false)
         {
             string fakeInternalName =
                 new Regex("([a-z])([A-Z])").Replace(codeName, "$1_$2").ToUpper();
+            if (overrideCaps) { fakeInternalName = codeName; }
             using (FileStream objList = new FileStream("obj_list.txt", FileMode.Open),
                               objData = new FileStream("objectdb.xml", FileMode.Open))
             {

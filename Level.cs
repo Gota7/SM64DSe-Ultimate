@@ -271,7 +271,7 @@ namespace SM64DSe
                 m_ObjAvailable.Add((ushort)i, available);
             }
 
-            m_ObjAvailable.Add(511, true);
+            //m_ObjAvailable.Add(511, true);
         }
 
         private INitroROMBlock InitialiseDataForObject(LevelObject.Type type)

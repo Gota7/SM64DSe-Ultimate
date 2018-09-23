@@ -1127,6 +1127,8 @@
     </EURRestoreData>
   </Patch>
   <Patch>
-    <PatchName />
+    <PatchName>Change KTQ's speed.</PatchName>
+    <Author>Gamemasterpic</Author>
+    <OverlayToPatch>62</OverlayToPatch>
   </Patch>
 </Patches>

@@ -56,24 +56,11 @@ namespace SM64DSe
         {
             ObjectID = (ushort)m_ObjectIndexIDMap[lbxObjectList.SelectedIndex];
 
-            if (ObjectID == LevelObject.NUM_OBJ_TYPES)
-                ObjectID = 511; // haxx
+            ObjectDatabase.ObjectInfo objinfo = ObjectDatabase.m_ObjectInfo[ObjectID];
+            rtbObjectDesc.Text = "";
+            AppendToObjectDesc(objinfo.m_Name, FontStyle.Bold, rtbObjectDesc.ForeColor);
+            AppendToObjectDesc("\n\n" + objinfo.m_Description, FontStyle.Regular, rtbObjectDesc.ForeColor);
 
-            // describe the object
-            if (ObjectID != 511)
-            {
-                ObjectDatabase.ObjectInfo objinfo = ObjectDatabase.m_ObjectInfo[ObjectID];
-                rtbObjectDesc.Text = "";
-                AppendToObjectDesc(objinfo.m_Name, FontStyle.Bold, rtbObjectDesc.ForeColor);
-                AppendToObjectDesc("\n\n" + objinfo.m_Description, FontStyle.Regular, rtbObjectDesc.ForeColor);
-            }
-            else
-            {
-                rtbObjectDesc.Text = "";
-                AppendToObjectDesc("Minimap change", FontStyle.Bold, rtbObjectDesc.ForeColor);
-                AppendToObjectDesc("\n\nChanges the minimap shown on the bottom screen when the user passes near it.", 
-                    FontStyle.Regular, rtbObjectDesc.ForeColor);
-            }
         }
 
         private void ObjectListForm_Load(object sender, EventArgs e)
@@ -85,15 +72,16 @@ namespace SM64DSe
             {
                 ObjectDatabase.ObjectInfo objinfo = ObjectDatabase.m_ObjectInfo[i];
                 m_ObjectListText[i] = string.Format("{0} - {1}",
-                    i, objinfo.m_Name);
-                lbxObjectList.Items.Insert(i, m_ObjectListText[i]);
-                m_BasicDescriptions.Add((ushort)i, objinfo.GetBasicInfo());
+                    objinfo.m_ID, objinfo.m_Name);
+                if (objinfo.m_Name != null) { if (objinfo.m_Name.Length > 0) { lbxObjectList.Items.Insert(lbxObjectList.Items.Count, m_ObjectListText[i]); m_ObjectIndexIDMap[lbxObjectList.Items.Count] = i; } }
+                m_BasicDescriptions.Add((ushort)i, objinfo.GetBasicInfo());          
             }
 
-            m_ObjectListText[LevelObject.NUM_OBJ_TYPES] = "511 - Minimap change";
-            lbxObjectList.Items.Insert(LevelObject.NUM_OBJ_TYPES, m_ObjectListText[LevelObject.NUM_OBJ_TYPES]);
             lbxObjectList.EndUpdate();
-            lbxObjectList.SelectedIndex = (ObjectID == 511) ? (ushort) LevelObject.NUM_OBJ_TYPES : ObjectID;
+            lbxObjectList.SelectedIndex = 0;
+            tbxObjSearch.Text = "something";
+            tbxObjSearch.Text = "";
+
         }
 
         private void lbxObjectList_DoubleClick(object sender, EventArgs e)
@@ -131,10 +119,13 @@ namespace SM64DSe
             int index = 0;
             for (int i = 0; i < m_BasicDescriptions.Count; i++)
             {
-                if (m_BasicDescriptions[(ushort)i].ToLowerInvariant().Contains(searchText))
+                if (m_BasicDescriptions[(ushort)i].ToLowerInvariant().Contains(searchText) && ObjectDatabase.m_ObjectInfo[i].m_Name != null)
                 {
-                    matchingIDs.Add((ushort)i);
-                    m_ObjectIndexIDMap[index++] = i;
+                    if (ObjectDatabase.m_ObjectInfo[i].m_Name.Length > 0)
+                    {
+                        matchingIDs.Add((ushort)i);
+                        m_ObjectIndexIDMap[index++] = i;
+                    }
                 }
             }
 
@@ -145,11 +136,8 @@ namespace SM64DSe
                 for (int i = 0; i < matchingIDs.Count; i++)
                 {
                     ushort id = matchingIDs.ElementAt(i);
-                    if (id != LevelObject.NUM_OBJ_TYPES)
-                        lbxObjectList.Items.Insert(i, string.Format("{0} - {1}",
+                    lbxObjectList.Items.Insert(i, string.Format("{0} - {1}",
                             id, m_BasicDescriptions[id]));
-                    else
-                        lbxObjectList.Items.Insert(LevelObject.NUM_OBJ_TYPES, "511 - Minimap change");
                 }
                 lbxObjectList.EndUpdate();
             }

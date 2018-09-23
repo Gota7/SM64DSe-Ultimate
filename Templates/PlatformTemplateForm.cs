@@ -190,12 +190,12 @@ namespace SM64DSe.Templates
 
             CommonTemplate.DocumentObject(
                 txtName.Text,
-                (chkLevelSpecific.Checked ? new Regex("[a-z]").Replace(txtLevel.Text, "") + "_" : "") + txtFilename.Text,
+                "@CUSTOM%" + txtModelFile.Text,
                 1,
                 ushort.Parse(txtObjectID.Text.Substring(2), System.Globalization.NumberStyles.HexNumber),
                 ushort.Parse(txtActorID.Text.Substring(2), System.Globalization.NumberStyles.HexNumber),
                 txtDescription.Text,
-                chkLevelSpecific.Checked ? "7=" + txtBankValue.Text : "none");
+                chkLevelSpecific.Checked ? "7=" + txtBankValue.Text : "none", true);
         }
 
         private void btnHackPath_Click(object sender, EventArgs e)

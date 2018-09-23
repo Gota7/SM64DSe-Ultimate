@@ -33,7 +33,8 @@ namespace SM64DSe
 {
     public class LevelObject
     {
-        public static int NUM_OBJ_TYPES = 326;
+        //public static int NUM_OBJ_TYPES = 326;
+        public static int NUM_OBJ_TYPES = 65536;
         public static string[] k_Layers = { "(all stars)", "(star 1)", "(star 2)", "(star 3)", "(star 4)", "(star 5)", "(star 6)", "(star 7)" };
 
         public LevelObject(INitroROMBlock data, int layer)
@@ -352,7 +353,6 @@ namespace SM64DSe
 
         public override string GetDescription()
         {
-            if (ID == 511) return "511 - Minimap change " + k_Layers[m_Layer];
             return String.Format("{0} - {1} {2}", ID, ObjectDatabase.m_ObjectInfo[ID].m_Name, k_Layers[m_Layer]);
         }
 

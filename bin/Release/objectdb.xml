@@ -4354,5 +4354,14 @@ F - Same as 3?
 		<bankreq>none</bankreq>
 	</object>
 
+	<object id='511'>
+		<category>1</category>
+		<name>Minimap Change</name>
+		<internalname>MPCHANGE</internalname>
+		<actorid>0</actorid>
+		<description>Changes the minimap shown on the bottom screen when the user passes near it.</description>
+		<bankreq>none</bankreq>
+	</object>
+
 </database>
 

@@ -345,6 +345,11 @@ namespace SM64DSe
                 default: ret = new ColorCubeRenderer(Color.FromArgb(0, 0, 255), Color.FromArgb(0,0,64), obj.SupportsRotation()); break;
             }
 
+            //Make custom objects override everything because they are that cool.
+            if (ObjectDatabase.m_ObjectInfo[obj.ID].m_IsCustomModelPath != null) {
+                ret = new NormalBMDRenderer(ObjectDatabase.m_ObjectInfo[obj.ID].m_IsCustomModelPath, 0.008f);
+            }
+
             ret.m_ObjUniqueID = obj.m_UniqueID;
 
             return ret;
