@@ -445,7 +445,7 @@ namespace SM64DSe
             {
                 new ListField("Parameter 4",0,9,new object[]{
                     0, "Spawns on ground standing.",
-                    1, "Wingcap Mario for ? Switch only, else falls and takes damage.",
+                    1, "Swimming or ? Switch Palace entrance",
                     2, "Mario has Wingcap, other characters Spin in with Star wipe.",
                     3, "Spin in with Circle wipe.",
                     4, "Fall in, Star Wipe.",
@@ -470,7 +470,34 @@ namespace SM64DSe
 
         public override ObjectRenderer BuildRenderer()
         {
-            return new ColorCubeRenderer(Color.FromArgb(0, 255, 0), Color.FromArgb(0, 64, 0), true);
+			switch (Parameters[3]>>7)
+			{
+				case 0:
+				case 14:
+					return new PlayerRenderer(.008f, "wait.bca");
+				case 1:
+					return new PlayerRenderer(.008f, "swim.bca");
+				case 2:
+					return new PlayerRenderer(.008f, "fly_pose.bca");
+				case 3:
+				case 10:
+					return new PlayerRenderer(.008f, "roll_jump.bca");
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 15:
+					return new PlayerRenderer(.008f, "land.bca");
+				case 8:
+				case 9:
+				case 13:
+					return new PlayerRenderer(.008f, "jmped.bca");
+				case 11:
+				case 12:
+					return new PlayerRenderer(.008f, "return_star.bca");
+				default:
+					return new ColorCubeRenderer(Color.FromArgb(0, 255, 0), Color.FromArgb(0, 64, 0), true);
+			}
         }
 
         public override string GetDescription()
@@ -514,7 +541,10 @@ namespace SM64DSe
                 case "Parameter 1": Parameters[0] = (ushort)newval; return 0;
                 case "Parameter 2": Parameters[1] = (ushort)newval; return 0;
                 case "Parameter 3": Parameters[2] = (ushort)newval; return 0;
-                case "Parameter 4": Parameters[3] = (ushort)newval; return 0;
+                case "Parameter 4": Parameters[3] = (ushort)newval;
+					m_Renderer.Release();
+					m_Renderer = InitialiseRenderer();
+					return 5;
             }
             
 
@@ -627,13 +657,11 @@ namespace SM64DSe
                     Param1 = (ushort)newval;
                     m_Renderer.Release();
                     m_Renderer = InitialiseRenderer();
-                    m_KCLName = InitializeKCL();
                     return 5;
                 case "Parameter 2":
                     Param2 = (ushort)newval;
                     m_Renderer.Release();
                     m_Renderer = InitialiseRenderer();
-                    m_KCLName = InitializeKCL();
                     return 5;
             }
 

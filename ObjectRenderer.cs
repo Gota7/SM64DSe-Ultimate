@@ -34,7 +34,7 @@ namespace SM64DSe
 
             switch (obj.ID)
             {
-                //case 0: ret = new PlayerRenderer(.008f); break;
+                case 0: ret = new PlayerRenderer(.008f,"wait.bca"); break;
                 case 1: ret = new NormalBMDRenderer("data/special_obj/ewb_ice/ewb_ice_a.bmd", 0.008f); break;
                 case 2: ret = new NormalBMDRenderer("data/special_obj/ewb_ice/ewb_ice_b.bmd", 0.008f); break;
                 case 3: ret = new NormalBMDRenderer("data/special_obj/ewb_ice/ewb_ice_c.bmd", 0.008f); break;
@@ -340,9 +340,10 @@ namespace SM64DSe
                 case 318: ret = new NormalBMDRenderer("data/normal_obj/water_tatumaki/water_tatumaki.bmd", 0.008f); break;
                     // 319
                 case 320: ret = new NormalBMDRenderer("data/enemy/sand_tornado/sand_tornado.bmd", 0.008f); break;
-                    // 321-325
+				// 321-325
+				case 322: ret = new LuigiRenderer(0.008f); break;
 
-                default: ret = new ColorCubeRenderer(Color.FromArgb(0, 0, 255), Color.FromArgb(0,0,64), obj.SupportsRotation()); break;
+				default: ret = new ColorCubeRenderer(Color.FromArgb(0, 0, 255), Color.FromArgb(0,0,64), obj.SupportsRotation()); break;
             }
 
             //Make custom objects override everything because they are that cool.
@@ -969,9 +970,10 @@ namespace SM64DSe
     class PlayerRenderer : ObjectRenderer
     {
         public PlayerRenderer() { }
-        public PlayerRenderer(float scale)
+        public PlayerRenderer(float scale, string animation)
         {
-            Construct(scale);
+			m_Animation = new BCA(Program.m_ROM.GetFileFromName("data/player/" + animation));
+			Construct(scale);
         }
 
         public override void Release()
@@ -998,19 +1000,43 @@ namespace SM64DSe
             GL.Scale(m_Scale);
             switch (mode)
             {
-                case RenderMode.Opaque: GL.CallList(m_DisplayLists[0]); GL.CallList(m_DisplayListsHead[0]); break;
-                case RenderMode.Translucent: GL.CallList(m_DisplayLists[1]); GL.CallList(m_DisplayListsHead[1]); break;
-                case RenderMode.Picking: GL.CallList(m_DisplayLists[2]); GL.CallList(m_DisplayListsHead[2]); break;
+                case RenderMode.Opaque:
+					GL.CallList(m_DisplayLists[0]);
+					GL.PushMatrix();
+					var mtx = Matrix4.CreateTranslation(0, 1, 0);
+					GL.MultMatrix(ref m_HeadTransform);
+					GL.CallList(m_DisplayListsHead[0]);
+					GL.PopMatrix();
+					break;
+                case RenderMode.Translucent:
+					GL.CallList(m_DisplayLists[1]);
+					GL.PushMatrix();
+					GL.MultMatrix(ref m_HeadTransform);
+					GL.CallList(m_DisplayListsHead[1]);
+					GL.PopMatrix();
+					break;
+                case RenderMode.Picking:
+					GL.CallList(m_DisplayLists[2]);
+					GL.PushMatrix();
+					GL.MultMatrix(ref m_HeadTransform);
+					GL.CallList(m_DisplayListsHead[2]);
+					GL.PopMatrix();
+					break;
             }
         }
 
-        public void Construct(float scale)
+        public virtual void Construct(float scale)
         {
             m_Model = ModelCache.GetModel("data/player/mario_model.bmd");
             m_Head = ModelCache.GetModel("data/player/mario_head_cap.bmd");
-            m_DisplayLists = ModelCache.GetDisplayLists(m_Model);
+			
+
+			m_DisplayLists = ModelCache.GetDisplayLists(m_Model, m_Animation,0);
             m_DisplayListsHead = ModelCache.GetDisplayLists(m_Head);
-            m_Scale = new Vector3(scale, scale, scale);
+
+
+			m_HeadTransform = m_Animation.GetAllMatricesForFrame(m_Model.m_ModelChunks, 0)[15];
+			m_Scale = new Vector3(scale, scale, scale);
             m_Filename = "data/player/mario_model.bmd";
         }
 
@@ -1021,14 +1047,40 @@ namespace SM64DSe
             Construct(m_Scale.X);
         }
 
-        private BMD m_Model;
-        private BMD m_Head;
-        private int[] m_DisplayLists;
-        private int[] m_DisplayListsHead;
+        protected BMD m_Model;
+		protected BMD m_Head;
+		protected BCA m_Animation;
+		protected Matrix4 m_HeadTransform;
+		protected int[] m_DisplayLists;
+		protected int[] m_DisplayListsHead;
     }
 
+	class LuigiRenderer : PlayerRenderer
+	{
+		public LuigiRenderer(){ }
+		public LuigiRenderer(float scale):
+			base(scale, "wait.bca")
+		{
+		}
 
-    class PaintingRenderer : ObjectRenderer
+		public override void Construct(float scale)
+		{
+			m_Model = ModelCache.GetModel("data/player/luigi_model.bmd");
+			m_Head = ModelCache.GetModel("data/player/luigi_head_cap.bmd");
+
+
+			m_DisplayLists = ModelCache.GetDisplayLists(m_Model, m_Animation, 0);
+			m_DisplayListsHead = ModelCache.GetDisplayLists(m_Head);
+
+
+			m_HeadTransform = m_Animation.GetAllMatricesForFrame(m_Model.m_ModelChunks, 0)[15];
+			m_Scale = new Vector3(scale, scale, scale);
+			m_Filename = "data/player/luigi_model.bmd";
+		}
+	}
+
+
+	class PaintingRenderer : ObjectRenderer
     {
         private float m_XScale, m_YScale, m_XRotation;
 

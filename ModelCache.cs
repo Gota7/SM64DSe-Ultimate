@@ -98,7 +98,8 @@ namespace SM64DSe
                 return null;
 
             CachedModel cmdl = m_Models[model.m_FileName];
-            if (cmdl.m_DisplayLists != null)
+
+            if (cmdl.m_DisplayLists != null && animation == null)
                 return cmdl.m_DisplayLists;
 
             int[] dl = new int[3];
