@@ -949,6 +949,23 @@ namespace SM64DSe
                             if (vtxlist.m_VertexList.Count == 0)
                                 continue;
 
+                            //GL.Begin(PrimitiveType.Lines);
+                            //GL.Color4((byte)255, (byte)0, (byte)255, (byte)255);
+                            //foreach (Vertex vtx in vtxlist.m_VertexList)
+                            //{
+                            //    if(vtx.m_Normal != null)
+                            //    {
+                            //        Vector3 finalvtx = vtx.m_Position;
+                            //        Matrix4 bonemtx = matgroup.m_BoneMatrices[vtx.m_MatrixID];
+                            //        Vector3.Transform(ref finalvtx, ref bonemtx, out finalvtx);
+                            //        GL.Vertex3(finalvtx);
+                            //        finalvtx = vtx.m_Position + (Vector3)vtx.m_Normal;
+                            //        Vector3.Transform(ref finalvtx, ref bonemtx, out finalvtx);
+                            //        GL.Vertex3(finalvtx);
+                            //    }
+                            //}
+                            //GL.End();
+
                             GL.Begin(primitiveTypes[vtxlist.m_PolyType]);
                             if (!customRenderFlags[1])
                             {

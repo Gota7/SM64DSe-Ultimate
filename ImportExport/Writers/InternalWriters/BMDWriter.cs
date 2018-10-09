@@ -52,7 +52,13 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
                 }
 
                 Vector4 vtx = Vector4.Multiply(_vtx, 4096f);
+                vtx.X = (float)Math.Floor(vtx.X + 0.5);
+                vtx.Y = (float)Math.Floor(vtx.Y + 0.5);
+                vtx.Z = (float)Math.Floor(vtx.Z + 0.5);
                 Vector4 prev = Vector4.Multiply(_prev, 4096f);
+                prev.X = (float)Math.Floor(prev.X + 0.5);
+                prev.Y = (float)Math.Floor(prev.Y + 0.5);
+                prev.Z = (float)Math.Floor(prev.Z + 0.5);
 
                 if (alwaysWriteFullVertexCmd23h)
                 {
@@ -91,6 +97,9 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
             public void AddVertexCommand(Vector4 _vtx)
             {
                 Vector4 vtx = Vector4.Multiply(_vtx, 4096f);
+                vtx.X = (float)Math.Floor(vtx.X + 0.5);
+                vtx.Y = (float)Math.Floor(vtx.Y + 0.5);
+                vtx.Z = (float)Math.Floor(vtx.Z + 0.5);
 
                 uint x = (uint)vtx.X;
                 uint y = (uint)vtx.Y;
@@ -110,8 +119,8 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
 
             public void AddTexCoordCommand(Vector2 txc)
             {
-                short s = (short)(txc.X * 16);
-                short t = (short)(txc.Y * 16);
+                short s = (short)Math.Floor(txc.X * 16 + 0.5);
+                short t = (short)Math.Floor(txc.Y * 16 + 0.5);
                 uint param = (uint)(((ushort)s) | ((ushort)t) << 16);
                 AddCommand(0x22, param);
             }
@@ -123,9 +132,9 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
 
             public void AddNormalCommand(Vector3 nrm)
             {
-                short x = (short)((nrm.X * 0.99f) * 32768.0f);
-                short y = (short)((nrm.Y * 0.99f) * 32768.0f);
-                short z = (short)((nrm.Z * 0.99f) * 32768.0f);
+                short x = (short)(nrm.X * 32768.0f);
+                short y = (short)(nrm.Y * 32768.0f);
+                short z = (short)(nrm.Z * 32768.0f);
                 uint param = (uint)(((ushort)x) >> 6 | ((((ushort)y) << 4) & 0xFFC00) |
                     ((((ushort)z) << 14) & 0x3FF00000));
                 AddCommand(0x21, param);

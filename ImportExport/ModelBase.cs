@@ -1215,6 +1215,16 @@ namespace SM64DSe.ImportExport
                                     Vector3 vertex = face.m_Vertices[vert].m_Position;
                                     Vector3.Transform(ref vertex, ref currentVertexBone.m_GlobalInverseTransformation, out vertex);
                                     face.m_Vertices[vert].m_Position = vertex;
+
+                                    if (face.m_Vertices[vert].m_Normal != null)
+                                    {
+                                        Vector3 normal = (Vector3)face.m_Vertices[vert].m_Normal;
+                                        Matrix4 mat3x3 = currentVertexBone.m_GlobalInverseTransformation;
+                                        mat3x3.Row3 = new Vector4(0, 0, 0, 1);
+                                        mat3x3.Column3 = new Vector4(0, 0, 0, 1);
+                                        Vector3.Transform(ref normal, ref mat3x3, out normal);
+                                        face.m_Vertices[vert].m_Normal = normal;
+                                    }
                                 }
                             }
                         }

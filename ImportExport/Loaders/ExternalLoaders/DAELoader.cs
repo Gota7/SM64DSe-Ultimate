@@ -1014,11 +1014,8 @@ namespace SM64DSe.ImportExport.Loaders.ExternalLoaders
                             }
                             else if (input.semantic.Equals("NORMAL"))
                             {
-                                if (currentMaterial.m_Lights.Contains(true))
-                                {
-                                    normalOffset = (int)input.offset;
-                                    normalSource = input.source.Replace("#", "");
-                                }
+                                normalOffset = (int)input.offset;
+                                normalSource = input.source.Replace("#", "");
                             }
                             else if (input.semantic.Equals("TEXCOORD"))
                             {
@@ -1058,7 +1055,7 @@ namespace SM64DSe.ImportExport.Loaders.ExternalLoaders
                                     if (normalOffset != -1)
                                     {
                                         tmp = GetValueFromFloatArraySource(sources[normalSource], pArr[pIndex + (ulong)normalOffset]);
-                                        vert.m_Normal = new Vector3(tmp[0], tmp[1], tmp[2]).Normalized();
+                                        vert.m_Normal = new Vector3(tmp[0], tmp[1], tmp[2]).Normalized() * 511.0f / 512;
                                     }
                                     else
                                     {
