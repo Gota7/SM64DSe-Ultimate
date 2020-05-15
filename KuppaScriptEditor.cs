@@ -740,6 +740,7 @@ namespace SM64DSe
                 CommandBinary cb = KuppaFactory.KPSToCommandBinary(kps.Text.Split('\n'), kl, ref notGarbage);
                 MemoryStream o = new MemoryStream();
                 BinaryWriter bw = new BinaryWriter(o);
+
             if (notGarbage)
             {
 
