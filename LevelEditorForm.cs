@@ -3068,7 +3068,7 @@ namespace SM64DSe
                         box_parameters.Controls.Add(btnOpenRawEditor);
                         int snapBak = nextFieldSnapY;
                         nextFieldSnapY = Helper.snapControlVertically(btnOpenRawEditor, nextFieldSnapY, 2);
-                        if (m_SelectedObject is SimpleObject && m_SelectedObject.ID == 37) {
+                        if (m_SelectedObject is SimpleObject && (m_SelectedObject.ID == 37 || m_SelectedObject.ID == 38 || m_SelectedObject.ID == 39)) {
                             box_parameters.Controls.Add(btnCreateCoinFormation);
                             nextFieldSnapY = Helper.snapControlVertically(btnCreateCoinFormation, snapBak, 2);
                             Helper.snapControlHorizontally(btnCreateCoinFormation, 80);

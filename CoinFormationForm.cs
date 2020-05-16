@@ -90,7 +90,7 @@ namespace SM64DSe {
 
             //Add objects if needed.
             while (Slaves.Count < numCoins.Value) {
-                Slaves.Add(LE.AddObject(LevelObject.Type.SIMPLE, 37, Obj.m_Layer, Obj.m_Area));
+                Slaves.Add(LE.AddObject(LevelObject.Type.SIMPLE, Obj.ID, Obj.m_Layer, Obj.m_Area));
                 if (Obj.Parameters != null) Array.Copy(Obj.Parameters, Slaves.Last().Parameters, Obj.Parameters.Length);
                 Slaves.Last().GenerateProperties();
             }
