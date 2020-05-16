@@ -359,10 +359,10 @@ namespace SM64DSe.ImportExport.Writers.ExternalWriters
 
                 foreach (ModelBase.VertexDef vert in verticesInBranch)
                 {
-                    positionsInBranch.Add(vert.m_Position);
-                    texCoordsInBranch.Add(vert.m_TextureCoordinate);
+                    if (vert.m_Position != null) positionsInBranch.Add(vert.m_Position);
+                    if (vert.m_TextureCoordinate != null) texCoordsInBranch.Add(vert.m_TextureCoordinate);
                     if (vert.m_Normal != null) normalsInBranch.Add(vert.m_Normal);
-                    vColoursInBranch.Add(vert.m_VertexColour);
+                    if (vert.m_VertexColour != null) vColoursInBranch.Add(vert.m_VertexColour);
                 }
 
                 writer.WriteStartElement("geometry");

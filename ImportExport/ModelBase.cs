@@ -489,16 +489,20 @@ namespace SM64DSe.ImportExport
 
                 if (!(fv.m_TextureCoordinate == null && m_TextureCoordinate == null))
                 {
-                    if (!(((Vector2)fv.m_TextureCoordinate).X == ((Vector2)m_TextureCoordinate).X && 
-                        ((Vector2)fv.m_TextureCoordinate).Y == ((Vector2)m_TextureCoordinate).Y))
-                        return false;
+                    try {
+                        if (!(((Vector2)fv.m_TextureCoordinate).X == ((Vector2)m_TextureCoordinate).X &&
+                            ((Vector2)fv.m_TextureCoordinate).Y == ((Vector2)m_TextureCoordinate).Y))
+                            return false;
+                    } catch { }
                 }
 
                 if (!(fv.m_Normal == null && m_Normal == null))
                 {
-                    if (!(((Vector3)fv.m_Normal).X == ((Vector3)m_Normal).X && ((Vector3)fv.m_Normal).Y == ((Vector3)m_Normal).Y &&
-                        ((Vector3)fv.m_Normal).Z == ((Vector3)m_Normal).Z))
-                        return false;
+                    try {
+                        if (!(((Vector3)fv.m_Normal).X == ((Vector3)m_Normal).X && ((Vector3)fv.m_Normal).Y == ((Vector3)m_Normal).Y &&
+                            ((Vector3)fv.m_Normal).Z == ((Vector3)m_Normal).Z))
+                            return false;
+                    } catch { }
                 }
 
                 if (!(fv.m_VertexColour.R == m_VertexColour.R && fv.m_VertexColour.G == m_VertexColour.G &&

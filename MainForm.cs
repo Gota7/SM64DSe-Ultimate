@@ -236,10 +236,6 @@ namespace SM64DSe
 
         private void btnOpenROM_Click(object sender, EventArgs e)
         {
-            btnEditLevel.Enabled = false;
-            btnEditCollisionMap.Enabled = false;
-            btnTools.Enabled = false;
-            
             if (ofdOpenFile.ShowDialog(this) == DialogResult.OK)
                 LoadROM(ofdOpenFile.FileName);
         }
@@ -436,7 +432,7 @@ namespace SM64DSe
                 return;
 
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = m_SelectedFile;
+            sfd.FileName = Path.GetFileName(m_SelectedFile);
             if (sfd.ShowDialog() == DialogResult.Cancel)
                 return;
 
@@ -663,25 +659,54 @@ namespace SM64DSe
             lbxLevels.Items.Clear();
 
             int i = 0;
-            if (cbLevelListDisplay.SelectedIndex == 0)
+            List<string> ids = new List<string>();
+            List<string> internalNames = new List<string>();
+            List<string> names = new List<string>();
+            foreach (String lvlName in Strings.LevelNames) {
+                ids.Add("[" + i + "]");
+                internalNames.Add(Program.m_ROM.GetInternalLevelNameFromID(i));
+                names.Add(lvlName);
+                i++;
+            }
+            i = 0;
+            if (cbLevelListDisplay.SelectedIndex == 0) {
+                int maxIdLen = ids.Select(x => x.Length).Max();
+                int maxInternalLen = internalNames.Select(x => x.Length).Max();
+                foreach (String lvlName in Strings.LevelNames) {
+                    string id = ids[i];
+                    while (id.Length < maxIdLen + 1) {
+                        id += " ";
+                    }
+                    string internalN = internalNames[i];
+                    int numTabs = (maxInternalLen - internalN.Length) / 11;
+                    while (internalN.Length < maxInternalLen + 1) {
+                        internalN += " ";
+                    }
+                    for (int j = 0; j < numTabs; j++) {
+                        internalN += "\t";
+                    }
+                    lbxLevels.Items.Add(id + "\t" + internalN + "\t\t" + names[i]);
+                    i++;
+                }
+            } else if (cbLevelListDisplay.SelectedIndex == 1)
             {
                 foreach (String lvlName in Strings.LevelNames)
                 {
                     lbxLevels.Items.Add(lvlName);
                     i++;
                 }
-            } else if (cbLevelListDisplay.SelectedIndex == 1)
-            {
-                foreach (String lvlName in Strings.ShortLvlNames)
-                {
-                    lbxLevels.Items.Add(i + "\t[" + Program.m_ROM.GetInternalLevelNameFromID(i) + "]");
-                    i++;
-                }
             } else if (cbLevelListDisplay.SelectedIndex == 2)
             {
                 foreach (String lvlName in Strings.ShortLvlNames)
                 {
-                    lbxLevels.Items.Add(lvlName + " [" + Program.m_ROM.GetInternalLevelNameFromID(i) + "]");
+                    lbxLevels.Items.Add(i + "\t[" + internalNames[i] + "]");
+                    i++;
+                }
+            } else if (cbLevelListDisplay.SelectedIndex == 3)
+            {
+                foreach (String lvlName in Strings.ShortLvlNames)
+                {
+                    lbxLevels.Items.Add(lvlName + " [" + internalNames[i] + "]");
                     i++;
                 }
             } else {

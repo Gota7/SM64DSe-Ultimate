@@ -187,6 +187,9 @@ namespace SM64DSe
                     string lmao = "";
                     for (; ; )
                     {
+                        if (lolz >= file.m_Data.Length) {
+                            break;
+                        }
                         ushort p = file.Read16(lolz);
                         if (p == 0)
                             break;

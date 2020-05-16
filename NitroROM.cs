@@ -409,7 +409,11 @@ namespace SM64DSe
             {
                 try
                 {
-                    return m_MsgData[0x196 + actSelectID];
+                    string ret = m_MsgData[0x196 + actSelectID];
+                    while (ret.StartsWith(" ")) {
+                        ret = ret.Substring(1);
+                    }
+                    return ret;
                 }
                 catch (Exception)
                 {

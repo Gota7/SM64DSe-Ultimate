@@ -250,20 +250,20 @@
             this.mnitASMHackingCompilationCodeCompiler,
             this.mnitASMHackingCompilationFixCodeOffsets});
             this.mnitASMHackingCompilation.Name = "mnitASMHackingCompilation";
-            this.mnitASMHackingCompilation.Size = new System.Drawing.Size(303, 22);
+            this.mnitASMHackingCompilation.Size = new System.Drawing.Size(302, 22);
             this.mnitASMHackingCompilation.Text = "Compilation";
             // 
             // mnitASMHackingCompilationCodeCompiler
             // 
             this.mnitASMHackingCompilationCodeCompiler.Name = "mnitASMHackingCompilationCodeCompiler";
-            this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(159, 22);
+            this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(160, 22);
             this.mnitASMHackingCompilationCodeCompiler.Text = "Code Compiler";
             this.mnitASMHackingCompilationCodeCompiler.Click += new System.EventHandler(this.mnitASMHackingCompilationCodeCompiler_Click);
             // 
             // mnitASMHackingCompilationFixCodeOffsets
             // 
             this.mnitASMHackingCompilationFixCodeOffsets.Name = "mnitASMHackingCompilationFixCodeOffsets";
-            this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(159, 22);
+            this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(160, 22);
             this.mnitASMHackingCompilationFixCodeOffsets.Text = "Fix Code Offsets";
             this.mnitASMHackingCompilationFixCodeOffsets.Click += new System.EventHandler(this.mnitASMHackingCompilationFixCodeOffsets_Click);
             // 
@@ -272,7 +272,7 @@
             this.mnitASMHackingGeneration.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.platformEditorToolStripMenuItem});
             this.mnitASMHackingGeneration.Name = "mnitASMHackingGeneration";
-            this.mnitASMHackingGeneration.Size = new System.Drawing.Size(303, 22);
+            this.mnitASMHackingGeneration.Size = new System.Drawing.Size(302, 22);
             this.mnitASMHackingGeneration.Text = "Generation";
             // 
             // platformEditorToolStripMenuItem
@@ -285,19 +285,19 @@
             // tssASMHacking001
             // 
             this.tssASMHacking001.Name = "tssASMHacking001";
-            this.tssASMHacking001.Size = new System.Drawing.Size(300, 6);
+            this.tssASMHacking001.Size = new System.Drawing.Size(299, 6);
             // 
             // mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem
             // 
             this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem.Name = "mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem";
-            this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem.Size = new System.Drawing.Size(303, 22);
+            this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
             this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem.Text = "Toggle Suitability for NSMBe ASM Patching";
             this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem.Click += new System.EventHandler(this.mnitToggleSuitabilityForNSMBeASMPatchingToolStripMenuItem_Click);
             // 
             // dLPatchToolStripMenuItem
             // 
             this.dLPatchToolStripMenuItem.Name = "dLPatchToolStripMenuItem";
-            this.dLPatchToolStripMenuItem.Size = new System.Drawing.Size(303, 22);
+            this.dLPatchToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
             this.dLPatchToolStripMenuItem.Text = "DL Patch";
             this.dLPatchToolStripMenuItem.Click += new System.EventHandler(this.dLPatchToolStripMenuItem_Click);
             // 
@@ -317,7 +317,7 @@
             this.btnTools.Enabled = false;
             this.btnTools.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnTools.Name = "btnTools";
-            this.btnTools.Size = new System.Drawing.Size(48, 22);
+            this.btnTools.Size = new System.Drawing.Size(47, 22);
             this.btnTools.Text = "Tools";
             // 
             // mnitToolsModelAndCollisionMapImporter
@@ -486,8 +486,9 @@
             this.cbLevelListDisplay.FormattingEnabled = true;
             this.cbLevelListDisplay.Items.AddRange(new object[] {
             "Default",
+            "Actual Name",
             "Id+Internal Name",
-            "ShortDefault+InternalString",
+            "ShortActual+InternalString",
             "Optimized Internal String"});
             this.cbLevelListDisplay.Location = new System.Drawing.Point(284, 0);
             this.cbLevelListDisplay.Name = "cbLevelListDisplay";

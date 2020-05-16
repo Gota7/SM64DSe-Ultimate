@@ -2467,7 +2467,7 @@ namespace SM64DSe
 
         private bool ExportModel(BMD bmd)
         {
-            m_SaveFileDialogue.FileName = bmd.m_File.m_Name;
+            m_SaveFileDialogue.FileName = Path.GetFileName(bmd.m_File.m_Name);
             m_SaveFileDialogue.Filter = Strings.MODEL_EXPORT_FORMATS_FILTER;
             m_SaveFileDialogue.DefaultExt = ".dae";
             if (m_SaveFileDialogue.ShowDialog() == DialogResult.OK)
