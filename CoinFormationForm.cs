@@ -109,7 +109,7 @@ namespace SM64DSe {
                 double len = (Slaves.Count - 1) * dist;
 
                 //Get the starting position.
-                Vector3 dir = -new Vector3((float)(Math.Cos(HA) * Math.Cos(VA)), (float)Math.Sin(VA), (float)Math.Sin(HA));
+                Vector3 dir = -new Vector3((float)(Math.Cos(HA) * Math.Cos(VA)), (float)Math.Sin(VA), (float)(Math.Sin(HA) * Math.Cos(VA)));
                 dir.Normalize();
                 Vector3 start = Center - dir * (float)len / 2;
 
@@ -127,20 +127,21 @@ namespace SM64DSe {
                 float dist = (float)distance.Value;
 
                 //Delta angle change.
-                double dh = Math.PI * 2 / Slaves.Count * Math.Cos(HA);
-                double dv = Math.PI * 2 / Slaves.Count * Math.Sin(HA);
+                double da = Math.PI * 2 / Slaves.Count;
 
                 //Get starting angles.
-                double h = HA;
-                double v = VA;
+                double ang = 0;
+
+                //Figure out orthonormal basis.
+                Vector3 a = new Vector3((float)(Math.Cos(HA) * Math.Cos(VA)), (float)Math.Sin(VA), (float)(Math.Sin(HA) * Math.Cos(VA)));
+                Vector3 b = Vector3.Cross(a, Vector3.UnitY);
+                a.Normalize();
+                b.Normalize();
 
                 //Set objects.
                 for (int i = 0; i < Slaves.Count; i++) {
-                    Vector3 dir = new Vector3((float)(Math.Cos(h) * Math.Cos(v)), (float)Math.Sin(v), (float)Math.Sin(h));
-                    dir.Normalize();
-                    Slaves[i].Position = Center + dir * dist;
-                    h += dh;
-                    v += dv;
+                    Slaves[i].Position = Center + (float)(dist * Math.Cos(ang)) * a + (float)(dist * Math.Sin(ang)) * b;
+                    ang += da;
                 }
 
             }

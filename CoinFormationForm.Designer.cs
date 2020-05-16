@@ -85,10 +85,10 @@
             // 
             this.distance.DecimalPlaces = 3;
             this.distance.Increment = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
-            65536});
+            131072});
             this.distance.Location = new System.Drawing.Point(12, 161);
             this.distance.Maximum = new decimal(new int[] {
             32,
@@ -99,7 +99,7 @@
             this.distance.Size = new System.Drawing.Size(189, 20);
             this.distance.TabIndex = 4;
             this.distance.Value = new decimal(new int[] {
-            25,
+            15,
             0,
             0,
             131072});
@@ -131,10 +131,10 @@
             // 
             this.horizontalRotation.DecimalPlaces = 3;
             this.horizontalRotation.Increment = new decimal(new int[] {
-            225,
+            10,
             0,
             0,
-            65536});
+            0});
             this.horizontalRotation.Location = new System.Drawing.Point(12, 206);
             this.horizontalRotation.Maximum = new decimal(new int[] {
             360,
@@ -159,10 +159,10 @@
             // 
             this.verticalRotation.DecimalPlaces = 3;
             this.verticalRotation.Increment = new decimal(new int[] {
-            225,
+            10,
             0,
             0,
-            65536});
+            0});
             this.verticalRotation.Location = new System.Drawing.Point(12, 251);
             this.verticalRotation.Maximum = new decimal(new int[] {
             360,
