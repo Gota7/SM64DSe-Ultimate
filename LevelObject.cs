@@ -134,7 +134,7 @@ namespace SM64DSe
             EXIT = 10, 
             MINIMAP_TILE_ID = 11, 
             MINIMAP_SCALE = 12, 
-            UNKNOWN_14 = 14
+            STAR_CAMERAS = 14
         };
 
         public ushort ID;
@@ -1356,7 +1356,7 @@ namespace SM64DSe
             : base(data, layer)
         {
             m_Area = area;
-            m_Type = Type.UNKNOWN_14;
+            m_Type = Type.STAR_CAMERAS;
             m_UniqueID = (uint)(0x50000000 | num);
 
             Parameters = new ushort[4];

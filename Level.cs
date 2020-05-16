@@ -20,7 +20,7 @@ namespace SM64DSe
             LevelObject.Type.FOG, 
             LevelObject.Type.DOOR, 
             LevelObject.Type.MINIMAP_SCALE, 
-            LevelObject.Type.UNKNOWN_14, 
+            LevelObject.Type.STAR_CAMERAS, 
             LevelObject.Type.EXIT
         };
         public static readonly LevelObject.Type[] k_StandardLevelObjTypeOrder = new LevelObject.Type[] {
@@ -466,10 +466,10 @@ namespace SM64DSe
             return obj;
         }
 
-        public Type14Object AddType14Object(int layer, int area)
+        public Type14Object AddStarCameras(int layer, int area)
         {
             Type14Object obj = new Type14Object(
-                InitialiseDataForObject(LevelObject.Type.UNKNOWN_14), (int)GetNextUniqueID(), layer, area);
+                InitialiseDataForObject(LevelObject.Type.STAR_CAMERAS), (int)GetNextUniqueID(), layer, area);
             m_LevelObjects.Add(obj.m_UniqueID, obj);
             return obj;
         }

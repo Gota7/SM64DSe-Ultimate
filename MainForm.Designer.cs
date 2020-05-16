@@ -91,6 +91,7 @@
             this.btnReplaceOverlay = new System.Windows.Forms.Button();
             this.btnExtractOverlay = new System.Windows.Forms.Button();
             this.btnDecompressOverlay = new System.Windows.Forms.Button();
+            this.editFileSystemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsToolBar.SuspendLayout();
             this.ssStatusBar.SuspendLayout();
             this.tbcMainFormTabControl.SuspendLayout();
@@ -313,7 +314,8 @@
             this.mnitToolsTextEditor,
             this.mnitToolsSoundBrowser,
             this.bMDKLCEditorToolStripMenuItem,
-            this.kuppaScriptEditorToolStripMenuItem});
+            this.kuppaScriptEditorToolStripMenuItem,
+            this.editFileSystemToolStripMenuItem});
             this.btnTools.Enabled = false;
             this.btnTools.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnTools.Name = "btnTools";
@@ -742,6 +744,13 @@
             this.btnDecompressOverlay.Text = "Decompress Overlay";
             this.btnDecompressOverlay.UseVisualStyleBackColor = true;
             // 
+            // editFileSystemToolStripMenuItem
+            // 
+            this.editFileSystemToolStripMenuItem.Name = "editFileSystemToolStripMenuItem";
+            this.editFileSystemToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.editFileSystemToolStripMenuItem.Text = "Edit File System";
+            this.editFileSystemToolStripMenuItem.Click += new System.EventHandler(this.editFileSystemToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -844,6 +853,7 @@
         private System.Windows.Forms.ListBox lbxLevels;
         private System.Windows.Forms.ToolStripMenuItem dLPatchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kuppaScriptEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editFileSystemToolStripMenuItem;
     }
 }
 

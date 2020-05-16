@@ -73,6 +73,7 @@ namespace SM64DSe
             this.lbl_star = new System.Windows.Forms.Label();
             this.val_area = new System.Windows.Forms.NumericUpDown();
             this.lbl_area = new System.Windows.Forms.Label();
+            this.btnDuplicate = new System.Windows.Forms.Button();
             this.btnPasteCoordinates = new System.Windows.Forms.Button();
             this.btnCopyCoordinates = new System.Windows.Forms.Button();
             this.tsEditActions = new System.Windows.Forms.ToolStrip();
@@ -85,7 +86,6 @@ namespace SM64DSe
             this.btnAddAreaWarp = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddTpSrc = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddTpDst = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddView = new System.Windows.Forms.ToolStripButton();
             this.btnRemoveSel = new System.Windows.Forms.ToolStripButton();
             this.btnRemoveAll = new System.Windows.Forms.ToolStripButton();
@@ -269,6 +269,7 @@ namespace SM64DSe
             // 
             // spcPropertyInterface.Panel2
             // 
+            this.spcPropertyInterface.Panel2.Controls.Add(this.btnDuplicate);
             this.spcPropertyInterface.Panel2.Controls.Add(this.btnPasteCoordinates);
             this.spcPropertyInterface.Panel2.Controls.Add(this.btnCopyCoordinates);
             this.spcPropertyInterface.Size = new System.Drawing.Size(289, 275);
@@ -289,7 +290,7 @@ namespace SM64DSe
             this.box_position.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_position.Location = new System.Drawing.Point(3, 56);
             this.box_position.Name = "box_position";
-            this.box_position.Size = new System.Drawing.Size(283, 39);
+            this.box_position.Size = new System.Drawing.Size(249, 39);
             this.box_position.TabIndex = 2;
             this.box_position.TabStop = false;
             this.box_position.Text = "Position";
@@ -299,7 +300,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapsePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapsePosition.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapsePosition.Location = new System.Drawing.Point(267, 0);
+            this.btnToogleCollapsePosition.Location = new System.Drawing.Point(233, 0);
             this.btnToogleCollapsePosition.Name = "btnToogleCollapsePosition";
             this.btnToogleCollapsePosition.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapsePosition.TabIndex = 7;
@@ -361,18 +362,18 @@ namespace SM64DSe
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(173, 20);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(15, 13);
+            this.label4.Size = new System.Drawing.Size(17, 13);
             this.label4.TabIndex = 4;
-            this.label4.Text = "z:";
+            this.label4.Text = "Z:";
             // 
             // lbl_posY
             // 
             this.lbl_posY.AutoSize = true;
             this.lbl_posY.Location = new System.Drawing.Point(90, 20);
             this.lbl_posY.Name = "lbl_posY";
-            this.lbl_posY.Size = new System.Drawing.Size(15, 13);
+            this.lbl_posY.Size = new System.Drawing.Size(17, 13);
             this.lbl_posY.TabIndex = 3;
-            this.lbl_posY.Text = "y:";
+            this.lbl_posY.Text = "Y:";
             // 
             // val_posX
             // 
@@ -404,9 +405,9 @@ namespace SM64DSe
             this.lbl_posX.AutoSize = true;
             this.lbl_posX.Location = new System.Drawing.Point(7, 20);
             this.lbl_posX.Name = "lbl_posX";
-            this.lbl_posX.Size = new System.Drawing.Size(15, 13);
+            this.lbl_posX.Size = new System.Drawing.Size(17, 13);
             this.lbl_posX.TabIndex = 2;
-            this.lbl_posX.Text = "x:";
+            this.lbl_posX.Text = "X:";
             // 
             // box_rotation
             // 
@@ -420,7 +421,7 @@ namespace SM64DSe
             this.box_rotation.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_rotation.Location = new System.Drawing.Point(3, 101);
             this.box_rotation.Name = "box_rotation";
-            this.box_rotation.Size = new System.Drawing.Size(284, 39);
+            this.box_rotation.Size = new System.Drawing.Size(250, 39);
             this.box_rotation.TabIndex = 6;
             this.box_rotation.TabStop = false;
             this.box_rotation.Text = "Rotation";
@@ -430,7 +431,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseRotation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseRotation.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseRotation.Location = new System.Drawing.Point(268, -1);
+            this.btnToogleCollapseRotation.Location = new System.Drawing.Point(234, -1);
             this.btnToogleCollapseRotation.Name = "btnToogleCollapseRotation";
             this.btnToogleCollapseRotation.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseRotation.TabIndex = 8;
@@ -492,18 +493,18 @@ namespace SM64DSe
             this.lbl_rotY.AutoSize = true;
             this.lbl_rotY.Location = new System.Drawing.Point(90, 20);
             this.lbl_rotY.Name = "lbl_rotY";
-            this.lbl_rotY.Size = new System.Drawing.Size(15, 13);
+            this.lbl_rotY.Size = new System.Drawing.Size(17, 13);
             this.lbl_rotY.TabIndex = 3;
-            this.lbl_rotY.Text = "y:";
+            this.lbl_rotY.Text = "Y:";
             // 
             // lbl_rotX
             // 
             this.lbl_rotX.AutoSize = true;
             this.lbl_rotX.Location = new System.Drawing.Point(7, 20);
             this.lbl_rotX.Name = "lbl_rotX";
-            this.lbl_rotX.Size = new System.Drawing.Size(15, 13);
+            this.lbl_rotX.Size = new System.Drawing.Size(17, 13);
             this.lbl_rotX.TabIndex = 2;
-            this.lbl_rotX.Text = "x:";
+            this.lbl_rotX.Text = "X:";
             // 
             // box_parameters
             // 
@@ -513,7 +514,7 @@ namespace SM64DSe
             this.box_parameters.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_parameters.Location = new System.Drawing.Point(3, 145);
             this.box_parameters.Name = "box_parameters";
-            this.box_parameters.Size = new System.Drawing.Size(286, 115);
+            this.box_parameters.Size = new System.Drawing.Size(252, 115);
             this.box_parameters.TabIndex = 9;
             this.box_parameters.TabStop = false;
             this.box_parameters.Text = "Parameters";
@@ -523,7 +524,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseParameters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseParameters.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseParameters.Location = new System.Drawing.Point(270, 0);
+            this.btnToogleCollapseParameters.Location = new System.Drawing.Point(236, 0);
             this.btnToogleCollapseParameters.Name = "btnToogleCollapseParameters";
             this.btnToogleCollapseParameters.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseParameters.TabIndex = 10;
@@ -544,7 +545,7 @@ namespace SM64DSe
             this.box_fogSettings.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_fogSettings.Location = new System.Drawing.Point(3, 266);
             this.box_fogSettings.Name = "box_fogSettings";
-            this.box_fogSettings.Size = new System.Drawing.Size(286, 132);
+            this.box_fogSettings.Size = new System.Drawing.Size(252, 132);
             this.box_fogSettings.TabIndex = 6;
             this.box_fogSettings.TabStop = false;
             this.box_fogSettings.Text = "Fog Settings";
@@ -696,7 +697,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseColor.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseColor.Location = new System.Drawing.Point(270, 0);
+            this.btnToogleCollapseColor.Location = new System.Drawing.Point(236, 0);
             this.btnToogleCollapseColor.Name = "btnToogleCollapseColor";
             this.btnToogleCollapseColor.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseColor.TabIndex = 9;
@@ -718,7 +719,7 @@ namespace SM64DSe
             this.box_general.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_general.Location = new System.Drawing.Point(3, -18);
             this.box_general.Name = "box_general";
-            this.box_general.Size = new System.Drawing.Size(284, 68);
+            this.box_general.Size = new System.Drawing.Size(250, 68);
             this.box_general.TabIndex = 10;
             this.box_general.TabStop = false;
             this.box_general.Text = "General";
@@ -757,7 +758,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseGeneral.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseGeneral.Location = new System.Drawing.Point(268, 0);
+            this.btnToogleCollapseGeneral.Location = new System.Drawing.Point(234, 0);
             this.btnToogleCollapseGeneral.Name = "btnToogleCollapseGeneral";
             this.btnToogleCollapseGeneral.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseGeneral.TabIndex = 9;
@@ -819,14 +820,25 @@ namespace SM64DSe
             this.lbl_area.TabIndex = 2;
             this.lbl_area.Text = "Object Type";
             // 
+            // btnDuplicate
+            // 
+            this.btnDuplicate.Location = new System.Drawing.Point(224, 0);
+            this.btnDuplicate.Name = "btnDuplicate";
+            this.btnDuplicate.Size = new System.Drawing.Size(62, 23);
+            this.btnDuplicate.TabIndex = 3;
+            this.btnDuplicate.Text = "Duplicate";
+            this.btnDuplicate.UseVisualStyleBackColor = true;
+            this.btnDuplicate.Visible = false;
+            this.btnDuplicate.Click += new System.EventHandler(this.duplicateButton_Click);
+            // 
             // btnPasteCoordinates
             // 
             this.btnPasteCoordinates.Enabled = false;
-            this.btnPasteCoordinates.Location = new System.Drawing.Point(134, 0);
+            this.btnPasteCoordinates.Location = new System.Drawing.Point(105, 0);
             this.btnPasteCoordinates.Name = "btnPasteCoordinates";
-            this.btnPasteCoordinates.Size = new System.Drawing.Size(130, 23);
+            this.btnPasteCoordinates.Size = new System.Drawing.Size(113, 23);
             this.btnPasteCoordinates.TabIndex = 2;
-            this.btnPasteCoordinates.Text = "PasteCoordinates";
+            this.btnPasteCoordinates.Text = "Paste Coordinates";
             this.btnPasteCoordinates.UseVisualStyleBackColor = true;
             this.btnPasteCoordinates.Visible = false;
             this.btnPasteCoordinates.Click += new System.EventHandler(this.btnPasteCoordinates_Click);
@@ -835,9 +847,9 @@ namespace SM64DSe
             // 
             this.btnCopyCoordinates.Location = new System.Drawing.Point(0, 0);
             this.btnCopyCoordinates.Name = "btnCopyCoordinates";
-            this.btnCopyCoordinates.Size = new System.Drawing.Size(128, 23);
+            this.btnCopyCoordinates.Size = new System.Drawing.Size(99, 23);
             this.btnCopyCoordinates.TabIndex = 1;
-            this.btnCopyCoordinates.Text = "CopyCoordinates";
+            this.btnCopyCoordinates.Text = "Copy Coordinates";
             this.btnCopyCoordinates.UseVisualStyleBackColor = true;
             this.btnCopyCoordinates.Visible = false;
             this.btnCopyCoordinates.Click += new System.EventHandler(this.btnCopyCoordinates_Click);
@@ -907,8 +919,7 @@ namespace SM64DSe
             this.btnAddExit,
             this.btnAddAreaWarp,
             this.btnAddTpSrc,
-            this.btnAddTpDst,
-            this.toolStripMenuItem5});
+            this.btnAddTpDst});
             this.btnAddWarp.Image = ((System.Drawing.Image)(resources.GetObject("btnAddWarp.Image")));
             this.btnAddWarp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddWarp.Name = "btnAddWarp";
@@ -919,7 +930,7 @@ namespace SM64DSe
             // btnAddEntrance
             // 
             this.btnAddEntrance.Name = "btnAddEntrance";
-            this.btnAddEntrance.Size = new System.Drawing.Size(180, 22);
+            this.btnAddEntrance.Size = new System.Drawing.Size(178, 22);
             this.btnAddEntrance.Tag = "1";
             this.btnAddEntrance.Text = "Entrance";
             this.btnAddEntrance.Click += new System.EventHandler(this.btnAddWhatever_Click);
@@ -927,7 +938,7 @@ namespace SM64DSe
             // btnAddExit
             // 
             this.btnAddExit.Name = "btnAddExit";
-            this.btnAddExit.Size = new System.Drawing.Size(180, 22);
+            this.btnAddExit.Size = new System.Drawing.Size(178, 22);
             this.btnAddExit.Tag = "10";
             this.btnAddExit.Text = "Exit";
             this.btnAddExit.Click += new System.EventHandler(this.btnAddWhatever_Click);
@@ -935,7 +946,7 @@ namespace SM64DSe
             // btnAddAreaWarp
             // 
             this.btnAddAreaWarp.Name = "btnAddAreaWarp";
-            this.btnAddAreaWarp.Size = new System.Drawing.Size(180, 22);
+            this.btnAddAreaWarp.Size = new System.Drawing.Size(178, 22);
             this.btnAddAreaWarp.Tag = "9";
             this.btnAddAreaWarp.Text = "Door";
             this.btnAddAreaWarp.Click += new System.EventHandler(this.btnAddWhatever_Click);
@@ -943,7 +954,7 @@ namespace SM64DSe
             // btnAddTpSrc
             // 
             this.btnAddTpSrc.Name = "btnAddTpSrc";
-            this.btnAddTpSrc.Size = new System.Drawing.Size(180, 22);
+            this.btnAddTpSrc.Size = new System.Drawing.Size(178, 22);
             this.btnAddTpSrc.Tag = "6";
             this.btnAddTpSrc.Text = "Teleport source";
             this.btnAddTpSrc.Click += new System.EventHandler(this.btnAddWhatever_Click);
@@ -951,16 +962,10 @@ namespace SM64DSe
             // btnAddTpDst
             // 
             this.btnAddTpDst.Name = "btnAddTpDst";
-            this.btnAddTpDst.Size = new System.Drawing.Size(180, 22);
+            this.btnAddTpDst.Size = new System.Drawing.Size(178, 22);
             this.btnAddTpDst.Tag = "7";
             this.btnAddTpDst.Text = "Teleport destination";
             this.btnAddTpDst.Click += new System.EventHandler(this.btnAddWhatever_Click);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem5.Text = "toolStripMenuItem5";
             // 
             // btnAddView
             // 
@@ -1039,30 +1044,30 @@ namespace SM64DSe
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(157, 22);
             this.toolStripMenuItem1.Tag = "8";
             this.toolStripMenuItem1.Text = "Fog";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(157, 22);
             this.toolStripMenuItem2.Tag = "12";
             this.toolStripMenuItem2.Text = "Minimap Scale";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(157, 22);
             this.toolStripMenuItem3.Tag = "11";
             this.toolStripMenuItem3.Text = "Minimap Tile ID";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(157, 22);
             this.toolStripMenuItem4.Tag = "14";
-            this.toolStripMenuItem4.Text = "Unkown Type 14";
+            this.toolStripMenuItem4.Text = "Star Cameras";
             // 
             // btnImportOtherModel
             // 
@@ -1825,8 +1830,8 @@ namespace SM64DSe
         private System.Windows.Forms.Panel box_color;
         private System.Windows.Forms.SplitContainer spcPropertyInterface;
         private System.Windows.Forms.ToolStripButton btnOffsetAllCoords;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.ToolStripButton btnOpenDisplayOptions;
         private System.Windows.Forms.ToolStripButton btnDls;
+        private System.Windows.Forms.Button btnDuplicate;
     }
 }

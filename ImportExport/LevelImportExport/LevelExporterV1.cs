@@ -194,7 +194,7 @@ namespace SM64DSe.ImportExport.LevelImportExport
                     case (LevelObject.Type.MINIMAP_SCALE):
                         WriteMinimapScaleObjectToXML(writer, (MinimapScaleObject)obj);
                         break;
-                    case (LevelObject.Type.UNKNOWN_14):
+                    case (LevelObject.Type.STAR_CAMERAS):
                         WriteType14ObjectToXML(writer, (Type14Object)obj);
                         break;
                     default:

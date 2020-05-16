@@ -1058,7 +1058,7 @@ namespace SM64DSe.ImportExport.LevelImportExport
 
         protected virtual void ReadType14Object(XmlReader reader, Level level)
         {
-            Type14Object obj = level.AddType14Object(0, 0);
+            Type14Object obj = level.AddStarCameras(0, 0);
 
             while (reader.Read())
             {

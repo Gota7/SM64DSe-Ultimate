@@ -140,6 +140,7 @@ namespace SM64DSe
                 fe.Offset = start;
                 fe.Size = end - start;
                 fe.Name = fe.FullName = "";
+                fe.Data = null;
 		        m_FileEntries[f] = fe;
 	        }
 
@@ -216,11 +217,12 @@ namespace SM64DSe
 		        oe.RAMAddress = m_BinReader.ReadUInt32();
 		        oe.RAMSize = m_BinReader.ReadUInt32();
 		        oe.BSSSize = m_BinReader.ReadUInt32();
-		        m_FileStream.Position += 8;
-		        oe.FileID = m_BinReader.ReadUInt16();
-
-		        m_OverlayEntries[oe.ID] = oe;
-	        }
+                oe.StaticInitStart = this.m_BinReader.ReadUInt32();
+                oe.StaticInitEnd = this.m_BinReader.ReadUInt32();
+                oe.FileID = (ushort)this.m_BinReader.ReadUInt32();
+                oe.Flags = this.m_BinReader.ReadUInt32();
+                m_OverlayEntries[(int)oe.ID] = oe;
+            }
 
             if (m_Version == Version.EUR)
             {
@@ -736,6 +738,7 @@ namespace SM64DSe
             fe.Offset = fileaddr;
             fe.Size = 0;
             fe.Name = fe.FullName = "";
+            fe.Data = null;
             m_FileEntries[fileid] = fe;
 
 	        // and add an overlay entry
@@ -766,6 +769,9 @@ namespace SM64DSe
             oe.RAMAddress = ramaddr;
             oe.RAMSize = 0;
             oe.BSSSize = 0;
+            oe.StaticInitStart = ramaddr;
+            oe.StaticInitEnd = ramaddr + 4;
+            oe.Flags = 0;
 	        m_OverlayEntries[id] = oe;
 
             return id;
@@ -823,6 +829,7 @@ namespace SM64DSe
             public string FullName;
             public uint Offset;
             public uint Size;
+            public byte[] Data;
         }
 
         public struct OverlayEntry
@@ -832,6 +839,9 @@ namespace SM64DSe
             public ushort FileID;
             public uint RAMAddress;
             public uint RAMSize, BSSSize;
+            public uint StaticInitStart;
+            public uint StaticInitEnd;
+            public uint Flags;
         }
 
         private DirEntry[] m_DirEntries;

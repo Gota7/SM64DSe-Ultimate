@@ -825,5 +825,12 @@ namespace SM64DSe
             KuppaScriptEditor kse = new KuppaScriptEditor();
             kse.Show();
         }
+
+        private void editFileSystemToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (new FilesystemEditorForm(this).ShowDialog() != DialogResult.OK)
+                return;
+            this.LoadROM(Program.m_ROMPath);
+        }
+
     }
 }

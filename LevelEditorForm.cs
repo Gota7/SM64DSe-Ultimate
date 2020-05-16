@@ -52,6 +52,9 @@ namespace SM64DSe
         private Button btnOpenRawEditor = new Button();
         public RawEditorForm m_rawEditor;
 
+        private Button btnCreateCoinFormation = new Button();
+        private List<CoinFormationForm> coinFormationForms = new List<CoinFormationForm>();
+
         private int m_areaCount = 1;
         private int m_currentArea = -1;
         public bool[] m_levelModelDisplayFlags = new bool[] { true, true, false, false };
@@ -155,6 +158,10 @@ namespace SM64DSe
 
             btnOpenRawEditor.Text = "Raw Editor";
             btnOpenRawEditor.Click += btnOpenRawEditor_Click;
+
+            btnCreateCoinFormation.Text = "Create Coin Formation";
+            btnCreateCoinFormation.Width = 140;
+            btnCreateCoinFormation.Click += btnCreateCoinFormation_Click;
 
             this.Text = string.Format("[{0}] {1} [{2}] - {3} {4}", levelid, Strings.LevelNames[levelid], Program.m_ROM.GetInternalLevelNameFromID(levelid), Program.AppTitle, Program.AppVersion);
             
@@ -708,7 +715,7 @@ namespace SM64DSe
                                 case LevelObject.Type.FOG: fogNode.Nodes.Add(obj.m_UniqueID.ToString("X8"), obj.GetDescription()).Tag = obj.m_UniqueID; break;
                                 case LevelObject.Type.MINIMAP_TILE_ID: minimapTileIDNode.Nodes.Add(obj.m_UniqueID.ToString("X8"), obj.GetDescription()).Tag = obj.m_UniqueID; break;
                                 case LevelObject.Type.MINIMAP_SCALE: minimapScaleNode.Nodes.Add(obj.m_UniqueID.ToString("X8"), obj.GetDescription()).Tag = obj.m_UniqueID; break;
-                                case LevelObject.Type.UNKNOWN_14: type14Node.Nodes.Add(obj.m_UniqueID.ToString("X8"), obj.GetDescription()).Tag = obj.m_UniqueID; break;
+                                case LevelObject.Type.STAR_CAMERAS: type14Node.Nodes.Add(obj.m_UniqueID.ToString("X8"), obj.GetDescription()).Tag = obj.m_UniqueID; break;
                             }
                         }
                     }
@@ -767,7 +774,7 @@ namespace SM64DSe
             public uint m_PointerAddr; // address to which the pointer points
         }
 
-        private LevelObject AddObject(LevelObject.Type type, ushort id, int layer, int area)
+        public LevelObject AddObject(LevelObject.Type type, ushort id, int layer, int area)
         {
             IEnumerable<LevelObject> paths;
             LevelObject obj = null;
@@ -816,7 +823,7 @@ namespace SM64DSe
                 case LevelObject.Type.EXIT: parentnode = "exit"; obj = m_Level.AddExitObject(layer); break;
                 case LevelObject.Type.MINIMAP_TILE_ID: parentnode = "minimap_tile_id"; obj = m_Level.AddMinimapTileIDObject(layer, area); break;
                 case LevelObject.Type.MINIMAP_SCALE: parentnode = "minimap_scale"; obj = m_Level.AddMinimapScaleObject(layer, area); break;
-                case LevelObject.Type.UNKNOWN_14: parentnode = "type_14"; obj = m_Level.AddType14Object(layer, area); break;
+                case LevelObject.Type.STAR_CAMERAS: parentnode = "type_14"; obj = m_Level.AddStarCameras(layer, area); break;
             }
 
             if (obj != null)
@@ -828,7 +835,7 @@ namespace SM64DSe
             return obj;
         }
         
-        private void RemoveObject(LevelObject obj, bool bulk = false)
+        public void RemoveObject(LevelObject obj, bool bulk = false)
         {
             if (m_Level.RemoveObject(obj))
             {
@@ -906,6 +913,7 @@ namespace SM64DSe
                 btnCopyCoordinates.Visible = true;
                 btnPasteCoordinates.Visible = true;
             }
+            btnDuplicate.Visible = true;
 
             m_Selected = obj.m_UniqueID;
             m_SelectedObject = obj;
@@ -1317,7 +1325,7 @@ namespace SM64DSe
                     btnCopyCoordinates.Visible = true;
                     btnPasteCoordinates.Visible = true;
                 }
-                
+                btnDuplicate.Visible = true;
 
 
                 m_Selected = obj.m_UniqueID;
@@ -1417,7 +1425,7 @@ namespace SM64DSe
                             btnCopyCoordinates.Visible = true;
                             btnPasteCoordinates.Visible = true;
                         }
-
+                        btnDuplicate.Visible = true;
                         tvObjectList.SelectedNode = tvObjectList.Nodes.Find(obj.m_UniqueID.ToString("X8"), true)[0];
                     }
                 }
@@ -1430,6 +1438,7 @@ namespace SM64DSe
                     UpdateObjectForRawEditor();
                     clearPropertyInterface();
 
+                    btnDuplicate.Visible = false;
                     btnCopyCoordinates.Visible = false;
                     btnPasteCoordinates.Visible = false;
 
@@ -1709,7 +1718,11 @@ namespace SM64DSe
 
         private void LevelEditorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // save confirmation goes here
+            foreach (var c in coinFormationForms) {
+                c.ForceQuit();
+            }
+            coinFormationForms.Clear();
+            //Save confirmation goes here.
             ReleaseModels();
             StopTimer();
             Program.m_LevelEditors.Remove(this);
@@ -1988,7 +2001,7 @@ namespace SM64DSe
                 btnCopyCoordinates.Visible = false;
                 btnPasteCoordinates.Visible = false;
             }
-
+            btnDuplicate.Visible = true;
 
             if (m_SelectedObject.m_Type == LevelObject.Type.PATH)
             {
@@ -2169,7 +2182,7 @@ namespace SM64DSe
                     RemoveObjects(m_Level.GetAllObjectsByType(LevelObject.Type.FOG).ToList());
                     RemoveObjects(m_Level.GetAllObjectsByType(LevelObject.Type.MINIMAP_TILE_ID).ToList());
                     RemoveObjects(m_Level.GetAllObjectsByType(LevelObject.Type.MINIMAP_SCALE).ToList());
-                    RemoveObjects(m_Level.GetAllObjectsByType(LevelObject.Type.UNKNOWN_14).ToList());
+                    RemoveObjects(m_Level.GetAllObjectsByType(LevelObject.Type.STAR_CAMERAS).ToList());
                     slStatusLabel.Text = "Miscellaneous objects removed.";
                     break;
             }
@@ -2261,13 +2274,36 @@ namespace SM64DSe
             if (e.KeyCode == Keys.ShiftKey || e.KeyCode == Keys.RShiftKey)
                 m_ShiftPressed = false;
 
-            // Copy and Paste Objects
+            // Copy and Paste Objectspas
             if (e.Control && e.KeyCode == Keys.C)
                 m_CopiedObject = m_SelectedObject.Copy();
             if (e.Control && e.KeyCode == Keys.V)
             {
-                if (m_CopiedObject != null)
+                if (m_CopiedObject != null) {
                     CopyObject(m_CopiedObject);
+                    if (m_RestrPlaneEnabled) {
+                        Vector3 start = Get3DCoords(m_MouseCoords, k_zNear);
+                        Vector3 dir = Get3DCoords(m_MouseCoords, m_zFar) - Get3DCoords(m_MouseCoords, k_zNear);
+                        Vector3? hit = null;
+
+                        //Snap to restriction plane
+                        float dot = Vector3.Dot(m_RestrPlaneNormal, dir);
+                        if (dot != 0) {
+                            float t = Vector3.Dot(m_RestrPlaneNormal, m_RestrPlaneOffset - start) / dot;
+                            hit = dir * t + start;
+                        }
+
+                        m_SelectedObject.Position = (hit != null) ? (Vector3)hit : Get3DCoords(m_MouseCoords, 2.0f);
+
+                    } else {
+                        //Try to snap the object to the ground
+                        KCL.RaycastResult? hit = TotalKCLRaycast(Get3DCoords(m_MouseCoords, k_zNear),
+                        Get3DCoords(m_MouseCoords, m_zFar) - Get3DCoords(m_MouseCoords, k_zNear));
+                        m_SelectedObject.Position = (hit != null) ? ((KCL.RaycastResult)hit).m_Point : Get3DCoords(m_MouseCoords, 2.0f);
+                    }
+                    updatePropertyInterface();
+                    RefreshObjects(m_SelectedObject.m_Layer);
+                }
             }
         }
 
@@ -2592,7 +2628,7 @@ namespace SM64DSe
             if (m_SelectedObject != null)
             {
                 m_SelectedObject.Position = m_copiedPosition;
-                updatePropertyInterface();;
+                updatePropertyInterface();
             }
                 
         }
@@ -3030,7 +3066,13 @@ namespace SM64DSe
                     if ((m_SelectedObject is SimpleObject) || (m_SelectedObject is StandardObject) || (m_SelectedObject is PathObject))
                     {
                         box_parameters.Controls.Add(btnOpenRawEditor);
-                        nextFieldSnapY = Helper.snapControlVertically(btnOpenRawEditor, nextFieldSnapY,2);
+                        int snapBak = nextFieldSnapY;
+                        nextFieldSnapY = Helper.snapControlVertically(btnOpenRawEditor, nextFieldSnapY, 2);
+                        if (m_SelectedObject is SimpleObject && m_SelectedObject.ID == 37) {
+                            box_parameters.Controls.Add(btnCreateCoinFormation);
+                            nextFieldSnapY = Helper.snapControlVertically(btnCreateCoinFormation, snapBak, 2);
+                            Helper.snapControlHorizontally(btnCreateCoinFormation, 80);
+                        }
                     }
                 }
                 
@@ -3141,6 +3183,10 @@ namespace SM64DSe
 
         }
 
+        private void duplicateButton_Click(object sender, EventArgs e) {
+            CopyObject(m_SelectedObject);
+        }
+
         private void btnOpenDisplayOptions_Click(object sender, EventArgs e)
         {
             new LevelDisplaySettingsForm(this).Show(this);
@@ -3151,6 +3197,12 @@ namespace SM64DSe
             if (m_rawEditor==null)
                 m_rawEditor = new RawEditorForm(this);
             m_rawEditor.ShowForObject(m_SelectedObject);
+        }
+
+        private void btnCreateCoinFormation_Click(object sender, EventArgs e) {
+            var c = new CoinFormationForm(this);
+            c.ShowForObject(m_SelectedObject);
+            coinFormationForms.Add(c);
         }
 
         private void ConvertLevelObject(ushort newid)
@@ -3179,6 +3231,7 @@ namespace SM64DSe
             {
                 btnCopyCoordinates.Visible = true;
                 btnPasteCoordinates.Visible = true;
+                btnDuplicate.Visible = true;
             }
 
             RefreshObjects(obj.m_Layer);
