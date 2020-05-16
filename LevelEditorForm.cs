@@ -63,6 +63,7 @@ namespace SM64DSe
 
         private System.Windows.Forms.Timer m_texAnimTimer;
         private int m_texAnimFrame = 0;
+        private bool animsEnabled = true;
         private void InitTimer()
         {
             m_texAnimTimer = new System.Windows.Forms.Timer();
@@ -155,6 +156,7 @@ namespace SM64DSe
         {
             InitializeComponent();
             InitTimer();
+            StartTimer();
 
             btnOpenRawEditor.Text = "Raw Editor";
             btnOpenRawEditor.Click += btnOpenRawEditor_Click;
@@ -259,34 +261,22 @@ namespace SM64DSe
 
             for (int c = 0; c < m_LevelModel.m_ModelChunks.Length; c++)
             {
-                if ((area > -1) && (c != area))
-                    continue;
                 m_LevelModelDLs[c, 0] = GL.GenLists(1);
                 GL.NewList(m_LevelModelDLs[c, 0], ListMode.Compile);
-                if (area == -1)
-                    m_LevelModel.m_ModelChunks[c].Render(RenderMode.Opaque, 1.0f, m_levelModelDisplayFlags);
+                LevelTexAnim[] anims = m_Level.m_TexAnims.Where(obj => obj.m_Area == c).ToArray();
+                if (anims.Length > 0)
+                    m_LevelModel.m_ModelChunks[c].Render(RenderMode.Opaque, 1.0f, m_levelModelDisplayFlags, anims[0], m_texAnimFrame);
                 else
-                {
-                    LevelTexAnim[] anims = m_Level.m_TexAnims.Where(obj => obj.m_Area == c).ToArray();
-                    if (anims.Length > 0)
-                        m_LevelModel.m_ModelChunks[c].Render(RenderMode.Opaque, 1.0f, m_levelModelDisplayFlags, anims[0], m_texAnimFrame);
-                    else
-                        m_LevelModel.m_ModelChunks[c].Render(RenderMode.Opaque, 1.0f, m_levelModelDisplayFlags);
-                }
+                    m_LevelModel.m_ModelChunks[c].Render(RenderMode.Opaque, 1.0f, m_levelModelDisplayFlags);
                 GL.EndList();
 
                 m_LevelModelDLs[c, 1] = GL.GenLists(1);
                 GL.NewList(m_LevelModelDLs[c, 1], ListMode.Compile);
-                if (area == -1)
-                    m_LevelModel.m_ModelChunks[c].Render(RenderMode.Translucent, 1.0f, m_levelModelDisplayFlags);
+                anims = m_Level.m_TexAnims.Where(obj => obj.m_Area == c).ToArray();
+                if (anims.Length > 0)
+                    m_LevelModel.m_ModelChunks[c].Render(RenderMode.Translucent, 1.0f, m_levelModelDisplayFlags, anims[0], m_texAnimFrame);
                 else
-                {
-                    LevelTexAnim[] anims = m_Level.m_TexAnims.Where(obj => obj.m_Area == c).ToArray();
-                    if (anims.Length > 0)
-                        m_LevelModel.m_ModelChunks[c].Render(RenderMode.Translucent, 1.0f, m_levelModelDisplayFlags, anims[0], m_texAnimFrame);
-                    else
-                        m_LevelModel.m_ModelChunks[c].Render(RenderMode.Translucent, 1.0f, m_levelModelDisplayFlags);
-                }
+                    m_LevelModel.m_ModelChunks[c].Render(RenderMode.Translucent, 1.0f, m_levelModelDisplayFlags);
                 GL.EndList();
 
                 m_LevelModelDLs[c, 2] = GL.GenLists(1);
@@ -1822,8 +1812,6 @@ namespace SM64DSe
 
             EditMode lastMode = m_EditMode;
             m_EditMode = (EditMode)int.Parse((string)btn.Tag);
-            if (m_EditMode != EditMode.MODEL)
-                StopTimer();
 
             for (int l = 0; l < 8; l++)
             {
@@ -1970,12 +1958,6 @@ namespace SM64DSe
                 RenderLevelAreas(m_currentArea);
                 RefreshObjects(m_AuxLayerNum);
                 RefreshObjects(0);
-                if (m_currentArea > -1)
-                {
-                    StartTimer();
-                }
-                else
-                    StopTimer();
                 return;
             }
             if (e.Node.Tag == null)
@@ -3190,6 +3172,14 @@ namespace SM64DSe
         private void btnOpenDisplayOptions_Click(object sender, EventArgs e)
         {
             new LevelDisplaySettingsForm(this).Show(this);
+        }
+
+        private void btnTextureAnims_Click(object sender, EventArgs e) {
+            if (btnTextureAnims.Checked) {
+                StartTimer();
+            } else {
+                StopTimer();
+            }
         }
 
         private void btnOpenRawEditor_Click(object sender, EventArgs e)
