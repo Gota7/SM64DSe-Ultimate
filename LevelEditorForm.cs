@@ -52,6 +52,8 @@ namespace SM64DSe
         private Button btnOpenRawEditor = new Button();
         public RawEditorForm m_rawEditor;
 
+        private Button btnDrop = new Button();
+
         private Button btnCreateCoinFormation = new Button();
         private List<CoinFormationForm> coinFormationForms = new List<CoinFormationForm>();
 
@@ -160,6 +162,10 @@ namespace SM64DSe
 
             btnOpenRawEditor.Text = "Raw Editor";
             btnOpenRawEditor.Click += btnOpenRawEditor_Click;
+
+            btnDrop.Text = "Drop";
+            btnDrop.Width = 40;
+            btnDrop.Click += btnDrop_Click;
 
             btnCreateCoinFormation.Text = "Create Coin Formation";
             btnCreateCoinFormation.Width = 140;
@@ -3045,20 +3051,25 @@ namespace SM64DSe
 
                     }
 
+                    int nextFieldSnapX = 2;
+                    int snapBak = nextFieldSnapY;
+                    box_parameters.Controls.Add(btnDrop);
+                    nextFieldSnapX = Helper.snapControlHorizontally(btnDrop, nextFieldSnapX);
+                    nextFieldSnapY = Helper.snapControlVertically(btnDrop, nextFieldSnapY, 2);
                     if ((m_SelectedObject is SimpleObject) || (m_SelectedObject is StandardObject) || (m_SelectedObject is PathObject))
                     {
-                        box_parameters.Controls.Add(btnOpenRawEditor);
-                        int snapBak = nextFieldSnapY;
-                        nextFieldSnapY = Helper.snapControlVertically(btnOpenRawEditor, nextFieldSnapY, 2);
+                        box_parameters.Controls.Add(btnOpenRawEditor);                 
+                        Helper.snapControlVertically(btnOpenRawEditor, snapBak, 2);
+                        nextFieldSnapX = Helper.snapControlHorizontally(btnOpenRawEditor, nextFieldSnapX);
                         if (m_SelectedObject is SimpleObject && (m_SelectedObject.ID == 37 || m_SelectedObject.ID == 38 || m_SelectedObject.ID == 39)) {
                             box_parameters.Controls.Add(btnCreateCoinFormation);
-                            nextFieldSnapY = Helper.snapControlVertically(btnCreateCoinFormation, snapBak, 2);
-                            Helper.snapControlHorizontally(btnCreateCoinFormation, 80);
+                            Helper.snapControlVertically(btnCreateCoinFormation, snapBak, 2);
+                            nextFieldSnapX = Helper.snapControlHorizontally(btnCreateCoinFormation, nextFieldSnapX);
                         }
                     }
                 }
                 
-                box_parameters.Height = nextFieldSnapY;
+                box_parameters.Height = nextFieldSnapY + 2;
                 nextBoxSnapY = Helper.snapControlVertically(box_parameters, nextBoxSnapY);
             }
             
@@ -3180,6 +3191,14 @@ namespace SM64DSe
             } else {
                 StopTimer();
             }
+        }
+
+        private void btnDrop_Click(object sender, EventArgs e) {
+            var res = TotalKCLRaycast(m_SelectedObject.Position, -Vector3.UnitY);
+            if (res != null) {
+                m_SelectedObject.Position = res.Value.m_Point;
+            }
+            RefreshObjects(m_SelectedObject.m_Layer);
         }
 
         private void btnOpenRawEditor_Click(object sender, EventArgs e)
