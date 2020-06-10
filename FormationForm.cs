@@ -14,7 +14,7 @@ namespace SM64DSe {
     /// <summary>
     /// Make coin formation adding not a pain.
     /// </summary>
-    public partial class CoinFormationForm : Form {
+    public partial class FormationForm : Form {
 
         /// <summary>
         /// Level editor.
@@ -55,7 +55,7 @@ namespace SM64DSe {
         /// Create a new coin formation placer.
         /// </summary>
         /// <param name="le">Level editor form.</param>
-        public CoinFormationForm(LevelEditorForm le) {
+        public FormationForm(LevelEditorForm le) {
             InitializeComponent();
             this.FormClosing += OnClosing;
             LE = le;
@@ -66,7 +66,6 @@ namespace SM64DSe {
         /// </summary>
         /// <param name="obj">Object.</param>
         public void ShowForObject(LevelObject obj) {
-            TopMost = true;
             formationType.SelectedIndex = 0;
             Center = obj.Position;
             val_posX.Value = (decimal)Center.X;
@@ -90,8 +89,9 @@ namespace SM64DSe {
 
             //Add objects if needed.
             while (Slaves.Count < numCoins.Value) {
-                Slaves.Add(LE.AddObject(LevelObject.Type.SIMPLE, Obj.ID, Obj.m_Layer, Obj.m_Area));
+                Slaves.Add(LE.AddObject(LevelEditorForm.IsSimpleObject(Obj.ID) ? LevelObject.Type.SIMPLE : LevelObject.Type.STANDARD, Obj.ID, Obj.m_Layer, Obj.m_Area));
                 if (Obj.Parameters != null) Array.Copy(Obj.Parameters, Slaves.Last().Parameters, Obj.Parameters.Length);
+                if (Slaves.Last().m_Type == LevelObject.Type.STANDARD) { (Slaves.Last() as StandardObject).YRotation = (Obj as StandardObject).YRotation; }
                 Slaves.Last().GenerateProperties();
             }
 

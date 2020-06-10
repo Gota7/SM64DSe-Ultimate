@@ -139,11 +139,11 @@
     <Compile Include="CodeFixerForm.designer.cs">
       <DependentUpon>CodeFixerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CoinFormationForm.cs">
+    <Compile Include="FormationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CoinFormationForm.Designer.cs">
-      <DependentUpon>CoinFormationForm.cs</DependentUpon>
+    <Compile Include="FormationForm.Designer.cs">
+      <DependentUpon>FormationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DataHelper.cs" />
     <Compile Include="ExceptionMessageBox.cs">
@@ -226,6 +226,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="NitroROM_Utils.cs" />
+    <Compile Include="Patcher\Arm9BinaryHandler.cs" />
+    <Compile Include="Patcher\Arm9BinSection.cs" />
     <Compile Include="Patcher\PatchCompiler.cs" />
     <Compile Include="Patcher\PatchMaker.cs" />
     <Compile Include="SM64DSFormats\BetterTextureAnimationEditor.cs">
@@ -398,8 +400,8 @@
     <EmbeddedResource Include="CodeFixerForm.resx">
       <DependentUpon>CodeFixerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CoinFormationForm.resx">
-      <DependentUpon>CoinFormationForm.cs</DependentUpon>
+    <EmbeddedResource Include="FormationForm.resx">
+      <DependentUpon>FormationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExceptionMessageBox.resx">
       <DependentUpon>ExceptionMessageBox.cs</DependentUpon>

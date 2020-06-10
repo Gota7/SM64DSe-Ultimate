@@ -34,6 +34,10 @@
             this.checkPolylistTypes = new System.Windows.Forms.CheckBox();
             this.box_LevelModel = new System.Windows.Forms.GroupBox();
             this.box_3dView = new System.Windows.Forms.GroupBox();
+            this.valFarClipping = new System.Windows.Forms.NumericUpDown();
+            this.valFOV = new System.Windows.Forms.TrackBar();
+            this.lblFarClipping = new System.Windows.Forms.Label();
+            this.lblFov = new System.Windows.Forms.Label();
             this.btnBottom = new System.Windows.Forms.Button();
             this.btnRight = new System.Windows.Forms.Button();
             this.btnToogleOrtho = new System.Windows.Forms.Button();
@@ -41,10 +45,6 @@
             this.btnBack = new System.Windows.Forms.Button();
             this.btnTop = new System.Windows.Forms.Button();
             this.btnFront = new System.Windows.Forms.Button();
-            this.lblFov = new System.Windows.Forms.Label();
-            this.lblFarClipping = new System.Windows.Forms.Label();
-            this.valFarClipping = new System.Windows.Forms.NumericUpDown();
-            this.valFOV = new System.Windows.Forms.TrackBar();
             this.box_LevelModel.SuspendLayout();
             this.box_3dView.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.valFarClipping)).BeginInit();
@@ -128,6 +128,60 @@
             this.box_3dView.TabStop = false;
             this.box_3dView.Text = "3d View";
             // 
+            // valFarClipping
+            // 
+            this.valFarClipping.Location = new System.Drawing.Point(83, 152);
+            this.valFarClipping.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.valFarClipping.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.valFarClipping.Name = "valFarClipping";
+            this.valFarClipping.Size = new System.Drawing.Size(120, 20);
+            this.valFarClipping.TabIndex = 11;
+            this.valFarClipping.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.valFarClipping.ValueChanged += new System.EventHandler(this.valFarClipping_ValueChanged);
+            // 
+            // valFOV
+            // 
+            this.valFOV.LargeChange = 15;
+            this.valFOV.Location = new System.Drawing.Point(43, 101);
+            this.valFOV.Maximum = 120;
+            this.valFOV.Minimum = 5;
+            this.valFOV.Name = "valFOV";
+            this.valFOV.Size = new System.Drawing.Size(157, 45);
+            this.valFOV.SmallChange = 5;
+            this.valFOV.TabIndex = 10;
+            this.valFOV.Value = 5;
+            this.valFOV.ValueChanged += new System.EventHandler(this.valFOV_ValueChanged);
+            // 
+            // lblFarClipping
+            // 
+            this.lblFarClipping.AutoSize = true;
+            this.lblFarClipping.Location = new System.Drawing.Point(9, 154);
+            this.lblFarClipping.Name = "lblFarClipping";
+            this.lblFarClipping.Size = new System.Drawing.Size(62, 13);
+            this.lblFarClipping.TabIndex = 9;
+            this.lblFarClipping.Text = "far Clipping:";
+            // 
+            // lblFov
+            // 
+            this.lblFov.AutoSize = true;
+            this.lblFov.Location = new System.Drawing.Point(6, 106);
+            this.lblFov.Name = "lblFov";
+            this.lblFov.Size = new System.Drawing.Size(31, 13);
+            this.lblFov.TabIndex = 8;
+            this.lblFov.Text = "FOV:";
+            // 
             // btnBottom
             // 
             this.btnBottom.Location = new System.Drawing.Point(77, 77);
@@ -197,60 +251,6 @@
             this.btnFront.Text = "Front";
             this.btnFront.UseVisualStyleBackColor = true;
             this.btnFront.Click += new System.EventHandler(this.PerspectiveBtn_Click);
-            // 
-            // lblFov
-            // 
-            this.lblFov.AutoSize = true;
-            this.lblFov.Location = new System.Drawing.Point(6, 106);
-            this.lblFov.Name = "lblFov";
-            this.lblFov.Size = new System.Drawing.Size(31, 13);
-            this.lblFov.TabIndex = 8;
-            this.lblFov.Text = "FOV:";
-            // 
-            // lblFarClipping
-            // 
-            this.lblFarClipping.AutoSize = true;
-            this.lblFarClipping.Location = new System.Drawing.Point(9, 154);
-            this.lblFarClipping.Name = "lblFarClipping";
-            this.lblFarClipping.Size = new System.Drawing.Size(62, 13);
-            this.lblFarClipping.TabIndex = 9;
-            this.lblFarClipping.Text = "far Clipping:";
-            // 
-            // valFarClipping
-            // 
-            this.valFarClipping.Location = new System.Drawing.Point(83, 152);
-            this.valFarClipping.Maximum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            this.valFarClipping.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.valFarClipping.Name = "valFarClipping";
-            this.valFarClipping.Size = new System.Drawing.Size(120, 20);
-            this.valFarClipping.TabIndex = 11;
-            this.valFarClipping.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.valFarClipping.ValueChanged += new System.EventHandler(this.valFarClipping_ValueChanged);
-            // 
-            // valFOV
-            // 
-            this.valFOV.LargeChange = 15;
-            this.valFOV.Location = new System.Drawing.Point(43, 101);
-            this.valFOV.Maximum = 120;
-            this.valFOV.Minimum = 5;
-            this.valFOV.Name = "valFOV";
-            this.valFOV.Size = new System.Drawing.Size(157, 45);
-            this.valFOV.SmallChange = 5;
-            this.valFOV.TabIndex = 10;
-            this.valFOV.Value = 5;
-            this.valFOV.ValueChanged += new System.EventHandler(this.valFOV_ValueChanged);
             // 
             // LevelDisplaySettingsForm
             // 

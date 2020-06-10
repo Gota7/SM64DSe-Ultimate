@@ -40,6 +40,7 @@
             this.txtOffset = new System.Windows.Forms.TextBox();
             this.chkDynamic = new System.Windows.Forms.CheckBox();
             this.btnClean = new System.Windows.Forms.Button();
+            this.injectCode = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblFolder
@@ -131,11 +132,23 @@
             this.btnClean.UseVisualStyleBackColor = true;
             this.btnClean.Click += new System.EventHandler(this.btnClean_Click);
             // 
+            // injectCode
+            // 
+            this.injectCode.AutoSize = true;
+            this.injectCode.Location = new System.Drawing.Point(197, 62);
+            this.injectCode.Name = "injectCode";
+            this.injectCode.Size = new System.Drawing.Size(80, 17);
+            this.injectCode.TabIndex = 10;
+            this.injectCode.Text = "Inject Code";
+            this.injectCode.UseVisualStyleBackColor = true;
+            this.injectCode.CheckedChanged += new System.EventHandler(this.injectCode_CheckedChanged);
+            // 
             // CodeCompilerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(427, 132);
+            this.Controls.Add(this.injectCode);
             this.Controls.Add(this.btnClean);
             this.Controls.Add(this.chkDynamic);
             this.Controls.Add(this.txtOffset);
@@ -146,7 +159,9 @@
             this.Controls.Add(this.txtFolder);
             this.Controls.Add(this.btnFolder);
             this.Controls.Add(this.lblFolder);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "CodeCompilerForm";
             this.Text = "Code Compiler";
             this.ResumeLayout(false);
@@ -167,5 +182,6 @@
         private System.Windows.Forms.TextBox txtOffset;
         private System.Windows.Forms.CheckBox chkDynamic;
         private System.Windows.Forms.Button btnClean;
+        private System.Windows.Forms.CheckBox injectCode;
     }
 }

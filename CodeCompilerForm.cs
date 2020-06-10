@@ -56,5 +56,18 @@ namespace SM64DSe
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(txtFolder.Text);
             Patcher.PatchCompiler.cleanPatch(dir);
         }
+
+        private void injectCode_CheckedChanged(object sender, EventArgs e) {
+            if (injectCode.Checked) {
+                txtOutput.Enabled = false;
+                txtOffset.Enabled = false;
+                chkDynamic.Enabled = false;
+            } else {
+                txtOutput.Enabled = true;
+                if (!chkDynamic.Checked) { txtOffset.Enabled = true; }
+                chkDynamic.Enabled = true;
+            }
+        }
+
     }
 }

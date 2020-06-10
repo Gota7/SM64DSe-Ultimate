@@ -12,11 +12,13 @@ namespace SM64DSe.Patcher
 {
     public class PatchMaker
     {
+        Arm9BinaryHandler handler;
         DirectoryInfo romdir;
         uint m_CodeAddr;
 
         public PatchMaker(DirectoryInfo romdir, uint codeAddr)
         {
+            handler = new Arm9BinaryHandler();
             this.romdir = romdir;
             m_CodeAddr = codeAddr;
         }
@@ -549,5 +551,10 @@ namespace SM64DSe.Patcher
         {
             return int.Parse(s, System.Globalization.NumberStyles.HexNumber);
         }
+
+        public void restore() {
+            handler.restoreFromBackup();
+        }
+
     }
 }

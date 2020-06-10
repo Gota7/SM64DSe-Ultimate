@@ -844,8 +844,6 @@ namespace SM64DSe
                     customRenderFlags = new bool[] {    true,         true,     false,                false };
                 else
                     customRenderFlags = (bool[])renderFlags.Clone();
-                if (texAnim != null)
-                    customRenderFlags[0] = true;
 
                 Matrix4[] animMatrices = (usesAnimation) ?
                     animation.GetAllMatricesForFrame(m_Model.m_ModelChunks, frame) : null;

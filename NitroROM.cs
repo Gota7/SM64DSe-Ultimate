@@ -804,9 +804,10 @@ namespace SM64DSe
 
         private uint m_UsedSize;
 
-        private uint ARM9RAMAddress;
-
-        private uint ARM7Offset, ARM7RAMAddress, ARM7Size;
+        public uint ARM9RAMAddress { get; private set; }
+        public uint ARM7Offset { get; private set; }
+        public uint ARM7RAMAddress{ get; private set; }
+        public uint ARM7Size { get; private set; }
 
         private uint FNTOffset, FNTSize;
         private uint FATOffset, FATSize;

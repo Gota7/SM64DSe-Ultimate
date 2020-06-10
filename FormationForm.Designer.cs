@@ -1,5 +1,5 @@
 ﻿namespace SM64DSe {
-    partial class CoinFormationForm {
+    partial class FormationForm {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -78,7 +78,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(189, 19);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Coin Distance / Radius:";
+            this.label2.Text = "Distance / Radius:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // distance
@@ -124,7 +124,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(189, 19);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Number of Coins:";
+            this.label3.Text = "Number of Items:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // horizontalRotation
@@ -189,7 +189,7 @@
             this.ok.Name = "ok";
             this.ok.Size = new System.Drawing.Size(189, 23);
             this.ok.TabIndex = 11;
-            this.ok.Text = "Make Coins!";
+            this.ok.Text = "Make Formation!";
             this.ok.UseVisualStyleBackColor = true;
             this.ok.Click += new System.EventHandler(this.ok_Click);
             // 
@@ -327,10 +327,13 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.formationType);
             this.Controls.Add(this.label1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "CoinFormationForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Create Coin Formation";
+            this.Text = "Create Formation";
+            this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.distance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCoins)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.horizontalRotation)).EndInit();

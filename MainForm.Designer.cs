@@ -59,6 +59,7 @@
             this.mnitToolsSoundBrowser = new System.Windows.Forms.ToolStripMenuItem();
             this.bMDKLCEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kuppaScriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editFileSystemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnitToolsImageEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.sfdSaveFile = new System.Windows.Forms.SaveFileDialog();
@@ -91,7 +92,6 @@
             this.btnReplaceOverlay = new System.Windows.Forms.Button();
             this.btnExtractOverlay = new System.Windows.Forms.Button();
             this.btnDecompressOverlay = new System.Windows.Forms.Button();
-            this.editFileSystemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsToolBar.SuspendLayout();
             this.ssStatusBar.SuspendLayout();
             this.tbcMainFormTabControl.SuspendLayout();
@@ -257,14 +257,14 @@
             // mnitASMHackingCompilationCodeCompiler
             // 
             this.mnitASMHackingCompilationCodeCompiler.Name = "mnitASMHackingCompilationCodeCompiler";
-            this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(160, 22);
+            this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(180, 22);
             this.mnitASMHackingCompilationCodeCompiler.Text = "Code Compiler";
             this.mnitASMHackingCompilationCodeCompiler.Click += new System.EventHandler(this.mnitASMHackingCompilationCodeCompiler_Click);
             // 
             // mnitASMHackingCompilationFixCodeOffsets
             // 
             this.mnitASMHackingCompilationFixCodeOffsets.Name = "mnitASMHackingCompilationFixCodeOffsets";
-            this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(160, 22);
+            this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(180, 22);
             this.mnitASMHackingCompilationFixCodeOffsets.Text = "Fix Code Offsets";
             this.mnitASMHackingCompilationFixCodeOffsets.Click += new System.EventHandler(this.mnitASMHackingCompilationFixCodeOffsets_Click);
             // 
@@ -279,7 +279,7 @@
             // platformEditorToolStripMenuItem
             // 
             this.platformEditorToolStripMenuItem.Name = "platformEditorToolStripMenuItem";
-            this.platformEditorToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.platformEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.platformEditorToolStripMenuItem.Text = "Platform Editor";
             this.platformEditorToolStripMenuItem.Click += new System.EventHandler(this.platformEditorToolStripMenuItem_Click);
             // 
@@ -377,6 +377,13 @@
             this.kuppaScriptEditorToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.kuppaScriptEditorToolStripMenuItem.Text = "Kuppa Script Editor";
             this.kuppaScriptEditorToolStripMenuItem.Click += new System.EventHandler(this.kuppaScriptEditorToolStripMenuItem_Click);
+            // 
+            // editFileSystemToolStripMenuItem
+            // 
+            this.editFileSystemToolStripMenuItem.Name = "editFileSystemToolStripMenuItem";
+            this.editFileSystemToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.editFileSystemToolStripMenuItem.Text = "Edit File System";
+            this.editFileSystemToolStripMenuItem.Click += new System.EventHandler(this.editFileSystemToolStripMenuItem_Click);
             // 
             // mnitToolsImageEditor
             // 
@@ -743,13 +750,6 @@
             this.btnDecompressOverlay.TabIndex = 9;
             this.btnDecompressOverlay.Text = "Decompress Overlay";
             this.btnDecompressOverlay.UseVisualStyleBackColor = true;
-            // 
-            // editFileSystemToolStripMenuItem
-            // 
-            this.editFileSystemToolStripMenuItem.Name = "editFileSystemToolStripMenuItem";
-            this.editFileSystemToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.editFileSystemToolStripMenuItem.Text = "Edit File System";
-            this.editFileSystemToolStripMenuItem.Click += new System.EventHandler(this.editFileSystemToolStripMenuItem_Click);
             // 
             // MainForm
             // 

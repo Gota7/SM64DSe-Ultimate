@@ -54,8 +54,8 @@ namespace SM64DSe
 
         private Button btnDrop = new Button();
 
-        private Button btnCreateCoinFormation = new Button();
-        private List<CoinFormationForm> coinFormationForms = new List<CoinFormationForm>();
+        private Button btnCreateFormation = new Button();
+        private List<FormationForm> coinFormationForms = new List<FormationForm>();
 
         private int m_areaCount = 1;
         private int m_currentArea = -1;
@@ -76,6 +76,12 @@ namespace SM64DSe
         private void StartTimer()
         {
             m_texAnimFrame = 0;
+            m_texAnimTimer.Enabled = true;
+            m_texAnimTimer.Start();
+        }
+
+        private void ResumeTimer()
+        {
             m_texAnimTimer.Enabled = true;
             m_texAnimTimer.Start();
         }
@@ -115,7 +121,7 @@ namespace SM64DSe
             defaultToolTip.SetToolTip(this.val_b, "The Fogs blue Color Value");
         }
 
-        private bool IsSimpleObject(ushort id)
+        public static bool IsSimpleObject(ushort id)
         {
             switch (id)
             {
@@ -167,9 +173,9 @@ namespace SM64DSe
             btnDrop.Width = 40;
             btnDrop.Click += btnDrop_Click;
 
-            btnCreateCoinFormation.Text = "Create Coin Formation";
-            btnCreateCoinFormation.Width = 140;
-            btnCreateCoinFormation.Click += btnCreateCoinFormation_Click;
+            btnCreateFormation.Text = "Create Formation";
+            btnCreateFormation.Width = 110;
+            btnCreateFormation.Click += btnCreateCoinFormation_Click;
 
             this.Text = string.Format("[{0}] {1} [{2}] - {3} {4}", levelid, Strings.LevelNames[levelid], Program.m_ROM.GetInternalLevelNameFromID(levelid), Program.AppTitle, Program.AppVersion);
             
@@ -267,13 +273,18 @@ namespace SM64DSe
 
             for (int c = 0; c < m_LevelModel.m_ModelChunks.Length; c++)
             {
+
+                if ((area > -1) && (c != area))
+                    continue;
+
                 m_LevelModelDLs[c, 0] = GL.GenLists(1);
                 GL.NewList(m_LevelModelDLs[c, 0], ListMode.Compile);
                 LevelTexAnim[] anims = m_Level.m_TexAnims.Where(obj => obj.m_Area == c).ToArray();
                 if (anims.Length > 0)
                     m_LevelModel.m_ModelChunks[c].Render(RenderMode.Opaque, 1.0f, m_levelModelDisplayFlags, anims[0], m_texAnimFrame);
-                else
+                else {
                     m_LevelModel.m_ModelChunks[c].Render(RenderMode.Opaque, 1.0f, m_levelModelDisplayFlags);
+                }
                 GL.EndList();
 
                 m_LevelModelDLs[c, 1] = GL.GenLists(1);
@@ -2876,8 +2887,7 @@ namespace SM64DSe
 
         public void ToogleOrtho()
         {
-            btnOrthView.PerformClick();
-
+            btnOrthView_Click(null, null);
         }
 
         private void btnOrthView_Click(object sender, EventArgs e)
@@ -3061,10 +3071,10 @@ namespace SM64DSe
                         box_parameters.Controls.Add(btnOpenRawEditor);                 
                         Helper.snapControlVertically(btnOpenRawEditor, snapBak, 2);
                         nextFieldSnapX = Helper.snapControlHorizontally(btnOpenRawEditor, nextFieldSnapX);
-                        if (m_SelectedObject is SimpleObject && (m_SelectedObject.ID == 37 || m_SelectedObject.ID == 38 || m_SelectedObject.ID == 39)) {
-                            box_parameters.Controls.Add(btnCreateCoinFormation);
-                            Helper.snapControlVertically(btnCreateCoinFormation, snapBak, 2);
-                            nextFieldSnapX = Helper.snapControlHorizontally(btnCreateCoinFormation, nextFieldSnapX);
+                        if (m_SelectedObject is SimpleObject || m_SelectedObject is StandardObject) {
+                            box_parameters.Controls.Add(btnCreateFormation);
+                            Helper.snapControlVertically(btnCreateFormation, snapBak, 2);
+                            nextFieldSnapX = Helper.snapControlHorizontally(btnCreateFormation, nextFieldSnapX);
                         }
                     }
                 }
@@ -3187,7 +3197,7 @@ namespace SM64DSe
 
         private void btnTextureAnims_Click(object sender, EventArgs e) {
             if (btnTextureAnims.Checked) {
-                StartTimer();
+                ResumeTimer();
             } else {
                 StopTimer();
             }
@@ -3209,7 +3219,7 @@ namespace SM64DSe
         }
 
         private void btnCreateCoinFormation_Click(object sender, EventArgs e) {
-            var c = new CoinFormationForm(this);
+            var c = new FormationForm(this);
             c.ShowForObject(m_SelectedObject);
             coinFormationForms.Add(c);
         }

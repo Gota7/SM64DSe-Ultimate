@@ -235,4 +235,4 @@ C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64D
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.csproj.CopyComplete
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.exe
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.pdb
-C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.CoinFormationForm.resources
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.FormationForm.resources
