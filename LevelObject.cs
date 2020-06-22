@@ -1856,10 +1856,9 @@ namespace SM64DSe
                             15,"Nothing"
                         }){ Name = "Spawns" },
                         new ListField("Parameter 1",12,4,new object[]{
-                            15,"None",
-                            1,"For Mario",
-                            2,"For Luigi",
-                            3,"For Wario",
+                            0,"For Mario",
+                            1,"For Luigi",
+                            2,"For Wario",
                             15,"None"
                         }){ Name = "Wears Cap" }
                     };
