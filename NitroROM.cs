@@ -369,9 +369,22 @@ namespace SM64DSe
 
                 return new NARCFile(new NARC(this, GetFileIDFromName(narcname)), fileid);
             }
-
             return new NitroFile(this, m_FileTable[intid]);
         }
+
+        /*/// <summary>
+        /// Get internal ID.
+        /// </summary>
+        /// <param name="n">Nitro file.</param>
+        /// <returnsInternal id.></returns>
+        public ushort GetInternalID(NitroFile n) {
+            var narc = n as NARCFile;
+            if (narc != null) {
+                //narc.m_Narc.
+            } else {
+                return (ushort)m_FileTable.ToList().IndexOf(n.m_ID);
+            }
+        }*/
 
         public String GetInternalLevelNameFromID(int id)
         {

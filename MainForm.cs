@@ -402,28 +402,20 @@ namespace SM64DSe
 
         private void tvFileList_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (e.Node == null || e.Node.Tag == null)
-                m_SelectedFile = null;
-            else
-                m_SelectedFile = e.Node.Tag.ToString();
-
-            if(m_SelectedFile != null)
-            {
-                string status;
-                if (!m_SelectedFile.StartsWith("ARCHIVE"))
-                {
-                    status = m_SelectedFile.Last() == '/' ?
-                        String.Format("Type [Directory], ID [0x{0:X4}]", Program.m_ROM.GetDirIDFromName(m_SelectedFile.TrimEnd('/'))) :
-                        String.Format("Type [File], ID [0x{0:X4}], Overlay 0 ID [0x{1:X4}]",
-                            Program.m_ROM.GetFileIDFromName(m_SelectedFile),
-                            Program.m_ROM.GetFileEntries()[Program.m_ROM.GetFileIDFromName(m_SelectedFile)].InternalID);
-                }
+            this.m_SelectedFile = e.Node == null || e.Node.Tag == null ? "" : e.Node.Tag.ToString();
+            if (!(this.m_SelectedFile != ""))
+                return;
+            string str1;
+            if (!this.m_SelectedFile.StartsWith("ARCHIVE") && Program.m_ROM.GetFileIDFromName(this.m_SelectedFile) != ushort.MaxValue) {
+                string str2;
+                if (this.m_SelectedFile.Last<char>() != '/')
+                    str2 = string.Format("File, ID = 0x{0:x4}, Ov0ID = 0x{1:x4}", (object)Program.m_ROM.GetFileIDFromName(this.m_SelectedFile), (object)Program.m_ROM.GetFileEntries()[(int)Program.m_ROM.GetFileIDFromName(this.m_SelectedFile)].InternalID);
                 else
-                {
-                    status = null;
-                }
-                slStatusLabel.Text = status;
-            }
+                    str2 = string.Format("Directory, ID = 0x{0:x4}", (object)Program.m_ROM.GetDirIDFromName(this.m_SelectedFile.TrimEnd('/')));
+                str1 = str2;
+            } else
+                str1 = "";
+            this.slStatusLabel.Text = str1;
         }
 
         private void btnExtractRaw_Click(object sender, EventArgs e)

@@ -61,10 +61,26 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.chkFarCamera = new System.Windows.Forms.CheckBox();
+            this.nudBMD = new System.Windows.Forms.NumericUpDown();
+            this.nudKCL = new System.Windows.Forms.NumericUpDown();
+            this.nudICG = new System.Windows.Forms.NumericUpDown();
+            this.nudICL = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudGeneralMinimumNumberOfAreas)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBMD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudKCL)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudICG)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudICL)).BeginInit();
             this.SuspendLayout();
             // 
             // cbxBank0
@@ -373,7 +389,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(318, 465);
+            this.btnCancel.Location = new System.Drawing.Point(318, 609);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 26);
             this.btnCancel.TabIndex = 3;
@@ -383,7 +399,7 @@
             // btnOk
             // 
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(237, 465);
+            this.btnOk.Location = new System.Drawing.Point(237, 609);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 26);
             this.btnOk.TabIndex = 4;
@@ -405,6 +421,7 @@
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Level Music";
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
             // txtMusicByte03
             // 
@@ -454,11 +471,158 @@
             this.label11.TabIndex = 1;
             this.label11.Text = "Byte 01: Group ID";
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.nudICL);
+            this.groupBox4.Controls.Add(this.nudICG);
+            this.groupBox4.Controls.Add(this.nudKCL);
+            this.groupBox4.Controls.Add(this.nudBMD);
+            this.groupBox4.Controls.Add(this.chkFarCamera);
+            this.groupBox4.Controls.Add(this.label17);
+            this.groupBox4.Controls.Add(this.label18);
+            this.groupBox4.Controls.Add(this.label14);
+            this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.label16);
+            this.groupBox4.Location = new System.Drawing.Point(12, 465);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(381, 141);
+            this.groupBox4.TabIndex = 7;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Misc";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(15, 69);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(133, 13);
+            this.label14.TabIndex = 3;
+            this.label14.Text = "KCL Internal (Ov0) File ID: ";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(15, 46);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(137, 13);
+            this.label15.TabIndex = 2;
+            this.label15.Text = "BMD Internal (Ov0) File ID: ";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(15, 22);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(111, 13);
+            this.label16.TabIndex = 1;
+            this.label16.Text = "Start With Far Camera";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(15, 116);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(129, 13);
+            this.label17.TabIndex = 8;
+            this.label17.Text = "ICL Internal (Ov0) File ID: ";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(15, 93);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(131, 13);
+            this.label18.TabIndex = 7;
+            this.label18.Text = "ICG Internal (Ov0) File ID: ";
+            // 
+            // chkFarCamera
+            // 
+            this.chkFarCamera.AutoSize = true;
+            this.chkFarCamera.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkFarCamera.Location = new System.Drawing.Point(351, 19);
+            this.chkFarCamera.Name = "chkFarCamera";
+            this.chkFarCamera.Size = new System.Drawing.Size(15, 14);
+            this.chkFarCamera.TabIndex = 11;
+            this.chkFarCamera.UseVisualStyleBackColor = true;
+            // 
+            // nudBMD
+            // 
+            this.nudBMD.Hexadecimal = true;
+            this.nudBMD.Location = new System.Drawing.Point(225, 44);
+            this.nudBMD.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.nudBMD.Name = "nudBMD";
+            this.nudBMD.Size = new System.Drawing.Size(141, 20);
+            this.nudBMD.TabIndex = 12;
+            this.nudBMD.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // nudKCL
+            // 
+            this.nudKCL.Hexadecimal = true;
+            this.nudKCL.Location = new System.Drawing.Point(225, 67);
+            this.nudKCL.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.nudKCL.Name = "nudKCL";
+            this.nudKCL.Size = new System.Drawing.Size(141, 20);
+            this.nudKCL.TabIndex = 13;
+            this.nudKCL.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // nudICG
+            // 
+            this.nudICG.Hexadecimal = true;
+            this.nudICG.Location = new System.Drawing.Point(225, 91);
+            this.nudICG.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.nudICG.Name = "nudICG";
+            this.nudICG.Size = new System.Drawing.Size(141, 20);
+            this.nudICG.TabIndex = 14;
+            this.nudICG.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // nudICL
+            // 
+            this.nudICL.Hexadecimal = true;
+            this.nudICL.Location = new System.Drawing.Point(225, 114);
+            this.nudICL.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.nudICL.Name = "nudICL";
+            this.nudICL.Size = new System.Drawing.Size(141, 20);
+            this.nudICL.TabIndex = 15;
+            this.nudICL.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // LevelSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(405, 500);
+            this.ClientSize = new System.Drawing.Size(405, 647);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnCancel);
@@ -478,6 +642,12 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBMD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudKCL)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudICG)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudICL)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -517,5 +687,16 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown nudGeneralMinimumNumberOfAreas;
         private System.Windows.Forms.Label lblGeneralMinimumNumberOfAreas;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown nudICL;
+        private System.Windows.Forms.NumericUpDown nudICG;
+        private System.Windows.Forms.NumericUpDown nudKCL;
+        private System.Windows.Forms.NumericUpDown nudBMD;
+        private System.Windows.Forms.CheckBox chkFarCamera;
     }
 }

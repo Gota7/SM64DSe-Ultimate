@@ -64,7 +64,7 @@ namespace SM64DSe
 
         public override void SaveChanges()
         {
-            bool autorw = !m_ROM.CanRW();
+            /*bool autorw = !m_ROM.CanRW();
             if (autorw) m_ROM.BeginRW();
 
             // first, ensure that the size is aligned to 4 byte boundary
@@ -85,7 +85,24 @@ namespace SM64DSe
             flags &= 0xFE; // [Treeki] disable compression :)
             m_ROM.Write8(m_OVTEntryAddr + 0x1F, flags);
 
-            if (autorw) m_ROM.EndRW();
+            if (autorw) m_ROM.EndRW();*/
+
+            if (this.m_Data.Length % 4 != 0)
+                this.SetSize((uint)(this.m_Data.Length + 3 & -4));
+            NitroROM.OverlayEntry[] overlayEntries = this.m_ROM.GetOverlayEntries();
+            NitroROM.OverlayEntry overlayEntry = overlayEntries[(int)this.m_ID];
+            overlayEntry.RAMSize = (uint)this.m_Data.Length;
+            overlayEntries[(int)this.m_ID] = overlayEntry;
+            this.m_ROM.ReinsertFile(this.m_FileID, this.m_Data);
+            this.Update();
+            int num = !this.m_ROM.CanRW() ? 1 : 0;
+            if (num != 0)
+                this.m_ROM.BeginRW();
+            this.m_ROM.Write8(this.m_OVTEntryAddr + 31U, (byte)((uint)this.m_ROM.Read8(this.m_OVTEntryAddr + 31U) & 254U));
+            if (num == 0)
+                return;
+            this.m_ROM.EndRW();
+
         }
 
         public uint GetSize()

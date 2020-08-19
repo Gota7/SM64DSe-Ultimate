@@ -14,7 +14,7 @@ namespace SM64DSe {
 
         public bool StartFilesystemEdit() {
             if (this.CanRW()) {
-                int num = (int)MessageBox.Show("Error", "The file is being read from or written toby another process in this editor.");
+                int num = (int)MessageBox.Show("Error", "The file is being read from or written to by another process in this editor.");
                 return false;
             }
             this.BeginRW(true);

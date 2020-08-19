@@ -93,6 +93,13 @@ namespace SM64DSe
             txtMusicByte02.Text = m_LevelSettings.MusicBytes[1].ToString();
             txtMusicByte03.Text = m_LevelSettings.MusicBytes[2].ToString();
 
+            chkFarCamera.Checked = m_LevelSettings.CameraStartZoomedOut == 1;
+
+            nudBMD.Value = m_LevelSettings.BMDFileID;
+            nudKCL.Value = m_LevelSettings.KCLFileID;
+            nudICG.Value = m_LevelSettings.MinimapTsetFileID;
+            nudICL.Value = m_LevelSettings.MinimapPalFileID;
+
             Program.m_ROM.BeginRW();
             txtActSelectorID.Text = Program.m_ROM.Read8((uint)(Helper.GetActSelectorIDTableAddress() + 
                 ((LevelEditorForm)Owner).m_LevelID)).ToString();
@@ -165,6 +172,13 @@ namespace SM64DSe
             }
             catch { }
 
+            m_LevelSettings.CameraStartZoomedOut = chkFarCamera.Checked ? (byte)1 : (byte)0;
+
+            m_LevelSettings.BMDFileID = (ushort)nudBMD.Value;
+            m_LevelSettings.KCLFileID = (ushort)nudKCL.Value;
+            m_LevelSettings.MinimapTsetFileID = (ushort)nudICG.Value;
+            m_LevelSettings.MinimapPalFileID = (ushort)nudICL.Value;
+
             try
             {
                 Program.m_ROM.BeginRW();
@@ -183,6 +197,10 @@ namespace SM64DSe
         private void LevelSettingsForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             ((LevelEditorForm)Owner).UpdateSkybox(-1);
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e) {
+
         }
     }
 }
