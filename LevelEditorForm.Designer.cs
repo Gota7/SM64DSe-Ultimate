@@ -291,7 +291,7 @@ namespace SM64DSe
             this.box_position.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_position.Location = new System.Drawing.Point(3, 56);
             this.box_position.Name = "box_position";
-            this.box_position.Size = new System.Drawing.Size(283, 39);
+            this.box_position.Size = new System.Drawing.Size(266, 39);
             this.box_position.TabIndex = 2;
             this.box_position.TabStop = false;
             this.box_position.Text = "Position";
@@ -301,7 +301,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapsePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapsePosition.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapsePosition.Location = new System.Drawing.Point(267, 0);
+            this.btnToogleCollapsePosition.Location = new System.Drawing.Point(250, 0);
             this.btnToogleCollapsePosition.Name = "btnToogleCollapsePosition";
             this.btnToogleCollapsePosition.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapsePosition.TabIndex = 7;
@@ -422,7 +422,7 @@ namespace SM64DSe
             this.box_rotation.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_rotation.Location = new System.Drawing.Point(3, 101);
             this.box_rotation.Name = "box_rotation";
-            this.box_rotation.Size = new System.Drawing.Size(283, 39);
+            this.box_rotation.Size = new System.Drawing.Size(266, 39);
             this.box_rotation.TabIndex = 6;
             this.box_rotation.TabStop = false;
             this.box_rotation.Text = "Rotation";
@@ -432,7 +432,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseRotation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseRotation.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseRotation.Location = new System.Drawing.Point(267, -1);
+            this.btnToogleCollapseRotation.Location = new System.Drawing.Point(250, -1);
             this.btnToogleCollapseRotation.Name = "btnToogleCollapseRotation";
             this.btnToogleCollapseRotation.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseRotation.TabIndex = 8;
@@ -515,7 +515,7 @@ namespace SM64DSe
             this.box_parameters.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_parameters.Location = new System.Drawing.Point(3, 145);
             this.box_parameters.Name = "box_parameters";
-            this.box_parameters.Size = new System.Drawing.Size(283, 115);
+            this.box_parameters.Size = new System.Drawing.Size(266, 115);
             this.box_parameters.TabIndex = 9;
             this.box_parameters.TabStop = false;
             this.box_parameters.Text = "Parameters";
@@ -525,7 +525,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseParameters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseParameters.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseParameters.Location = new System.Drawing.Point(267, 0);
+            this.btnToogleCollapseParameters.Location = new System.Drawing.Point(250, 0);
             this.btnToogleCollapseParameters.Name = "btnToogleCollapseParameters";
             this.btnToogleCollapseParameters.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseParameters.TabIndex = 10;
@@ -546,7 +546,7 @@ namespace SM64DSe
             this.box_fogSettings.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_fogSettings.Location = new System.Drawing.Point(3, 266);
             this.box_fogSettings.Name = "box_fogSettings";
-            this.box_fogSettings.Size = new System.Drawing.Size(283, 132);
+            this.box_fogSettings.Size = new System.Drawing.Size(266, 132);
             this.box_fogSettings.TabIndex = 6;
             this.box_fogSettings.TabStop = false;
             this.box_fogSettings.Text = "Fog Settings";
@@ -698,7 +698,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseColor.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseColor.Location = new System.Drawing.Point(267, 0);
+            this.btnToogleCollapseColor.Location = new System.Drawing.Point(250, 0);
             this.btnToogleCollapseColor.Name = "btnToogleCollapseColor";
             this.btnToogleCollapseColor.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseColor.TabIndex = 9;
@@ -720,7 +720,7 @@ namespace SM64DSe
             this.box_general.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_general.Location = new System.Drawing.Point(3, -18);
             this.box_general.Name = "box_general";
-            this.box_general.Size = new System.Drawing.Size(283, 68);
+            this.box_general.Size = new System.Drawing.Size(266, 68);
             this.box_general.TabIndex = 10;
             this.box_general.TabStop = false;
             this.box_general.Text = "General";
@@ -759,7 +759,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseGeneral.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseGeneral.Location = new System.Drawing.Point(267, 0);
+            this.btnToogleCollapseGeneral.Location = new System.Drawing.Point(250, 0);
             this.btnToogleCollapseGeneral.Name = "btnToogleCollapseGeneral";
             this.btnToogleCollapseGeneral.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseGeneral.TabIndex = 9;
@@ -1188,6 +1188,7 @@ namespace SM64DSe
             // 
             // txtGridSizeX
             // 
+            this.txtGridSizeX.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtGridSizeX.Name = "txtGridSizeX";
             this.txtGridSizeX.Size = new System.Drawing.Size(100, 23);
             this.txtGridSizeX.Text = "0.0";
@@ -1195,6 +1196,7 @@ namespace SM64DSe
             // 
             // txtGridSizeY
             // 
+            this.txtGridSizeY.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtGridSizeY.Name = "txtGridSizeY";
             this.txtGridSizeY.Size = new System.Drawing.Size(100, 23);
             this.txtGridSizeY.Text = "0.0";
@@ -1202,6 +1204,7 @@ namespace SM64DSe
             // 
             // txtGridSizeZ
             // 
+            this.txtGridSizeZ.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtGridSizeZ.Name = "txtGridSizeZ";
             this.txtGridSizeZ.Size = new System.Drawing.Size(100, 23);
             this.txtGridSizeZ.Text = "0.0";
@@ -1214,6 +1217,7 @@ namespace SM64DSe
             // 
             // txtGridOffsetX
             // 
+            this.txtGridOffsetX.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtGridOffsetX.Name = "txtGridOffsetX";
             this.txtGridOffsetX.Size = new System.Drawing.Size(100, 23);
             this.txtGridOffsetX.Text = "0.0";
@@ -1221,6 +1225,7 @@ namespace SM64DSe
             // 
             // txtGridOffsetY
             // 
+            this.txtGridOffsetY.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtGridOffsetY.Name = "txtGridOffsetY";
             this.txtGridOffsetY.Size = new System.Drawing.Size(100, 23);
             this.txtGridOffsetY.Text = "0.0";
@@ -1228,6 +1233,7 @@ namespace SM64DSe
             // 
             // txtGridOffsetZ
             // 
+            this.txtGridOffsetZ.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtGridOffsetZ.Name = "txtGridOffsetZ";
             this.txtGridOffsetZ.Size = new System.Drawing.Size(100, 23);
             this.txtGridOffsetZ.Text = "0.0";
@@ -1252,6 +1258,7 @@ namespace SM64DSe
             // 
             // txtRstPlaneX
             // 
+            this.txtRstPlaneX.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtRstPlaneX.Name = "txtRstPlaneX";
             this.txtRstPlaneX.Size = new System.Drawing.Size(100, 23);
             this.txtRstPlaneX.Text = "0.0";
@@ -1259,6 +1266,7 @@ namespace SM64DSe
             // 
             // txtRstPlaneY
             // 
+            this.txtRstPlaneY.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtRstPlaneY.Name = "txtRstPlaneY";
             this.txtRstPlaneY.Size = new System.Drawing.Size(100, 23);
             this.txtRstPlaneY.Text = "0.0";
@@ -1266,6 +1274,7 @@ namespace SM64DSe
             // 
             // txtRstPlaneZ
             // 
+            this.txtRstPlaneZ.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtRstPlaneZ.Name = "txtRstPlaneZ";
             this.txtRstPlaneZ.Size = new System.Drawing.Size(100, 23);
             this.txtRstPlaneZ.Text = "0.0";
@@ -1278,18 +1287,21 @@ namespace SM64DSe
             // 
             // txtRstPlaneOffX
             // 
+            this.txtRstPlaneOffX.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtRstPlaneOffX.Name = "txtRstPlaneOffX";
             this.txtRstPlaneOffX.Size = new System.Drawing.Size(100, 23);
             this.txtRstPlaneOffX.Text = "0.0";
             // 
             // txtRstPlaneOffY
             // 
+            this.txtRstPlaneOffY.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtRstPlaneOffY.Name = "txtRstPlaneOffY";
             this.txtRstPlaneOffY.Size = new System.Drawing.Size(100, 23);
             this.txtRstPlaneOffY.Text = "0.0";
             // 
             // txtRstPlaneOffZ
             // 
+            this.txtRstPlaneOffZ.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtRstPlaneOffZ.Name = "txtRstPlaneOffZ";
             this.txtRstPlaneOffZ.Size = new System.Drawing.Size(100, 23);
             this.txtRstPlaneOffZ.Text = "0.0";
@@ -1347,9 +1359,7 @@ namespace SM64DSe
             // btnTextureAnims
             // 
             this.btnTextureAnims.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnTextureAnims.Checked = true;
             this.btnTextureAnims.CheckOnClick = true;
-            this.btnTextureAnims.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnTextureAnims.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnTextureAnims.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnTextureAnims.Name = "btnTextureAnims";

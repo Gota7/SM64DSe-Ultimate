@@ -141,6 +141,7 @@
             this.injectCode.TabIndex = 10;
             this.injectCode.Text = "Inject Code";
             this.injectCode.UseVisualStyleBackColor = true;
+            this.injectCode.Visible = false;
             this.injectCode.CheckedChanged += new System.EventHandler(this.injectCode_CheckedChanged);
             // 
             // CodeCompilerForm

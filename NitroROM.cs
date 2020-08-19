@@ -37,6 +37,10 @@ namespace SM64DSe
 
         public NitroROM(string path)
         {
+            LoadROM(path);
+        }
+
+        public void LoadROM(string path) {
             m_Path = path;
             m_CanRW = false;
 
@@ -44,59 +48,54 @@ namespace SM64DSe
 
             m_FileStream.Position = 0x00;
             char[] gametitle = m_BinReader.ReadChars(12);
-            if (new string(gametitle) != "S.MARIO64DS\0")
-            {
+            if (new string(gametitle) != "S.MARIO64DS\0") {
                 EndRW();
                 throw new Exception("This file isn't a Super Mario 64 DS ROM.");
             }
 
-	        m_FileStream.Position = 0x0C;
-	        uint gamecode = m_BinReader.ReadUInt32();
-	        m_FileStream.Position = 0x1E;
-	        byte romversion = m_BinReader.ReadByte();
+            m_FileStream.Position = 0x0C;
+            uint gamecode = m_BinReader.ReadUInt32();
+            m_FileStream.Position = 0x1E;
+            byte romversion = m_BinReader.ReadByte();
 
-	        switch (gamecode)
-	        {
-	        case 0x454D5341: // ASME / USA
-		        if (romversion == 0x01)
-		        {
-			        m_Version = Version.USA_v2;
+            switch (gamecode) {
+                case 0x454D5341: // ASME / USA
+                    if (romversion == 0x01) {
+                        m_Version = Version.USA_v2;
 
-			        m_LevelOvlIDTableOffset = 0x742B4;
-			        m_FileTableOffset = 0x11244;
-			        m_FileTableLength = 1824;
-		        }
-		        else
-		        {
-			        m_Version = Version.USA_v1;
+                        m_LevelOvlIDTableOffset = 0x742B4;
+                        m_FileTableOffset = 0x11244;
+                        m_FileTableLength = 1824;
+                    } else {
+                        m_Version = Version.USA_v1;
 
-			        m_LevelOvlIDTableOffset = 0x73594;
-			        m_FileTableOffset = 0x1123C;
-			        m_FileTableLength = 1824;
-		        }
-		        break;
+                        m_LevelOvlIDTableOffset = 0x73594;
+                        m_FileTableOffset = 0x1123C;
+                        m_FileTableLength = 1824;
+                    }
+                    break;
 
-            case 0x4A4D5341: // ASMJ / JAP
-                m_Version = Version.JAP;
+                case 0x4A4D5341: // ASMJ / JAP
+                    m_Version = Version.JAP;
 
-                m_LevelOvlIDTableOffset = 0x73B38;
-                m_FileTableOffset = 0x1123C;
-                m_FileTableLength = 1824;
-                break;
+                    m_LevelOvlIDTableOffset = 0x73B38;
+                    m_FileTableOffset = 0x1123C;
+                    m_FileTableLength = 1824;
+                    break;
 
-	        case 0x504D5341: // ASMP / EUR
-		        m_Version = Version.EUR;
+                case 0x504D5341: // ASMP / EUR
+                    m_Version = Version.EUR;
 
-		        m_LevelOvlIDTableOffset = 0x758C8;
-		        m_FileTableOffset = 0x13098;
-		        m_FileTableLength = 2058;
-		        break;
+                    m_LevelOvlIDTableOffset = 0x758C8;
+                    m_FileTableOffset = 0x13098;
+                    m_FileTableLength = 2058;
+                    break;
 
-	        default:
-		        m_Version = Version.UNK;
-                EndRW();
-		        throw new Exception("Unknown ROM version. Tell Mega-Mario about it.");
-	        }
+                default:
+                    m_Version = Version.UNK;
+                    EndRW();
+                    throw new Exception("Unknown ROM version. Tell Mega-Mario about it.");
+            }
 
             m_FileStream.Position = 0x28;
             ARM9RAMAddress = m_BinReader.ReadUInt32();
@@ -107,31 +106,30 @@ namespace SM64DSe
             ARM7RAMAddress = m_BinReader.ReadUInt32();
             ARM7Size = m_BinReader.ReadUInt32();
 
-	        m_FileStream.Position = 0x40;
-	        FNTOffset = m_BinReader.ReadUInt32();
-	        FNTSize = m_BinReader.ReadUInt32();
-	        FATOffset = m_BinReader.ReadUInt32();
-	        FATSize = m_BinReader.ReadUInt32();
-	        OVTOffset = m_BinReader.ReadUInt32();
-	        OVTSize = m_BinReader.ReadUInt32();
-	        // no need to bother about ARM7 overlays... there's none in SM64DS
+            m_FileStream.Position = 0x40;
+            FNTOffset = m_BinReader.ReadUInt32();
+            FNTSize = m_BinReader.ReadUInt32();
+            FATOffset = m_BinReader.ReadUInt32();
+            FATSize = m_BinReader.ReadUInt32();
+            OVTOffset = m_BinReader.ReadUInt32();
+            OVTSize = m_BinReader.ReadUInt32();
+            // no need to bother about ARM7 overlays... there's none in SM64DS
 
-	        m_FileStream.Position = 0x80;
-	        m_UsedSize = m_BinReader.ReadUInt32();
+            m_FileStream.Position = 0x80;
+            m_UsedSize = m_BinReader.ReadUInt32();
             //m_UsedSize += ROM_END_MARGIN;
 
-	        m_FileStream.Position = FNTOffset + 6;
-	        ushort numdirs = m_BinReader.ReadUInt16();
-	        ushort numfiles = (ushort)(FATSize / 8);
+            m_FileStream.Position = FNTOffset + 6;
+            ushort numdirs = m_BinReader.ReadUInt16();
+            ushort numfiles = (ushort)(FATSize / 8);
 
-	        m_DirEntries = new DirEntry[numdirs];
-	        m_FileEntries = new FileEntry[numfiles];
+            m_DirEntries = new DirEntry[numdirs];
+            m_FileEntries = new FileEntry[numfiles];
 
-	        m_FileStream.Position = FATOffset;
-	        for (ushort f = 0; f < numfiles; f++)
-	        {
-		        uint start = m_BinReader.ReadUInt32();
-		        uint end = m_BinReader.ReadUInt32();
+            m_FileStream.Position = FATOffset;
+            for (ushort f = 0; f < numfiles; f++) {
+                uint start = m_BinReader.ReadUInt32();
+                uint end = m_BinReader.ReadUInt32();
 
                 FileEntry fe;
                 fe.ID = f;
@@ -141,82 +139,75 @@ namespace SM64DSe
                 fe.Size = end - start;
                 fe.Name = fe.FullName = "";
                 fe.Data = null;
-		        m_FileEntries[f] = fe;
-	        }
+                m_FileEntries[f] = fe;
+            }
 
             DirEntry root;
             root.ID = 0xF000;
             root.ParentID = 0;
             root.Name = root.FullName = "";
-	        m_DirEntries[0] = root;
+            m_DirEntries[0] = root;
 
-	        uint tableoffset = FNTOffset;
-	        for (ushort d = 0; d < numdirs; d++)
-	        {
-		        m_FileStream.Position = tableoffset;
-		        uint subtableoffset = FNTOffset + m_BinReader.ReadUInt32();
-		        ushort first_fileid = m_BinReader.ReadUInt16();
-		        ushort cur_fileid = first_fileid;
+            uint tableoffset = FNTOffset;
+            for (ushort d = 0; d < numdirs; d++) {
+                m_FileStream.Position = tableoffset;
+                uint subtableoffset = FNTOffset + m_BinReader.ReadUInt32();
+                ushort first_fileid = m_BinReader.ReadUInt16();
+                ushort cur_fileid = first_fileid;
 
-		        m_FileStream.Position = subtableoffset;
-		        for (;;)
-		        {
-			        byte type_len = m_BinReader.ReadByte();
+                m_FileStream.Position = subtableoffset;
+                for (; ; )
+                {
+                    byte type_len = m_BinReader.ReadByte();
 
-			        if (type_len == 0x00) break;
-			        else if (type_len > 0x80)
-			        {
+                    if (type_len == 0x00) break;
+                    else if (type_len > 0x80) {
                         DirEntry dir;
 
                         dir.Name = new string(m_BinReader.ReadChars(type_len & 0x7F));
                         dir.ID = m_BinReader.ReadUInt16();
                         dir.ParentID = (ushort)(d + 0xF000);
                         dir.FullName = "";
-                        
-				        m_DirEntries[dir.ID - 0xF000] = dir;
-			        }
-			        else if (type_len < 0x80)
-			        {
-				        char[] _name = m_BinReader.ReadChars(type_len & 0x7F);
 
-				        m_FileEntries[cur_fileid].ParentID = (ushort)(d + 0xF000);
-				        m_FileEntries[cur_fileid].Name = new string(_name);
-				        cur_fileid++;
-			        }
-		        }
+                        m_DirEntries[dir.ID - 0xF000] = dir;
+                    } else if (type_len < 0x80) {
+                        char[] _name = m_BinReader.ReadChars(type_len & 0x7F);
 
-		        tableoffset += 8;
-	        }
+                        m_FileEntries[cur_fileid].ParentID = (ushort)(d + 0xF000);
+                        m_FileEntries[cur_fileid].Name = new string(_name);
+                        cur_fileid++;
+                    }
+                }
 
-	        for (int i = 0; i < m_DirEntries.Length; i++)
-	        {
-		        if (m_DirEntries[i].ParentID > 0xF000)
-			        m_DirEntries[i].FullName = m_DirEntries[m_DirEntries[i].ParentID-0xF000].FullName + "/" + m_DirEntries[i].Name;
-		        else
-			        m_DirEntries[i].FullName = m_DirEntries[i].Name;
-	        }
+                tableoffset += 8;
+            }
 
-	        for (int i = 0; i < m_FileEntries.Length; i++)
-	        {
-		        if (m_FileEntries[i].ParentID > 0xF000)
-			        m_FileEntries[i].FullName = m_DirEntries[m_FileEntries[i].ParentID-0xF000].FullName + "/" + m_FileEntries[i].Name;
-		        else
-			        m_FileEntries[i].FullName = m_FileEntries[i].Name;
-	        }
+            for (int i = 0; i < m_DirEntries.Length; i++) {
+                if (m_DirEntries[i].ParentID > 0xF000)
+                    m_DirEntries[i].FullName = m_DirEntries[m_DirEntries[i].ParentID - 0xF000].FullName + "/" + m_DirEntries[i].Name;
+                else
+                    m_DirEntries[i].FullName = m_DirEntries[i].Name;
+            }
 
-	        uint numoverlays = OVTSize / 0x20;
-	        m_OverlayEntries = new OverlayEntry[numoverlays];
+            for (int i = 0; i < m_FileEntries.Length; i++) {
+                if (m_FileEntries[i].ParentID > 0xF000)
+                    m_FileEntries[i].FullName = m_DirEntries[m_FileEntries[i].ParentID - 0xF000].FullName + "/" + m_FileEntries[i].Name;
+                else
+                    m_FileEntries[i].FullName = m_FileEntries[i].Name;
+            }
 
-	        for (uint i = 0; i < numoverlays; i++)
-	        {
-		        m_FileStream.Position = OVTOffset + (i*0x20);
+            uint numoverlays = OVTSize / 0x20;
+            m_OverlayEntries = new OverlayEntry[numoverlays];
+
+            for (uint i = 0; i < numoverlays; i++) {
+                m_FileStream.Position = OVTOffset + (i * 0x20);
                 OverlayEntry oe;
 
                 oe.EntryOffset = (uint)m_FileStream.Position;
-		        oe.ID = m_BinReader.ReadUInt32();
-		        oe.RAMAddress = m_BinReader.ReadUInt32();
-		        oe.RAMSize = m_BinReader.ReadUInt32();
-		        oe.BSSSize = m_BinReader.ReadUInt32();
+                oe.ID = m_BinReader.ReadUInt32();
+                oe.RAMAddress = m_BinReader.ReadUInt32();
+                oe.RAMSize = m_BinReader.ReadUInt32();
+                oe.BSSSize = m_BinReader.ReadUInt32();
                 oe.StaticInitStart = this.m_BinReader.ReadUInt32();
                 oe.StaticInitEnd = this.m_BinReader.ReadUInt32();
                 oe.FileID = (ushort)this.m_BinReader.ReadUInt32();
@@ -224,8 +215,7 @@ namespace SM64DSe
                 m_OverlayEntries[(int)oe.ID] = oe;
             }
 
-            if (m_Version == Version.EUR)
-            {
+            if (m_Version == Version.EUR) {
                 //screw the l that looks like a 1
                 //            \/
                 NitroOverlay ov0 = new NitroOverlay(this, 0);
@@ -293,7 +283,8 @@ namespace SM64DSe
 	        if (m_Buffered)
 	        {
                 if (keep)
-                    File.WriteAllBytes(m_Path, ((MemoryStream)m_FileStream).GetBuffer());
+                    this.m_FileStream.Position = 0L;
+                    File.WriteAllBytes(m_Path, ((MemoryStream)m_FileStream).ToArray());
 		        m_Buffered = false;
 	        }
 
@@ -663,45 +654,19 @@ namespace SM64DSe
 
         public void ReinsertFile(ushort fileid, byte[] data)
         {
-            bool autorw = !m_CanRW;
-            if (autorw) BeginRW();
 
-            int datalength = (data.Length + 3) & ~3;
+            if (!this.StartFilesystemEdit())
+                return;
 
-            FileEntry fe = m_FileEntries[fileid];
-
-            UInt32 fileend = fe.Offset + fe.Size;
-            int delta = (int)(datalength - fe.Size);
-
-            // move data that comes after the file
-            MakeRoom(fileend, (uint)delta);
-
-            // write the new data for the file
-            m_FileStream.Position = fe.Offset;
-            m_BinWriter.Write(data);
-            fe.Size = (uint)datalength;
-
-            AutoFix(fileid, fileend, delta);
-
-            // fix file sizes
-            if (delta != 0)
-            {
-                m_FileEntries[fileid].Size = (uint)datalength;
-
-                for (int o = 0; o < m_OverlayEntries.Length; o++)
-                {
-                    if (m_OverlayEntries[o].FileID == fileid)
-                        m_OverlayEntries[o].RAMSize = (uint)datalength;
-                }
-            }
-
-            // fix the header CRC16... we never know :P
-            // as an example NO$GBA won't load the ROM if this CRC16 is wrong
-            ushort hcrc = CalcCRC16(0, 0x15E);
-            m_FileStream.Position = 0x15E;
-            m_BinWriter.Write(hcrc);
-
-            if (autorw) EndRW();
+            Array.Resize<byte>(ref data, (data.Length + 3) / 4 * 4);
+            NitroROM.FileEntry fileEntry = this.m_FileEntries[(int)fileid];
+            fileEntry.Data = data;
+            this.m_FileEntries[(int)fileid] = fileEntry;
+            this.SaveFilesystem();
+            this.LoadROM(this.m_Path);
+            this.BeginRW();
+            this.LoadTables();
+            this.EndRW();
         }
 
         public uint AddOverlay(uint ramaddr)

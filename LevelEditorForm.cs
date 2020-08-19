@@ -65,7 +65,6 @@ namespace SM64DSe
 
         private System.Windows.Forms.Timer m_texAnimTimer;
         private int m_texAnimFrame = 0;
-        private bool animsEnabled = true;
         private void InitTimer()
         {
             m_texAnimTimer = new System.Windows.Forms.Timer();
@@ -164,7 +163,6 @@ namespace SM64DSe
         {
             InitializeComponent();
             InitTimer();
-            StartTimer();
 
             btnOpenRawEditor.Text = "Raw Editor";
             btnOpenRawEditor.Click += btnOpenRawEditor_Click;
@@ -277,7 +275,7 @@ namespace SM64DSe
                 if ((area > -1) && (c != area))
                     continue;
 
-                m_LevelModelDLs[c, 0] = GL.GenLists(1);
+                m_LevelModelDLs[c, 0] = GL.GenLists(1);                
                 GL.NewList(m_LevelModelDLs[c, 0], ListMode.Compile);
                 LevelTexAnim[] anims = m_Level.m_TexAnims.Where(obj => obj.m_Area == c).ToArray();
                 if (anims.Length > 0)
