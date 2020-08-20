@@ -2613,8 +2613,6 @@ namespace SM64DSe
                 pm.makeOverlay(m_Level.m_LevelSettings.ObjectBanks[7] + 7);
             }*/
 
-
-
         }
 
         private void btnCopyCoordinates_Click(object sender, EventArgs e)
