@@ -517,7 +517,7 @@ namespace SM64DSe
                     ovl.Write8(dataoffset + 0x2B, Level.k_LevelFormatVersion);
 		        }
 
-		        ovl.SaveChanges();
+		        ovl.SaveChangesOld();
                 lazyman.ReportProgress(201 + (int)((98f / 54f) * i));
 	        }
 
@@ -630,7 +630,7 @@ namespace SM64DSe
                 ovl.Write8(0x7C + 1, m_BinReader.ReadByte());
                 ovl.Write8(0x7C + 2, m_BinReader.ReadByte());
 
-                ovl.SaveChanges();
+                ovl.SaveChangesOld();
 
                 lazyman.ReportProgress((int)(400 + ((99f / 52f) * i)));
             }
@@ -676,7 +676,7 @@ namespace SM64DSe
             for (int i = 0; i < NUM_LEVELS; i++)
             {
                 level = new Level(i, new NitroOverlay(this, (uint)(NEW_LEVEL_OVERLAYS_START_INDEX + i)));
-                level.SaveChanges();
+                level.SaveChangesOld();
 
                 lazyman.ReportProgress((int)(500 + ((99f / 52f) * i)));
             }

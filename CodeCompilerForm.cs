@@ -16,13 +16,6 @@ namespace SM64DSe
             InitializeComponent();
         }
 
-        private void btnFolder_Click(object sender, EventArgs e)
-        {
-            folderBrowserDialog.SelectedPath = System.IO.Path.GetDirectoryName(Program.m_ROMPath);
-            folderBrowserDialog.ShowDialog();
-            txtFolder.Text = folderBrowserDialog.SelectedPath;
-        }
-
         private void btnCompile_Click(object sender, EventArgs e)
         {
             if (!Patcher.PatchMaker.PatchToSupportBigASMHacks())
@@ -31,24 +24,37 @@ namespace SM64DSe
             //code and patcher borrowed from NSMBe and edited.
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(txtFolder.Text);
             Patcher.PatchMaker pm = new Patcher.PatchMaker(dir,
-                chkDynamic.Checked ? 0x02400000 :
+                btnDynamicLibrary.Checked ? 0x02400000 :
                 uint.Parse(txtOffset.Text, System.Globalization.NumberStyles.HexNumber));
 
-            if (chkDynamic.Checked)
-                pm.makeDynamicLibrary(txtFolder.Text + "/" + txtOutput.Text);
-            else
-            {
+            byte[] ret = null;
+            if (btnDynamicLibrary.Checked)
+                ret = pm.makeDynamicLibrary();
+            else if (btnOverlay.Checked) {
+                pm.makeOverlay(uint.Parse(txtOverlayId.Text));
+                return;
+            } else if (btnInjection.Checked) { 
+                //TODO.
+            } else {
                 pm.compilePatch();
-                pm.generatePatch(txtFolder.Text + "/" + txtOutput.Text);
+                ret = pm.generatePatch();
             }
-        }
+            if (ret == null) { return; }
+            bool isOut = btnExternal.Checked;
+            if (isOut) {
+                string file = txtFolder.Text + "/" + txtOutput.Text;
+                if (txtOutput.Text == "") {
+                    return;
+                }
+                System.IO.File.WriteAllBytes(file, ret);
+            } else {
+                if (txtInput.Text == "") {
+                    var file = Program.m_ROM.GetFileFromName(txtInput.Text);
+                    file.m_Data = ret;
+                    file.SaveChanges();
+                }
+            }
 
-        private void chkDynamic_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkDynamic.Checked)
-                txtOffset.Enabled = false;
-            else
-                txtOffset.Enabled = true;
         }
 
         private void btnClean_Click(object sender, EventArgs e)
@@ -57,17 +63,182 @@ namespace SM64DSe
             Patcher.PatchCompiler.cleanPatch(dir);
         }
 
-        private void injectCode_CheckedChanged(object sender, EventArgs e) {
-            if (injectCode.Checked) {
-                txtOutput.Enabled = false;
-                txtOffset.Enabled = false;
-                chkDynamic.Enabled = false;
-            } else {
-                txtOutput.Enabled = true;
-                if (!chkDynamic.Checked) { txtOffset.Enabled = true; }
-                chkDynamic.Enabled = true;
+        private void btnSelectFolder_Click(object sender, EventArgs e) {
+            folderBrowserDialog.SelectedPath = System.IO.Path.GetDirectoryName(Program.m_ROMPath);
+            folderBrowserDialog.ShowDialog();
+            txtFolder.Text = folderBrowserDialog.SelectedPath;
+        }
+
+        private void btnSelectExternal_Click(object sender, EventArgs e) {
+            SaveFileDialog f = new SaveFileDialog();
+            f.RestoreDirectory = true;
+            if (f.ShowDialog() == DialogResult.OK) {
+                txtOutput.Text = f.FileName;
             }
         }
 
+        private void btnSelectInternal_Click(object sender, EventArgs e) {
+            ROMFileSelect r = new ROMFileSelect();
+            r.ShowDialog();
+            txtInput.Text = r.m_SelectedFile;
+        }
+
+        private void btnGeneric_CheckedChanged(object sender, EventArgs e) {
+            if (btnInjection.Checked) {
+                txtOffset.Enabled = false;
+                txtOverlayId.Enabled = false;
+                txtInput.Enabled = btnInternal.Checked;
+                txtOutput.Enabled = btnExternal.Checked;
+                btnExternal.Enabled = true;
+                btnInternal.Enabled = true;
+            } else if (btnDynamicLibrary.Checked) {
+                txtOffset.Enabled = false;
+                txtOverlayId.Enabled = false;
+                txtInput.Enabled = btnInternal.Checked;
+                txtOutput.Enabled = btnExternal.Checked;
+                btnExternal.Enabled = true;
+                btnInternal.Enabled = true;
+            } else if (btnOverlay.Checked) {
+                txtOffset.Enabled = false;
+                txtOverlayId.Enabled = true;
+                txtInput.Enabled = false;
+                txtOutput.Enabled = false;
+                btnExternal.Enabled = false;
+                btnInternal.Enabled = false;
+            } else {
+                txtOffset.Enabled = true;
+                txtOverlayId.Enabled = false;
+                txtInput.Enabled = btnInternal.Checked;
+                txtOutput.Enabled = btnExternal.Checked;
+                btnExternal.Enabled = true;
+                btnInternal.Enabled = true;
+            }
+        }
+
+        private void btnDynamicLibrary_CheckedChanged(object sender, EventArgs e) {
+            if (btnInjection.Checked) {
+                txtOffset.Enabled = false;
+                txtOverlayId.Enabled = false;
+                txtInput.Enabled = btnInternal.Checked;
+                txtOutput.Enabled = btnExternal.Checked;
+                btnExternal.Enabled = true;
+                btnInternal.Enabled = true;
+            } else if (btnDynamicLibrary.Checked) {
+                txtOffset.Enabled = false;
+                txtOverlayId.Enabled = false;
+                txtInput.Enabled = btnInternal.Checked;
+                txtOutput.Enabled = btnExternal.Checked;
+                btnExternal.Enabled = true;
+                btnInternal.Enabled = true;
+            } else if (btnOverlay.Checked) {
+                txtOffset.Enabled = false;
+                txtOverlayId.Enabled = true;
+                txtInput.Enabled = false;
+                txtOutput.Enabled = false;
+                btnExternal.Enabled = false;
+                btnInternal.Enabled = false;
+            } else {
+                txtOffset.Enabled = true;
+                txtOverlayId.Enabled = false;
+                txtInput.Enabled = btnInternal.Checked;
+                txtOutput.Enabled = btnExternal.Checked;
+                btnExternal.Enabled = true;
+                btnInternal.Enabled = true;
+            }
+        }
+
+        private void btnInjection_CheckedChanged(object sender, EventArgs e) {
+            if (btnInjection.Checked) {
+                txtOffset.Enabled = false;
+                txtOverlayId.Enabled = false;
+                txtInput.Enabled = btnInternal.Checked;
+                txtOutput.Enabled = btnExternal.Checked;
+                btnExternal.Enabled = true;
+                btnInternal.Enabled = true;
+            } else if (btnDynamicLibrary.Checked) {
+                txtOffset.Enabled = false;
+                txtOverlayId.Enabled = false;
+                txtInput.Enabled = btnInternal.Checked;
+                txtOutput.Enabled = btnExternal.Checked;
+                btnExternal.Enabled = true;
+                btnInternal.Enabled = true;
+            } else if (btnOverlay.Checked) {
+                txtOffset.Enabled = false;
+                txtOverlayId.Enabled = true;
+                txtInput.Enabled = false;
+                txtOutput.Enabled = false;
+                btnExternal.Enabled = false;
+                btnInternal.Enabled = false;
+            } else {
+                txtOffset.Enabled = true;
+                txtOverlayId.Enabled = false;
+                txtInput.Enabled = btnInternal.Checked;
+                txtOutput.Enabled = btnExternal.Checked;
+                btnExternal.Enabled = true;
+                btnInternal.Enabled = true;
+            }
+        }
+
+        private void btnOverlay_CheckedChanged(object sender, EventArgs e) {
+            if (btnInjection.Checked) {
+                txtOffset.Enabled = false;
+                txtOverlayId.Enabled = false;
+                txtInput.Enabled = btnInternal.Checked;
+                txtOutput.Enabled = btnExternal.Checked;
+                btnExternal.Enabled = true;
+                btnInternal.Enabled = true;
+            } else if (btnDynamicLibrary.Checked) {
+                txtOffset.Enabled = false;
+                txtOverlayId.Enabled = false;
+                txtInput.Enabled = btnInternal.Checked;
+                txtOutput.Enabled = btnExternal.Checked;
+                btnExternal.Enabled = true;
+                btnInternal.Enabled = true;
+            } else if (btnOverlay.Checked) {
+                txtOffset.Enabled = false;
+                txtOverlayId.Enabled = true;
+                txtInput.Enabled = false;
+                txtOutput.Enabled = false;
+                btnExternal.Enabled = false;
+                btnInternal.Enabled = false;
+            } else {
+                txtOffset.Enabled = true;
+                txtOverlayId.Enabled = false;
+                txtInput.Enabled = btnInternal.Checked;
+                txtOutput.Enabled = btnExternal.Checked;
+                btnExternal.Enabled = true;
+                btnInternal.Enabled = true;
+            }
+        }
+
+        private void btnInternal_CheckedChanged(object sender, EventArgs e) {
+            if (btnExternal.Checked) {
+                txtInput.Enabled = false;
+                btnSelectInternal.Enabled = false;
+                txtOutput.Enabled = true;
+                btnSelectExternal.Enabled = true;
+            } else {
+                txtInput.Enabled = true;
+                btnSelectInternal.Enabled = true;
+                txtOutput.Enabled = false;
+                btnSelectExternal.Enabled = false;
+            }
+        }
+
+        private void btnExternal_CheckedChanged(object sender, EventArgs e) {
+            if (btnExternal.Checked) {
+                txtInput.Enabled = false;
+                btnSelectInternal.Enabled = false;
+                txtOutput.Enabled = true;
+                btnSelectExternal.Enabled = true;
+            } else {
+                txtInput.Enabled = true;
+                btnSelectInternal.Enabled = true;
+                txtOutput.Enabled = false;
+                btnSelectExternal.Enabled = false;
+            }
+        }
+
+        
     }
 }

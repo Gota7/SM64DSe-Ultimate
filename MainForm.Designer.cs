@@ -168,6 +168,7 @@
             this.btnUpdateODB.Name = "btnUpdateODB";
             this.btnUpdateODB.Size = new System.Drawing.Size(198, 22);
             this.btnUpdateODB.Text = "Update object database";
+            this.btnUpdateODB.Visible = false;
             this.btnUpdateODB.Click += new System.EventHandler(this.btnUpdateODB_Click);
             // 
             // btnEditorSettings
@@ -257,14 +258,14 @@
             // mnitASMHackingCompilationCodeCompiler
             // 
             this.mnitASMHackingCompilationCodeCompiler.Name = "mnitASMHackingCompilationCodeCompiler";
-            this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(180, 22);
+            this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(160, 22);
             this.mnitASMHackingCompilationCodeCompiler.Text = "Code Compiler";
             this.mnitASMHackingCompilationCodeCompiler.Click += new System.EventHandler(this.mnitASMHackingCompilationCodeCompiler_Click);
             // 
             // mnitASMHackingCompilationFixCodeOffsets
             // 
             this.mnitASMHackingCompilationFixCodeOffsets.Name = "mnitASMHackingCompilationFixCodeOffsets";
-            this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(180, 22);
+            this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(160, 22);
             this.mnitASMHackingCompilationFixCodeOffsets.Text = "Fix Code Offsets";
             this.mnitASMHackingCompilationFixCodeOffsets.Click += new System.EventHandler(this.mnitASMHackingCompilationFixCodeOffsets_Click);
             // 
@@ -279,7 +280,7 @@
             // platformEditorToolStripMenuItem
             // 
             this.platformEditorToolStripMenuItem.Name = "platformEditorToolStripMenuItem";
-            this.platformEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.platformEditorToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.platformEditorToolStripMenuItem.Text = "Platform Editor";
             this.platformEditorToolStripMenuItem.Click += new System.EventHandler(this.platformEditorToolStripMenuItem_Click);
             // 

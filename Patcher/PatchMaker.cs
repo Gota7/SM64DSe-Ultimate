@@ -233,7 +233,7 @@ namespace SM64DSe.Patcher
             }
         }
 
-        public void makeDynamicLibrary(string newFile)
+        public byte[] makeDynamicLibrary()
         {
             FileInfo f = new FileInfo(romdir.FullName + "/newcode.bin");
             if (f.Exists) f.Delete();
@@ -242,13 +242,14 @@ namespace SM64DSe.Patcher
             compilePatch();
 
             f = new FileInfo(romdir.FullName + "/newcode.bin");
-            if (!f.Exists) return;
+            if (!f.Exists) return null;
 
             FileStream fs = f.Open(FileMode.Open);
             BinaryReader oldCode = new BinaryReader(fs);
             BinaryWriter oldCodeW = new BinaryWriter(fs);
 
-            BinaryWriter fileOut = new BinaryWriter(new FileStream(newFile, FileMode.Create));
+            MemoryStream o = new MemoryStream();
+            BinaryWriter fileOut = new BinaryWriter(o);
             StreamReader asmMap = new StreamReader(
                 new FileStream(romdir.FullName + "/build/newcode.map", FileMode.Open));
             StreamReader symbols = new StreamReader(
@@ -387,11 +388,12 @@ namespace SM64DSe.Patcher
                 //Pointers to fix list
                 foreach (ushort data in ptrFixList)
                     fileOut.Write(data);
+                return o.ToArray();
             }
             catch (Exception ex)
             {
                 new ExceptionMessageBox("Error generating patch", ex).ShowDialog();
-                return;
+                return null;
             }
             finally
             {
@@ -401,22 +403,23 @@ namespace SM64DSe.Patcher
                 asmMap.Close();
                 symbols.Close();
             }
+
         }
 
-        public void generatePatch(string newFile)
+        public byte[] generatePatch()
         {
             Console.Out.WriteLine(String.Format("New code address: {0:X8}", m_CodeAddr));
 
             FileInfo f = new FileInfo(romdir.FullName + "/newcode.bin");
-            if (!f.Exists) return;
+            if (!f.Exists) return null;
             FileStream fs = f.OpenRead();
 
             byte[] newdata = new byte[fs.Length];
             fs.Read(newdata, 0, (int)fs.Length);
             fs.Close();
 
-
-            BinaryWriter extradata = new BinaryWriter(new FileStream(newFile, FileMode.Create));
+            MemoryStream o = new MemoryStream();
+            BinaryWriter extradata = new BinaryWriter(o);
 
             try
             {
@@ -426,13 +429,15 @@ namespace SM64DSe.Patcher
             catch(Exception ex)
             {
                 new ExceptionMessageBox("Error generating patch", ex).ShowDialog();
-                return;
+                return null;
             }
             finally
             {
                 extradata.Close();
             }
-            
+
+            return o.ToArray();
+
             /*int hookAddr = codeAddr + extradata.getPos();
 
 

@@ -274,6 +274,7 @@ namespace SM64DSe
             m_BinWriter = new BinaryWriter(m_FileStream, Encoding.ASCII);
             m_CanRW = true;
         }
+
         public void BeginRW() { BeginRW(false); }
 
         public void EndRW(bool keep)
@@ -680,6 +681,45 @@ namespace SM64DSe
             this.BeginRW();
             this.LoadTables();
             this.EndRW();
+        }
+
+        public void ReinsertFileOld(ushort fileid, byte[] data) {
+            bool autorw = !m_CanRW;
+            if (autorw) BeginRW();
+
+            int datalength = (data.Length + 3) & ~3;
+
+            FileEntry fe = m_FileEntries[fileid];
+
+            UInt32 fileend = fe.Offset + fe.Size;
+            int delta = (int)(datalength - fe.Size);
+
+            // move data that comes after the file
+            MakeRoom(fileend, (uint)delta);
+
+            // write the new data for the file
+            m_FileStream.Position = fe.Offset;
+            m_BinWriter.Write(data);
+            fe.Size = (uint)datalength;
+
+            AutoFix(fileid, fileend, delta);
+
+            // fix file sizes
+            if (delta != 0) {
+                m_FileEntries[fileid].Size = (uint)datalength;
+
+                for (int o = 0; o < m_OverlayEntries.Length; o++) {
+                    if (m_OverlayEntries[o].FileID == fileid)
+                        m_OverlayEntries[o].RAMSize = (uint)datalength;
+                }
+            }
+
+            // fix the header CRC16... we never know :P
+            // as an example NO$GBA won't load the ROM if this CRC16 is wrong
+            ushort hcrc = CalcCRC16(0, 0x15E);
+            m_FileStream.Position = 0x15E;
+            m_BinWriter.Write(hcrc);
+            if (autorw) EndRW();
         }
 
         public uint AddOverlay(uint ramaddr)

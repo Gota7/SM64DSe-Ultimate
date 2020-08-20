@@ -2598,7 +2598,10 @@ namespace SM64DSe
 
         private void btnMakeOverlay_Click(object sender, EventArgs e)
         {
-            m_FolderBrowserDialogue.SelectedPath = System.IO.Path.GetDirectoryName(Program.m_ROMPath);
+            
+            //This is destructive...
+
+            /*m_FolderBrowserDialogue.SelectedPath = System.IO.Path.GetDirectoryName(Program.m_ROMPath);
             DialogResult result = m_FolderBrowserDialogue.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -2608,7 +2611,10 @@ namespace SM64DSe
                 Patcher.PatchMaker pm = new Patcher.PatchMaker(dir, ovl.GetRAMAddr());
                 pm.compilePatch();
                 pm.makeOverlay(m_Level.m_LevelSettings.ObjectBanks[7] + 7);
-            }
+            }*/
+
+
+
         }
 
         private void btnCopyCoordinates_Click(object sender, EventArgs e)

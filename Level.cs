@@ -684,6 +684,56 @@ namespace SM64DSe
             m_Overlay.SaveChanges();
         }
 
+        public void SaveChangesOld() {
+            //using a MemoryStream instead of an INitroROMBlock for dynamic size
+            MemoryStream stream = new MemoryStream();
+            BinaryWriter binWriter = new BinaryWriter(stream);
+
+            byte overlayInitialiserVersion = 0;
+            switch (Program.m_ROM.m_Version) {
+                case NitroROM.Version.EUR:
+                    binWriter.Write(Properties.Resources.level_ovl_init_EUR_001);
+                    overlayInitialiserVersion = 1;
+                    break;
+                case NitroROM.Version.USA_v1:
+                    binWriter.Write(Properties.Resources.level_ovl_init_USAv1);
+                    break;
+                case NitroROM.Version.USA_v2:
+                    binWriter.Write(Properties.Resources.level_ovl_init_USAv2);
+                    break;
+                case NitroROM.Version.JAP:
+                    binWriter.Write(Properties.Resources.level_ovl_init_JAP);
+                    break;
+                default:
+                    throw new InvalidDataException("This ROM is an unknown version.");
+            }
+            m_LevelSettings.LevelFormatVersion = k_LevelFormatVersion;
+            m_LevelSettings.OverlayInitialiserVersion = overlayInitialiserVersion;
+
+            uint areaTableOffset;
+
+            m_LevelSettings.SaveChanges(binWriter);
+            SaveCLPS(binWriter);
+            SaveMiscObjs(binWriter);
+            SaveRegularObjs(binWriter, out areaTableOffset);
+            LevelTexAnim.SaveAll(binWriter, m_TexAnims, areaTableOffset, (uint)m_NumAreas);
+            if (DoesLevelSupportDynamicLibs()) {
+                while (stream.Position % 2 != 0) {
+                    binWriter.Write((byte)0);
+                }
+                Helper.WritePosAndRestore(binWriter, 0x30, 0);
+                binWriter.Write((ushort)m_DynLibIDs.Count);
+                m_DynLibIDs.ForEach(x => binWriter.Write((ushort)x));
+                Helper.AlignWriter(binWriter, 4);
+            }
+
+            Array.Clear(m_Overlay.m_Data, 0, m_Overlay.m_Data.Length);
+            Array.Resize(ref m_Overlay.m_Data, (int)stream.Length);
+            stream.Position = 0;
+            new BinaryReader(stream).Read(m_Overlay.m_Data, 0, (int)stream.Length);
+            m_Overlay.SaveChangesOld();
+        }
+
         private void SaveCLPS(BinaryWriter binWriter)
         {
             Helper.WritePosAndRestore(binWriter, 0x60, Program.m_ROM.LevelOvlOffset);

@@ -1355,6 +1355,7 @@ namespace SM64DSe
             this.btnOrthView.Name = "btnOrthView";
             this.btnOrthView.Size = new System.Drawing.Size(100, 19);
             this.btnOrthView.Text = "Orthogonal View";
+            this.btnOrthView.Click += new System.EventHandler(this.btnOrthView_Click);
             // 
             // btnTextureAnims
             // 

@@ -62,9 +62,9 @@ namespace SM64DSe
             Write32(addr, ptr);
         }
 
-        public override void SaveChanges()
-        {
-            /*bool autorw = !m_ROM.CanRW();
+        public void SaveChangesOld() {
+
+            bool autorw = !m_ROM.CanRW();
             if (autorw) m_ROM.BeginRW();
 
             // first, ensure that the size is aligned to 4 byte boundary
@@ -74,7 +74,7 @@ namespace SM64DSe
             }
 
             // reinsert file data
-            m_ROM.ReinsertFile(m_FileID, m_Data);
+            m_ROM.ReinsertFileOld(m_FileID, m_Data);
             Update();
 
             // fix overlay size
@@ -85,7 +85,12 @@ namespace SM64DSe
             flags &= 0xFE; // [Treeki] disable compression :)
             m_ROM.Write8(m_OVTEntryAddr + 0x1F, flags);
 
-            if (autorw) m_ROM.EndRW();*/
+            if (autorw) m_ROM.EndRW();
+
+        }
+
+        public override void SaveChanges()
+        {
 
             if (this.m_Data.Length % 4 != 0)
                 this.SetSize((uint)(this.m_Data.Length + 3 & -4));
