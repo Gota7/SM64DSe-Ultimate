@@ -18,7 +18,7 @@ namespace SM64DSe.Patcher
 
         public PatchMaker(DirectoryInfo romdir, uint codeAddr)
         {
-            handler = new Arm9BinaryHandler();
+            //handler = new Arm9BinaryHandler();
             this.romdir = romdir;
             m_CodeAddr = codeAddr;
         }

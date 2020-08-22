@@ -42,13 +42,13 @@ namespace SM64DSe
             if (ret == null) { return; }
             bool isOut = btnExternal.Checked;
             if (isOut) {
-                string file = txtFolder.Text + "/" + txtOutput.Text;
+                string file = txtOutput.Text;
                 if (txtOutput.Text == "") {
                     return;
                 }
                 System.IO.File.WriteAllBytes(file, ret);
             } else {
-                if (txtInput.Text == "") {
+                if (txtInput.Text != "") {
                     var file = Program.m_ROM.GetFileFromName(txtInput.Text);
                     file.m_Data = ret;
                     file.SaveChanges();
