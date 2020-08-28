@@ -164,6 +164,12 @@
     <Compile Include="FormControls\ModelGLControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GraphicEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraphicEditor.Designer.cs">
+      <DependentUpon>GraphicEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImportExport\BMD_BCA_KCLExporter.cs" />
     <Compile Include="ImportExport\BMDImporter.cs" />
     <Compile Include="ImportExport\KCLImporter.cs" />
@@ -260,6 +266,7 @@
     <Compile Include="SM64DSFormats\DL Editor.Designer.cs">
       <DependentUpon>DL Editor.cs</DependentUpon>
     </Compile>
+    <Compile Include="SM64DSFormats\Graphic.cs" />
     <Compile Include="SM64DSFormats\KCL.cs" />
     <Compile Include="KCLEditorForm.cs">
       <SubType>Form</SubType>
@@ -405,6 +412,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExceptionMessageBox.resx">
       <DependentUpon>ExceptionMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphicEditor.resx">
+      <DependentUpon>GraphicEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImportImage4BPP.resx">
       <DependentUpon>ImportImage4BPP.cs</DependentUpon>

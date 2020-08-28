@@ -668,7 +668,10 @@ namespace SM64DSe
 
         public void ReinsertFile(ushort fileid, byte[] data)
         {
-
+            if (Program.m_ROM.m_Version != Version.EUR) {
+                ReinsertFileOld(fileid, data);
+                return;
+            }
             if (!this.StartFilesystemEdit())
                 return;
 

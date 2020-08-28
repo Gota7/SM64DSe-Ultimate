@@ -819,6 +819,10 @@ namespace SM64DSe
         }
 
         private void editFileSystemToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (Program.m_ROM.m_Version != NitroROM.Version.EUR) {
+                MessageBox.Show("This is for EUR ROMs only!");
+                return;
+            }
             if (new FilesystemEditorForm(this).ShowDialog() != DialogResult.OK)
                 return;
             this.LoadROM(Program.m_ROMPath);
