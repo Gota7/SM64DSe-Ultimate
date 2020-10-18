@@ -828,5 +828,13 @@ namespace SM64DSe
             this.LoadROM(Program.m_ROMPath);
         }
 
+        private void editOverlaysToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (Program.m_ROM.m_Version != NitroROM.Version.EUR) {
+                MessageBox.Show("This is for EUR ROMs only!");
+                return;
+            }
+            new OverlayEditor().ShowDialog();
+        }
+
     }
 }

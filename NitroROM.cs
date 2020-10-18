@@ -725,6 +725,13 @@ namespace SM64DSe
             if (autorw) EndRW();
         }
 
+        public void RewriteSizeTables() {
+            m_FileStream.Position = 0x4C;
+            m_BinWriter.Write(FATSize);
+            m_FileStream.Position = 0x54;
+            m_BinWriter.Write(OVTSize);
+        }
+
         public uint AddOverlay(uint ramaddr)
         {
             // find an usable overlay ID
@@ -831,8 +838,8 @@ namespace SM64DSe
         public uint ARM7Size { get; private set; }
 
         private uint FNTOffset, FNTSize;
-        private uint FATOffset, FATSize;
-        private uint OVTOffset, OVTSize;
+        internal uint FATOffset, FATSize;
+        internal uint OVTOffset, OVTSize;
 
         public struct DirEntry
         {
@@ -867,8 +874,8 @@ namespace SM64DSe
         }
 
         private DirEntry[] m_DirEntries;
-        private FileEntry[] m_FileEntries;
-        private OverlayEntry[] m_OverlayEntries;
+        internal FileEntry[] m_FileEntries;
+        internal OverlayEntry[] m_OverlayEntries;
     }
 
 

@@ -23,14 +23,21 @@ namespace SM64DSe
 
             //code and patcher borrowed from NSMBe and edited.
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(txtFolder.Text);
-            Patcher.PatchMaker pm = new Patcher.PatchMaker(dir,
-                btnDynamicLibrary.Checked ? 0x02400000 :
-                uint.Parse(txtOffset.Text, System.Globalization.NumberStyles.HexNumber));
+            uint addr = 0x02400000;
+            if (btnOverlay.Checked) {
+                addr = new NitroOverlay(Program.m_ROM, uint.Parse(txtOverlayId.Text)).GetRAMAddr();
+            } else if (btnInjection.Checked) {
+
+            } else if (!btnDynamicLibrary.Checked) { 
+                addr = uint.Parse(txtOffset.Text, System.Globalization.NumberStyles.HexNumber);
+            }
+            Patcher.PatchMaker pm = new Patcher.PatchMaker(dir, addr);
 
             byte[] ret = null;
             if (btnDynamicLibrary.Checked)
                 ret = pm.makeDynamicLibrary();
             else if (btnOverlay.Checked) {
+                pm.compilePatch();
                 pm.makeOverlay(uint.Parse(txtOverlayId.Text));
                 return;
             } else if (btnInjection.Checked) { 

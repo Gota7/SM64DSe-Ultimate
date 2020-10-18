@@ -232,6 +232,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="NitroROM_Utils.cs" />
+    <Compile Include="OverlayEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OverlayEditor.Designer.cs">
+      <DependentUpon>OverlayEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Patcher\Arm9BinaryHandler.cs" />
     <Compile Include="Patcher\Arm9BinSection.cs" />
     <Compile Include="Patcher\PatchCompiler.cs" />
@@ -351,6 +357,7 @@
       <DependentUpon>SDATInfoEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Level.cs" />
+    <Compile Include="SM64DSFormats\NeuQuant.cs" />
     <Compile Include="SM64DSFormats\SBNK.cs" />
     <Compile Include="SM64DSFormats\SDAT.cs" />
     <Compile Include="SM64DSFormats\SWAR.cs" />
@@ -458,6 +465,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OffsetAllObjectCoordsForm.resx">
       <DependentUpon>OffsetAllObjectCoordsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OverlayEditor.resx">
+      <DependentUpon>OverlayEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>

@@ -295,6 +295,9 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
 
         private List<string> m_OrderedBoneIDList;
 
+        protected bool m_ZMirror = false;
+        protected bool m_SwapYZ = false;
+
         public BMDWriter(ModelBase model, ref NitroFile modelFile) :
             this(model, ref modelFile, BMDImporter.BMDExtraImportOptions.DEFAULT) { }
 
@@ -317,7 +320,6 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
             GXDisplayListPacker dlpacker = new GXDisplayListPacker();
 
             ModelBase.BoneDefRoot boneTree = m_Model.m_BoneTree;
-
             // Materials cannot be shared across root-level bones; iterate through each 
             // pair or root-level bones and duplicate any materials that they share, assigning
             // the original to one bone and the duplicate to the other e.g.: 

@@ -116,9 +116,9 @@ namespace SM64DSe.Patcher
                     }
                 }
 
-                if (newOvl.BaseStream.Length > 0x4d20)
+                /*if (newOvl.BaseStream.Length > 0x4d20)
                     throw new InvalidDataException
-                        ("The overlay must have no more than 19776 bytes; this one will have " + newOvl.BaseStream.Length);
+                        ("The overlay must have no more than 19776 bytes; this one will have " + newOvl.BaseStream.Length);*/
 
                 NitroOverlay ovl = new NitroOverlay(Program.m_ROM, overlayID);
                 newOvl.BaseStream.Position = 0;

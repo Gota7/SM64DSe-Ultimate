@@ -127,7 +127,8 @@ namespace SM64DSe
 
             m_ROM.Write32(m_OVTEntryAddr + 0x10, address);
             m_ROM.Write32(m_OVTEntryAddr + 0x14, address + size);
-
+            m_ROM.m_OverlayEntries[m_ID].StaticInitStart = address;
+            m_ROM.m_OverlayEntries[m_ID].StaticInitEnd = address + size;
             if (autorw) m_ROM.EndRW();
         }
 
