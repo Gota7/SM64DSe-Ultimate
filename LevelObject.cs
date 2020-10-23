@@ -94,7 +94,7 @@ namespace SM64DSe
 
         public virtual void Release()
         {
-            m_Renderer.Release();
+            if (m_Renderer != null) m_Renderer.Release();
         }
 
         public virtual LevelObject Copy()

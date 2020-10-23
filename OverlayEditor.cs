@@ -10,8 +10,8 @@ using System.Windows.Forms;
 namespace SM64DSe {
     public partial class OverlayEditor : Form {
 
-        List<NitroROM.OverlayEntry> Overlays = new List<NitroROM.OverlayEntry>();
-        List<NitroROM.FileEntry> Files = new List<NitroROM.FileEntry>();
+        public List<NitroROM.OverlayEntry> Overlays = new List<NitroROM.OverlayEntry>();
+        public List<NitroROM.FileEntry> Files = new List<NitroROM.FileEntry>();
 
         public OverlayEditor() {
             InitializeComponent();
@@ -58,7 +58,7 @@ namespace SM64DSe {
             flagsBox.Value = o.Flags;
         }
 
-        private void saveChangesButton_Click(object sender, EventArgs e) {
+        public void saveChangesButton_Click(object sender, EventArgs e) {
             for (int i = 0; i < Overlays.Count; i++) {
                 var x = Overlays[i];
                 x.EntryOffset = (uint)(Program.m_ROM.OVTOffset + i * 0x20);
@@ -73,12 +73,12 @@ namespace SM64DSe {
             Program.m_ROM.StartFilesystemEdit();
         }
 
-        private void closeButton_Click(object sender, EventArgs e) {
+        public void closeButton_Click(object sender, EventArgs e) {
             Program.m_ROM.RevertFilesystem();
             Close();
         }
 
-        private void updateButton_Click(object sender, EventArgs e) {
+        public void updateButton_Click(object sender, EventArgs e) {
             var o = Overlays[tree.SelectedNode.Index];
             o.ID = (uint)idBox.Value;
             o.RAMAddress = (uint)ramAddressBox.Value;
@@ -99,7 +99,7 @@ namespace SM64DSe {
             AddOverlay(tree.SelectedNode.Index);
         }
 
-        private void AddOverlay(int index) {
+        public void AddOverlay(int index) {
             Overlays.Add(new NitroROM.OverlayEntry() {
                 FileID = (ushort)Files.Count,
                 BSSSize = 0,
@@ -143,9 +143,13 @@ namespace SM64DSe {
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
-            var o = Overlays[tree.SelectedNode.Index];
+            DeleteOverlay(tree.SelectedNode.Index);
+        }
+
+        public void DeleteOverlay(int index) {
+            var o = Overlays[index];
             uint fileId = o.FileID;
-            Overlays.RemoveAt(tree.SelectedNode.Index);
+            Overlays.RemoveAt(index);
             var f = Files[(int)fileId];
             f.Data = new byte[0x20];
             f.Size = 0x20;

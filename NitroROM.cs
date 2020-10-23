@@ -225,6 +225,7 @@ namespace SM64DSe
                 m_FileTableLength = ov0.Read32(0x9C);
             }
 
+            LoadTables();
             EndRW();
 
             UpdateStrings();
@@ -817,7 +818,7 @@ namespace SM64DSe
         public Version m_Version;
 
 
-        private string m_Path;
+        public string m_Path { get; private set; }
 
         private bool m_CanRW;
         private bool m_Buffered;

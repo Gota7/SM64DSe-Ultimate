@@ -175,6 +175,7 @@ namespace SM64DSe {
             this.AllowEmptySpaceInOv0();
             this.m_BinWriter.BaseStream.SetLength((long)position5);
             this.EndRW(true);
+            this.LoadROM(this.m_Path);
         }
 
         public void RevertFilesystem() {

@@ -60,6 +60,7 @@
             this.bMDKLCEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kuppaScriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editFileSystemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editOverlaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnitToolsImageEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.sfdSaveFile = new System.Windows.Forms.SaveFileDialog();
@@ -92,7 +93,7 @@
             this.btnReplaceOverlay = new System.Windows.Forms.Button();
             this.btnExtractOverlay = new System.Windows.Forms.Button();
             this.btnDecompressOverlay = new System.Windows.Forms.Button();
-            this.editOverlaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importPatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsToolBar.SuspendLayout();
             this.ssStatusBar.SuspendLayout();
             this.tbcMainFormTabControl.SuspendLayout();
@@ -188,7 +189,8 @@
             this.mnitDumpAllOvls,
             this.mnitDecompressOverlaysWithinGame,
             this.mnitHexDumpToBinaryFile,
-            this.mnitEditSDATINFOBlockToolStripMenuItem});
+            this.mnitEditSDATINFOBlockToolStripMenuItem,
+            this.importPatchToolStripMenuItem});
             this.btnMore.Enabled = false;
             this.btnMore.Image = ((System.Drawing.Image)(resources.GetObject("btnMore.Image")));
             this.btnMore.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -259,14 +261,14 @@
             // mnitASMHackingCompilationCodeCompiler
             // 
             this.mnitASMHackingCompilationCodeCompiler.Name = "mnitASMHackingCompilationCodeCompiler";
-            this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(180, 22);
+            this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(160, 22);
             this.mnitASMHackingCompilationCodeCompiler.Text = "Code Compiler";
             this.mnitASMHackingCompilationCodeCompiler.Click += new System.EventHandler(this.mnitASMHackingCompilationCodeCompiler_Click);
             // 
             // mnitASMHackingCompilationFixCodeOffsets
             // 
             this.mnitASMHackingCompilationFixCodeOffsets.Name = "mnitASMHackingCompilationFixCodeOffsets";
-            this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(180, 22);
+            this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(160, 22);
             this.mnitASMHackingCompilationFixCodeOffsets.Text = "Fix Code Offsets";
             this.mnitASMHackingCompilationFixCodeOffsets.Click += new System.EventHandler(this.mnitASMHackingCompilationFixCodeOffsets_Click);
             // 
@@ -387,6 +389,13 @@
             this.editFileSystemToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.editFileSystemToolStripMenuItem.Text = "Edit File System";
             this.editFileSystemToolStripMenuItem.Click += new System.EventHandler(this.editFileSystemToolStripMenuItem_Click);
+            // 
+            // editOverlaysToolStripMenuItem
+            // 
+            this.editOverlaysToolStripMenuItem.Name = "editOverlaysToolStripMenuItem";
+            this.editOverlaysToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.editOverlaysToolStripMenuItem.Text = "Edit Overlays";
+            this.editOverlaysToolStripMenuItem.Click += new System.EventHandler(this.editOverlaysToolStripMenuItem_Click);
             // 
             // mnitToolsImageEditor
             // 
@@ -754,12 +763,12 @@
             this.btnDecompressOverlay.Text = "Decompress Overlay";
             this.btnDecompressOverlay.UseVisualStyleBackColor = true;
             // 
-            // editOverlaysToolStripMenuItem
+            // importPatchToolStripMenuItem
             // 
-            this.editOverlaysToolStripMenuItem.Name = "editOverlaysToolStripMenuItem";
-            this.editOverlaysToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.editOverlaysToolStripMenuItem.Text = "Edit Overlays";
-            this.editOverlaysToolStripMenuItem.Click += new System.EventHandler(this.editOverlaysToolStripMenuItem_Click);
+            this.importPatchToolStripMenuItem.Name = "importPatchToolStripMenuItem";
+            this.importPatchToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.importPatchToolStripMenuItem.Text = "Import Patch";
+            this.importPatchToolStripMenuItem.Click += new System.EventHandler(this.importPatchToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -865,6 +874,7 @@
         private System.Windows.Forms.ToolStripMenuItem kuppaScriptEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editFileSystemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editOverlaysToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importPatchToolStripMenuItem;
     }
 }
 
