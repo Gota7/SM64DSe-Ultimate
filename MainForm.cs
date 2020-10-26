@@ -993,6 +993,18 @@ namespace SM64DSe
 
         }
 
+        private void fixMultiplayerChecksToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (Program.m_ROM.m_Version != NitroROM.Version.EUR) {
+                MessageBox.Show("This is for EUR ROMs only!");
+                return;
+            }
+            Program.m_ROM.StartFilesystemEdit();
+            for (int i = 0; i < Program.m_ROM.m_OverlayEntries.Length; i++) {
+                Program.m_ROM.m_OverlayEntries[i].Flags &= 0xFFFFFFFD;
+            }
+            Program.m_ROM.SaveFilesystem();
+        }
+
     }
 
 }

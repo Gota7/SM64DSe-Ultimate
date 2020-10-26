@@ -41,6 +41,7 @@
             this.mnitDecompressOverlaysWithinGame = new System.Windows.Forms.ToolStripMenuItem();
             this.mnitHexDumpToBinaryFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnitEditSDATINFOBlockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importPatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnASMHacking = new System.Windows.Forms.ToolStripDropDownButton();
             this.mnitASMHackingCompilation = new System.Windows.Forms.ToolStripMenuItem();
             this.mnitASMHackingCompilationCodeCompiler = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,7 +94,7 @@
             this.btnReplaceOverlay = new System.Windows.Forms.Button();
             this.btnExtractOverlay = new System.Windows.Forms.Button();
             this.btnDecompressOverlay = new System.Windows.Forms.Button();
-            this.importPatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fixMultiplayerChecksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsToolBar.SuspendLayout();
             this.ssStatusBar.SuspendLayout();
             this.tbcMainFormTabControl.SuspendLayout();
@@ -190,6 +191,7 @@
             this.mnitDecompressOverlaysWithinGame,
             this.mnitHexDumpToBinaryFile,
             this.mnitEditSDATINFOBlockToolStripMenuItem,
+            this.fixMultiplayerChecksToolStripMenuItem,
             this.importPatchToolStripMenuItem});
             this.btnMore.Enabled = false;
             this.btnMore.Image = ((System.Drawing.Image)(resources.GetObject("btnMore.Image")));
@@ -232,6 +234,13 @@
             this.mnitEditSDATINFOBlockToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
             this.mnitEditSDATINFOBlockToolStripMenuItem.Text = "Edit SDAT INFO Block";
             this.mnitEditSDATINFOBlockToolStripMenuItem.Click += new System.EventHandler(this.mnitEditSDATINFOBlockToolStripMenuItem_Click);
+            // 
+            // importPatchToolStripMenuItem
+            // 
+            this.importPatchToolStripMenuItem.Name = "importPatchToolStripMenuItem";
+            this.importPatchToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.importPatchToolStripMenuItem.Text = "Import Patch";
+            this.importPatchToolStripMenuItem.Click += new System.EventHandler(this.importPatchToolStripMenuItem_Click);
             // 
             // btnASMHacking
             // 
@@ -763,12 +772,12 @@
             this.btnDecompressOverlay.Text = "Decompress Overlay";
             this.btnDecompressOverlay.UseVisualStyleBackColor = true;
             // 
-            // importPatchToolStripMenuItem
+            // fixMultiplayerChecksToolStripMenuItem
             // 
-            this.importPatchToolStripMenuItem.Name = "importPatchToolStripMenuItem";
-            this.importPatchToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
-            this.importPatchToolStripMenuItem.Text = "Import Patch";
-            this.importPatchToolStripMenuItem.Click += new System.EventHandler(this.importPatchToolStripMenuItem_Click);
+            this.fixMultiplayerChecksToolStripMenuItem.Name = "fixMultiplayerChecksToolStripMenuItem";
+            this.fixMultiplayerChecksToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.fixMultiplayerChecksToolStripMenuItem.Text = "Fix Multiplayer Checks";
+            this.fixMultiplayerChecksToolStripMenuItem.Click += new System.EventHandler(this.fixMultiplayerChecksToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -875,6 +884,7 @@
         private System.Windows.Forms.ToolStripMenuItem editFileSystemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editOverlaysToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importPatchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fixMultiplayerChecksToolStripMenuItem;
     }
 }
 
