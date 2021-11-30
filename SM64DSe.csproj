@@ -57,6 +57,9 @@
     <Reference Include="NAudio">
       <HintPath>bin\Release\lib\NAudio.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>bin\Release\lib\OpenTK.dll</HintPath>
     </Reference>
@@ -231,6 +234,14 @@
     <Compile Include="FormControls\PaletteColourGrid.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Ndst\Compress.cs" />
+    <Compile Include="Ndst\Filesystem.cs" />
+    <Compile Include="Ndst\Formats\GenericFile.cs" />
+    <Compile Include="Ndst\Formats\IFormat.cs" />
+    <Compile Include="Ndst\Formats\LZ.cs" />
+    <Compile Include="Ndst\Helper.cs" />
+    <Compile Include="Ndst\Overlay.cs" />
+    <Compile Include="Ndst\ROM.cs" />
     <Compile Include="NitroROM_Utils.cs" />
     <Compile Include="OverlayEditor.cs">
       <SubType>Form</SubType>

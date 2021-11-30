@@ -23,6 +23,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace SM64DSe
 {
@@ -38,6 +39,10 @@ namespace SM64DSe
         public NitroROM(string path)
         {
             LoadROM(path);
+        }
+
+        public NitroROM(string basePath, string patchPath) {
+            LoadROMExtracted(basePath, patchPath);
         }
 
         public void LoadROM(string path) {
@@ -231,6 +236,76 @@ namespace SM64DSe
             UpdateStrings();
         }
 
+        public void LoadROMExtracted(string basePath, string patchPath) {
+
+            // Get general info.
+            Ndst.ROM r = new Ndst.ROM(basePath, patchPath);
+            ARM9RAMAddress = r.Arm9EntryAddress;
+            ARM7RAMAddress = r.Arm7EntryAddress;
+            switch (r.GameCode) {
+                // US.
+                case "ASME":
+                    if (r.Version == 0x01) {
+                        m_Version = Version.USA_v2;
+                        m_FileTableOffset = 0x11244 - r.HeaderSize; // Make relative to ARM9 bin position.
+                    } else {
+                        m_Version = Version.USA_v1;
+                        m_LevelOvlIDTableOffset = 0x73594 - r.HeaderSize; // TODO!!!
+                    }
+                    break;
+                // Jap.
+                case "ASMJ":
+                    m_Version = Version.JAP;
+                    m_LevelOvlIDTableOffset = 0x73B38 - r.HeaderSize;
+                    break;
+                // Assume EUR.
+                case "ASMP":
+                    m_Version = Version.EUR;
+                    m_LevelOvlIDTableOffset = 0x758C8 - r.HeaderSize;
+                    break;
+            }
+
+            // Read files.
+            // TODO!!!
+
+        }
+
+        public static FileStream GetExtractedStream(string path) {
+            FileStream ret = null;
+            if (File.Exists(Program.m_ROMPatchPath + "/" + path)) {
+                ret = new FileStream(Program.m_ROMPatchPath + "/" + path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            } else {
+                ret = new FileStream(Program.m_ROMBasePath + "/" + path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            }
+            return ret;
+        }
+
+        public static string GetExtractedLines(string path) {
+            if (File.Exists(Program.m_ROMPatchPath + "/" + path)) {
+                return File.ReadAllText(Program.m_ROMPatchPath + "/" + path);
+            } else {
+                return File.ReadAllText(Program.m_ROMBasePath + "/" + path);
+            }
+        }
+
+        public static void WriteExtractedLines(string path, string lines) {
+            Directory.CreateDirectory(Path.GetDirectoryName(Program.m_ROMPatchPath + "/" + path));
+            File.WriteAllText(Program.m_ROMPatchPath + "/" + path, lines);
+        }
+
+        public static byte[] GetExtractedBytes(string path) {
+            if (File.Exists(Program.m_ROMPatchPath + "/" + path)) {
+                return File.ReadAllBytes(Program.m_ROMPatchPath + "/" + path);
+            } else {
+                return File.ReadAllBytes(Program.m_ROMBasePath + "/" + path);
+            }
+        }
+
+        public static void WriteExtractedBytes(string path, byte[] file) {
+            Directory.CreateDirectory(Path.GetDirectoryName(Program.m_ROMPatchPath + "/" + path));
+            File.WriteAllBytes(Program.m_ROMPatchPath + "/" + path, file);
+        }
+
         public void LoadTables()
         {
             m_FileTable = new ushort[m_FileTableLength];
@@ -375,11 +450,11 @@ namespace SM64DSe
         }
 
         /*/// <summary>
-        /// Get internal ID.
-        /// </summary>
-        /// <param name="n">Nitro file.</param>
-        /// <returnsInternal id.></returns>
-        public ushort GetInternalID(NitroFile n) {
+            /// Get internal ID.
+            /// </summary>
+            /// <param name="n">Nitro file.</param>
+            /// <returnsInternal id.></returns>
+            public ushort GetInternalID(NitroFile n) {
             var narc = n as NARCFile;
             if (narc != null) {
                 //narc.m_Narc.

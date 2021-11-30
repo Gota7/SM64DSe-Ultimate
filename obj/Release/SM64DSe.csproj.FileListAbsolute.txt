@@ -196,7 +196,6 @@ C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\Scint
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\Xceed.Wpf.AvalonDock.dll
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\ScintillaNET.xml
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\Xceed.Wpf.AvalonDock.pdb
-C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.csprojAssemblyReference.cache
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.AdditionalPatchesForm.resources
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.AnimationEditorForm.resources
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.BMD_KLC_Editor.resources
@@ -238,3 +237,6 @@ C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64D
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.FormationForm.resources
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.GraphicEditor.resources
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.OverlayEditor.resources
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.csproj.AssemblyReference.cache
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\Newtonsoft.Json.dll
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\Newtonsoft.Json.xml

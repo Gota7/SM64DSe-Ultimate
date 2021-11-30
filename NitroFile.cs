@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -32,6 +33,14 @@ namespace SM64DSe
             if (id >= 0xF000)
                 throw new Exception("NitroFile: invalid file ID");
 
+            if (Program.m_IsROMFolder) {
+                m_ROM = rom;
+                m_ID = id;
+                m_Name = m_ROM.GetFileNameFromID(id);
+                m_Data = Ndst.Helper.ReadROMFile(m_Name, Program.m_ROMBasePath, Program.m_ROMPatchPath);
+                return;
+            }
+
             m_ROM = rom;
             m_ID = id;
             m_Name = m_ROM.GetFileNameFromID(id);
@@ -43,26 +52,34 @@ namespace SM64DSe
 
         public void ForceDecompression()
         {
+            if (Program.m_IsROMFolder) return; // Ndst takes care of compression.
             LZ77.Decompress(ref m_Data, false);
         }
 
         public void Decompress()
         {
+            if (Program.m_IsROMFolder) return; // Ndst takes care of compression.
             LZ77.Decompress(ref m_Data, true);
         }
 
         public void Compress()
         {
+            if (Program.m_IsROMFolder) return; // Ndst takes care of compression.
             LZ77.LZ77_Compress(ref m_Data, true);
         }
 
         public void ForceCompression()
         {
+            if (Program.m_IsROMFolder) return; // Ndst takes care of compression.
             LZ77.LZ77_Compress(ref m_Data, false);
         }
 
         public override void SaveChanges()
         {
+            if (Program.m_IsROMFolder) {
+                File.WriteAllBytes(Program.m_ROMPatchPath, m_Data);
+                return;
+            }
             // TODO: LZ77 recompression!
 
             m_ROM.ReinsertFile(m_ID, m_Data);

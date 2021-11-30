@@ -95,6 +95,7 @@
             this.btnReplaceOverlay = new System.Windows.Forms.Button();
             this.btnExtractOverlay = new System.Windows.Forms.Button();
             this.btnDecompressOverlay = new System.Windows.Forms.Button();
+            this.btnOpenFilesystem = new System.Windows.Forms.ToolStripButton();
             this.tsToolBar.SuspendLayout();
             this.ssStatusBar.SuspendLayout();
             this.tbcMainFormTabControl.SuspendLayout();
@@ -124,7 +125,8 @@
             this.btnOptions,
             this.btnMore,
             this.btnASMHacking,
-            this.btnTools});
+            this.btnTools,
+            this.btnOpenFilesystem});
             this.tsToolBar.Location = new System.Drawing.Point(0, 0);
             this.tsToolBar.Name = "tsToolBar";
             this.tsToolBar.Size = new System.Drawing.Size(508, 25);
@@ -780,6 +782,17 @@
             this.btnDecompressOverlay.Text = "Decompress Overlay";
             this.btnDecompressOverlay.UseVisualStyleBackColor = true;
             // 
+            // btnOpenFilesystem
+            // 
+            this.btnOpenFilesystem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnOpenFilesystem.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFilesystem.Image")));
+            this.btnOpenFilesystem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOpenFilesystem.Name = "btnOpenFilesystem";
+            this.btnOpenFilesystem.Size = new System.Drawing.Size(122, 22);
+            this.btnOpenFilesystem.Text = "Open Extracted ROM";
+            this.btnOpenFilesystem.ToolTipText = "Open An Extracted ROM";
+            this.btnOpenFilesystem.Click += new System.EventHandler(this.btnOpenFilesystem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -886,6 +899,7 @@
         private System.Windows.Forms.ToolStripMenuItem editOverlaysToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importPatchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fixMultiplayerChecksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton btnOpenFilesystem;
     }
 }
 

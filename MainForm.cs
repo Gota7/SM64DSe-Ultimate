@@ -42,7 +42,7 @@ namespace SM64DSe
                 return;
             }
 
-            if (Program.m_ROMPath != "")
+            if (Program.m_ROMPath != "" || Program.m_IsROMFolder)
             {
                 while (Program.m_LevelEditors.Count > 0)
                     Program.m_LevelEditors[0].Close();
@@ -51,6 +51,7 @@ namespace SM64DSe
                 Program.m_ROM.EndRW();
             }
 
+            Program.m_IsROMFolder = false;
             Program.m_ROMPath = filename;
             try { Program.m_ROM = new NitroROM(Program.m_ROMPath); }
             catch (Exception ex)
@@ -123,6 +124,30 @@ namespace SM64DSe
 
             // Program.m_ShaderCache = new ShaderCache();
 
+            btnRefresh.Enabled = true;
+            cbLevelListDisplay.Enabled = true;
+
+            if (cbLevelListDisplay.SelectedIndex == -1)
+                cbLevelListDisplay.SelectedIndex = 0;
+            else
+                btnRefresh.PerformClick();
+
+            this.tvFileList.Nodes.Clear();
+            ROMFileSelect.LoadFileList(this.tvFileList);
+            this.tvARM9Overlays.Nodes.Clear();
+            ROMFileSelect.LoadOverlayList(this.tvARM9Overlays);
+
+            btnASMHacking.Enabled = true;
+            btnTools.Enabled = true;
+            btnMore.Enabled = true;
+        }
+
+        private void LoadROMExtracted(string basePath, string patchPath) {
+            Program.m_IsROMFolder = true;
+            Program.m_ROMBasePath = basePath;
+            Program.m_ROMPatchPath = patchPath;
+            Program.m_ROM = new NitroROM(basePath, patchPath);
+            Program.m_ROM.LoadTables();
             btnRefresh.Enabled = true;
             cbLevelListDisplay.Enabled = true;
 
@@ -240,6 +265,18 @@ namespace SM64DSe
         {
             if (ofdOpenFile.ShowDialog(this) == DialogResult.OK)
                 LoadROM(ofdOpenFile.FileName);
+        }
+
+        private void btnOpenFilesystem_Click(object sender, EventArgs e) {
+            FolderBrowserDialog fd = new FolderBrowserDialog();
+            fd.Description = "ROM Base Folder";
+            if (fd.ShowDialog(this) == DialogResult.OK) {
+                string basePath = fd.SelectedPath;
+                fd.Description = "ROM Patch Folder";
+                if (fd.ShowDialog(this) == DialogResult.OK) {
+                    LoadROMExtracted(basePath, fd.SelectedPath);
+                }
+            }
         }
 
         private void OpenLevel(int levelid)
@@ -1006,6 +1043,7 @@ namespace SM64DSe
             Program.m_ROM.SaveFilesystem();*/
         }
 
+        
     }
 
 }
