@@ -332,6 +332,7 @@ namespace SM64DSe
 
         public void BeginRW(bool buffered)
         {
+            if (Program.m_IsROMFolder) return;
             if (m_CanRW) return;
 
             m_Buffered = buffered;
@@ -355,7 +356,8 @@ namespace SM64DSe
 
         public void EndRW(bool keep)
         {
-	        if (!m_CanRW) return;
+            if (Program.m_IsROMFolder) return;
+            if (!m_CanRW) return;
 
 	        if (m_Buffered)
 	        {
@@ -370,10 +372,31 @@ namespace SM64DSe
         }
         public void EndRW() { EndRW(true); }
 
-        public bool CanRW() { return m_CanRW; }
+        public bool CanRW() {
+            if (Program.m_IsROMFolder) return true;
+            return m_CanRW;
+        }
+
+        private Dictionary<string, ushort> GetExtractedFileNameIds() {
+            var fileList = Ndst.Helper.ReadROMLines("__ROM__/files.txt", Program.m_ROMBasePath, Program.m_ROMPatchPath);
+            var ret = new Dictionary<string, ushort>();
+            for (int i = 0; i < fileList.Length; i++) {
+                var vals = fileList[i].Split(' ');
+                ret.Add(vals[0], (ushort)Ndst.Helper.ReadStringNumber(vals[1]));
+            }
+            return ret;
+        }
 
         public ushort GetFileIDFromName(string name)
         {
+            if (Program.m_IsROMFolder) {
+                var list = GetExtractedFileNameIds();
+                if (list.ContainsKey(name)) {
+                    return list[name];
+                }
+                return 0xFFFF;
+            }
+
             foreach (FileEntry fe in m_FileEntries)
             {
                 if (fe.FullName == name)
@@ -382,7 +405,7 @@ namespace SM64DSe
 
             return 0xFFFF;
         }
-        public ushort GetFileIDFromOverlayID(uint ovlid) { return m_OverlayEntries[ovlid].FileID; }
+        public ushort GetFileIDFromOverlayID(uint ovlid) { return m_OverlayEntries[ovlid].FileID; } // TODO!!!!!
         public ushort GetFileIDFromInternalID(ushort intid) { return m_FileTable[intid]; }
 
         public ushort GetDirIDFromName(string name)
@@ -434,7 +457,7 @@ namespace SM64DSe
             throw new Exception("NitroROM: cannot find file '" + name + "'");
         }
 
-        public NitroFile GetFileFromInternalID(ushort intid)
+        public NitroFile GetFileFromInternalID(ushort intid) // TODO!!!
         {
             if (intid >= 0x8000)
             {

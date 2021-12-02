@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{E310EA86-EEFC-4D1F-8050-20EBDFE916AB}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ModelAndCollisionMapEditor.cs">
+    <Files>
+      <File FileName="NitroROM_patch.cs" Line="157" Column="26" />
+      <File FileName="NitroROM.cs" Line="445" Column="35" />
+      <File FileName="NitroROM_Utils.cs" Line="349" Column="36" />
+      <File FileName="MainForm.cs" Line="453" Column="92" />
+      <File FileName="NitroFile.cs" Line="34" Column="16" />
+      <File FileName="ModelAndCollisionMapEditor.cs" Line="2974" Column="77" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="SM64DSe" expanded="True">
+            <Node name="SM64DSe" expanded="True">
+              <Node name="ModelAndCollisionMapEditor.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.SM64DSe PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
