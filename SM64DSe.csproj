@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -32,6 +32,8 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +44,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,6 +54,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -76,8 +80,24 @@
     <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
     </Reference>
+    <Reference Include="SixLabors.ImageSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>packages\SixLabors.ImageSharp.1.0.4\lib\net472\SixLabors.ImageSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core">
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
     </Reference>
@@ -230,12 +250,37 @@
     <Compile Include="FormControls\PaletteColourGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Ndst\Compress.cs" />
+    <Compile Include="Ndst\Banner.cs" />
+    <Compile Include="Ndst\ConversionInfo.cs" />
+    <Compile Include="Ndst\ExtractOptions.cs" />
     <Compile Include="Ndst\Filesystem.cs" />
+    <Compile Include="Ndst\Fix20x12i.cs" />
+    <Compile Include="Ndst\Fix4x12i.cs" />
+    <Compile Include="Ndst\Formats\Bmd.cs" />
+    <Compile Include="Ndst\Formats\Enpg.cs" />
     <Compile Include="Ndst\Formats\GenericFile.cs" />
     <Compile Include="Ndst\Formats\IFormat.cs" />
+    <Compile Include="Ndst\Formats\Kcl.cs" />
     <Compile Include="Ndst\Formats\LZ.cs" />
+    <Compile Include="Ndst\Formats\Narc.cs" />
+    <Compile Include="Ndst\Formats\Nsmbd.cs" />
+    <Compile Include="Ndst\Graphics\CIE.cs" />
+    <Compile Include="Ndst\Graphics\Graphic.cs" />
+    <Compile Include="Ndst\Graphics\GraphicExtractOption.cs" />
+    <Compile Include="Ndst\Graphics\Palette.cs" />
+    <Compile Include="Ndst\Graphics\RGB5.cs" />
+    <Compile Include="Ndst\Graphics\Screen.cs" />
     <Compile Include="Ndst\Helper.cs" />
+    <Compile Include="Ndst\Models\Bone.cs" />
+    <Compile Include="Ndst\Models\Face.cs" />
+    <Compile Include="Ndst\Models\Formats\IModelFormat.cs" />
+    <Compile Include="Ndst\Models\Formats\Obj.cs" />
+    <Compile Include="Ndst\Models\Mat4.cs" />
+    <Compile Include="Ndst\Models\Mesh.cs" />
+    <Compile Include="Ndst\Models\Model.cs" />
+    <Compile Include="Ndst\Models\Node.cs" />
+    <Compile Include="Ndst\Models\Vec3.cs" />
+    <Compile Include="Ndst\Ninja.cs" />
     <Compile Include="Ndst\Overlay.cs" />
     <Compile Include="Ndst\ROM.cs" />
     <Compile Include="NitroROM_Utils.cs" />
@@ -586,6 +631,7 @@
     <None Include="Resources\collapseButton.png" />
     <None Include="Resources\stepLeft.png" />
     <None Include="Resources\stepRight.png" />
+    <None Include="Images\build.png" />
     <Content Include="Templates\Enemy.cpp" />
     <Content Include="Templates\Enemy.h" />
     <Content Include="Templates\Platform.cpp" />

@@ -22,17 +22,23 @@ namespace Ndst.Formats {
             System.IO.File.WriteAllBytes(path, Data);
         }
 
-        public void Pack(string path, string romPath, string patchPath) {
-            Data = Helper.ReadROMFile(path, romPath, patchPath);
+        public void Pack(string path) {
+            Data = System.IO.File.ReadAllBytes(path);
         }
 
         public string GetFormat() {
-            return "";
+            return "None";
         }
 
         public bool IsOfFormat(string str) {
             return true;
         }
+
+        public byte[] ContainedFile() {
+            return null;
+        }
+
+        public string GetPathExtension() => "";
 
     }
 

@@ -63,6 +63,8 @@ namespace Ndst {
         public byte[] Arm7;
         [JsonIgnore]
         public byte[] Banner;
+        [JsonIgnore]
+        ConversionInfo ConversionInfo;
 
         // Banner lengths.
         public static readonly Dictionary<ushort, uint> BANNER_LENGTHS = new Dictionary<ushort, uint>() {
@@ -76,12 +78,18 @@ namespace Ndst {
         internal ROM() {}
 
         // Create a ROM from extracted content.
-        public ROM(string srcPath, string patchPath) {
-            Pack(srcPath, patchPath);
+        public ROM(string srcPath) {
+            Pack(srcPath);
         }
         
         // Create a new ROM.
-        public ROM(string filePath) {
+        public ROM(string filePath, string conversionPath) {
+
+            // Build system.
+            if (!conversionPath.Equals("")) {
+                Directory.CreateDirectory(conversionPath);
+                ConversionInfo = new ConversionInfo(conversionPath);
+            }
 
             // Read the file.
             using (Stream s = new FileStream(filePath, FileMode.Open)) {
@@ -162,7 +170,7 @@ namespace Ndst {
                 }
 
                 // Read filesystem.
-                Filesystem = new Filesystem(r, fntOffset, fntSize, fatOffset, fatSize);
+                Filesystem = new Filesystem(r, fntOffset, fntSize, fatOffset, fatSize, !conversionPath.Equals(""), ConversionInfo);
                 
                 // Dispose.
                 r.Dispose();
@@ -330,46 +338,33 @@ namespace Ndst {
                 }
                 foreach (var f in folder.Files) {
                     string fInfo = relativePath + "/" + f.Name;
-                    string formatInfo = f.Data.GetFormat();
-                    if (!formatInfo.Equals("")) formatInfo = " " + formatInfo;
-                    fInfo += " 0x" + f.Id.ToString("X") + formatInfo;
-                    f.Data.Extract(path + "/" + f.Name);
+                    fInfo += " 0x" + f.Id.ToString("X");
+                    if (ConversionInfo == null) f.Data.Extract(path + "/" + f.Name);
                     fileInfo.Add(new Tuple<string, ushort>(fInfo, f.Id));
                 }
             }
             ExtractFiles(destFolder, "..", Filesystem);
             fileInfo = fileInfo.OrderBy(x => x.Item2).ToList();
             System.IO.File.WriteAllLines(destFolder + "/" + "__ROM__" + "/files.txt", fileInfo.Select(x => x.Item1));
+            if (ConversionInfo != null) {
+                ConversionInfo.WriteBuiltFiles(destFolder);
+                ConversionInfo.WriteConversionInfo();
+            }
 
         }
 
         // Pack a ROM.
-        public void Pack(string srcFolder, string patchFolder) {
+        public void Pack(string romFolder) {
 
             // File reading content.
-            bool UsePatch(string path) {
-                return System.IO.File.Exists(patchFolder + "/" + path);
-            }
             byte[] ReadFile(string path) {
-                if (UsePatch(path)) {
-                    return System.IO.File.ReadAllBytes(patchFolder + "/" + path);
-                } else {
-                    return System.IO.File.ReadAllBytes(srcFolder + "/" + path);
-                }
+                return System.IO.File.ReadAllBytes(romFolder + "/" + path);
             }
             string[] ReadFileList(string path) {
-                if (UsePatch(path)) {
-                    return System.IO.File.ReadAllLines(patchFolder + "/" + path);
-                } else {
-                    return System.IO.File.ReadAllLines(srcFolder + "/" + path);
-                }
+                return System.IO.File.ReadAllLines(romFolder + "/" + path);
             }
             T ReadJSON<T>(string path) {
-                if (UsePatch(path)) {
-                    return JsonConvert.DeserializeObject<T>(System.IO.File.ReadAllText(patchFolder + "/" + path));
-                } else {
-                    return JsonConvert.DeserializeObject<T>(System.IO.File.ReadAllText(srcFolder + "/" + path));
-                }
+                return JsonConvert.DeserializeObject<T>(System.IO.File.ReadAllText(romFolder + "/" + path));
             }
             List<ushort> validFileIds = new List<ushort>();
             void VerifyFiles(IEnumerable<ushort> fileIds) {
@@ -471,17 +466,7 @@ namespace Ndst {
                 File f = new File();
                 f.Name = fileName;
                 f.Id = fileId;
-                string format = fileProperties.Last();
-                if (fileProperties.Length <= 2) format = "";
-                IFormat newData = null;
-                foreach (var pFormat in Helper.FileFormats) {
-                    newData = (IFormat)Activator.CreateInstance(pFormat);
-                    if (newData.IsOfFormat(format)) {
-                        newData.Pack(filePath, srcFolder, patchFolder);
-                        break;
-                    }
-                }
-                f.Data = newData;
+                f.Data = new GenericFile() { Data = ReadFile(filePath) };
 
                 // Finally add the file to the folder.
                 AddFileToFolder(f, folderPath);

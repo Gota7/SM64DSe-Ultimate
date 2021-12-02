@@ -3213,6 +3213,16 @@ namespace SM64DSe
             RefreshObjects(m_SelectedObject.m_Layer);
         }
 
+        private void romBuildButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void romRunButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void btnOpenRawEditor_Click(object sender, EventArgs e)
         {
             if (m_rawEditor==null)

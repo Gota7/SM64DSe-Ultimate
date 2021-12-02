@@ -153,6 +153,8 @@ namespace SM64DSe
             this.btnStar6 = new System.Windows.Forms.ToolStripButton();
             this.btnStar7 = new System.Windows.Forms.ToolStripButton();
             this.btnStarAll = new System.Windows.Forms.ToolStripButton();
+            this.romBuildButton = new System.Windows.Forms.ToolStripButton();
+            this.romRunButton = new System.Windows.Forms.ToolStripButton();
             this.ssStatusBar = new System.Windows.Forms.StatusStrip();
             this.slStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.spcMainContainer)).BeginInit();
@@ -291,7 +293,7 @@ namespace SM64DSe
             this.box_position.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_position.Location = new System.Drawing.Point(3, 56);
             this.box_position.Name = "box_position";
-            this.box_position.Size = new System.Drawing.Size(267, 39);
+            this.box_position.Size = new System.Drawing.Size(233, 39);
             this.box_position.TabIndex = 2;
             this.box_position.TabStop = false;
             this.box_position.Text = "Position";
@@ -301,7 +303,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapsePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapsePosition.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapsePosition.Location = new System.Drawing.Point(251, 0);
+            this.btnToogleCollapsePosition.Location = new System.Drawing.Point(217, 0);
             this.btnToogleCollapsePosition.Name = "btnToogleCollapsePosition";
             this.btnToogleCollapsePosition.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapsePosition.TabIndex = 7;
@@ -422,7 +424,7 @@ namespace SM64DSe
             this.box_rotation.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_rotation.Location = new System.Drawing.Point(3, 101);
             this.box_rotation.Name = "box_rotation";
-            this.box_rotation.Size = new System.Drawing.Size(266, 39);
+            this.box_rotation.Size = new System.Drawing.Size(232, 39);
             this.box_rotation.TabIndex = 6;
             this.box_rotation.TabStop = false;
             this.box_rotation.Text = "Rotation";
@@ -432,7 +434,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseRotation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseRotation.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseRotation.Location = new System.Drawing.Point(250, -1);
+            this.btnToogleCollapseRotation.Location = new System.Drawing.Point(216, -1);
             this.btnToogleCollapseRotation.Name = "btnToogleCollapseRotation";
             this.btnToogleCollapseRotation.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseRotation.TabIndex = 8;
@@ -515,7 +517,7 @@ namespace SM64DSe
             this.box_parameters.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_parameters.Location = new System.Drawing.Point(3, 145);
             this.box_parameters.Name = "box_parameters";
-            this.box_parameters.Size = new System.Drawing.Size(266, 115);
+            this.box_parameters.Size = new System.Drawing.Size(232, 115);
             this.box_parameters.TabIndex = 9;
             this.box_parameters.TabStop = false;
             this.box_parameters.Text = "Parameters";
@@ -525,7 +527,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseParameters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseParameters.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseParameters.Location = new System.Drawing.Point(250, 0);
+            this.btnToogleCollapseParameters.Location = new System.Drawing.Point(216, 0);
             this.btnToogleCollapseParameters.Name = "btnToogleCollapseParameters";
             this.btnToogleCollapseParameters.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseParameters.TabIndex = 10;
@@ -546,7 +548,7 @@ namespace SM64DSe
             this.box_fogSettings.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_fogSettings.Location = new System.Drawing.Point(3, 266);
             this.box_fogSettings.Name = "box_fogSettings";
-            this.box_fogSettings.Size = new System.Drawing.Size(266, 132);
+            this.box_fogSettings.Size = new System.Drawing.Size(232, 132);
             this.box_fogSettings.TabIndex = 6;
             this.box_fogSettings.TabStop = false;
             this.box_fogSettings.Text = "Fog Settings";
@@ -698,7 +700,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseColor.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseColor.Location = new System.Drawing.Point(250, 0);
+            this.btnToogleCollapseColor.Location = new System.Drawing.Point(216, 0);
             this.btnToogleCollapseColor.Name = "btnToogleCollapseColor";
             this.btnToogleCollapseColor.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseColor.TabIndex = 9;
@@ -720,7 +722,7 @@ namespace SM64DSe
             this.box_general.Cursor = System.Windows.Forms.Cursors.Default;
             this.box_general.Location = new System.Drawing.Point(3, -18);
             this.box_general.Name = "box_general";
-            this.box_general.Size = new System.Drawing.Size(266, 68);
+            this.box_general.Size = new System.Drawing.Size(232, 68);
             this.box_general.TabIndex = 10;
             this.box_general.TabStop = false;
             this.box_general.Text = "General";
@@ -759,7 +761,7 @@ namespace SM64DSe
             // 
             this.btnToogleCollapseGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToogleCollapseGeneral.Image = global::SM64DSe.Properties.Resources.collapseButton;
-            this.btnToogleCollapseGeneral.Location = new System.Drawing.Point(250, 0);
+            this.btnToogleCollapseGeneral.Location = new System.Drawing.Point(216, 0);
             this.btnToogleCollapseGeneral.Name = "btnToogleCollapseGeneral";
             this.btnToogleCollapseGeneral.Size = new System.Drawing.Size(16, 16);
             this.btnToogleCollapseGeneral.TabIndex = 9;
@@ -1342,7 +1344,7 @@ namespace SM64DSe
             this.btnOrthView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnOrthView.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOrthView.Name = "btnOrthView";
-            this.btnOrthView.Size = new System.Drawing.Size(100, 19);
+            this.btnOrthView.Size = new System.Drawing.Size(100, 22);
             this.btnOrthView.Text = "Orthogonal View";
             this.btnOrthView.Click += new System.EventHandler(this.btnOrthView_Click);
             // 
@@ -1383,7 +1385,9 @@ namespace SM64DSe
             this.btnStar5,
             this.btnStar6,
             this.btnStar7,
-            this.btnStarAll});
+            this.btnStarAll,
+            this.romBuildButton,
+            this.romRunButton});
             this.tsToolBar.Location = new System.Drawing.Point(0, 0);
             this.tsToolBar.Name = "tsToolBar";
             this.tsToolBar.Size = new System.Drawing.Size(957, 25);
@@ -1632,6 +1636,29 @@ namespace SM64DSe
             this.btnStarAll.Click += new System.EventHandler(this.btnStarAll_Click);
             this.btnStarAll.DoubleClick += new System.EventHandler(this.btnStarAll_DoubleClick);
             // 
+            // romBuildButton
+            // 
+            this.romBuildButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.romBuildButton.Image = global::SM64DSe.Properties.Resources.build;
+            this.romBuildButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.romBuildButton.Name = "romBuildButton";
+            this.romBuildButton.Size = new System.Drawing.Size(23, 22);
+            this.romBuildButton.Text = "toolStripButton1";
+            this.romBuildButton.ToolTipText = "Build the ROM NDS file.";
+            this.romBuildButton.Visible = false;
+            this.romBuildButton.Click += new System.EventHandler(this.romBuildButton_Click);
+            // 
+            // romRunButton
+            // 
+            this.romRunButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.romRunButton.Image = global::SM64DSe.Properties.Resources.Play;
+            this.romRunButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.romRunButton.Name = "romRunButton";
+            this.romRunButton.Size = new System.Drawing.Size(23, 20);
+            this.romRunButton.ToolTipText = "Build and run the ROM.";
+            this.romRunButton.Visible = false;
+            this.romRunButton.Click += new System.EventHandler(this.romRunButton_Click);
+            // 
             // ssStatusBar
             // 
             this.ssStatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1848,5 +1875,7 @@ namespace SM64DSe
         private System.Windows.Forms.Button btnDuplicate;
         private System.Windows.Forms.ToolStripButton btnOrthView;
         private System.Windows.Forms.ToolStripButton btnTextureAnims;
+        private System.Windows.Forms.ToolStripButton romBuildButton;
+        private System.Windows.Forms.ToolStripButton romRunButton;
     }
 }

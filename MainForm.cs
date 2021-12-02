@@ -188,7 +188,8 @@ namespace SM64DSe
         public MainForm(string[] args)
         {
             InitializeComponent();
-
+            btnBuildROM.Visible = true;
+            btnRunROM.Visible = true;
             Text = Program.AppTitle + " " + Program.AppVersion + " " + Program.AppDate;
             Program.m_ROMPath = "";
             Program.m_LevelEditors = new List<LevelEditorForm>();
@@ -1043,7 +1044,21 @@ namespace SM64DSe
             Program.m_ROM.SaveFilesystem();*/
         }
 
-        
+        private void tsToolBar_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void btnBuildROM_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRunROM_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 
 }

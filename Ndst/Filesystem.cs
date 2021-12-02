@@ -11,6 +11,7 @@ namespace Ndst {
         public string Name = "";
         public ushort Id;
         public ushort FirstFileId;
+        public Folder Parent = null;
         public List<Folder> Folders = new List<Folder>();
         public List<File> Files = new List<File>();
 
@@ -54,15 +55,17 @@ namespace Ndst {
         public Filesystem() {}
 
         // Create a new filesystem.
-        public Filesystem(BinaryReader r, uint fntOff, uint fntSize, uint fatOff, uint fatSize) {
+        public Filesystem(BinaryReader r, uint fntOff, uint fntSize, uint fatOff, uint fatSize, bool convertFiles, ConversionInfo conversionInfo) {
 
             // Read a folder.
-            Folder ReadFolder(ushort id) {
+            Folder ReadFolder(ushort id, Folder parent = null, string folderName = "") {
 
                 // Get folder info.
                 r.BaseStream.Position = fntOff + 8 * id;
                 Folder ret = new Folder();
+                ret.Parent = parent;
                 ret.Id = id;
+                ret.Name = folderName;
                 uint off = r.ReadUInt32();
                 ret.FirstFileId = r.ReadUInt16();
                 r.ReadUInt16(); // Parent ID. Root folder is total number of folders.
@@ -78,9 +81,8 @@ namespace Ndst {
                     if (folder) {
                         ushort subId = (ushort)(r.ReadUInt16() & 0xFFF);
                         long bakPos = r.BaseStream.Position;
-                        Folder newFolder = ReadFolder(subId);
+                        Folder newFolder = ReadFolder(subId, ret, name);
                         r.BaseStream.Position = bakPos;
-                        newFolder.Name = name;
                         ret.Folders.Add(newFolder);
                     } else {
                         long bakPos = r.BaseStream.Position;
@@ -90,13 +92,19 @@ namespace Ndst {
                         r.BaseStream.Position = startOff;
                         byte[] fileData = r.ReadBytes((int)(endOff - startOff));
                         IFormat newData = null;
-                        foreach (var pFormat in Helper.FileFormats) {
-                            newData = (IFormat)Activator.CreateInstance(pFormat);
-                            if (newData.IsType(fileData)) {
-                                r.BaseStream.Position = startOff;
-                                newData.Read(r, fileData);
-                                break;
+                        if (convertFiles) {
+                            string filePath = name;
+                            Folder currFolder = ret;
+                            while (currFolder != null) {
+                                filePath = currFolder.Name + "/" + filePath;
+                                currFolder = currFolder.Parent;
                             }
+                            if (filePath.StartsWith("/")) filePath = filePath.Substring(1);
+                            newData = FormatUtil.DoExtractionConversion(conversionInfo, r, startOff, filePath, fileData);
+                        } else {
+                            newData = new GenericFile() {
+                                Data = fileData
+                            };
                         }
                         r.BaseStream.Position = bakPos;
                         ret.Files.Add(new File() { Name = name, Id = currId++, Data = newData });

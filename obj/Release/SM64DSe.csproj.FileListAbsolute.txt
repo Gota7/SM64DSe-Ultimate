@@ -240,3 +240,13 @@ C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64D
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\obj\Release\SM64DSe.csproj.AssemblyReference.cache
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\Newtonsoft.Json.dll
 C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\Newtonsoft.Json.xml
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\SixLabors.ImageSharp.dll
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\System.Buffers.dll
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\System.Memory.dll
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\System.Numerics.Vectors.dll
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\SixLabors.ImageSharp.xml
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\System.Buffers.xml
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\System.Memory.xml
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\System.Numerics.Vectors.xml
+C:\Users\samsp\Documents\C#\GIT\my-improved-version-of-sm64dse\bin\Release\System.Runtime.CompilerServices.Unsafe.xml

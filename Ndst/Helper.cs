@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using Ndst.Formats;
+using System.Text;
 
 namespace Ndst {
 
@@ -11,6 +12,8 @@ namespace Ndst {
         static Dictionary<string, long> Offsets = new Dictionary<string, long>();
         public static List<Type> FileFormats = new List<Type>() {
             typeof(LZFile),
+            typeof(Narc),
+            typeof(Enpg),
             typeof(GenericFile)
         };
 
@@ -37,6 +40,29 @@ namespace Ndst {
             return ret;
         }
 
+        public static string ReadFixedLenWide(this BinaryReader r, uint len) {
+            List<byte> ret = new List<byte>();
+            for (uint i = 0; i < len * 2; i++) {
+                byte b1 = r.ReadByte();
+                byte b2 = r.ReadByte();
+                if (b1 == 0 && b2 == 0) {
+                    break;
+                } else {
+                    ret.Add(b1);
+                    ret.Add(b2);
+                }
+            }
+            return Encoding.Unicode.GetString(ret.ToArray());
+        }
+
+        public static Fix4x12i ReadFix4x12i(this BinaryReader r) {
+            return new Fix4x12i() { Val = r.ReadInt16() };
+        }
+
+        public static Fix20x12i ReadFix20x12i(this BinaryReader r) {
+            return new Fix20x12i() { Val = r.ReadInt32() };
+        }
+
         // Write a fixed length string.
         public static void WriteFixedLen(this BinaryWriter w, string str, uint len) {
             uint numToWrite = Math.Min((uint)str.Length, len);
@@ -44,6 +70,14 @@ namespace Ndst {
                 w.Write(str[(int)i]);
             }
             w.Write0s(len - numToWrite);
+        }
+
+        public static void Write(this BinaryWriter w, Fix4x12i val) {
+            w.Write(val.Val);
+        }
+
+        public static void Write(this BinaryWriter w, Fix20x12i val) {
+            w.Write(val.Val);
         }
 
         // Save an offset.
@@ -118,6 +152,16 @@ namespace Ndst {
             return true;
         }
 
+        // File exists.
+        public static bool ROMFileExists(string path, string srcFolder, string patchFolder) {
+            return System.IO.File.Exists(srcFolder + "/" + path) || System.IO.File.Exists(patchFolder + "/" + path);
+        }
+
+        // If to use patch.
+        public static bool ROMUsePatch(string path, string patchFolder) {
+            return System.IO.File.Exists(patchFolder + "/" + path);
+        }
+
         // Read an extracted ROM file.
         public static byte[] ReadROMFile(string path, string srcFolder, string patchFolder) {
             bool UsePatch() {
@@ -128,6 +172,48 @@ namespace Ndst {
             } else {
                 return System.IO.File.ReadAllBytes(srcFolder + "/" + path);
             }
+        }
+
+        // Read an extracted ROM file lines.
+        public static string[] ReadROMLines(string path, string srcFolder, string patchFolder) {
+            bool UsePatch() {
+                return System.IO.File.Exists(patchFolder + "/" + path);
+            }
+            if (UsePatch()) {
+                return System.IO.File.ReadAllLines(patchFolder + "/" + path);
+            } else {
+                return System.IO.File.ReadAllLines(srcFolder + "/" + path);
+            }
+        }
+
+        // Read extracted text.
+        public static string ReadROMText(string path, string srcFolder, string patchFolder) {
+            bool UsePatch() {
+                return System.IO.File.Exists(patchFolder + "/" + path);
+            }
+            if (UsePatch()) {
+                return System.IO.File.ReadAllText(patchFolder + "/" + path);
+            } else {
+                return System.IO.File.ReadAllText(srcFolder + "/" + path);
+            }
+        }
+
+        // Write a ROM file.
+        public static void WriteROMFile(string path, string patchFolder, byte[] file) {
+            // TODO: CREATE DIR!!!
+        }
+
+        // Get a reader.
+        public static BinaryReader GetReader(string filePath) {
+            FileStream s = new FileStream(filePath, FileMode.OpenOrCreate);
+            return new BinaryReader(s);
+        }
+
+        // Get a writer.
+        public static BinaryWriter GetWriter(string filePath) {
+            FileStream s = new FileStream(filePath, FileMode.OpenOrCreate);
+            s.SetLength(0);
+            return new BinaryWriter(s);
         }
         
     }
