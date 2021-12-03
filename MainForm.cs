@@ -10,7 +10,7 @@
 
     SM64DSe is distributed in the hope that it will be useful, but WITHOUT ANY 
     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-    FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+    FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.vis
 
     You should have received a copy of the GNU General Public License along 
     with SM64DSe. If not, see http://www.gnu.org/licenses/.
@@ -140,14 +140,19 @@ namespace SM64DSe
             btnASMHacking.Enabled = true;
             btnTools.Enabled = true;
             btnMore.Enabled = true;
+            extractROMButton.Visible = true;
+            btnBuildROM.Visible = false;
+            btnRunROM.Visible = false;
         }
 
-        private void LoadROMExtracted(string basePath, string patchPath) {
+        private void LoadROMExtracted(string basePath, string patchPath, string conversionPath, string buildPath) {
             Program.m_IsROMFolder = true;
             Program.m_ROMBasePath = basePath;
             Program.m_ROMPatchPath = patchPath;
+            Program.m_ROMConversionPath = conversionPath;
+            Program.m_ROMBuildPath = buildPath;
             Program.m_ROM = new NitroROM(basePath, patchPath);
-            Program.m_ROM.LoadTables();
+            /*Program.m_ROM.LoadTables();
             btnRefresh.Enabled = true;
             cbLevelListDisplay.Enabled = true;
 
@@ -157,13 +162,16 @@ namespace SM64DSe
                 btnRefresh.PerformClick();
 
             this.tvFileList.Nodes.Clear();
-            ROMFileSelect.LoadFileList(this.tvFileList);
+            //ROMFileSelect.LoadFileList(this.tvFileList);
             this.tvARM9Overlays.Nodes.Clear();
-            ROMFileSelect.LoadOverlayList(this.tvARM9Overlays);
+            ROMFileSelect.LoadOverlayList(this.tvARM9Overlays);*/
 
             btnASMHacking.Enabled = true;
             btnTools.Enabled = true;
             btnMore.Enabled = true;
+            btnBuildROM.Visible = true;
+            btnRunROM.Visible = true;
+            extractROMButton.Visible = false;
         }
 
         private void EnableOrDisableASMHackingCompilationAndGenerationFeatures()
@@ -188,8 +196,6 @@ namespace SM64DSe
         public MainForm(string[] args)
         {
             InitializeComponent();
-            btnBuildROM.Visible = true;
-            btnRunROM.Visible = true;
             Text = Program.AppTitle + " " + Program.AppVersion + " " + Program.AppDate;
             Program.m_ROMPath = "";
             Program.m_LevelEditors = new List<LevelEditorForm>();
@@ -269,13 +275,43 @@ namespace SM64DSe
         }
 
         private void btnOpenFilesystem_Click(object sender, EventArgs e) {
+            OpenFileDialog f = new OpenFileDialog();
+            f.Title = "Select Settings File (If Exists)";
+            f.Filter = "ROM Settings|*.romsettings";
+            if (f.ShowDialog() == DialogResult.OK) {
+                string[] inSettings = File.ReadAllLines(f.FileName);
+                LoadROMExtracted(inSettings[0], inSettings[1], inSettings[2], inSettings[3]);
+                return;
+            }
             FolderBrowserDialog fd = new FolderBrowserDialog();
             fd.Description = "ROM Base Folder";
             if (fd.ShowDialog(this) == DialogResult.OK) {
                 string basePath = fd.SelectedPath;
                 fd.Description = "ROM Patch Folder";
                 if (fd.ShowDialog(this) == DialogResult.OK) {
-                    LoadROMExtracted(basePath, fd.SelectedPath);
+                    string patchPath = fd.SelectedPath;
+                    fd.Description = "ROM Conversion Folder";
+                    if (fd.ShowDialog(this) == DialogResult.OK) {
+                        SaveFileDialog sfd = new SaveFileDialog();
+                        sfd.Filter = "DS ROM|*.nds";
+                        sfd.Title = "Output ROM";
+                        if (sfd.ShowDialog(this) == DialogResult.OK) {
+                            string buildPath = sfd.FileName;
+                            sfd.Title = "Save Settings File";
+                            sfd.Filter = "ROM Settings|*.romsettings";
+                            sfd.FileName = "";
+                            if (sfd.ShowDialog(this) == DialogResult.OK) {
+                                string[] outSettings = new string[] {
+                                    basePath,
+                                    patchPath,
+                                    fd.SelectedPath,
+                                    buildPath
+                                };
+                                File.WriteAllLines(sfd.FileName, outSettings);
+                                LoadROMExtracted(basePath, patchPath, fd.SelectedPath, buildPath);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -1049,14 +1085,29 @@ namespace SM64DSe
 
         }
 
+        private void extractROMButton_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fd = new FolderBrowserDialog();
+            fd.Description = "Destination ROM Folder";
+            if (fd.ShowDialog() == DialogResult.OK) {
+                string romPath = fd.SelectedPath;
+                fd.Description = "Destination Conversion Folder";
+                if (fd.ShowDialog() == DialogResult.OK) {
+                    string conversionPath = fd.SelectedPath;
+                    var rom = new Ndst.ROM(Program.m_ROMPath, conversionPath);
+                    rom.Extract(romPath);
+                }
+            }
+        }
+
         private void btnBuildROM_Click(object sender, EventArgs e)
         {
-
+            NitroROM.BuildROM();
         }
 
         private void btnRunROM_Click(object sender, EventArgs e)
         {
-
+            NitroROM.RunROM();
         }
 
     }

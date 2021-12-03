@@ -2,3 +2,8 @@
 \.vs/SM64DSe/v15/Server/sqlite3/storage\.ide-shm
 
 \.vs/SM64DSe/v15/Server/sqlite3/storage\.ide-wal
+bin/Release/build
+bin/Release/Tmp.nds
+bin/Release/.ninja_deps
+bin/Release/.ninja_log
+bin/Release/build.ninja

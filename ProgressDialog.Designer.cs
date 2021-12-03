@@ -37,12 +37,14 @@
             this.lblAction.AutoSize = true;
             this.lblAction.Location = new System.Drawing.Point(12, 9);
             this.lblAction.Name = "lblAction";
-            this.lblAction.Size = new System.Drawing.Size(303, 13);
+            this.lblAction.Size = new System.Drawing.Size(16, 13);
             this.lblAction.TabIndex = 0;
-            this.lblAction.Text = "current action here blah blah blah blah blah blah blah blah blah";
+            this.lblAction.Text = "...";
             // 
             // pbProgress
             // 
+            this.pbProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pbProgress.Location = new System.Drawing.Point(12, 25);
             this.pbProgress.MarqueeAnimationSpeed = 1;
             this.pbProgress.Name = "pbProgress";
@@ -70,8 +72,7 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lblAction;
         private System.Windows.Forms.ProgressBar pbProgress;
+        public System.Windows.Forms.Label lblAction;
     }
 }

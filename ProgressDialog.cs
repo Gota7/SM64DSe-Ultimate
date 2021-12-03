@@ -57,6 +57,14 @@ namespace SM64DSe
             lblAction.Text = string.Format("{0} - step {1} of {2}", m_ActionText, (int)(progress / 100), m_MaxSteps);
         }
 
+        public void UpdateProgress(string txt, int progress) {
+            pbProgress.Value = progress % 100;
+            lblAction.Text = txt;
+            if (lblAction.Width > Width) {
+                Width = Math.Min(700, lblAction.Width) + 20;
+            }
+        }
+
         public void OperationDone()
         {
             m_InternalClosure = true;

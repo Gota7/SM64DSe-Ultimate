@@ -101,9 +101,9 @@ namespace Ndst {
         private string GetSelectiveCopyBuild(string path) {
             string fetchedPath = "";
             if (System.IO.File.Exists(PatchPath + "/" + path)) {
-                fetchedPath = PatchPath.Replace(" ", "$ ") + "/" + path.Replace(" ", "$ ");
+                fetchedPath = PatchPath.Replace(" ", "$ ").Replace(":", "$:") + "/" + path.Replace(" ", "$ ").Replace(":", "$:");
             } else {
-                fetchedPath = RomPath.Replace(" ", "$ ") + "/" + path.Replace(" ", "$ ");
+                fetchedPath = RomPath.Replace(" ", "$ ").Replace(":", "$:") + "/" + path.Replace(" ", "$ ").Replace(":", "$:");
             }
             return fetchedPath;
         }
@@ -151,7 +151,7 @@ namespace Ndst {
             foreach (var c in Conversions) {
                 string outBuilds = "";
                 foreach (var f in c.Files) {
-                    outBuilds += f.Key.Replace(" ", "$ ") + "." + f.Value.ConversionNumber + " ";
+                    outBuilds += f.Key.Replace(" ", "$ ").Replace(":", "$:") + "." + f.Value.ConversionNumber + " ";
                 }
                 n.Add("build " + outBuilds.Substring(0, outBuilds.Length - 1) + ": ndst " + ConversionPath + "/" + c.ConversionPath);
                 n.Add("  args = -t conversion");
@@ -162,7 +162,7 @@ namespace Ndst {
 
                 // Write file conversions.
                 for (int i = 0; i < f.Value.Count; i++) {
-                    string noSpacesPath = "build/" + f.Key.Replace(" ", "$ ");
+                    string noSpacesPath = "build/" + f.Key.Replace(" ", "$ ").Replace(":", "$:");
                     string inPath = noSpacesPath + "." + (f.Value[i].ConversionNumber - 1);
                     string outPath = noSpacesPath + "." + f.Value[i].ConversionNumber;
                     string conversion = f.Value[i].Conversion;
@@ -179,7 +179,7 @@ namespace Ndst {
                         continue;
                     }
                     if (!f.Value[i].FromMassConversion) {
-                        n.Add("build " + outPath + ": ndst " + inPath);
+                        n.Add("build " + outPath + ": ndst " + inPath.Replace(" ", "$").Replace(":", "$:"));
                         n.Add("  args = -t " + f.Value[i].Conversion);
                     }
                 }

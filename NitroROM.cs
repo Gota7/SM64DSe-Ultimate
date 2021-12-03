@@ -24,6 +24,8 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Globalization;
 using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace SM64DSe
 {
@@ -239,7 +241,7 @@ namespace SM64DSe
         public void LoadROMExtracted(string basePath, string patchPath) {
 
             // Get general info.
-            Ndst.ROM r = new Ndst.ROM(basePath, patchPath);
+            /*Ndst.ROM r = new Ndst.ROM(basePath);
             ARM9RAMAddress = r.Arm9EntryAddress;
             ARM7RAMAddress = r.Arm7EntryAddress;
             switch (r.GameCode) {
@@ -263,11 +265,48 @@ namespace SM64DSe
                     m_Version = Version.EUR;
                     m_LevelOvlIDTableOffset = 0x758C8 - r.HeaderSize;
                     break;
-            }
+            }*/
 
             // Read files.
             // TODO!!!
 
+        }
+
+        public static void BuildROM() {
+            Ndst.NinjaBuildSystem.GenerateBuildSystem(Program.m_ROMBasePath, Program.m_ROMPatchPath, Program.m_ROMConversionPath, "Tmp.nds");
+            ProcessStartInfo p = new ProcessStartInfo();
+            p.CreateNoWindow = true;
+            p.WindowStyle = ProcessWindowStyle.Hidden;
+            p.FileName = "ninja";
+            p.UseShellExecute = false;
+            p.RedirectStandardOutput = true;
+
+            Process proc = Process.Start(p);
+            ProgressDialog pd = new ProgressDialog("Building ROM", 100, null);
+            pd.Show();
+            proc.OutputDataReceived += OnROMBuildOutput;
+            proc.Exited += OnROMBuilt;
+            proc.BeginOutputReadLine();
+
+            void OnROMBuildOutput(object sender, DataReceivedEventArgs e) {
+                int progress = 100;
+                if (e.Data.Contains("[")) {
+                    string[] nums = e.Data.Split('[')[1].Split(']')[0].Split('/');
+                    progress = (int)(float.Parse(nums[0]) / float.Parse(nums[1]) * 100);
+                }
+                pd.Invoke(new Action(() => pd.UpdateProgress(e.Data, progress)));
+            }
+
+            void OnROMBuilt(object sender, EventArgs e) {
+                File.Copy("Tmp.nds", Program.m_ROMBuildPath, true);
+                pd.Close();
+            }
+
+        }
+
+        public static void RunROM() {
+            BuildROM();
+            Process.Start(Program.m_ROMBuildPath);
         }
 
         public static FileStream GetExtractedStream(string path) {
