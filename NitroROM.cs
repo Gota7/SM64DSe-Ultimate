@@ -38,6 +38,9 @@ namespace SM64DSe
         const int ROM_END_MARGIN = 0x88;
 
         string[] m_MsgData;
+        BinaryReader arm9R;
+        BinaryWriter arm9W;
+        uint headerSize = 0x4000;
 
         public NitroROM(string path)
         {
@@ -319,6 +322,13 @@ namespace SM64DSe
             }
             m_DirEntries = newFolders.ToArray();
             m_FileEntries = newFiles.ToArray();
+            if (arm9R != null) {
+                arm9R.Dispose();
+                arm9W.Dispose();
+            }
+            var mo = new MemoryStream(GetExtractedBytes("__ROM__/arm9.bin"));
+            arm9R = new BinaryReader(mo);
+            arm9W = new BinaryWriter(mo);
             LoadTables();
             UpdateStrings();
 
@@ -686,6 +696,10 @@ namespace SM64DSe
 
         public ushort GetActSelectorIdByLevelID(int id)
         {
+            if (Program.m_IsROMFolder) {
+                arm9R.BaseStream.Position = Helper.GetActSelectorIDTableAddress() + id - headerSize;
+                return arm9R.ReadByte();
+            }
             BeginRW();
             ushort actSelectID = Read8((uint)(Helper.GetActSelectorIDTableAddress() + id));
             EndRW();
