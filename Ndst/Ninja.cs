@@ -116,7 +116,7 @@ namespace Ndst {
 
             // Write rules.
             n.Add("rule copy");
-            n.Add("  command = cp $in $out");
+            n.Add("  command = ./Ndst -c $in $out");
             n.Add("");
             n.Add("rule ndst");
             n.Add("  command = ./Ndst $args $in $out");

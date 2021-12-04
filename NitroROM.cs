@@ -26,6 +26,7 @@ using System.Globalization;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace SM64DSe
 {
@@ -241,7 +242,7 @@ namespace SM64DSe
         public void LoadROMExtracted(string basePath, string patchPath) {
 
             // Get general info.
-            /*Ndst.ROM r = new Ndst.ROM(basePath);
+            Ndst.ROM r = JsonConvert.DeserializeObject<Ndst.ROM>(GetExtractedLines("__ROM__/header.json"));
             ARM9RAMAddress = r.Arm9EntryAddress;
             ARM7RAMAddress = r.Arm7EntryAddress;
             switch (r.GameCode) {
@@ -249,26 +250,161 @@ namespace SM64DSe
                 case "ASME":
                     if (r.Version == 0x01) {
                         m_Version = Version.USA_v2;
-                        m_FileTableOffset = 0x11244 - r.HeaderSize; // Make relative to ARM9 bin position.
+                        m_LevelOvlIDTableOffset = 0x742B4 - r.HeaderSize;
+                        m_FileTableOffset = 0x11244;
+                        m_FileTableLength = 1824;
                     } else {
                         m_Version = Version.USA_v1;
-                        m_LevelOvlIDTableOffset = 0x73594 - r.HeaderSize; // TODO!!!
+                        m_LevelOvlIDTableOffset = 0x73594 - r.HeaderSize;
+                        m_FileTableOffset = 0x1123C;
+                        m_FileTableLength = 1824;
                     }
                     break;
                 // Jap.
                 case "ASMJ":
                     m_Version = Version.JAP;
                     m_LevelOvlIDTableOffset = 0x73B38 - r.HeaderSize;
+                    m_FileTableOffset = 0x1123C;
+                    m_FileTableLength = 1824;
                     break;
                 // Assume EUR.
                 case "ASMP":
                     m_Version = Version.EUR;
                     m_LevelOvlIDTableOffset = 0x758C8 - r.HeaderSize;
+                    m_FileTableOffset = 0x13098;
+                    m_FileTableLength = 2058;
                     break;
-            }*/
+            }
+
+            // Read overlays.
+            List<Ndst.Overlay> ovs = JsonConvert.DeserializeObject<List<Ndst.Overlay>>(Ndst.Helper.ReadROMText("__ROM__/arm9Overlays.json", Program.m_ROMBasePath, Program.m_ROMPatchPath));
+            m_OverlayEntries = new OverlayEntry[ovs.Count];
+            for (int i = 0; i < ovs.Count; i++) {
+                OverlayEntry oe;
+                oe.EntryOffset = 0xFFFFFFFF;
+                oe.ID = ovs[i].Id;
+                oe.RAMAddress = ovs[i].RAMAddress;
+                oe.RAMSize = ovs[i].RAMSize;
+                oe.BSSSize = ovs[i].BSSSize;
+                oe.StaticInitStart = ovs[i].StaticInitStart;
+                oe.StaticInitEnd = ovs[i].StaticInitEnd;
+                oe.FileID = ovs[i].FileId;
+                oe.Flags = ovs[i].Flags;
+                m_OverlayEntries[(int)oe.ID] = oe;
+            }
+
+            if (m_Version == Version.EUR) {
+                //screw the l that looks like a 1
+                //            \/
+                NitroOverlay ov0 = new NitroOverlay(this, 0);
+                //And of course, fix those hardcoded values
+                //Who expected a new object to be inserted, anyway?
+                m_FileTableOffset = ov0.ReadPointer(0xA4);
+                m_FileTableLength = ov0.Read32(0x9C);
+            }
 
             // Read files.
-            // TODO!!!
+            ushort currFolderId = 1;
+            string[] fileList = Ndst.Helper.ReadROMLines("__ROM__/files.txt", Program.m_ROMBasePath, Program.m_ROMPatchPath);
+            Dictionary<string, Ndst.Folder> folders = new Dictionary<string, Ndst.Folder>();
+            Ndst.Filesystem Filesystem = new Ndst.Filesystem();
+            folders.Add("", Filesystem);
+            List<FileEntry> newFiles = new List<FileEntry>();
+            List<DirEntry> newFolders = new List<DirEntry>();
+            DirEntry root = new DirEntry();
+            root.ID = 0xF000;
+            newFolders.Add(root);
+            foreach (var s in fileList) {
+                AddFileToFilesystem(s);
+            }
+            m_DirEntries = newFolders.ToArray();
+            m_FileEntries = newFiles.ToArray();
+            LoadTables();
+            UpdateStrings();
+
+            // Add a file to the filesystem.
+            void AddFileToFilesystem(string s) {
+
+                // First get its properties.
+                string[] fileProperties = s.Split(' ');
+                string filePath = fileProperties[0];
+                if (!filePath.StartsWith("../")) {
+                    throw new Exception("ERROR: All files must be relative to parent directory \"../\"");
+                } else {
+                    filePath = filePath.Substring(3);
+                }
+
+                // Get file ID.
+                ushort fileId = (ushort)Ndst.Helper.ReadStringNumber(fileProperties[1]);
+
+                // Proper file name and folder path.
+                string fileName = filePath;
+                string folderPath = "";
+                while (fileName.Contains('/')) {
+                    folderPath += "/" + fileName.Substring(0, fileName.IndexOf('/'));
+                    fileName = fileName.Substring(fileName.IndexOf('/') + 1);
+                }
+                if (folderPath.StartsWith("/")) {
+                    folderPath = folderPath.Substring(1);
+                }
+
+                // New file.
+                Ndst.File f = new Ndst.File();
+                f.Name = fileName;
+                f.Id = fileId;
+
+                // Finally add the file to the folder.
+                FileEntry fe = new FileEntry();
+                fe.ID = fileId;
+                fe.Name = fileName;
+                fe.InternalID = 0xFFFF;
+                fe.FullName = (folderPath.Equals("") ? "" : (folderPath + "/")) + fe.Name;
+                AddFileToFolder(f, folderPath, ref fe);
+
+            }
+
+            // Add a file to a folder.
+            void AddFileToFolder(Ndst.File f, string folderPath, ref FileEntry fe) {
+
+                // First check if the folder exists.
+                if (!folders.ContainsKey(folderPath)) {
+                    AppendFolder(folderPath);
+                }
+
+                // Add the file to the folder.
+                folders[folderPath].Files.Add(f);
+                fe.ParentID = (ushort)(folders[folderPath].Id | 0xF000);
+                while (fe.ID >= newFiles.Count) {
+                    newFiles.Add(new FileEntry() { Name = "", FullName = "", ID = (ushort)newFiles.Count, InternalID = 0xFFFF });
+                }
+                newFiles[fe.ID] = fe;
+
+            }
+
+            // Append a folder.
+            void AppendFolder(string folderPath) {
+                string folderName = folderPath;
+                string baseFolderPath = "";
+                while (folderName.Contains('/')) {
+                    baseFolderPath += "/" + folderName.Substring(0, folderName.IndexOf('/'));
+                    folderName = folderName.Substring(folderName.IndexOf('/') + 1);
+                }
+                if (baseFolderPath.StartsWith("/")) {
+                    baseFolderPath = baseFolderPath.Substring(1);
+                }
+                if (!folders.ContainsKey(baseFolderPath)) {
+                    AppendFolder(baseFolderPath);
+                }
+                Ndst.Folder f = new Ndst.Folder() { Id = currFolderId++, Name = folderName };
+                folders[baseFolderPath].Folders.Add(f);
+                folders.Add(folderPath, f);
+                DirEntry de = new DirEntry();
+                de.Name = f.Name;
+                de.ID = (ushort)(f.Id | 0xF000);
+                de.FullName = folderPath;
+                de.ParentID = (ushort)(folders[baseFolderPath].Id | 0xF000);
+                newFolders.Add(de);
+            } 
 
         }
 
@@ -284,22 +420,27 @@ namespace SM64DSe
             Process proc = Process.Start(p);
             ProgressDialog pd = new ProgressDialog("Building ROM", 100, null);
             pd.Show();
+            proc.EnableRaisingEvents = true;
             proc.OutputDataReceived += OnROMBuildOutput;
             proc.Exited += OnROMBuilt;
             proc.BeginOutputReadLine();
 
             void OnROMBuildOutput(object sender, DataReceivedEventArgs e) {
+                if (e == null || e.Data == null) return;
                 int progress = 100;
                 if (e.Data.Contains("[")) {
-                    string[] nums = e.Data.Split('[')[1].Split(']')[0].Split('/');
-                    progress = (int)(float.Parse(nums[0]) / float.Parse(nums[1]) * 100);
+                    try {
+                        string[] nums = e.Data.Split('[')[1].Split(']')[0].Split('/');
+                        progress = (int)(float.Parse(nums[0]) / float.Parse(nums[1]) * 100);
+                    }
+                    catch {}
                 }
                 pd.Invoke(new Action(() => pd.UpdateProgress(e.Data, progress)));
             }
 
             void OnROMBuilt(object sender, EventArgs e) {
                 File.Copy("Tmp.nds", Program.m_ROMBuildPath, true);
-                pd.Close();
+                pd.Invoke(new Action(() => pd.OperationDone()));
             }
 
         }
@@ -356,11 +497,22 @@ namespace SM64DSe
                 {
                     uint str_offset = ovl0.ReadPointer(m_FileTableOffset + (i * 4));
                     string fname = ovl0.ReadString(str_offset, 0);
-                    m_FileTable[i] = GetFileIDFromName(fname);
-                    m_FileEntries[GetFileIDFromName(fname)].InternalID = (ushort)i;
+                    ushort id = GetFileIDFromName(fname);
+                    m_FileTable[i] = id;
+                    m_FileEntries[id].InternalID = (ushort)i;
                 }
                 else
                     m_FileTable[i] = 0xffff;
+            }
+
+            if (Program.m_IsROMFolder) {
+                var r = new BinaryReader(new MemoryStream(GetExtractedBytes("__ROM__/arm9.bin")));
+                r.BaseStream.Position = m_LevelOvlIDTableOffset;
+                m_LevelOvlIDTable = new uint[52];
+                for (uint i = 0; i < 52; i++)
+                    m_LevelOvlIDTable[i] = r.ReadUInt32();
+                r.Dispose();
+                return;
             }
 
             m_FileStream.Position = m_LevelOvlIDTableOffset;
@@ -421,7 +573,7 @@ namespace SM64DSe
             var ret = new Dictionary<string, ushort>();
             for (int i = 0; i < fileList.Length; i++) {
                 var vals = fileList[i].Split(' ');
-                ret.Add(vals[0], (ushort)Ndst.Helper.ReadStringNumber(vals[1]));
+                ret.Add(vals[0].Substring(3), (ushort)Ndst.Helper.ReadStringNumber(vals[1]));
             }
             return ret;
         }
@@ -512,11 +664,11 @@ namespace SM64DSe
         }
 
         /*/// <summary>
-            /// Get internal ID.
-            /// </summary>
-            /// <param name="n">Nitro file.</param>
-            /// <returnsInternal id.></returns>
-            public ushort GetInternalID(NitroFile n) {
+        /// Get internal ID.
+        /// </summary>
+        /// <param name="n">Nitro file.</param>
+        /// <returnsInternal id.></returns>
+        public ushort GetInternalID(NitroFile n) {
             var narc = n as NARCFile;
             if (narc != null) {
                 //narc.m_Narc.

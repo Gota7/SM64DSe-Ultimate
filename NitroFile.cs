@@ -28,12 +28,6 @@ namespace SM64DSe
     {
         public NitroFile() { }
 
-        // For extracted ROM usage.
-        public NitroFile(NitroROM rom, string name) {
-            m_ROM = rom;
-            m_ID = 0xFFFF; // Eh, doesn't matter.
-        }
-
         public NitroFile(NitroROM rom, ushort id)
         {
             if (id >= 0xF000)
@@ -43,7 +37,7 @@ namespace SM64DSe
                 m_ROM = rom;
                 m_ID = id;
                 m_Name = m_ROM.GetFileNameFromID(id);
-                m_Data = Ndst.Helper.ReadROMFile(m_Name, Program.m_ROMBasePath, Program.m_ROMPatchPath);
+                if (!m_Name.EndsWith(".narc")) m_Data = Ndst.Helper.ReadROMFile(m_Name, Program.m_ROMBasePath, Program.m_ROMPatchPath);
                 return;
             }
 

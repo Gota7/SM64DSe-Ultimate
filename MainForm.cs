@@ -143,6 +143,10 @@ namespace SM64DSe
             extractROMButton.Visible = true;
             btnBuildROM.Visible = false;
             btnRunROM.Visible = false;
+            btnLZCompressWithHeader.Enabled = true;
+            btnLZDecompressWithHeader.Enabled = true;
+            btnLZForceCompression.Enabled = true;
+            btnLZForceDecompression.Enabled = true;
         }
 
         private void LoadROMExtracted(string basePath, string patchPath, string conversionPath, string buildPath) {
@@ -152,7 +156,7 @@ namespace SM64DSe
             Program.m_ROMConversionPath = conversionPath;
             Program.m_ROMBuildPath = buildPath;
             Program.m_ROM = new NitroROM(basePath, patchPath);
-            /*Program.m_ROM.LoadTables();
+            Program.m_ROM.LoadTables();
             btnRefresh.Enabled = true;
             cbLevelListDisplay.Enabled = true;
 
@@ -162,9 +166,9 @@ namespace SM64DSe
                 btnRefresh.PerformClick();
 
             this.tvFileList.Nodes.Clear();
-            //ROMFileSelect.LoadFileList(this.tvFileList);
+            ROMFileSelect.LoadFileList(this.tvFileList);
             this.tvARM9Overlays.Nodes.Clear();
-            ROMFileSelect.LoadOverlayList(this.tvARM9Overlays);*/
+            ROMFileSelect.LoadOverlayList(this.tvARM9Overlays);
 
             btnASMHacking.Enabled = true;
             btnTools.Enabled = true;
@@ -172,6 +176,10 @@ namespace SM64DSe
             btnBuildROM.Visible = true;
             btnRunROM.Visible = true;
             extractROMButton.Visible = false;
+            btnLZCompressWithHeader.Enabled = false;
+            btnLZDecompressWithHeader.Enabled = false;
+            btnLZForceCompression.Enabled = false;
+            btnLZForceDecompression.Enabled = false;
         }
 
         private void EnableOrDisableASMHackingCompilationAndGenerationFeatures()

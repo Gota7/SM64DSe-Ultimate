@@ -37,7 +37,7 @@ namespace SM64DSe
                 m_FileID = o.FileId;
                 m_RAMAddr = o.RAMAddress;
                 m_Data = NitroROM.GetExtractedBytes("__ROM__/Arm9/" + id + ".bin");
-                if ((o.Flags & 0x01) == 0x01) {
+                if ((o.Flags & 0x01000000) > 0) {
                     Jap77.Decompress(ref m_Data);
                 }
                 return;

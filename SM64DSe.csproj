@@ -632,6 +632,9 @@
     <None Include="Resources\stepLeft.png" />
     <None Include="Resources\stepRight.png" />
     <None Include="Images\build.png" />
+    <Content Include="Ndst.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Templates\Enemy.cpp" />
     <Content Include="Templates\Enemy.h" />
     <Content Include="Templates\Platform.cpp" />
