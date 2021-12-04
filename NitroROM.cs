@@ -38,9 +38,9 @@ namespace SM64DSe
         const int ROM_END_MARGIN = 0x88;
 
         string[] m_MsgData;
-        BinaryReader arm9R;
-        BinaryWriter arm9W;
-        uint headerSize = 0x4000;
+        public BinaryReader arm9R;
+        public BinaryWriter arm9W;
+        public uint headerSize = 0x4000;
 
         public NitroROM(string path)
         {
@@ -418,6 +418,10 @@ namespace SM64DSe
 
         }
 
+        public void SaveArm9() {
+            File.WriteAllBytes(Program.m_ROMPatchPath + "/__ROM__/arm9.bin", ((MemoryStream)arm9W.BaseStream).ToArray());
+        }
+
         public static void BuildROM() {
             Ndst.NinjaBuildSystem.GenerateBuildSystem(Program.m_ROMBasePath, Program.m_ROMPatchPath, Program.m_ROMConversionPath, "Tmp.nds");
             ProcessStartInfo p = new ProcessStartInfo();
@@ -445,11 +449,12 @@ namespace SM64DSe
                     }
                     catch {}
                 }
-                pd.Invoke(new Action(() => pd.UpdateProgress(e.Data, progress)));
+                try { pd.Invoke(new Action(() => pd.UpdateProgress(e.Data, progress))); } catch { }
             }
 
             void OnROMBuilt(object sender, EventArgs e) {
-                File.Copy("Tmp.nds", Program.m_ROMBuildPath, true);
+                if (File.Exists(Program.m_ROMBuildPath)) { File.Delete(Program.m_ROMBuildPath); }
+                File.Move("Tmp.nds", Program.m_ROMBuildPath);
                 pd.Invoke(new Action(() => pd.OperationDone()));
             }
 

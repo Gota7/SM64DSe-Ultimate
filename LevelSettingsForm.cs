@@ -100,6 +100,11 @@ namespace SM64DSe
             nudICG.Value = m_LevelSettings.MinimapTsetFileID;
             nudICL.Value = m_LevelSettings.MinimapPalFileID;
 
+            if (Program.m_IsROMFolder) {
+                Program.m_ROM.arm9R.BaseStream.Position = Helper.GetActSelectorIDTableAddress() + ((LevelEditorForm)Owner).m_LevelID - Program.m_ROM.headerSize;
+                txtActSelectorID.Text = Program.m_ROM.arm9R.ReadByte().ToString();
+                return;
+            }
             Program.m_ROM.BeginRW();
             txtActSelectorID.Text = Program.m_ROM.Read8((uint)(Helper.GetActSelectorIDTableAddress() + 
                 ((LevelEditorForm)Owner).m_LevelID)).ToString();
@@ -178,6 +183,13 @@ namespace SM64DSe
             m_LevelSettings.KCLFileID = (ushort)nudKCL.Value;
             m_LevelSettings.MinimapTsetFileID = (ushort)nudICG.Value;
             m_LevelSettings.MinimapPalFileID = (ushort)nudICL.Value;
+
+            if (Program.m_IsROMFolder) {
+                Program.m_ROM.arm9W.BaseStream.Position = Helper.GetActSelectorIDTableAddress() + ((LevelEditorForm)Owner).m_LevelID - Program.m_ROM.headerSize;
+                Program.m_ROM.arm9W.Write(byte.Parse(txtActSelectorID.Text));
+                Program.m_ROM.SaveArm9();
+                return;
+            }
 
             try
             {
