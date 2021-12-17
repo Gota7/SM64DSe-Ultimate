@@ -872,15 +872,76 @@ namespace SM64DSe
             return m_OverlayEntries;
         }
 
-        public byte Read8(uint addr) { m_FileStream.Position = addr; return m_BinReader.ReadByte(); }
-        public ushort Read16(uint addr) { m_FileStream.Position = addr; return m_BinReader.ReadUInt16(); }
-        public uint Read32(uint addr) { m_FileStream.Position = addr; return m_BinReader.ReadUInt32(); }
-        public byte[] ReadBlock(uint addr, int size) { m_FileStream.Position = addr; return m_BinReader.ReadBytes(size); }
+        public byte Read8(uint addr) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; return m_BinReader.ReadByte();
+            } else {
+                arm9R.BaseStream.Position = addr - headerSize;
+                return arm9R.ReadByte();
+            }
+        }
 
-        public void Write8(uint addr, byte value) { m_FileStream.Position = addr; m_BinWriter.Write(value); }
-        public void Write16(uint addr, ushort value) { m_FileStream.Position = addr; m_BinWriter.Write(value); }
-        public void Write32(uint addr, uint value) { m_FileStream.Position = addr; m_BinWriter.Write(value); }
-        public void WriteBlock(uint addr, byte[] data) { m_FileStream.Position = addr; m_BinWriter.Write(data); }
+        public ushort Read16(uint addr) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; return m_BinReader.ReadUInt16();
+            } else {
+                arm9R.BaseStream.Position = addr - headerSize;
+                return arm9R.ReadUInt16();
+            }
+        }
+
+        public uint Read32(uint addr) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; return m_BinReader.ReadUInt32();
+            } else {
+                arm9R.BaseStream.Position = addr - headerSize;
+                return arm9R.ReadUInt32();
+            }
+        }
+
+        public byte[] ReadBlock(uint addr, int size) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; return m_BinReader.ReadBytes(size);
+            } else {
+                arm9R.BaseStream.Position = addr - headerSize;
+                return arm9R.ReadBytes(size);
+            }
+        }
+
+        public void Write8(uint addr, byte value) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; m_BinWriter.Write(value);
+            } else {
+                arm9W.BaseStream.Position = addr - headerSize;
+                arm9W.Write(value);
+            }
+        }
+
+        public void Write16(uint addr, ushort value) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; m_BinWriter.Write(value);
+            } else {
+                arm9W.BaseStream.Position = addr - headerSize;
+                arm9W.Write(value);
+            }
+        }
+
+        public void Write32(uint addr, uint value) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; m_BinWriter.Write(value);
+            } else {
+                arm9W.BaseStream.Position = addr - headerSize;
+                arm9W.Write(value);
+            }
+        }
+        public void WriteBlock(uint addr, byte[] data) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; m_BinWriter.Write(data);
+            } else {
+                arm9W.BaseStream.Position = addr - headerSize;
+                arm9W.Write(data);
+            }
+        }
 
         public uint GetLevelOverlayID(int levelid) { return m_LevelOvlIDTable[levelid]; }
 
