@@ -39,7 +39,14 @@ namespace SM64DSe.Patcher
         {
             bool autorw = Program.m_ROM.CanRW();
             if (!autorw) Program.m_ROM.BeginRW();
-            if (Program.m_ROM.Read32(0x6590) != 0) //the patch makes this not 0
+            bool hasPatch = false;
+            if (Program.m_IsROMFolder) {
+                Program.m_ROM.arm9R.BaseStream.Position = 0x6590 - Program.m_ROM.headerSize;
+                hasPatch = Program.m_ROM.arm9R.ReadUInt32() != 0;
+            } else {
+                hasPatch = Program.m_ROM.Read32(0x6590) != 0;
+            }
+            if (hasPatch) //the patch makes this not 0
             {
                 if (!autorw) Program.m_ROM.EndRW();
                 return true;
@@ -52,6 +59,26 @@ namespace SM64DSe.Patcher
 
             if (!autorw) Program.m_ROM.BeginRW();
             NitroOverlay ov2 = new NitroOverlay(Program.m_ROM, 2);
+
+            if (Program.m_IsROMFolder) {
+
+                Program.m_ROM.arm9R.BaseStream.Position = 0x90864 - Program.m_ROM.headerSize;
+                byte[] actorTable = Program.m_ROM.arm9R.ReadBytes(0x61c);
+
+                Program.m_ROM.arm9W.BaseStream.Position = 0x6590 - Program.m_ROM.headerSize;
+                Program.m_ROM.arm9W.Write(actorTable);
+
+                Program.m_ROM.arm9W.BaseStream.Position = 0x90864 - Program.m_ROM.headerSize;
+                Program.m_ROM.arm9W.Write(new byte[0x61c]);
+
+                Program.m_ROM.arm9W.BaseStream.Position = 0x1a198 - Program.m_ROM.headerSize;
+                Program.m_ROM.arm9W.Write((uint)0x02006590);
+
+                // TODO!!!
+
+                return true;
+
+            }
 
             //Move the ACTOR_SPAWN_TABLE so it can expand
             Program.m_ROM.WriteBlock(0x6590, Program.m_ROM.ReadBlock(0x90864, 0x61c));

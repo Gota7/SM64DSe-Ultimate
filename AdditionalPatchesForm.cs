@@ -472,10 +472,21 @@ namespace SM64DSe
 
             for (int i = 0; i < testAddressDataPair.m_Data.Length; i++)
             {
-                if (fileToPatch == null && rom.Read8(testAddressDataPair.m_Address + (uint)i) != testAddressDataPair.m_Data[i])
+                if (fileToPatch == null)
                 {
-                    m_IsApplied = false;
-                    return false;
+                    if (Program.m_IsROMFolder) {
+                        Program.m_ROM.arm9R.BaseStream.Position = testAddressDataPair.m_Address + (uint)i - Program.m_ROM.headerSize;
+                        if (Program.m_ROM.arm9R.ReadByte() != testAddressDataPair.m_Data[i]) {
+                            m_IsApplied = false;
+                            return false;
+                        }
+                    } else {
+                        if (rom.Read8(testAddressDataPair.m_Address + (uint)i) != testAddressDataPair.m_Data[i]) {
+                            m_IsApplied = false;
+                            return false;
+                        }
+                    }
+                    
                 }
                 else if (fileToPatch != null && fileToPatch.Read8(testAddressDataPair.m_Address + (uint)i) != testAddressDataPair.m_Data[i])
                 {
@@ -528,7 +539,12 @@ namespace SM64DSe
                 {
                     if (fileToPatch == null)
                     {
-                        rom.Write8(addressDataPair.m_Address + (uint)i, addressDataPair.m_Data[i]);
+                        if (Program.m_IsROMFolder) {
+                            Program.m_ROM.arm9W.BaseStream.Position = addressDataPair.m_Address + (uint)i - Program.m_ROM.headerSize;
+                            Program.m_ROM.arm9W.Write(addressDataPair.m_Data[i]);
+                        } else { 
+                            rom.Write8(addressDataPair.m_Address + (uint)i, addressDataPair.m_Data[i]);
+                        }
                     }
                     else
                     {
@@ -573,7 +589,12 @@ namespace SM64DSe
                 {
                     if (fileToPatch == null)
                     {
-                        rom.Write8(addressDataPair.m_Address + (uint)i, addressDataPair.m_Data[i]);
+                        if (Program.m_IsROMFolder) {
+                            Program.m_ROM.arm9W.BaseStream.Position = addressDataPair.m_Address + (uint)i - Program.m_ROM.headerSize;
+                            Program.m_ROM.arm9W.Write(addressDataPair.m_Data[i]);
+                        } else { 
+                            rom.Write8(addressDataPair.m_Address + (uint)i, addressDataPair.m_Data[i]);
+                        }
                     }
                     else
                     {
@@ -605,7 +626,12 @@ namespace SM64DSe
                 for (int i = 0; i < addressDataPair.m_Data.Length; i++)
                 {
                     if (fileToPatch == null)
-                        data.Add(Program.m_ROM.Read8(addressDataPair.m_Address + (uint)i));
+                        if (Program.m_IsROMFolder) {
+                            Program.m_ROM.arm9R.BaseStream.Position = addressDataPair.m_Address + (uint)i - Program.m_ROM.headerSize;
+                            data.Add(Program.m_ROM.arm9R.ReadByte());
+                        } else {
+                            data.Add(Program.m_ROM.Read8(addressDataPair.m_Address + (uint)i));
+                        }
                     else
                         data.Add(fileToPatch.Read8(addressDataPair.m_Address + (uint)i));
                 }

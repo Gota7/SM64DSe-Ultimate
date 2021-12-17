@@ -288,6 +288,7 @@ namespace SM64DSe
             f.Filter = "ROM Settings|*.romsettings";
             if (f.ShowDialog() == DialogResult.OK) {
                 string[] inSettings = File.ReadAllLines(f.FileName);
+                Program.m_ROMPath = f.FileName;
                 LoadROMExtracted(inSettings[0], inSettings[1], inSettings[2], inSettings[3]);
                 return;
             }
@@ -316,6 +317,7 @@ namespace SM64DSe
                                     buildPath
                                 };
                                 File.WriteAllLines(sfd.FileName, outSettings);
+                                Program.m_ROMPath = sfd.FileName;
                                 LoadROMExtracted(basePath, patchPath, fd.SelectedPath, buildPath);
                             }
                         }

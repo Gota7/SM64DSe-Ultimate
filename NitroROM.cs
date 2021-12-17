@@ -422,7 +422,10 @@ namespace SM64DSe
             File.WriteAllBytes(Program.m_ROMPatchPath + "/__ROM__/arm9.bin", ((MemoryStream)arm9W.BaseStream).ToArray());
         }
 
-        public static void BuildROM() {
+        private static bool BuildingROM = false;
+        public static void BuildROM(bool run = false) {
+            if (BuildingROM) return;
+            BuildingROM = true;
             Ndst.NinjaBuildSystem.GenerateBuildSystem(Program.m_ROMBasePath, Program.m_ROMPatchPath, Program.m_ROMConversionPath, "Tmp.nds");
             ProcessStartInfo p = new ProcessStartInfo();
             p.CreateNoWindow = true;
@@ -456,13 +459,14 @@ namespace SM64DSe
                 if (File.Exists(Program.m_ROMBuildPath)) { File.Delete(Program.m_ROMBuildPath); }
                 File.Move("Tmp.nds", Program.m_ROMBuildPath);
                 pd.Invoke(new Action(() => pd.OperationDone()));
+                BuildingROM = false;
+                if (run) Process.Start(Program.m_ROMBuildPath);
             }
 
         }
 
         public static void RunROM() {
-            BuildROM();
-            Process.Start(Program.m_ROMBuildPath);
+            BuildROM(true);
         }
 
         public static FileStream GetExtractedStream(string path) {
@@ -583,13 +587,16 @@ namespace SM64DSe
             return m_CanRW;
         }
 
+        private static Dictionary<string, ushort> FileListingNameIds = null;
         private Dictionary<string, ushort> GetExtractedFileNameIds() {
+            if (FileListingNameIds != null) return FileListingNameIds;
             var fileList = Ndst.Helper.ReadROMLines("__ROM__/files.txt", Program.m_ROMBasePath, Program.m_ROMPatchPath);
             var ret = new Dictionary<string, ushort>();
             for (int i = 0; i < fileList.Length; i++) {
                 var vals = fileList[i].Split(' ');
                 ret.Add(vals[0].Substring(3), (ushort)Ndst.Helper.ReadStringNumber(vals[1]));
             }
+            FileListingNameIds = ret;
             return ret;
         }
 
@@ -879,6 +886,9 @@ namespace SM64DSe
 
         public void MakeRoom(uint addr, uint amount)
         {
+            if (Program.m_IsROMFolder) {
+                return;
+            }
             uint actualend = m_UsedSize + ROM_END_MARGIN;
             if (addr < actualend)
             {
@@ -889,6 +899,7 @@ namespace SM64DSe
             }
         }
 
+        // Not ever called for extracted ROMs.
         private void FixPtrAt(uint addr, uint fixstart, int delta)
         {
             m_FileStream.Position = addr;
@@ -903,6 +914,10 @@ namespace SM64DSe
 
         public void AutoFix(ushort fileid, uint fixstart, int delta)
         {
+            if (Program.m_IsROMFolder) {
+                return;
+            }
+
         	// fix the internal variables
             if (ARM7Offset >= fixstart) ARM7Offset += (uint)delta;
             if (FNTOffset >= fixstart) FNTOffset += (uint)delta;
@@ -963,6 +978,10 @@ namespace SM64DSe
 
         public byte[] ExtractFile(ushort fileid)
         {
+            if (Program.m_IsROMFolder) {
+                NitroFile f = new NitroFile(this, fileid);
+                return f.m_Data;
+            }
             bool autorw = !m_CanRW;
             if (autorw) BeginRW();
 
@@ -977,6 +996,10 @@ namespace SM64DSe
 
         public void ReinsertFile(ushort fileid, byte[] data)
         {
+            if (Program.m_IsROMFolder) {
+                ReinsertFileOld(fileid, data);
+                return;
+            }
             if (Program.m_ROM.m_Version != Version.EUR) {
                 ReinsertFileOld(fileid, data);
                 return;
@@ -996,6 +1019,12 @@ namespace SM64DSe
         }
 
         public void ReinsertFileOld(ushort fileid, byte[] data) {
+            if (Program.m_IsROMFolder) {
+                NitroFile f = new NitroFile(Program.m_ROM, fileid);
+                f.m_Data = data;
+                f.SaveChanges();
+                return;
+            }
             bool autorw = !m_CanRW;
             if (autorw) BeginRW();
 
@@ -1043,6 +1072,7 @@ namespace SM64DSe
 
         public uint AddOverlay(uint ramaddr)
         {
+            
             // find an usable overlay ID
 	        uint id = 0;
 	        foreach (OverlayEntry _oe in m_OverlayEntries)
@@ -1052,8 +1082,8 @@ namespace SM64DSe
 	        }
 	        id++;
 
-	        // add a file for the overlay
-	        ushort fileid = (ushort)(FATSize / 8);
+            // add a file for the overlay
+            ushort fileid = (ushort)(FATSize / 8);
 
 	        MakeRoom(FATOffset + FATSize, 8);
 	        AutoFix(0xFFFF, FATOffset + FATSize, 8);

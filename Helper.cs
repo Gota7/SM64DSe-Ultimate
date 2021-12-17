@@ -27,6 +27,7 @@ using System.IO;
 using System.Xml;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using Newtonsoft.Json;
 
 namespace SM64DSe
 {
@@ -487,6 +488,11 @@ namespace SM64DSe
 
         public static bool CheckOverlayCompressed(uint id)
         {
+            if (Program.m_IsROMFolder) {
+                List<Ndst.Overlay> overlays = JsonConvert.DeserializeObject<List<Ndst.Overlay>>(NitroROM.GetExtractedLines("__ROM__/arm9Overlays.json"));
+                Ndst.Overlay o = overlays.Where(x => x.Id == id).ElementAt(0);
+                return (o.Flags & 0x01000000) > 0;
+            }
             uint OVTEntryAddr = Program.m_ROM.GetOverlayEntryOffset(id);
             Byte flags = Program.m_ROM.Read8(OVTEntryAddr + 0x1F);
 
