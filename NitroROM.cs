@@ -23,6 +23,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Globalization;
+using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace SM64DSe
 {
@@ -34,10 +38,17 @@ namespace SM64DSe
         const int ROM_END_MARGIN = 0x88;
 
         string[] m_MsgData;
+        public BinaryReader arm9R;
+        public BinaryWriter arm9W;
+        public uint headerSize = 0x4000;
 
         public NitroROM(string path)
         {
             LoadROM(path);
+        }
+
+        public NitroROM(string basePath, string patchPath) {
+            LoadROMExtracted(basePath, patchPath);
         }
 
         public void LoadROM(string path) {
@@ -231,6 +242,269 @@ namespace SM64DSe
             UpdateStrings();
         }
 
+        public void LoadROMExtracted(string basePath, string patchPath) {
+
+            // Get general info.
+            Ndst.ROM r = JsonConvert.DeserializeObject<Ndst.ROM>(GetExtractedLines("__ROM__/header.json"));
+            ARM9RAMAddress = r.Arm9EntryAddress;
+            ARM7RAMAddress = r.Arm7EntryAddress;
+            switch (r.GameCode) {
+                // US.
+                case "ASME":
+                    if (r.Version == 0x01) {
+                        m_Version = Version.USA_v2;
+                        m_LevelOvlIDTableOffset = 0x742B4 - r.HeaderSize;
+                        m_FileTableOffset = 0x11244;
+                        m_FileTableLength = 1824;
+                    } else {
+                        m_Version = Version.USA_v1;
+                        m_LevelOvlIDTableOffset = 0x73594 - r.HeaderSize;
+                        m_FileTableOffset = 0x1123C;
+                        m_FileTableLength = 1824;
+                    }
+                    break;
+                // Jap.
+                case "ASMJ":
+                    m_Version = Version.JAP;
+                    m_LevelOvlIDTableOffset = 0x73B38 - r.HeaderSize;
+                    m_FileTableOffset = 0x1123C;
+                    m_FileTableLength = 1824;
+                    break;
+                // Assume EUR.
+                case "ASMP":
+                    m_Version = Version.EUR;
+                    m_LevelOvlIDTableOffset = 0x758C8 - r.HeaderSize;
+                    m_FileTableOffset = 0x13098;
+                    m_FileTableLength = 2058;
+                    break;
+            }
+
+            // Read overlays.
+            List<Ndst.Overlay> ovs = JsonConvert.DeserializeObject<List<Ndst.Overlay>>(Ndst.Helper.ReadROMText("__ROM__/arm9Overlays.json", Program.m_ROMBasePath, Program.m_ROMPatchPath));
+            m_OverlayEntries = new OverlayEntry[ovs.Count];
+            for (int i = 0; i < ovs.Count; i++) {
+                OverlayEntry oe;
+                oe.EntryOffset = 0xFFFFFFFF;
+                oe.ID = ovs[i].Id;
+                oe.RAMAddress = ovs[i].RAMAddress;
+                oe.RAMSize = ovs[i].RAMSize;
+                oe.BSSSize = ovs[i].BSSSize;
+                oe.StaticInitStart = ovs[i].StaticInitStart;
+                oe.StaticInitEnd = ovs[i].StaticInitEnd;
+                oe.FileID = ovs[i].FileId;
+                oe.Flags = ovs[i].Flags;
+                m_OverlayEntries[(int)oe.ID] = oe;
+            }
+
+            if (m_Version == Version.EUR) {
+                //screw the l that looks like a 1
+                //            \/
+                NitroOverlay ov0 = new NitroOverlay(this, 0);
+                //And of course, fix those hardcoded values
+                //Who expected a new object to be inserted, anyway?
+                m_FileTableOffset = ov0.ReadPointer(0xA4);
+                m_FileTableLength = ov0.Read32(0x9C);
+            }
+
+            // Read files.
+            ushort currFolderId = 1;
+            string[] fileList = Ndst.Helper.ReadROMLines("__ROM__/files.txt", Program.m_ROMBasePath, Program.m_ROMPatchPath);
+            Dictionary<string, Ndst.Folder> folders = new Dictionary<string, Ndst.Folder>();
+            Ndst.Filesystem Filesystem = new Ndst.Filesystem();
+            folders.Add("", Filesystem);
+            List<FileEntry> newFiles = new List<FileEntry>();
+            List<DirEntry> newFolders = new List<DirEntry>();
+            DirEntry root = new DirEntry();
+            root.ID = 0xF000;
+            newFolders.Add(root);
+            foreach (var s in fileList) {
+                AddFileToFilesystem(s);
+            }
+            m_DirEntries = newFolders.ToArray();
+            m_FileEntries = newFiles.ToArray();
+            if (arm9R != null) {
+                arm9R.Dispose();
+                arm9W.Dispose();
+            }
+            var mo = new MemoryStream(GetExtractedBytes("__ROM__/arm9.bin"));
+            arm9R = new BinaryReader(mo);
+            arm9W = new BinaryWriter(mo);
+            LoadTables();
+            UpdateStrings();
+
+            // Add a file to the filesystem.
+            void AddFileToFilesystem(string s) {
+
+                // First get its properties.
+                string[] fileProperties = s.Split(' ');
+                string filePath = fileProperties[0];
+                if (!filePath.StartsWith("../")) {
+                    throw new Exception("ERROR: All files must be relative to parent directory \"../\"");
+                } else {
+                    filePath = filePath.Substring(3);
+                }
+
+                // Get file ID.
+                ushort fileId = (ushort)Ndst.Helper.ReadStringNumber(fileProperties[1]);
+
+                // Proper file name and folder path.
+                string fileName = filePath;
+                string folderPath = "";
+                while (fileName.Contains('/')) {
+                    folderPath += "/" + fileName.Substring(0, fileName.IndexOf('/'));
+                    fileName = fileName.Substring(fileName.IndexOf('/') + 1);
+                }
+                if (folderPath.StartsWith("/")) {
+                    folderPath = folderPath.Substring(1);
+                }
+
+                // New file.
+                Ndst.File f = new Ndst.File();
+                f.Name = fileName;
+                f.Id = fileId;
+
+                // Finally add the file to the folder.
+                FileEntry fe = new FileEntry();
+                fe.ID = fileId;
+                fe.Name = fileName;
+                fe.InternalID = 0xFFFF;
+                fe.FullName = (folderPath.Equals("") ? "" : (folderPath + "/")) + fe.Name;
+                AddFileToFolder(f, folderPath, ref fe);
+
+            }
+
+            // Add a file to a folder.
+            void AddFileToFolder(Ndst.File f, string folderPath, ref FileEntry fe) {
+
+                // First check if the folder exists.
+                if (!folders.ContainsKey(folderPath)) {
+                    AppendFolder(folderPath);
+                }
+
+                // Add the file to the folder.
+                folders[folderPath].Files.Add(f);
+                fe.ParentID = (ushort)(folders[folderPath].Id | 0xF000);
+                while (fe.ID >= newFiles.Count) {
+                    newFiles.Add(new FileEntry() { Name = "", FullName = "", ID = (ushort)newFiles.Count, InternalID = 0xFFFF });
+                }
+                newFiles[fe.ID] = fe;
+
+            }
+
+            // Append a folder.
+            void AppendFolder(string folderPath) {
+                string folderName = folderPath;
+                string baseFolderPath = "";
+                while (folderName.Contains('/')) {
+                    baseFolderPath += "/" + folderName.Substring(0, folderName.IndexOf('/'));
+                    folderName = folderName.Substring(folderName.IndexOf('/') + 1);
+                }
+                if (baseFolderPath.StartsWith("/")) {
+                    baseFolderPath = baseFolderPath.Substring(1);
+                }
+                if (!folders.ContainsKey(baseFolderPath)) {
+                    AppendFolder(baseFolderPath);
+                }
+                Ndst.Folder f = new Ndst.Folder() { Id = currFolderId++, Name = folderName };
+                folders[baseFolderPath].Folders.Add(f);
+                folders.Add(folderPath, f);
+                DirEntry de = new DirEntry();
+                de.Name = f.Name;
+                de.ID = (ushort)(f.Id | 0xF000);
+                de.FullName = folderPath;
+                de.ParentID = (ushort)(folders[baseFolderPath].Id | 0xF000);
+                newFolders.Add(de);
+            } 
+
+        }
+
+        public void SaveArm9() {
+            File.WriteAllBytes(Program.m_ROMPatchPath + "/__ROM__/arm9.bin", ((MemoryStream)arm9W.BaseStream).ToArray());
+        }
+
+        private static bool BuildingROM = false;
+        public static void BuildROM(bool run = false) {
+            if (BuildingROM) return;
+            BuildingROM = true;
+            Ndst.NinjaBuildSystem.GenerateBuildSystem(Program.m_ROMBasePath, Program.m_ROMPatchPath, Program.m_ROMConversionPath, "Tmp.nds");
+            ProcessStartInfo p = new ProcessStartInfo();
+            p.CreateNoWindow = true;
+            p.WindowStyle = ProcessWindowStyle.Hidden;
+            p.FileName = "ninja";
+            p.UseShellExecute = false;
+            p.RedirectStandardOutput = true;
+
+            Process proc = Process.Start(p);
+            ProgressDialog pd = new ProgressDialog("Building ROM", 100, null);
+            pd.Show();
+            proc.EnableRaisingEvents = true;
+            proc.OutputDataReceived += OnROMBuildOutput;
+            proc.Exited += OnROMBuilt;
+            proc.BeginOutputReadLine();
+
+            void OnROMBuildOutput(object sender, DataReceivedEventArgs e) {
+                if (e == null || e.Data == null) return;
+                int progress = 100;
+                if (e.Data.Contains("[")) {
+                    try {
+                        string[] nums = e.Data.Split('[')[1].Split(']')[0].Split('/');
+                        progress = (int)(float.Parse(nums[0]) / float.Parse(nums[1]) * 100);
+                    }
+                    catch {}
+                }
+                try { pd.Invoke(new Action(() => pd.UpdateProgress(e.Data, progress))); } catch { }
+            }
+
+            void OnROMBuilt(object sender, EventArgs e) {
+                if (File.Exists(Program.m_ROMBuildPath)) { File.Delete(Program.m_ROMBuildPath); }
+                File.Move("Tmp.nds", Program.m_ROMBuildPath);
+                pd.Invoke(new Action(() => pd.OperationDone()));
+                BuildingROM = false;
+                if (run) Process.Start(Program.m_ROMBuildPath);
+            }
+
+        }
+
+        public static void RunROM() {
+            BuildROM(true);
+        }
+
+        public static FileStream GetExtractedStream(string path) {
+            FileStream ret = null;
+            if (File.Exists(Program.m_ROMPatchPath + "/" + path)) {
+                ret = new FileStream(Program.m_ROMPatchPath + "/" + path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            } else {
+                ret = new FileStream(Program.m_ROMBasePath + "/" + path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            }
+            return ret;
+        }
+
+        public static string GetExtractedLines(string path) {
+            if (File.Exists(Program.m_ROMPatchPath + "/" + path)) {
+                return File.ReadAllText(Program.m_ROMPatchPath + "/" + path);
+            } else {
+                return File.ReadAllText(Program.m_ROMBasePath + "/" + path);
+            }
+        }
+
+        public static void WriteExtractedLines(string path, string lines) {
+            Directory.CreateDirectory(Path.GetDirectoryName(Program.m_ROMPatchPath + "/" + path));
+            File.WriteAllText(Program.m_ROMPatchPath + "/" + path, lines);
+        }
+
+        public static byte[] GetExtractedBytes(string path) {
+            if (File.Exists(Program.m_ROMPatchPath + "/" + path)) {
+                return File.ReadAllBytes(Program.m_ROMPatchPath + "/" + path);
+            } else {
+                return File.ReadAllBytes(Program.m_ROMBasePath + "/" + path);
+            }
+        }
+
+        public static void WriteExtractedBytes(string path, byte[] file) {
+            Directory.CreateDirectory(Path.GetDirectoryName(Program.m_ROMPatchPath + "/" + path));
+            File.WriteAllBytes(Program.m_ROMPatchPath + "/" + path, file);
+        }
+
         public void LoadTables()
         {
             m_FileTable = new ushort[m_FileTableLength];
@@ -242,11 +516,22 @@ namespace SM64DSe
                 {
                     uint str_offset = ovl0.ReadPointer(m_FileTableOffset + (i * 4));
                     string fname = ovl0.ReadString(str_offset, 0);
-                    m_FileTable[i] = GetFileIDFromName(fname);
-                    m_FileEntries[GetFileIDFromName(fname)].InternalID = (ushort)i;
+                    ushort id = GetFileIDFromName(fname);
+                    m_FileTable[i] = id;
+                    m_FileEntries[id].InternalID = (ushort)i;
                 }
                 else
                     m_FileTable[i] = 0xffff;
+            }
+
+            if (Program.m_IsROMFolder) {
+                var r = new BinaryReader(new MemoryStream(GetExtractedBytes("__ROM__/arm9.bin")));
+                r.BaseStream.Position = m_LevelOvlIDTableOffset;
+                m_LevelOvlIDTable = new uint[52];
+                for (uint i = 0; i < 52; i++)
+                    m_LevelOvlIDTable[i] = r.ReadUInt32();
+                r.Dispose();
+                return;
             }
 
             m_FileStream.Position = m_LevelOvlIDTableOffset;
@@ -257,6 +542,7 @@ namespace SM64DSe
 
         public void BeginRW(bool buffered)
         {
+            if (Program.m_IsROMFolder) return;
             if (m_CanRW) return;
 
             m_Buffered = buffered;
@@ -280,7 +566,8 @@ namespace SM64DSe
 
         public void EndRW(bool keep)
         {
-	        if (!m_CanRW) return;
+            if (Program.m_IsROMFolder) return;
+            if (!m_CanRW) return;
 
 	        if (m_Buffered)
 	        {
@@ -295,10 +582,34 @@ namespace SM64DSe
         }
         public void EndRW() { EndRW(true); }
 
-        public bool CanRW() { return m_CanRW; }
+        public bool CanRW() {
+            if (Program.m_IsROMFolder) return true;
+            return m_CanRW;
+        }
+
+        private static Dictionary<string, ushort> FileListingNameIds = null;
+        private Dictionary<string, ushort> GetExtractedFileNameIds() {
+            if (FileListingNameIds != null) return FileListingNameIds;
+            var fileList = Ndst.Helper.ReadROMLines("__ROM__/files.txt", Program.m_ROMBasePath, Program.m_ROMPatchPath);
+            var ret = new Dictionary<string, ushort>();
+            for (int i = 0; i < fileList.Length; i++) {
+                var vals = fileList[i].Split(' ');
+                ret.Add(vals[0].Substring(3), (ushort)Ndst.Helper.ReadStringNumber(vals[1]));
+            }
+            FileListingNameIds = ret;
+            return ret;
+        }
 
         public ushort GetFileIDFromName(string name)
         {
+            if (Program.m_IsROMFolder) {
+                var list = GetExtractedFileNameIds();
+                if (list.ContainsKey(name)) {
+                    return list[name];
+                }
+                return 0xFFFF;
+            }
+
             foreach (FileEntry fe in m_FileEntries)
             {
                 if (fe.FullName == name)
@@ -307,7 +618,7 @@ namespace SM64DSe
 
             return 0xFFFF;
         }
-        public ushort GetFileIDFromOverlayID(uint ovlid) { return m_OverlayEntries[ovlid].FileID; }
+        public ushort GetFileIDFromOverlayID(uint ovlid) { return m_OverlayEntries[ovlid].FileID; } // TODO!!!!!
         public ushort GetFileIDFromInternalID(ushort intid) { return m_FileTable[intid]; }
 
         public ushort GetDirIDFromName(string name)
@@ -359,7 +670,7 @@ namespace SM64DSe
             throw new Exception("NitroROM: cannot find file '" + name + "'");
         }
 
-        public NitroFile GetFileFromInternalID(ushort intid)
+        public NitroFile GetFileFromInternalID(ushort intid) // TODO!!!
         {
             if (intid >= 0x8000)
             {
@@ -397,6 +708,10 @@ namespace SM64DSe
 
         public ushort GetActSelectorIdByLevelID(int id)
         {
+            if (Program.m_IsROMFolder) {
+                arm9R.BaseStream.Position = Helper.GetActSelectorIDTableAddress() + id - headerSize;
+                return arm9R.ReadByte();
+            }
             BeginRW();
             ushort actSelectID = Read8((uint)(Helper.GetActSelectorIDTableAddress() + id));
             EndRW();
@@ -557,20 +872,84 @@ namespace SM64DSe
             return m_OverlayEntries;
         }
 
-        public byte Read8(uint addr) { m_FileStream.Position = addr; return m_BinReader.ReadByte(); }
-        public ushort Read16(uint addr) { m_FileStream.Position = addr; return m_BinReader.ReadUInt16(); }
-        public uint Read32(uint addr) { m_FileStream.Position = addr; return m_BinReader.ReadUInt32(); }
-        public byte[] ReadBlock(uint addr, int size) { m_FileStream.Position = addr; return m_BinReader.ReadBytes(size); }
+        public byte Read8(uint addr) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; return m_BinReader.ReadByte();
+            } else {
+                arm9R.BaseStream.Position = addr - headerSize;
+                return arm9R.ReadByte();
+            }
+        }
 
-        public void Write8(uint addr, byte value) { m_FileStream.Position = addr; m_BinWriter.Write(value); }
-        public void Write16(uint addr, ushort value) { m_FileStream.Position = addr; m_BinWriter.Write(value); }
-        public void Write32(uint addr, uint value) { m_FileStream.Position = addr; m_BinWriter.Write(value); }
-        public void WriteBlock(uint addr, byte[] data) { m_FileStream.Position = addr; m_BinWriter.Write(data); }
+        public ushort Read16(uint addr) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; return m_BinReader.ReadUInt16();
+            } else {
+                arm9R.BaseStream.Position = addr - headerSize;
+                return arm9R.ReadUInt16();
+            }
+        }
+
+        public uint Read32(uint addr) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; return m_BinReader.ReadUInt32();
+            } else {
+                arm9R.BaseStream.Position = addr - headerSize;
+                return arm9R.ReadUInt32();
+            }
+        }
+
+        public byte[] ReadBlock(uint addr, int size) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; return m_BinReader.ReadBytes(size);
+            } else {
+                arm9R.BaseStream.Position = addr - headerSize;
+                return arm9R.ReadBytes(size);
+            }
+        }
+
+        public void Write8(uint addr, byte value) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; m_BinWriter.Write(value);
+            } else {
+                arm9W.BaseStream.Position = addr - headerSize;
+                arm9W.Write(value);
+            }
+        }
+
+        public void Write16(uint addr, ushort value) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; m_BinWriter.Write(value);
+            } else {
+                arm9W.BaseStream.Position = addr - headerSize;
+                arm9W.Write(value);
+            }
+        }
+
+        public void Write32(uint addr, uint value) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; m_BinWriter.Write(value);
+            } else {
+                arm9W.BaseStream.Position = addr - headerSize;
+                arm9W.Write(value);
+            }
+        }
+        public void WriteBlock(uint addr, byte[] data) {
+            if (!Program.m_IsROMFolder) {
+                m_FileStream.Position = addr; m_BinWriter.Write(data);
+            } else {
+                arm9W.BaseStream.Position = addr - headerSize;
+                arm9W.Write(data);
+            }
+        }
 
         public uint GetLevelOverlayID(int levelid) { return m_LevelOvlIDTable[levelid]; }
 
         public void MakeRoom(uint addr, uint amount)
         {
+            if (Program.m_IsROMFolder) {
+                return;
+            }
             uint actualend = m_UsedSize + ROM_END_MARGIN;
             if (addr < actualend)
             {
@@ -581,6 +960,7 @@ namespace SM64DSe
             }
         }
 
+        // Not ever called for extracted ROMs.
         private void FixPtrAt(uint addr, uint fixstart, int delta)
         {
             m_FileStream.Position = addr;
@@ -595,6 +975,10 @@ namespace SM64DSe
 
         public void AutoFix(ushort fileid, uint fixstart, int delta)
         {
+            if (Program.m_IsROMFolder) {
+                return;
+            }
+
         	// fix the internal variables
             if (ARM7Offset >= fixstart) ARM7Offset += (uint)delta;
             if (FNTOffset >= fixstart) FNTOffset += (uint)delta;
@@ -655,6 +1039,10 @@ namespace SM64DSe
 
         public byte[] ExtractFile(ushort fileid)
         {
+            if (Program.m_IsROMFolder) {
+                NitroFile f = new NitroFile(this, fileid);
+                return f.m_Data;
+            }
             bool autorw = !m_CanRW;
             if (autorw) BeginRW();
 
@@ -669,6 +1057,10 @@ namespace SM64DSe
 
         public void ReinsertFile(ushort fileid, byte[] data)
         {
+            if (Program.m_IsROMFolder) {
+                ReinsertFileOld(fileid, data);
+                return;
+            }
             if (Program.m_ROM.m_Version != Version.EUR) {
                 ReinsertFileOld(fileid, data);
                 return;
@@ -688,6 +1080,12 @@ namespace SM64DSe
         }
 
         public void ReinsertFileOld(ushort fileid, byte[] data) {
+            if (Program.m_IsROMFolder) {
+                NitroFile f = new NitroFile(Program.m_ROM, fileid);
+                f.m_Data = data;
+                f.SaveChanges();
+                return;
+            }
             bool autorw = !m_CanRW;
             if (autorw) BeginRW();
 
@@ -735,6 +1133,7 @@ namespace SM64DSe
 
         public uint AddOverlay(uint ramaddr)
         {
+            
             // find an usable overlay ID
 	        uint id = 0;
 	        foreach (OverlayEntry _oe in m_OverlayEntries)
@@ -744,8 +1143,8 @@ namespace SM64DSe
 	        }
 	        id++;
 
-	        // add a file for the overlay
-	        ushort fileid = (ushort)(FATSize / 8);
+            // add a file for the overlay
+            ushort fileid = (ushort)(FATSize / 8);
 
 	        MakeRoom(FATOffset + FATSize, 8);
 	        AutoFix(0xFFFF, FATOffset + FATSize, 8);

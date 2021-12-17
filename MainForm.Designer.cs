@@ -63,6 +63,10 @@
             this.kuppaScriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editFileSystemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editOverlaysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnOpenFilesystem = new System.Windows.Forms.ToolStripButton();
+            this.btnRunROM = new System.Windows.Forms.ToolStripButton();
+            this.btnBuildROM = new System.Windows.Forms.ToolStripButton();
+            this.extractROMButton = new System.Windows.Forms.ToolStripButton();
             this.mnitToolsImageEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.ofdOpenFile = new System.Windows.Forms.OpenFileDialog();
             this.sfdSaveFile = new System.Windows.Forms.SaveFileDialog();
@@ -124,12 +128,17 @@
             this.btnOptions,
             this.btnMore,
             this.btnASMHacking,
-            this.btnTools});
+            this.btnTools,
+            this.btnOpenFilesystem,
+            this.btnRunROM,
+            this.btnBuildROM,
+            this.extractROMButton});
             this.tsToolBar.Location = new System.Drawing.Point(0, 0);
             this.tsToolBar.Name = "tsToolBar";
-            this.tsToolBar.Size = new System.Drawing.Size(508, 25);
+            this.tsToolBar.Size = new System.Drawing.Size(591, 25);
             this.tsToolBar.TabIndex = 0;
             this.tsToolBar.Text = "toolStrip1";
+            this.tsToolBar.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.tsToolBar_ItemClicked);
             // 
             // btnOpenROM
             // 
@@ -414,6 +423,55 @@
             this.editOverlaysToolStripMenuItem.Text = "Edit Overlays";
             this.editOverlaysToolStripMenuItem.Click += new System.EventHandler(this.editOverlaysToolStripMenuItem_Click);
             // 
+            // btnOpenFilesystem
+            // 
+            this.btnOpenFilesystem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnOpenFilesystem.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFilesystem.Image")));
+            this.btnOpenFilesystem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOpenFilesystem.Name = "btnOpenFilesystem";
+            this.btnOpenFilesystem.Size = new System.Drawing.Size(122, 22);
+            this.btnOpenFilesystem.Text = "Open Extracted ROM";
+            this.btnOpenFilesystem.ToolTipText = "Open An Extracted ROM";
+            this.btnOpenFilesystem.Click += new System.EventHandler(this.btnOpenFilesystem_Click);
+            // 
+            // btnRunROM
+            // 
+            this.btnRunROM.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnRunROM.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRunROM.Image = global::SM64DSe.Properties.Resources.Play;
+            this.btnRunROM.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRunROM.Name = "btnRunROM";
+            this.btnRunROM.Size = new System.Drawing.Size(23, 22);
+            this.btnRunROM.Text = "toolStripButton2";
+            this.btnRunROM.ToolTipText = "Build and run the ROM.";
+            this.btnRunROM.Visible = false;
+            this.btnRunROM.Click += new System.EventHandler(this.btnRunROM_Click);
+            // 
+            // btnBuildROM
+            // 
+            this.btnBuildROM.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnBuildROM.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnBuildROM.Image = global::SM64DSe.Properties.Resources.build;
+            this.btnBuildROM.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBuildROM.Name = "btnBuildROM";
+            this.btnBuildROM.Size = new System.Drawing.Size(23, 22);
+            this.btnBuildROM.Text = "toolStripButton1";
+            this.btnBuildROM.ToolTipText = "Build the ROM.";
+            this.btnBuildROM.Visible = false;
+            this.btnBuildROM.Click += new System.EventHandler(this.btnBuildROM_Click);
+            // 
+            // extractROMButton
+            // 
+            this.extractROMButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.extractROMButton.Image = ((System.Drawing.Image)(resources.GetObject("extractROMButton.Image")));
+            this.extractROMButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.extractROMButton.Name = "extractROMButton";
+            this.extractROMButton.Size = new System.Drawing.Size(77, 22);
+            this.extractROMButton.Text = "Extract ROM";
+            this.extractROMButton.ToolTipText = "Extract ROM.";
+            this.extractROMButton.Visible = false;
+            this.extractROMButton.Click += new System.EventHandler(this.extractROMButton_Click);
+            // 
             // mnitToolsImageEditor
             // 
             this.mnitToolsImageEditor.Name = "mnitToolsImageEditor";
@@ -439,9 +497,9 @@
             this.ssStatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.slStatusLabel,
             this.spbStatusProgress});
-            this.ssStatusBar.Location = new System.Drawing.Point(0, 410);
+            this.ssStatusBar.Location = new System.Drawing.Point(0, 456);
             this.ssStatusBar.Name = "ssStatusBar";
-            this.ssStatusBar.Size = new System.Drawing.Size(508, 22);
+            this.ssStatusBar.Size = new System.Drawing.Size(591, 22);
             this.ssStatusBar.TabIndex = 2;
             this.ssStatusBar.Text = "statusStrip1";
             // 
@@ -467,7 +525,7 @@
             this.tbcMainFormTabControl.Location = new System.Drawing.Point(0, 25);
             this.tbcMainFormTabControl.Name = "tbcMainFormTabControl";
             this.tbcMainFormTabControl.SelectedIndex = 0;
-            this.tbcMainFormTabControl.Size = new System.Drawing.Size(508, 385);
+            this.tbcMainFormTabControl.Size = new System.Drawing.Size(591, 431);
             this.tbcMainFormTabControl.TabIndex = 3;
             // 
             // tbpLevels
@@ -476,7 +534,7 @@
             this.tbpLevels.Location = new System.Drawing.Point(4, 22);
             this.tbpLevels.Name = "tbpLevels";
             this.tbpLevels.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpLevels.Size = new System.Drawing.Size(500, 359);
+            this.tbpLevels.Size = new System.Drawing.Size(583, 405);
             this.tbpLevels.TabIndex = 0;
             this.tbpLevels.Text = "Levels";
             this.tbpLevels.UseVisualStyleBackColor = true;
@@ -500,15 +558,16 @@
             // 
             this.splitContainerLevels.Panel2.Controls.Add(this.btnEditCollisionMap);
             this.splitContainerLevels.Panel2.Controls.Add(this.btnEditLevel);
-            this.splitContainerLevels.Size = new System.Drawing.Size(494, 353);
-            this.splitContainerLevels.SplitterDistance = 324;
+            this.splitContainerLevels.Size = new System.Drawing.Size(577, 399);
+            this.splitContainerLevels.SplitterDistance = 370;
             this.splitContainerLevels.TabIndex = 0;
             // 
             // btnRefresh
             // 
             this.btnRefresh.AllowDrop = true;
+            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefresh.Enabled = false;
-            this.btnRefresh.Location = new System.Drawing.Point(203, 0);
+            this.btnRefresh.Location = new System.Drawing.Point(286, 0);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 21);
             this.btnRefresh.TabIndex = 4;
@@ -528,7 +587,7 @@
             "Id+Internal Name",
             "ShortActual+InternalString",
             "Optimized Internal String"});
-            this.cbLevelListDisplay.Location = new System.Drawing.Point(284, 0);
+            this.cbLevelListDisplay.Location = new System.Drawing.Point(367, 0);
             this.cbLevelListDisplay.Name = "cbLevelListDisplay";
             this.cbLevelListDisplay.Size = new System.Drawing.Size(205, 21);
             this.cbLevelListDisplay.TabIndex = 3;
@@ -544,7 +603,7 @@
             this.lbxLevels.Location = new System.Drawing.Point(0, 24);
             this.lbxLevels.Margin = new System.Windows.Forms.Padding(0);
             this.lbxLevels.Name = "lbxLevels";
-            this.lbxLevels.Size = new System.Drawing.Size(489, 300);
+            this.lbxLevels.Size = new System.Drawing.Size(572, 346);
             this.lbxLevels.TabIndex = 2;
             this.lbxLevels.SelectedIndexChanged += new System.EventHandler(this.lbxLevels_SelectedIndexChanged);
             this.lbxLevels.DoubleClick += new System.EventHandler(this.lbxLevels_DoubleClick);
@@ -577,7 +636,7 @@
             this.tbpFileSystem.Location = new System.Drawing.Point(4, 22);
             this.tbpFileSystem.Name = "tbpFileSystem";
             this.tbpFileSystem.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpFileSystem.Size = new System.Drawing.Size(500, 359);
+            this.tbpFileSystem.Size = new System.Drawing.Size(583, 405);
             this.tbpFileSystem.TabIndex = 1;
             this.tbpFileSystem.Text = "File System";
             this.tbpFileSystem.UseVisualStyleBackColor = true;
@@ -598,8 +657,8 @@
             // spcFileSystemTab.Panel2
             // 
             this.spcFileSystemTab.Panel2.Controls.Add(this.pnlFileOptions);
-            this.spcFileSystemTab.Size = new System.Drawing.Size(494, 353);
-            this.spcFileSystemTab.SplitterDistance = 297;
+            this.spcFileSystemTab.Size = new System.Drawing.Size(577, 399);
+            this.spcFileSystemTab.SplitterDistance = 343;
             this.spcFileSystemTab.TabIndex = 2;
             // 
             // tvFileList
@@ -607,7 +666,7 @@
             this.tvFileList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvFileList.Location = new System.Drawing.Point(0, 0);
             this.tvFileList.Name = "tvFileList";
-            this.tvFileList.Size = new System.Drawing.Size(494, 297);
+            this.tvFileList.Size = new System.Drawing.Size(577, 343);
             this.tvFileList.TabIndex = 0;
             this.tvFileList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvFileList_AfterSelect);
             // 
@@ -624,7 +683,7 @@
             this.pnlFileOptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFileOptions.Location = new System.Drawing.Point(0, 0);
             this.pnlFileOptions.Name = "pnlFileOptions";
-            this.pnlFileOptions.Size = new System.Drawing.Size(494, 52);
+            this.pnlFileOptions.Size = new System.Drawing.Size(577, 52);
             this.pnlFileOptions.TabIndex = 1;
             // 
             // btnLZForceCompression
@@ -715,7 +774,7 @@
             this.tbpARM9Overlays.Location = new System.Drawing.Point(4, 22);
             this.tbpARM9Overlays.Name = "tbpARM9Overlays";
             this.tbpARM9Overlays.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpARM9Overlays.Size = new System.Drawing.Size(500, 359);
+            this.tbpARM9Overlays.Size = new System.Drawing.Size(583, 405);
             this.tbpARM9Overlays.TabIndex = 2;
             this.tbpARM9Overlays.Text = "ARM 9 Overlays";
             this.tbpARM9Overlays.UseVisualStyleBackColor = true;
@@ -738,8 +797,8 @@
             this.spcARM9Overlays.Panel2.Controls.Add(this.btnReplaceOverlay);
             this.spcARM9Overlays.Panel2.Controls.Add(this.btnExtractOverlay);
             this.spcARM9Overlays.Panel2.Controls.Add(this.btnDecompressOverlay);
-            this.spcARM9Overlays.Size = new System.Drawing.Size(494, 353);
-            this.spcARM9Overlays.SplitterDistance = 322;
+            this.spcARM9Overlays.Size = new System.Drawing.Size(577, 399);
+            this.spcARM9Overlays.SplitterDistance = 368;
             this.spcARM9Overlays.TabIndex = 0;
             // 
             // tvARM9Overlays
@@ -747,7 +806,7 @@
             this.tvARM9Overlays.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvARM9Overlays.Location = new System.Drawing.Point(0, 0);
             this.tvARM9Overlays.Name = "tvARM9Overlays";
-            this.tvARM9Overlays.Size = new System.Drawing.Size(494, 322);
+            this.tvARM9Overlays.Size = new System.Drawing.Size(577, 368);
             this.tvARM9Overlays.TabIndex = 0;
             this.tvARM9Overlays.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvARM9Overlays_AfterSelect);
             // 
@@ -784,7 +843,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(508, 432);
+            this.ClientSize = new System.Drawing.Size(591, 478);
             this.Controls.Add(this.tbcMainFormTabControl);
             this.Controls.Add(this.ssStatusBar);
             this.Controls.Add(this.tsToolBar);
@@ -886,6 +945,10 @@
         private System.Windows.Forms.ToolStripMenuItem editOverlaysToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importPatchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fixMultiplayerChecksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton btnOpenFilesystem;
+        private System.Windows.Forms.ToolStripButton btnBuildROM;
+        private System.Windows.Forms.ToolStripButton btnRunROM;
+        private System.Windows.Forms.ToolStripButton extractROMButton;
     }
 }
 

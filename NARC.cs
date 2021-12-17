@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -27,6 +28,114 @@ namespace SM64DSe
     {
         public NARC(NitroROM rom, ushort id) : base(rom, id)
         {
+            if (Program.m_IsROMFolder) {
+                string[] files = Ndst.Helper.ReadROMLines("__ROM__/files.txt", Program.m_ROMBasePath, Program.m_ROMPatchPath);
+                string filePath2 = "";
+                foreach (var f in files) {
+                    string[] fileParam = f.Split(' ');
+                    if (Ndst.Helper.ReadStringNumber(fileParam[1]) == id) {
+                        filePath2 = fileParam[0].Substring(3);
+                    }
+                }
+
+                ushort currFolderId = 1;
+                string[] fileList = Ndst.Helper.ReadROMLines(filePath2 + ".txt", Program.m_ROMBasePath, Program.m_ROMPatchPath);
+                Dictionary<string, Ndst.Folder> folders = new Dictionary<string, Ndst.Folder>();
+                Ndst.Filesystem Filesystem = new Ndst.Filesystem();
+                folders.Add("", Filesystem);
+                List<FileEntry> newFiles = new List<FileEntry>();
+                List<DirEntry> newFolders = new List<DirEntry>();
+                DirEntry root2 = new DirEntry();
+                root2.ID = 0xF000;
+                newFolders.Add(root2);
+                foreach (var s in fileList) {
+                    AddFileToFilesystem(s);
+                }
+                m_DirEntries = newFolders.ToArray();
+                m_FileEntries = newFiles.ToArray();
+
+                // Add a file to the filesystem.
+                void AddFileToFilesystem(string s) {
+
+                    // First get its properties.
+                    string[] fileProperties = s.Split(' ');
+                    string filePath = fileProperties[0];
+                    if (!filePath.StartsWith("../")) {
+                        throw new Exception("ERROR: All files must be relative to parent directory \"../\"");
+                    } else {
+                        filePath = filePath.Substring(3);
+                    }
+
+                    // Get file ID.
+                    ushort fileId = (ushort)Ndst.Helper.ReadStringNumber(fileProperties[1]);
+
+                    // Proper file name and folder path.
+                    string fileName = filePath;
+                    string folderPath = "";
+                    while (fileName.Contains('/')) {
+                        folderPath += "/" + fileName.Substring(0, fileName.IndexOf('/'));
+                        fileName = fileName.Substring(fileName.IndexOf('/') + 1);
+                    }
+                    if (folderPath.StartsWith("/")) {
+                        folderPath = folderPath.Substring(1);
+                    }
+
+                    // New file.
+                    Ndst.File f = new Ndst.File();
+                    f.Name = fileName;
+                    f.Id = fileId;
+
+                    // Finally add the file to the folder.
+                    FileEntry fe = new FileEntry();
+                    fe.ID = fileId;
+                    fe.Name = fileName;
+                    fe.FullName = (folderPath.Equals("") ? "" : (folderPath + "/")) + fe.Name;
+                    AddFileToFolder(f, folderPath, ref fe);
+
+                }
+
+                // Add a file to a folder.
+                void AddFileToFolder(Ndst.File f, string folderPath, ref FileEntry fe) {
+
+                    // First check if the folder exists.
+                    if (!folders.ContainsKey(folderPath)) {
+                        AppendFolder(folderPath);
+                    }
+
+                    // Add the file to the folder.
+                    folders[folderPath].Files.Add(f);
+                    fe.ParentID = (ushort)(folders[folderPath].Id | 0xF000);
+                    newFiles.Add(fe);
+
+                }
+
+                // Append a folder.
+                void AppendFolder(string folderPath) {
+                    string folderName = folderPath;
+                    string baseFolderPath = "";
+                    while (folderName.Contains('/')) {
+                        baseFolderPath += "/" + folderName.Substring(0, folderName.IndexOf('/'));
+                        folderName = folderName.Substring(folderName.IndexOf('/') + 1);
+                    }
+                    if (baseFolderPath.StartsWith("/")) {
+                        baseFolderPath = baseFolderPath.Substring(1);
+                    }
+                    if (!folders.ContainsKey(baseFolderPath)) {
+                        AppendFolder(baseFolderPath);
+                    }
+                    Ndst.Folder f = new Ndst.Folder() { Id = currFolderId++, Name = folderName };
+                    folders[baseFolderPath].Folders.Add(f);
+                    folders.Add(folderPath, f);
+                    DirEntry de = new DirEntry();
+                    de.Name = f.Name;
+                    de.ID = (ushort)(f.Id | 0xF000);
+                    de.FullName = folderPath;
+                    de.ParentID = (ushort)(folders[baseFolderPath].Id | 0xF000);
+                    newFolders.Add(de);
+                }
+                return;
+            }
+
             FATOffset = 0x1C;
             FATSize = Read32(0x14) - 0xC;
             FNTOffset = 0x1C + FATSize + 0x8;
@@ -115,6 +224,13 @@ namespace SM64DSe
             }
         }
 
+        private string PathFromFileID(ushort id, bool forcePatch) {
+            if (forcePatch) {
+                return Program.m_ROMPatchPath + "/" + GetFileNameFromID(id);
+            }
+            return Ndst.Helper.ROMUsePatch(GetFileNameFromID(id), Program.m_ROMPatchPath) ? (Program.m_ROMPatchPath + "/" + GetFileNameFromID(id)) : (Program.m_ROMBasePath + "/" + GetFileNameFromID(id));
+        }
+
         public ushort GetFileIDFromName(string name)
         {
             foreach (FileEntry fe in m_FileEntries)
@@ -138,6 +254,10 @@ namespace SM64DSe
 
         public void MakeRoom(uint addr, uint amount)
         {
+            if (Program.m_IsROMFolder) {
+                return;
+            }
+
             int filelen = m_Data.Length;
 
             byte[] tomove = ReadBlock(addr, (uint)(filelen - addr));
@@ -146,12 +266,21 @@ namespace SM64DSe
 
         public byte[] ExtractFile(ushort fileid)
         {
+            if (Program.m_IsROMFolder) {
+                return File.ReadAllBytes(PathFromFileID(fileid, false));
+            }
+
             FileEntry fe = m_FileEntries[fileid];
             return ReadBlock(IMGOffset + fe.Offset, fe.Size);
         }
 
         public void ReinsertFile(ushort fileid, byte[] data)
         {
+            if (Program.m_IsROMFolder) {
+                File.WriteAllBytes(PathFromFileID(fileid, true), data);
+                return;
+            }
+
             int datalength = (data.Length + 3) & ~3;
 
             FileEntry fe = m_FileEntries[fileid];

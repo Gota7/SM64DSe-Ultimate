@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -32,6 +32,8 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +44,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,20 +54,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="NAudio">
-      <HintPath>bin\Release\lib\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK">
-      <HintPath>bin\Release\lib\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.Compatibility">
-      <HintPath>bin\Release\lib\OpenTK.Compatibility.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.GLControl">
-      <HintPath>bin\Release\lib\OpenTK.GLControl.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="QuickGraph, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -85,24 +80,48 @@
     <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
     </Reference>
+    <Reference Include="SixLabors.ImageSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>packages\SixLabors.ImageSharp.1.0.4\lib\net472\SixLabors.ImageSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Xceed.Wpf.AvalonDock, Version=2.0.2000.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio">
+      <HintPath>bin\Release\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Compatibility">
+      <HintPath>bin\Release\OpenTK.Compatibility.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>bin\Release\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl">
+      <HintPath>bin\Release\OpenTK.GLControl.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -231,6 +250,39 @@
     <Compile Include="FormControls\PaletteColourGrid.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Ndst\Banner.cs" />
+    <Compile Include="Ndst\ConversionInfo.cs" />
+    <Compile Include="Ndst\ExtractOptions.cs" />
+    <Compile Include="Ndst\Filesystem.cs" />
+    <Compile Include="Ndst\Fix20x12i.cs" />
+    <Compile Include="Ndst\Fix4x12i.cs" />
+    <Compile Include="Ndst\Formats\Bmd.cs" />
+    <Compile Include="Ndst\Formats\Enpg.cs" />
+    <Compile Include="Ndst\Formats\GenericFile.cs" />
+    <Compile Include="Ndst\Formats\IFormat.cs" />
+    <Compile Include="Ndst\Formats\Kcl.cs" />
+    <Compile Include="Ndst\Formats\LZ.cs" />
+    <Compile Include="Ndst\Formats\Narc.cs" />
+    <Compile Include="Ndst\Formats\Nsmbd.cs" />
+    <Compile Include="Ndst\Graphics\CIE.cs" />
+    <Compile Include="Ndst\Graphics\Graphic.cs" />
+    <Compile Include="Ndst\Graphics\GraphicExtractOption.cs" />
+    <Compile Include="Ndst\Graphics\Palette.cs" />
+    <Compile Include="Ndst\Graphics\RGB5.cs" />
+    <Compile Include="Ndst\Graphics\Screen.cs" />
+    <Compile Include="Ndst\Helper.cs" />
+    <Compile Include="Ndst\Models\Bone.cs" />
+    <Compile Include="Ndst\Models\Face.cs" />
+    <Compile Include="Ndst\Models\Formats\IModelFormat.cs" />
+    <Compile Include="Ndst\Models\Formats\Obj.cs" />
+    <Compile Include="Ndst\Models\Mat4.cs" />
+    <Compile Include="Ndst\Models\Mesh.cs" />
+    <Compile Include="Ndst\Models\Model.cs" />
+    <Compile Include="Ndst\Models\Node.cs" />
+    <Compile Include="Ndst\Models\Vec3.cs" />
+    <Compile Include="Ndst\Ninja.cs" />
+    <Compile Include="Ndst\Overlay.cs" />
+    <Compile Include="Ndst\ROM.cs" />
     <Compile Include="NitroROM_Utils.cs" />
     <Compile Include="OverlayEditor.cs">
       <SubType>Form</SubType>
@@ -579,6 +631,10 @@
     <None Include="Resources\collapseButton.png" />
     <None Include="Resources\stepLeft.png" />
     <None Include="Resources\stepRight.png" />
+    <None Include="Images\build.png" />
+    <Content Include="Ndst.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Templates\Enemy.cpp" />
     <Content Include="Templates\Enemy.h" />
     <Content Include="Templates\Platform.cpp" />

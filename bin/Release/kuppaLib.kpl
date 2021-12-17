@@ -1,4 +1,4 @@
-//Credits go to Josh65536 for the instruction shortcuts below.
+﻿//Credits go to Josh65536 for the instruction shortcuts below.
 Camera:
 
 	//Set camera look-at position. [X, Y, Z] (In FXU).

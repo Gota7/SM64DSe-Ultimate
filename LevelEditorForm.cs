@@ -210,6 +210,10 @@ namespace SM64DSe
 
             //btnMakeOverlay.Visible = (Program.m_ROM.m_Version == NitroROM.Version.EUR);
             btnDls.Visible = (Program.m_ROM.m_Version == NitroROM.Version.EUR);
+            if (Program.m_IsROMFolder) {
+                romBuildButton.Visible = true;
+                romRunButton.Visible = true;
+            }
 
             slStatusLabel.Text = "Ready";
         }
@@ -3211,6 +3215,16 @@ namespace SM64DSe
                 m_SelectedObject.Position = res.Value.m_Point;
             }
             RefreshObjects(m_SelectedObject.m_Layer);
+        }
+
+        private void romBuildButton_Click(object sender, EventArgs e)
+        {
+            NitroROM.BuildROM();
+        }
+
+        private void romRunButton_Click(object sender, EventArgs e)
+        {
+            NitroROM.RunROM();
         }
 
         private void btnOpenRawEditor_Click(object sender, EventArgs e)

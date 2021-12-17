@@ -86,6 +86,13 @@ namespace SM64DSe.ImportExport.LevelImportExport
                 writer.WriteElementString("Byte", level.m_LevelSettings.MusicBytes[i].ToString());
             writer.WriteEndElement();
 
+            if (Program.m_IsROMFolder) {
+                Program.m_ROM.arm9R.BaseStream.Position = (uint)(Helper.GetActSelectorIDTableAddress() + level.m_LevelID) - Program.m_ROM.headerSize;
+                writer.WriteElementString("ActSelectorID", Program.m_ROM.arm9R.ReadByte().ToString());
+                writer.WriteEndElement();
+                return;
+            }
+
             Program.m_ROM.BeginRW();
             writer.WriteElementString("ActSelectorID",
                 Program.m_ROM.Read8((uint)(Helper.GetActSelectorIDTableAddress() + level.m_LevelID)).ToString());

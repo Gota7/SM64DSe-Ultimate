@@ -28,13 +28,18 @@ namespace SM64DSe
     static class Program
     {
         public static string AppTitle = "SM64DS Editor ULTIMATE";
-        public static string AppVersion = "v2.3.8";
-        public static string AppDate = "Aug 19, 2020";
+        public static string AppVersion = "v2.4.0";
+        public static string AppDate = "Dec 02, 2021";
 
         public static string ServerURL = "http://kuribo64.net/";
 
         public static string m_ROMPath;
         public static NitroROM m_ROM;
+        public static bool m_IsROMFolder;
+        public static string m_ROMBasePath;
+        public static string m_ROMPatchPath;
+        public static string m_ROMConversionPath;
+        public static string m_ROMBuildPath;
 
         public static List<LevelEditorForm> m_LevelEditors;
 
