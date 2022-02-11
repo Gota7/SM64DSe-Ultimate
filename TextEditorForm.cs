@@ -45,6 +45,10 @@ namespace SM64DSe
         uint m_DAT1Start;// Address at which the string data is held
         uint[] m_StringHeaderAddr;// The addresses of the string headers
         uint[] m_StringHeaderData;// The offsets of the strings (relative to start of DAT1 section)
+        uint[] m_StringWidthAddr;
+        ushort[] m_StringWidth;
+        uint[] m_StringHeightAddr;
+        ushort[] m_StringHeight;
         List<int> m_EditedEntries = new List<int>();// Holds indices of edited entries, needed because of how old and new strings are stored differently
 
         String[] langs = new String[0];
@@ -118,12 +122,20 @@ namespace SM64DSe
             m_FileSize = file.Read32(0x08);
             m_StringHeaderAddr = new uint[numentries];
             m_StringHeaderData = new uint[numentries];
+            m_StringWidthAddr = new uint[numentries];
+            m_StringWidth = new ushort[numentries];
+            m_StringHeightAddr = new uint[numentries];
+            m_StringHeight = new ushort[numentries];
             m_DAT1Start = 0x20 + inf1size + 0x08;
 
             for (int i = 0; i < numentries; i++)
             {
                 m_StringHeaderAddr[i] = (uint)(0x20 + 0x10 + (i * 8));
                 m_StringHeaderData[i] = file.Read32(m_StringHeaderAddr[i]);
+                m_StringWidthAddr[i] = (uint)(0x20 + 0x10 + (i * 8) + 0x4);
+                m_StringWidth[i] = file.Read16(m_StringWidthAddr[i]);
+                m_StringHeightAddr[i] = (uint)(0x20 + 0x10 + (i * 8) + 0x6);
+                m_StringHeight[i] = file.Read16(m_StringHeightAddr[i]);
             }
 
             lbxMsgList.Items.Clear();//Reset list of messages
@@ -356,6 +368,8 @@ namespace SM64DSe
                 selectedIndex = Int32.Parse(selectedText.Substring(1, 4), System.Globalization.NumberStyles.HexNumber);
 
                 tbxMsgPreview.Text = m_MsgData[selectedIndex];
+                width_numeric.Value = m_StringWidth[selectedIndex];
+                height_numeric.Value = m_StringHeight[selectedIndex];
             }
         }
 
@@ -419,6 +433,8 @@ namespace SM64DSe
                         m_StringHeaderData[i] = (uint)(m_StringHeaderData[i] + lengthDif);
 
                     file.Write32(m_StringHeaderAddr[i], m_StringHeaderData[i]);
+                    file.Write16(m_StringWidthAddr[i], m_StringWidth[i]);
+                    file.Write16(m_StringHeightAddr[i], m_StringHeight[i]);
                 }
             }
             // Update total file size
@@ -442,6 +458,13 @@ namespace SM64DSe
             {
                 List<byte> entry = EncodeString(m_MsgData[index]);
                 file.WriteBlock(m_StringHeaderData[index] + m_DAT1Start, entry.ToArray<byte>());
+            }
+
+            for (int i = 0; i < file.Read16(0x28); i++)
+            {
+                file.Write32(m_StringHeaderAddr[i], m_StringHeaderData[i]);
+                file.Write16(m_StringWidthAddr[i], m_StringWidth[i]);
+                file.Write16(m_StringHeightAddr[i], m_StringHeight[i]);
             }
 
             // Compress file
@@ -652,5 +675,14 @@ namespace SM64DSe
             }
         }
 
+        private void width_numeric_ValueChanged(object sender, EventArgs e)
+        {
+            m_StringWidth[selectedIndex] = (ushort)width_numeric.Value;
+        }
+
+        private void height_numeric_ValueChanged(object sender, EventArgs e)
+        {
+            m_StringHeight[selectedIndex] = (ushort)height_numeric.Value;
+        }
     }
 }
