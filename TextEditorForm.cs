@@ -36,6 +36,7 @@ namespace SM64DSe
             InitializeComponent();
         }
 
+        bool copyMessage;
         string[] m_MsgData;
         int[] m_StringLengths;
         string[] m_ShortVersions;
@@ -107,6 +108,7 @@ namespace SM64DSe
                 btnLanguages.DropDownItems.Add(langs[i]).Tag = i;
             }
 
+            copyMessage = false;
         }
 
         public void ReadStrings(String fileName)
@@ -370,6 +372,9 @@ namespace SM64DSe
                 tbxMsgPreview.Text = m_MsgData[selectedIndex];
                 width_numeric.Value = m_StringWidth[selectedIndex];
                 height_numeric.Value = m_StringHeight[selectedIndex];
+
+                if (copyMessage)
+                    txtEdit.Text = m_MsgData[selectedIndex];
             }
         }
 
@@ -677,12 +682,19 @@ namespace SM64DSe
 
         private void width_numeric_ValueChanged(object sender, EventArgs e)
         {
-            m_StringWidth[selectedIndex] = (ushort)width_numeric.Value;
+            if (lbxMsgList.SelectedIndex != -1)
+                m_StringWidth[selectedIndex] = (ushort)width_numeric.Value;
         }
 
         private void height_numeric_ValueChanged(object sender, EventArgs e)
         {
-            m_StringHeight[selectedIndex] = (ushort)height_numeric.Value;
+            if (lbxMsgList.SelectedIndex != -1)
+                m_StringHeight[selectedIndex] = (ushort)height_numeric.Value;
+        }
+
+        private void chkCopy_CheckedChanged(object sender, EventArgs e)
+        {
+            copyMessage = !copyMessage;
         }
     }
 }
