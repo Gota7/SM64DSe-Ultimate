@@ -1120,6 +1120,10 @@ namespace SM64DSe
             NitroROM.RunROM();
         }
 
+        private void particleTextureTPSEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new ParticleEdtorForm().Show();
+        }
     }
 
 }

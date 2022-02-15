@@ -99,6 +99,7 @@
             this.btnReplaceOverlay = new System.Windows.Forms.Button();
             this.btnExtractOverlay = new System.Windows.Forms.Button();
             this.btnDecompressOverlay = new System.Windows.Forms.Button();
+            this.particleTextureTPSEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsToolBar.SuspendLayout();
             this.ssStatusBar.SuspendLayout();
             this.tbcMainFormTabControl.SuspendLayout();
@@ -341,6 +342,7 @@
             this.mnitToolsCollisionMapEditor,
             this.mnitToolsModelAnimationEditor,
             this.mnitToolsBTPEditor,
+            this.particleTextureTPSEditorToolStripMenuItem,
             this.mnitToolsTextEditor,
             this.mnitToolsSoundBrowser,
             this.bMDKLCEditorToolStripMenuItem,
@@ -466,7 +468,7 @@
             this.extractROMButton.Image = ((System.Drawing.Image)(resources.GetObject("extractROMButton.Image")));
             this.extractROMButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.extractROMButton.Name = "extractROMButton";
-            this.extractROMButton.Size = new System.Drawing.Size(77, 22);
+            this.extractROMButton.Size = new System.Drawing.Size(77, 19);
             this.extractROMButton.Text = "Extract ROM";
             this.extractROMButton.ToolTipText = "Extract ROM.";
             this.extractROMButton.Visible = false;
@@ -839,6 +841,13 @@
             this.btnDecompressOverlay.Text = "Decompress Overlay";
             this.btnDecompressOverlay.UseVisualStyleBackColor = true;
             // 
+            // particleTextureTPSEditorToolStripMenuItem
+            // 
+            this.particleTextureTPSEditorToolStripMenuItem.Name = "particleTextureTPSEditorToolStripMenuItem";
+            this.particleTextureTPSEditorToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.particleTextureTPSEditorToolStripMenuItem.Text = "Particle Texture (TPS) Editor";
+            this.particleTextureTPSEditorToolStripMenuItem.Click += new System.EventHandler(this.particleTextureTPSEditorToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -949,6 +958,7 @@
         private System.Windows.Forms.ToolStripButton btnBuildROM;
         private System.Windows.Forms.ToolStripButton btnRunROM;
         private System.Windows.Forms.ToolStripButton extractROMButton;
+        private System.Windows.Forms.ToolStripMenuItem particleTextureTPSEditorToolStripMenuItem;
     }
 }
 
