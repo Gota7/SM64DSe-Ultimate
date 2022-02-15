@@ -46,7 +46,6 @@
             this.lblCompression = new System.Windows.Forms.Label();
             this.btnModelPalettesSelectedColour = new System.Windows.Forms.Button();
             this.lblModelPalettesPaletteSelectedColour = new System.Windows.Forms.Label();
-            this.lblDebug = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.grdPalette = new SM64DSe.PaletteColourGrid();
             this.toolStrip1.SuspendLayout();
@@ -66,7 +65,7 @@
             this.btnLoadTPS});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1317, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(740, 31);
             this.toolStrip1.TabIndex = 10;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -75,7 +74,7 @@
             this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(44, 24);
+            this.btnSave.Size = new System.Drawing.Size(44, 28);
             this.btnSave.Text = "Save";
             this.btnSave.ToolTipText = "Save the TPS file";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -85,35 +84,35 @@
             this.btnImportTexture.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnImportTexture.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImportTexture.Name = "btnImportTexture";
-            this.btnImportTexture.Size = new System.Drawing.Size(110, 24);
+            this.btnImportTexture.Size = new System.Drawing.Size(110, 28);
             this.btnImportTexture.Text = "Import Texture";
             this.btnImportTexture.Click += new System.EventHandler(this.btnImportTexture_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // btnExport
             // 
             this.btnExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(108, 24);
+            this.btnExport.Size = new System.Drawing.Size(108, 28);
             this.btnExport.Text = "Export Texture";
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
             // 
             // btnLoadTPS
             // 
             this.btnLoadTPS.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnLoadTPS.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadTPS.Name = "btnLoadTPS";
-            this.btnLoadTPS.Size = new System.Drawing.Size(74, 24);
+            this.btnLoadTPS.Size = new System.Drawing.Size(74, 28);
             this.btnLoadTPS.Text = "Load TPS";
             this.btnLoadTPS.Click += new System.EventHandler(this.btnLoadTPS_Click);
             // 
@@ -125,7 +124,7 @@
             this.pbxTexture.Location = new System.Drawing.Point(16, 34);
             this.pbxTexture.Margin = new System.Windows.Forms.Padding(4);
             this.pbxTexture.Name = "pbxTexture";
-            this.pbxTexture.Size = new System.Drawing.Size(347, 320);
+            this.pbxTexture.Size = new System.Drawing.Size(320, 320);
             this.pbxTexture.TabIndex = 11;
             this.pbxTexture.TabStop = false;
             this.pbxTexture.Click += new System.EventHandler(this.pbxTexture_Click);
@@ -231,16 +230,6 @@
             this.lblModelPalettesPaletteSelectedColour.TabIndex = 21;
             this.lblModelPalettesPaletteSelectedColour.Text = "Selected Colour:";
             // 
-            // lblDebug
-            // 
-            this.lblDebug.AutoSize = true;
-            this.lblDebug.Location = new System.Drawing.Point(725, 34);
-            this.lblDebug.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblDebug.Name = "lblDebug";
-            this.lblDebug.Size = new System.Drawing.Size(48, 17);
-            this.lblDebug.TabIndex = 22;
-            this.lblDebug.Text = "debug";
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(201, 418);
@@ -283,9 +272,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1317, 507);
+            this.ClientSize = new System.Drawing.Size(740, 507);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.lblDebug);
             this.Controls.Add(this.btnModelPalettesSelectedColour);
             this.Controls.Add(this.lblModelPalettesPaletteSelectedColour);
             this.Controls.Add(this.lblCompression);
@@ -331,7 +319,6 @@
         private System.Windows.Forms.Label lblCompression;
         private System.Windows.Forms.Button btnModelPalettesSelectedColour;
         private System.Windows.Forms.Label lblModelPalettesPaletteSelectedColour;
-        private System.Windows.Forms.Label lblDebug;
         private System.Windows.Forms.Button button1;
     }
 }

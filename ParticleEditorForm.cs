@@ -73,7 +73,6 @@ namespace SM64DSe
                     cmbFormat.Items.Add("A5I3");
                     cmbFormat.Items.Add("Direct");
                     cmbFormat.SelectedIndex = previousFormatIndex = (int)(p_ParticleTex.p_flags & 0x7) - 1;
-                    lblDebug.Text = p_ParticleTex.ToString();
                     RefreshImage();
                     PopulatePaletteSettings();
                     UpdateForm();
@@ -156,11 +155,9 @@ namespace SM64DSe
                 p_ParticleTex = new TPS(p_ParticleTexFile);
 
                 cmbFormat.SelectedIndex = previousFormatIndex = (int)(p_ParticleTex.p_flags & 0x7) - 1;
-                lblDebug.Text = p_ParticleTex.ToString();
                 RefreshImage();
                 PopulatePaletteSettings();
                 UpdateForm();
-                lblDebug.Text = p_ParticleTex.ToString();
             }
         }
 
@@ -176,7 +173,6 @@ namespace SM64DSe
             {
                 p_ParticleTex.FromBMP(bmp, cmbFormat.SelectedIndex + 1);
                 PopulatePaletteSettings();
-                lblDebug.Text = p_ParticleTex.ToString();
 
                 if (chkFlipS.Checked)
                     p_ParticleTex.SetFlipSFlag();
@@ -192,7 +188,6 @@ namespace SM64DSe
                 RefreshImage();
 
                 UpdateForm();
-                lblDebug.Text = p_ParticleTex.ToString();
             }
             catch (ArgumentException argEx)
             {
@@ -329,7 +324,6 @@ namespace SM64DSe
 
             Color colour = (Color)grdPalette.GetSelectedColour();
             SetColourButtonValue(btnModelPalettesSelectedColour, colour);
-            lblDebug.Text = p_ParticleTex.ToString();
         }
 
         private void ResetColourButtonValue(Button button)
