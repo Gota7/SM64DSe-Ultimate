@@ -1,4 +1,4 @@
-﻿/* Attempts to convert a list of separate triangles to triangle strips wherever possible.
+﻿/* Attemtps to convert a list of separate triangles to triangle strips wherever possible.
  * 
  * Based on the SGI / "tomesh" algorithm with some modifications.
  * 

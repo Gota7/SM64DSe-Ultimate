@@ -7,3 +7,4 @@ bin/Release/Tmp.nds
 bin/Release/.ninja_deps
 bin/Release/.ninja_log
 bin/Release/build.ninja
+bin/Debug

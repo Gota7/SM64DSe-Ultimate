@@ -53,7 +53,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.pnlExistingPatches = new System.Windows.Forms.Panel();
             this.tlpTop = new System.Windows.Forms.TableLayoutPanel();
-            //((System.ComponentModel.ISupportInitialize)(this.gridPatches)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridPatches)).BeginInit();
             this.pnlNewEditPatches.SuspendLayout();
             this.pnlExistingPatches.SuspendLayout();
             this.tlpTop.SuspendLayout();
@@ -63,9 +63,9 @@
             // 
             this.gridPatches.AllowUserToAddRows = false;
             this.gridPatches.AllowUserToDeleteRows = false;
-            this.gridPatches.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridPatches.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridPatches.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridPatches.Location = new System.Drawing.Point(0, 20);
             this.gridPatches.MultiSelect = false;
@@ -106,8 +106,8 @@
             // 
             // txtPatchName
             // 
-            this.txtPatchName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPatchName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPatchName.Location = new System.Drawing.Point(137, 3);
             this.txtPatchName.Name = "txtPatchName";
             this.txtPatchName.Size = new System.Drawing.Size(351, 20);
@@ -157,8 +157,8 @@
             // 
             // txtApplyToFile
             // 
-            this.txtApplyToFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtApplyToFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtApplyToFile.Location = new System.Drawing.Point(137, 29);
             this.txtApplyToFile.Name = "txtApplyToFile";
             this.txtApplyToFile.Size = new System.Drawing.Size(168, 20);
@@ -207,9 +207,9 @@
             // 
             // txtPatchData
             // 
-            this.txtPatchData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPatchData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPatchData.Location = new System.Drawing.Point(6, 139);
             this.txtPatchData.Multiline = true;
             this.txtPatchData.Name = "txtPatchData";
@@ -335,7 +335,7 @@
             this.Name = "AdditionalPatchesForm";
             this.Text = "Additional Patches";
             this.Load += new System.EventHandler(this.AdditionalPatchesForm_Load);
-            //((System.ComponentModel.ISupportInitialize)(this.gridPatches)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridPatches)).EndInit();
             this.pnlNewEditPatches.ResumeLayout(false);
             this.pnlNewEditPatches.PerformLayout();
             this.pnlExistingPatches.ResumeLayout(false);
