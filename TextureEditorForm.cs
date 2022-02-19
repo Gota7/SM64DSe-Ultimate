@@ -102,6 +102,8 @@ namespace SM64DSe
         {
             try
             {
+                btnReplaceSelected.Visible = true;
+
                 if (lbxTextures.SelectedIndex == -1 || lbxTextures.SelectedIndex >= lbxTextures.Items.Count)
                     return;
                 string texName = lbxTextures.Items[lbxTextures.SelectedIndex].ToString();
@@ -134,6 +136,7 @@ namespace SM64DSe
             {
                 Console.WriteLine(ex.Message);
                 pbxTexture.Image = new Bitmap(1, 1);
+                btnReplaceSelected.Visible = false;
             }
             catch (IndexOutOfRangeException ex)
             {
