@@ -100,54 +100,75 @@ namespace SM64DSe
 
         private void lbxTextures_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lbxTextures.SelectedIndex == -1 || lbxTextures.SelectedIndex >= lbxTextures.Items.Count)
-                return;
-            string texName = lbxTextures.Items[lbxTextures.SelectedIndex].ToString();
-            Console.WriteLine(m_Model.m_Textures[texName].m_PaletteID);
-            if (rbTexAllInBMD.Checked && m_Model.m_Textures.ContainsKey(texName))
+            try
             {
-                if (m_Model.m_Textures[texName].m_PaletteID >= 0 && m_Model.m_Textures[texName].m_PaletteID < lbxPalettes.Items.Count)
-                {
-                    lbxPalettes.SelectedIndex = (int)m_Model.m_Textures[texName].m_PaletteID;
-                }
-            }
-            if (rbTexAllInBMD.Checked && lbxPalettes.SelectedIndex != -1)
-            {
-                string palName = lbxPalettes.SelectedItem.ToString();
-                NitroTexture currentTexture = NitroTexture.ReadFromBMD(m_Model, m_Model.m_TextureIDs[texName],
-                    m_Model.m_PaletteIDs[palName]);
-
-                RefreshImage(currentTexture);
-
-                lblTexture.Text = "Texture: (ID " + m_Model.m_TextureIDs[texName] + ")";
-            }
-            if (rbTexAsRefInBTP.Checked)
-            {
-                txtBTPTextureName.Text = texName;
-                if (m_Model.m_TextureIDs.ContainsKey(texName))
-                    lblTexture.Text = "Texture: (ID " + m_Model.m_TextureIDs[texName] + ")";
-            }
-        }
-
-        private void lbxPalettes_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lbxPalettes.SelectedIndex < 0)
-                return;
-            string palName = lbxPalettes.Items[lbxPalettes.SelectedIndex].ToString();
-            if (rbTexAsRefInBTP.Checked)
-                txtBTPPaletteName.Text = palName;
-            if (lbxTextures.SelectedIndex != -1 && lbxPalettes.SelectedIndex != -1 && lbxPalettes.SelectedIndex < lbxPalettes.Items.Count)
-            {
+                if (lbxTextures.SelectedIndex == -1 || lbxTextures.SelectedIndex >= lbxTextures.Items.Count)
+                    return;
                 string texName = lbxTextures.Items[lbxTextures.SelectedIndex].ToString();
-                if (m_Model.m_TextureIDs.ContainsKey(texName) && m_Model.m_PaletteIDs.ContainsKey(palName))
+                Console.WriteLine(m_Model.m_Textures[texName].m_PaletteID);
+                if (rbTexAllInBMD.Checked && m_Model.m_Textures.ContainsKey(texName))
                 {
+                    if (m_Model.m_Textures[texName].m_PaletteID >= 0 && m_Model.m_Textures[texName].m_PaletteID < lbxPalettes.Items.Count)
+                    {
+                        lbxPalettes.SelectedIndex = (int)m_Model.m_Textures[texName].m_PaletteID;
+                    }
+                }
+                if (rbTexAllInBMD.Checked && lbxPalettes.SelectedIndex != -1)
+                {
+                    string palName = lbxPalettes.SelectedItem.ToString();
                     NitroTexture currentTexture = NitroTexture.ReadFromBMD(m_Model, m_Model.m_TextureIDs[texName],
                         m_Model.m_PaletteIDs[palName]);
 
                     RefreshImage(currentTexture);
 
-                    lblPalette.Text = "Palette: (ID " + m_Model.m_PaletteIDs[palName] + ")";
+                    lblTexture.Text = "Texture: (ID " + m_Model.m_TextureIDs[texName] + ")";
                 }
+                if (rbTexAsRefInBTP.Checked)
+                {
+                    txtBTPTextureName.Text = texName;
+                    if (m_Model.m_TextureIDs.ContainsKey(texName))
+                        lblTexture.Text = "Texture: (ID " + m_Model.m_TextureIDs[texName] + ")";
+                }
+            } // let's not annoy the user with these error messages
+            catch (KeyNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+                pbxTexture.Image = new Bitmap(1, 1);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                Console.WriteLine(ex.Message);
+                pbxTexture.Image = new Bitmap(1, 1);
+            }
+        }
+
+        private void lbxPalettes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (lbxPalettes.SelectedIndex < 0)
+                    return;
+                string palName = lbxPalettes.Items[lbxPalettes.SelectedIndex].ToString();
+                if (rbTexAsRefInBTP.Checked)
+                    txtBTPPaletteName.Text = palName;
+                if (lbxTextures.SelectedIndex != -1 && lbxPalettes.SelectedIndex != -1 && lbxPalettes.SelectedIndex < lbxPalettes.Items.Count)
+                {
+                    string texName = lbxTextures.Items[lbxTextures.SelectedIndex].ToString();
+                    if (m_Model.m_TextureIDs.ContainsKey(texName) && m_Model.m_PaletteIDs.ContainsKey(palName))
+                    {
+                        NitroTexture currentTexture = NitroTexture.ReadFromBMD(m_Model, m_Model.m_TextureIDs[texName],
+                            m_Model.m_PaletteIDs[palName]);
+
+                        RefreshImage(currentTexture);
+
+                        lblPalette.Text = "Palette: (ID " + m_Model.m_PaletteIDs[palName] + ")";
+                    }
+                }
+            } // let's not annoy the user with these error messages
+            catch (IndexOutOfRangeException ex)
+            {
+                Console.WriteLine(ex.Message);
+                pbxTexture.Image = new Bitmap(1,1);
             }
         }
 
