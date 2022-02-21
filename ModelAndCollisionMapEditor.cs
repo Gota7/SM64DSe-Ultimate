@@ -3086,5 +3086,10 @@ namespace SM64DSe
                 }
             }
         }
+
+        private void lblModelPalettesPaletteSelectedColour_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

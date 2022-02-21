@@ -200,7 +200,8 @@ namespace Ndst {
 
         // Write a ROM file.
         public static void WriteROMFile(string path, string patchFolder, byte[] file) {
-            // TODO: CREATE DIR!!!
+            Directory.CreateDirectory(Path.GetDirectoryName(patchFolder + "/" + path));
+            System.IO.File.WriteAllBytes(patchFolder + "/" + path, file);
         }
 
         // Get a reader.

@@ -77,7 +77,7 @@ namespace SM64DSe
         public override void SaveChanges()
         {
             if (Program.m_IsROMFolder) {
-                File.WriteAllBytes(Program.m_ROMPatchPath, m_Data);
+                Ndst.Helper.WriteROMFile(m_Name, Program.m_ROMPatchPath, m_Data);
                 return;
             }
             // TODO: LZ77 recompression!
