@@ -2,7 +2,7 @@
  * Adopted from NSMBe's patch maker
  */ 
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.IO;
@@ -168,269 +168,164 @@ namespace SM64DSe.Patcher
             }
         }
 
-        class CodeSectionOffsets
+        private (uint, uint)? getInitAndCleanup()
         {
-            public uint textOff, textSize, roDataOff, roDataSize,
-                dataOff, dataSize, bssOff, bssSize;
-        }
-
-        public void listPtrsToFix(StreamReader lst, BinaryReader oldCode, BinaryWriter oldCodeW,
-            uint offset, uint size, List<ushort> ptrFixList, out string lastLine)
-        {
-            uint end = offset + size;
-            oldCodeW.BaseStream.Position = oldCode.BaseStream.Position = offset;
-            lastLine = "";
-            while(oldCode.BaseStream.Position != end)
-            {
-                string line = lst.ReadLine();
-                lastLine = line;
-                string[] arr = line.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-
-                //Only lines in the form:
-                //<line number> <offset> <data> <instruction or description>
-                //will be considered.
-                if (arr.Length < 4 || !new Regex("^(\\d|[A-F]|[a-f]){4}$").IsMatch(arr[1]))
-                    continue;
-                while (arr.Length >= 4 && (arr[3] == ".ascii" || arr[3] == ".space"))
-                {
-                    bool isAscii = arr[3] == ".ascii";
-                    //can't assume that all bytes of a .space will be written out.
-                    oldCode.BaseStream.Position += 
-                        isAscii ? arr[2].Length / 2 : int.Parse(arr[4]);
-                    string lineNum = arr[0];
-
-                    while(true)
-                    {
-                        line = lst.ReadLine();
-                        lastLine = line;
-                        arr = line.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-                        if (arr.Length == 0 || line[0] == '\x0c')
-                            continue; //Those annoying page breaks...
-
-                        if (arr[0] != lineNum)
-                            break;
-
-                        oldCode.BaseStream.Position += isAscii ? arr[1].Length / 2 : 0;
-                    }
-                }
-                //arr[3] != ".ascii"
-                if (arr.Length < 4 || !new Regex("^(\\d|[A-F]|[a-f]){4}$").IsMatch(arr[1]))
-                    continue;
-
-                int dataSize = arr[2].Length / 2;
-                if (dataSize != 4)
-                {
-                    oldCode.BaseStream.Position += dataSize;
-                    continue;
-                }
-
-                offset = (uint)oldCode.BaseStream.Position;
-                uint word = oldCode.ReadUInt32();
-                
-                unchecked
-                {
-                    //Fix branches and branch links to constant offsets.
-                    uint condition  = word & 0xf0000000;
-                    uint realOpcode = word & 0x0fffffff;
-                    if (!arr[3].StartsWith(".") && condition != 0xf0000000 &&
-                        realOpcode - 0x0a000000 < 0x02000000) //branch/branch link
-                    {
-                        uint destAddr = getDestOfBranch((int)word, m_CodeAddr + offset);
-                        if(destAddr - m_CodeAddr >= 0x10000) //definitely a constant destination
-                        {
-                            oldCodeW.BaseStream.Position = offset;
-                            oldCodeW.Write(destAddr / 4 | (word & 0xff000000));
-                            ptrFixList.Add((ushort)(offset + 0x10));
-                        }
-                    }
-
-                    //Fix relative pointers.                    v It will be decimal
-                    //They look like, for example:
-                    // 123 006c 00000000 .word .LOL
-                    else if(arr[3] == ".word" && !new Regex("^\\d+$").IsMatch(arr[4]))
-                    {
-                        if(word - m_CodeAddr < 0x10000)
-                        {
-                            oldCodeW.BaseStream.Position = offset;
-                            oldCodeW.Write(word - m_CodeAddr + 0x10);
-                            ptrFixList.Add((ushort)(offset + 0x10));
-                        }
-                    }
-                }
-            }
-        }
-
-        public byte[] makeDynamicLibrary()
-        {
-            FileInfo f = new FileInfo(romdir.FullName + "/newcode.bin");
-            if (f.Exists) f.Delete();
-
-            m_CodeAddr = 0x02400000;
-            compilePatch();
-
-            f = new FileInfo(romdir.FullName + "/newcode.bin");
-            if (!f.Exists) return null;
-
-            FileStream fs = f.Open(FileMode.Open);
-            BinaryReader oldCode = new BinaryReader(fs);
-            BinaryWriter oldCodeW = new BinaryWriter(fs);
-
-            MemoryStream o = new MemoryStream();
-            BinaryWriter fileOut = new BinaryWriter(o);
-            StreamReader asmMap = new StreamReader(
-                new FileStream(romdir.FullName + "/build/newcode.map", FileMode.Open));
-            StreamReader symbols = new StreamReader(
-                new FileStream(romdir.FullName + "/newcode.sym", FileMode.Open));
+            StreamReader symbolFile = null;
+            uint initFuncOffset  = 0;
+            uint cleanFuncOffset = 0;
 
             try
             {
-                uint dataSize = (uint)((fs.Length + 3) / 4 * 4);
-                List<ushort> ptrFixList = new List<ushort>();
-                uint ptrFixOffset = dataSize + 0x10;
-                uint initFuncOffset = 0xffffffff;
-                uint cleanFuncOffset = 0xffffffff;
+                symbolFile = new StreamReader(new FileStream(romdir.FullName + "/newcode.sym", FileMode.Open));
 
-                Dictionary<string, CodeSectionOffsets> codeSections = new Dictionary<string, CodeSectionOffsets>();
-
-                while (!symbols.EndOfStream)
+                while (!symbolFile.EndOfStream)
                 {
-                    string line = symbols.ReadLine();
-                    if(line.Contains("_Z4initv"))
+                    string line = symbolFile.ReadLine();
+
+                    if (line.Length < 32)
+                        continue;
+                    
+                    string symbol = line.Substring(31);
+
+                    if (symbol == " _Z4initv")
                     {
                         initFuncOffset = uint.Parse(line.Substring(0, 8),
-                            System.Globalization.NumberStyles.HexNumber) - m_CodeAddr + 0x10;
-                    }
-                    else if(line.Contains("_Z7cleanupv"))
-                    {
-                        cleanFuncOffset = uint.Parse(line.Substring(0, 8),
-                            System.Globalization.NumberStyles.HexNumber) - m_CodeAddr + 0x10;
-                    }
-
-                    if (initFuncOffset != 0xffffffff && cleanFuncOffset != 0xffffffff)
-                        break;
-                }
-
-                while (!asmMap.EndOfStream)
-                {
-                    string line = asmMap.ReadLine();
-                    if (line.Length >= 9 &&
-                        (line.Substring(0, 7) == " .text " ||
-                         line.Substring(0, 9) == " .rodata " ||
-                         line.Substring(0, 7) == " .data " ||
-                         line.Substring(0, 6) == " .bss "))
-                    {
-                        string[] arr = line.Substring(1).Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-                        if (arr[3].Substring(arr[3].Length - 2, 2) != ".o")
-                            continue;
-
-                        if (!codeSections.ContainsKey(arr[3]))
-                            codeSections[arr[3]] = new CodeSectionOffsets();
-
-                        uint offset = uint.Parse(arr[1].Substring(2),
-                            System.Globalization.NumberStyles.HexNumber) - m_CodeAddr;
-                        uint size = uint.Parse(arr[2].Substring(2),
                             System.Globalization.NumberStyles.HexNumber);
 
-                        if(arr[0] == ".text")
-                        {
-                            codeSections[arr[3]].textOff = offset;
-                            codeSections[arr[3]].textSize = size;
-                        }
-                        else if (arr[0] == ".rodata")
-                        {
-                            codeSections[arr[3]].roDataOff = offset;
-                            codeSections[arr[3]].roDataSize = size;
-                        }
-                        else if(arr[0] == ".data")
-                        {
-                            codeSections[arr[3]].dataOff = offset;
-                            codeSections[arr[3]].dataSize = size;
-                        }
-                        else if (arr[0] == ".bss")
-                        {
-                            codeSections[arr[3]].bssOff = offset;
-                            codeSections[arr[3]].bssSize = size;
-                        }
+                        if (cleanFuncOffset != 0)
+                            return (initFuncOffset, cleanFuncOffset);
+                    }
+                    else if (symbol == " _Z7cleanupv")
+                    {
+                        cleanFuncOffset = uint.Parse(line.Substring(0, 8),
+                            System.Globalization.NumberStyles.HexNumber);
+
+                        if (initFuncOffset != 0)
+                            return (initFuncOffset, cleanFuncOffset);
                     }
                 }
-
-                foreach(KeyValuePair<string, CodeSectionOffsets> pair in codeSections)
-                    using(StreamReader lst = new StreamReader(
-                          new FileStream(romdir.FullName + "/build/" +
-                          pair.Key.Substring(0, pair.Key.Length - 1) + "lst", FileMode.Open)))
-                    {
-                        bool textDone = false, roDataDone = false, dataDone = false, bssDone = false;
-                        while(!lst.EndOfStream)
-                        {
-                            string line = lst.ReadLine();
-                            string[] arr = line.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-                            if (arr.Length < 2)
-                                continue;
-                            arr[0] = arr[1];
-                            Array.Resize(ref arr, 1);
-
-                            do
-                            {
-                                arr = line.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-
-                                if (Array.IndexOf(arr, ".text") != -1 && !textDone)
-                                {
-                                    listPtrsToFix(lst, oldCode, oldCodeW, pair.Value.textOff, pair.Value.textSize, ptrFixList, out line);
-                                    textDone = true;
-                                }
-                                else if (Array.IndexOf(arr, ".rodata") != -1 && !roDataDone)
-                                {
-                                    listPtrsToFix(lst, oldCode, oldCodeW, pair.Value.roDataOff, pair.Value.roDataSize, ptrFixList, out line);
-                                    roDataDone = true;
-                                }
-                                else if (Array.IndexOf(arr, ".data") != -1 && !dataDone)
-                                {
-                                    listPtrsToFix(lst, oldCode, oldCodeW, pair.Value.dataOff, pair.Value.dataSize, ptrFixList, out line);
-                                    dataDone = true;
-                                }
-                                else if (Array.IndexOf(arr, ".bss") != -1 && !bssDone)
-                                {
-                                    listPtrsToFix(lst, oldCode, oldCodeW, pair.Value.bssOff, pair.Value.bssSize, ptrFixList, out line);
-                                    bssDone = true;
-                                }
-                                else
-                                    break;
-                            } while (!lst.EndOfStream);
-                            
-                        }
-                    }
-
-                oldCode.BaseStream.Position = 0;
-                //Header
-                fileOut.Write((ushort)ptrFixList.Count);
-                fileOut.Write((ushort)ptrFixOffset);
-                fileOut.Write((ushort)initFuncOffset);
-                fileOut.Write((ushort)cleanFuncOffset);
-                alignStream(fileOut.BaseStream, 0x10);
-
-                //Code
-                fileOut.Write(oldCode.ReadBytes((int)oldCode.BaseStream.Length));
-                alignStream(fileOut.BaseStream, 4);
-
-                //Pointers to fix list
-                foreach (ushort data in ptrFixList)
-                    fileOut.Write(data);
-                return o.ToArray();
             }
             catch (Exception ex)
             {
-                new ExceptionMessageBox("Error generating patch", ex).ShowDialog();
+                new ExceptionMessageBox("An error occurred while reading newcode.sym", ex).ShowDialog();
+
                 return null;
             }
             finally
             {
-                oldCode.Dispose();
-                oldCodeW.Close();
-                fileOut.Close();
-                asmMap.Close();
-                symbols.Close();
+                if (symbolFile != null)
+                    symbolFile.Close();
             }
 
+            if (initFuncOffset == 0)
+            {
+                if (cleanFuncOffset == 0)
+                    MessageBox.Show("Generating DL failed: init and cleanup functions missing");
+                else
+                    MessageBox.Show("Generating DL failed: init function missing");    
+            }
+            else
+                MessageBox.Show("Generating DL failed: cleanup function missing");
+
+            return null;   
+        }
+
+        public byte[] makeDynamicLibrary()
+        {
+            try
+            {
+                const uint baseAddress = 0x02400000;
+
+                string make = "(make CODEADDR=0x" + baseAddress.ToString("X8")
+                     + " && make CODEADDR=0x" + (baseAddress + 4).ToString("X8")
+                     + " TARGET=newcode1)";
+
+                if (PatchCompiler.runProcess(make, romdir.FullName) != 0)
+                    return null;
+
+                byte[] code0 = File.ReadAllBytes(romdir.FullName + "/newcode.bin");
+                byte[] code1 = File.ReadAllBytes(romdir.FullName + "/newcode1.bin");
+
+                if (code0.Length != code1.Length)
+                {
+                    MessageBox.Show("Generating DL failed: code lengths don't match");
+
+                    return null;
+                }
+
+                MemoryStream outputStream = new MemoryStream();
+                BinaryWriter output = new BinaryWriter(outputStream);
+                List<ushort> relocations = new List<ushort>();
+
+                output.Write((ulong)0);
+                output.Write((ulong)0);
+
+                uint alignedCodeSize = (uint)code0.Length & ~3U;
+                for (ushort i = 0; i < alignedCodeSize; i += 4)
+                {
+                    uint word0 = BitConverter.ToUInt32(code0, i);
+                    uint word1 = BitConverter.ToUInt32(code1, i);
+
+                    if (word0 == word1)
+                    {
+                        output.Write(word0);
+                    }
+                    else if (word0 + 4 == word1) // word0 and word1 are pointers
+                    {
+                        output.Write(word0 - baseAddress + 0x10);
+
+                        relocations.Add(i);
+                    }
+                    else if (word0 == word1 + 1 && word0 >> 24 == word1 >> 24) // word0 and word1 are branches
+                    {
+                        uint destAddr = getDestOfBranch((int)word0, baseAddress + i);
+
+                        output.Write((destAddr >> 2) | (word0 & 0xff000000));
+
+                        relocations.Add(i);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Generating DL failed: code files don't match for an unknown reason\nnewcode.bin offset: 0x"
+                             + i.ToString("X4") + "\nmismatching words: 0x"
+                             + word0.ToString("X8") + " and 0x" + word1.ToString("X8"));
+
+                        return null;
+                    }
+                }
+
+                for (uint i = alignedCodeSize; i < code0.Length; ++i)
+                    output.Write(code0[i]);
+
+                alignStream(output.BaseStream, 4);
+
+                var relocationOffset = output.BaseStream.Position;
+                var addresses = getInitAndCleanup();
+                if (addresses == null) return null;
+
+                uint initFuncOffset  = (((uint, uint))addresses).Item1 - baseAddress + 0x10;
+                uint cleanFuncOffset = (((uint, uint))addresses).Item2 - baseAddress + 0x10;
+
+                output.Seek(0, SeekOrigin.Begin);
+
+                output.Write((ushort)relocations.Count);
+                output.Write((ushort)relocationOffset);
+                output.Write((ushort)initFuncOffset);
+                output.Write((ushort)cleanFuncOffset);
+
+                output.Seek(0, SeekOrigin.End);
+                
+                foreach (ushort relocation in relocations)
+                    output.Write((ushort)(relocation + 0x10));
+
+                return outputStream.ToArray();
+            }
+            catch (Exception ex)
+            {
+                new ExceptionMessageBox("Generating DL failed:", ex).ShowDialog();
+
+                return null;
+            }
         }
 
         public byte[] generatePatch()

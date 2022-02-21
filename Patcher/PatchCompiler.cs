@@ -20,7 +20,12 @@ namespace SM64DSe.Patcher
 
         public static int cleanPatch(DirectoryInfo romDir)
         {
-            return runProcess("make clean", romDir.FullName);
+            int exitCode = runProcess("make clean", romDir.FullName);
+
+            if (exitCode == 0)
+                exitCode = runProcess("make clean TARGET=newcode1", romDir.FullName);
+
+            return exitCode;
         }
 
         public static int runProcess(string proc, string cwd)
