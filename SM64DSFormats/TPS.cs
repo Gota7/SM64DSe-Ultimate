@@ -76,10 +76,10 @@ namespace SM64DSe.SM64DSFormats
 
         public void CalculateWidthHeight()
         {
-            p_width = (int)Math.Pow(2, ((p_flags & 0x78) >> 3) + 1);
-            p_height = (int)Math.Pow(2, ((p_flags & 0x780) >> 7) + 1);
-            //p_width = 1 << ((((int)p_flags & 0xf << 4) >> 4) + 3);
-            //p_height = 1 << ((((int)p_flags & 0xf << 8) >> 8) + 3);
+            p_width = 1 << (int)(((p_flags & (0xf << 4)) >> 4) + 3);
+            p_height = 1 << (int)(((p_flags & (0xf << 8)) >> 8) + 3);
+            //Console.WriteLine($"p_width = {p_width}");
+            //Console.WriteLine($"p_height = {p_height}");
         }
 
         public void SetWidthHeightFlags()
@@ -87,6 +87,8 @@ namespace SM64DSe.SM64DSFormats
             // calculate flags from width & height
             uint log2Width = (uint)Math.Log(p_width, 2) - 1;
             uint log2Height = (uint)Math.Log(p_height, 2) - 1;
+            //Console.WriteLine($"log2Width = {log2Width}");
+            //Console.WriteLine($"log2Height = {log2Height}");
             p_flags = (uint)(p_flags & ~0x7F8) | log2Width << 3 | log2Height << 7;
         }
 
