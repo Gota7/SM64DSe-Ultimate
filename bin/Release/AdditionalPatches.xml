@@ -1131,4 +1131,51 @@
     <Author>Gamemasterpic</Author>
     <OverlayToPatch>62</OverlayToPatch>
   </Patch>
+  <Patch>
+    <PatchName>Change amount of particle textures (default: 0x2e)</PatchName>
+    <Author>Splatterboy</Author>
+    <EURPatch>
+      <AddressDataPair>
+        <Address>483102</Address>
+        <Data>
+          <Byte>46</Byte>
+        </Data>
+      </AddressDataPair>
+    </EURPatch>
+    <EURRestoreData>
+      <AddressDataPair>
+        <Address>483102</Address>
+        <Data>
+          <Byte>46</Byte>
+        </Data>
+      </AddressDataPair>
+    </EURRestoreData>
+  </Patch>
+  <Patch>
+    <PatchName>Change Player struct size (default: 0x768)</PatchName>
+    <Author>Splatterboy</Author>
+    <OverlayToPatch>2</OverlayToPatch>
+    <EURPatch>
+      <AddressDataPair>
+        <Address>234972</Address>
+        <Data>
+          <Byte>104</Byte>
+          <Byte>7</Byte>
+          <Byte>0</Byte>
+          <Byte>0</Byte>
+        </Data>
+      </AddressDataPair>
+    </EURPatch>
+    <EURRestoreData>
+      <AddressDataPair>
+        <Address>234972</Address>
+        <Data>
+          <Byte>4</Byte>
+          <Byte>208</Byte>
+          <Byte>141</Byte>
+          <Byte>2</Byte>
+        </Data>
+      </AddressDataPair>
+    </EURRestoreData>
+  </Patch>
 </Patches>
