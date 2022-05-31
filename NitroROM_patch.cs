@@ -684,6 +684,11 @@ namespace SM64DSe
             lazyman.ReportProgress(599);
         }
 
+        private void Patch_v6(BackgroundWorker lazyman)
+        {
+
+        }
+
         public void Patch()
         {
             // read previous patch version

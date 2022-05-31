@@ -256,6 +256,14 @@ namespace SM64DSe
 			this(name, type.AssemblyQualifiedName, category, description, defaultValue, editor,
 			typeConverter.AssemblyQualifiedName) { }
 
+		public PropertySpec(string name, Type type, string category, string description, object defaultValue,
+			string editor, Type typeConverter, Attribute[] attributes) :
+			this(name, type.AssemblyQualifiedName, category, description, defaultValue,
+			editor, typeConverter.AssemblyQualifiedName)
+		{
+			this.attributes = attributes;
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the PropertySpec class.
 		/// </summary>
@@ -1013,6 +1021,13 @@ namespace SM64DSe
 		public PropertyTable()
 		{
 			propValues = new Hashtable();
+		}
+
+		/// Convient way to add a property spec and initialize it to a value
+		public void AddProperty(PropertySpec spec)
+		{
+			Properties.Add(spec);
+			this[spec.Name] = spec.DefaultValue;
 		}
 
 		/// <summary>

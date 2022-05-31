@@ -563,7 +563,6 @@ C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.SoundViewForm.resources
 C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.Templates.PlatformTemplateForm.resources
 C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.TextEditorForm.resources
 C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.TextureAnimationForm.resources
-C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.ParticleEdtorForm.resources
 C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.TextureEditorForm.resources
 C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.RawEditorForm.resources
 C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.csproj.GenerateResource.cache
@@ -571,3 +570,6 @@ C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.csproj.CoreCompileInputs.
 C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.csproj.CopyComplete
 C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.exe
 C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.pdb
+C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.ParticleViewerForm.resources
+C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.ParticleTextureForm.resources
+C:\Users\dylia\Desktop\PTS-Dev\GIT\obj\Release\SM64DSe.ParticleEditorForm.resources

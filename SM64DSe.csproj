@@ -241,6 +241,12 @@
     <Compile Include="LevelDisplaySettingsForm.Designer.cs">
       <DependentUpon>LevelDisplaySettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ParticleTextureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ParticleTextureForm.Designer.cs">
+      <DependentUpon>ParticleTextureForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModelAndCollisionMapEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -290,6 +296,14 @@
     <Compile Include="OverlayEditor.Designer.cs">
       <DependentUpon>OverlayEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Particle.cs" />
+    <Compile Include="ParticleViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ParticleViewerForm.Designer.cs">
+      <DependentUpon>ParticleViewerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ParticleSysDefProperties.cs" />
     <Compile Include="Patcher\Arm9BinaryHandler.cs" />
     <Compile Include="Patcher\Arm9BinSection.cs" />
     <Compile Include="Patcher\PatchCompiler.cs" />
@@ -310,7 +324,6 @@
     <Compile Include="Compression.cs" />
     <Compile Include="SM64DSFormats\BCA.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="SM64DSFormats\TPS.cs" />
     <Compile Include="SM64DSFormats\BTP.cs" />
     <Compile Include="SM64DSFormats\BMD.NitroTexture.cs" />
     <Compile Include="SM64DSFormats\CreateNewLevelAnimationDialog.cs">
@@ -499,6 +512,10 @@
       <DependentUpon>LevelEditorForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ParticleTextureForm.resx">
+      <DependentUpon>ParticleTextureForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="LevelSettingsForm.resx">
       <DependentUpon>LevelSettingsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -527,6 +544,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="OverlayEditor.resx">
       <DependentUpon>OverlayEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ParticleViewerForm.resx">
+      <DependentUpon>ParticleViewerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
@@ -645,6 +665,7 @@
     <Content Include="Ndst.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\DummyTex.png" />
     <Content Include="Templates\Enemy.cpp" />
     <Content Include="Templates\Enemy.h" />
     <Content Include="Templates\Platform.cpp" />

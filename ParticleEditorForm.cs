@@ -14,46 +14,31 @@ using SM64DSe.ImportExport.Loaders.InternalLoaders;
 
 namespace SM64DSe
 {
-    public partial class ParticleEdtorForm : Form
+    public partial class ParticleEditorForm : Form
     {
-        private int previousFormatIndex;
-        bool checkboxesBeingUpdated = false;
-
-        enum CompressionType
-        {
-            A3I5 = 1,
-            COLOR_4,
-            COLOR_16,
-            COLOR_256,
-            TEXEL_4x4,
-            A5I3,
-            DIRECT,
-
-            NUM_COMPRESSION_TYPES
-        }
-
-        private TPS p_ParticleTex;
-        private NitroFile p_ParticleTexFile;
-        private string p_Name;
+        private Particle.Texture m_Texture;
+        private NitroFile m_ParticleTexFile;
+        private string m_Name;
+        private int prevFormat;
 
         private ROMFileSelect m_ROMFileSelect = new ROMFileSelect();
         private FolderBrowserDialog m_FolderBrowserDialogue = new FolderBrowserDialog();
 
-        public ParticleEdtorForm(string fileName)
+        public ParticleEditorForm(string fileName)
         {
             InitializeComponent();
 
-            p_Name = fileName;
+            m_Name = fileName;
         }
 
-        public ParticleEdtorForm()
+        public ParticleEditorForm()
             : this(null) { }
 
         private void TextureEditorForm_Load(object sender, System.EventArgs e)
         {
-            if (p_Name == null)
+            if (m_Name == null)
             {
-                m_ROMFileSelect.ReInitialize("Select a TPS file to load", new String[] { ".tps" });
+                m_ROMFileSelect.ReInitialize("Select a SPT file to load", new string[] { ".spt" });
                 DialogResult result = m_ROMFileSelect.ShowDialog();
                 if (result != DialogResult.OK)
                 {
@@ -61,18 +46,29 @@ namespace SM64DSe
                 }
                 else
                 {
-                    p_Name = m_ROMFileSelect.m_SelectedFile;
-                    p_ParticleTexFile = Program.m_ROM.GetFileFromName(p_Name);
-                    p_ParticleTex = new TPS(p_ParticleTexFile);
+                    m_Name = m_ROMFileSelect.m_SelectedFile;
+                    m_ParticleTexFile = Program.m_ROM.GetFileFromName(m_Name);
+
+                    cmbRepeatX.Items.Add(Particle.Texture.RepeatMode.CLAMP);
+                    cmbRepeatX.Items.Add(Particle.Texture.RepeatMode.REPEAT);
+                    cmbRepeatX.Items.Add(Particle.Texture.RepeatMode.FLIP);
+                    cmbRepeatX.SelectedIndex = -1;
+
+                    cmbRepeatY.Items.Add(Particle.Texture.RepeatMode.CLAMP);
+                    cmbRepeatY.Items.Add(Particle.Texture.RepeatMode.REPEAT);
+                    cmbRepeatY.Items.Add(Particle.Texture.RepeatMode.FLIP);
+                    cmbRepeatY.SelectedIndex = -1;
 
                     cmbFormat.Items.Add("A3I5");
                     cmbFormat.Items.Add("Color4");
                     cmbFormat.Items.Add("Color16");
                     cmbFormat.Items.Add("Color256");
-                    cmbFormat.Items.Add("Texel4x4");
+                    cmbFormat.Items.Add("Texel4x4 (unsupported)");
                     cmbFormat.Items.Add("A5I3");
                     cmbFormat.Items.Add("Direct");
-                    cmbFormat.SelectedIndex = previousFormatIndex = (int)(p_ParticleTex.p_flags & 0x7) - 1;
+                    cmbFormat.SelectedIndex = prevFormat = -1;
+
+                    LoadTexture();
                     RefreshImage();
                     PopulatePaletteSettings();
                     UpdateForm();
@@ -81,22 +77,54 @@ namespace SM64DSe
             }
         }
 
+        public void LoadTexture()
+        {
+            //Console.WriteLine($"offset = 0x{Convert.ToString(offset, 16)}");
+            if (m_ParticleTexFile.Read32(0x0) != 0x53505420)
+            {
+                MessageBox.Show(string.Format("This SPT file is invalid."),
+                    "Bad texture");
+                Close();
+                return;
+            }
+
+            uint flags = m_ParticleTexFile.Read32(0x04);
+            uint texelArrSize = m_ParticleTexFile.Read32(0x08);
+            uint palOffset = m_ParticleTexFile.Read32(0x0c);
+            uint palSize = m_ParticleTexFile.Read32(0x10);
+            uint totalSize = m_ParticleTexFile.Read32(0x1c);
+
+            byte[] texels = m_ParticleTexFile.ReadBlock(0x20, texelArrSize);
+            byte[] palette = m_ParticleTexFile.ReadBlock(palOffset, palSize);
+
+            int width = 1 << (((int)flags >> 4 & 0xf) + 3);
+            int height = 1 << (((int)flags >> 8 & 0xf) + 3);
+            bool color0Transp = ((flags & 0x8) | (flags & 0x10000)) != 0;
+            int type = (int)flags & 0x7;
+            Particle.Texture.RepeatMode repeatX = (flags & 0x4000) != 0 ?
+                Particle.Texture.RepeatMode.FLIP : (flags & 0x1000) != 0 ?
+                Particle.Texture.RepeatMode.REPEAT :
+                Particle.Texture.RepeatMode.CLAMP;
+            Particle.Texture.RepeatMode repeatY = (flags & 0x8000) != 0 ?
+                Particle.Texture.RepeatMode.FLIP : (flags & 0x2000) != 0 ?
+                Particle.Texture.RepeatMode.REPEAT :
+                Particle.Texture.RepeatMode.CLAMP;
+
+            m_Texture = new Particle.Texture(texels, palette, width, height,
+                (byte)(color0Transp ? 1 : 0), type, repeatX, repeatY, 0);
+        }
+
         public void UpdateForm()
         {
-            checkboxesBeingUpdated = true;
-            chkRepeatS.Checked = p_ParticleTex.GetRepeatSFlag();
-            chkRepeatT.Checked = p_ParticleTex.GetRepeatTFlag();
-            chkFlipS.Checked = p_ParticleTex.GetFlipSFlag();
-            chkFlipT.Checked = p_ParticleTex.GetFlipTFlag();
-            chkTransparent.Checked = p_ParticleTex.GetTransparentFlag();
-            checkboxesBeingUpdated = false;
+            cmbRepeatX.SelectedIndex = (int)m_Texture.m_RepeatX;
+            cmbRepeatY.SelectedIndex = (int)m_Texture.m_RepeatY;
+            cmbFormat.SelectedIndex = m_Texture.m_Tex.m_TexType - 1;
         }
 
         private void btnExport_Click(object sender, EventArgs e)
         {
             SaveFileDialog export = new SaveFileDialog();
-            int i = p_Name.LastIndexOf('/');
-            export.FileName = p_Name.Substring(++i, p_Name.Length - i).Replace(".tps", ".png");//Default name
+            export.FileName = $"{m_Name}.png";//Default name
             export.DefaultExt = ".png";//Because most particle textures have transparency
             export.Filter = "Image Files (*.bmp,*.png) | *.bmp;*.png";
             if (export.ShowDialog() == DialogResult.Cancel)
@@ -104,16 +132,16 @@ namespace SM64DSe
 
             string extension = export.FileName.Substring(export.FileName.Length - 4, 4);
             if (extension.Equals(".png", StringComparison.CurrentCultureIgnoreCase))
-                SaveTextureAsPNG(p_ParticleTex, export.FileName);
+                SaveTextureAsPNG(m_Texture, export.FileName);
             else
-                SaveTextureAsBMP(p_ParticleTex, export.FileName);
+                SaveTextureAsBMP(m_Texture, export.FileName);
         }
 
-        private static void SaveTextureAsBMP(TPS currentTexture, String fileName)
+        private static void SaveTextureAsBMP(Particle.Texture currentTexture, String fileName)
         {
             try
             {
-                currentTexture.ArgbToBitmap().Save(fileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                currentTexture.m_Tex.ToBitmap().Save(fileName, System.Drawing.Imaging.ImageFormat.Bmp);
             }
             catch (Exception ex)
             {
@@ -122,11 +150,11 @@ namespace SM64DSe
             }
         }
 
-        private static void SaveTextureAsPNG(TPS currentTexture, String fileName)
+        private static void SaveTextureAsPNG(Particle.Texture currentTexture, String fileName)
         {
             try
             {
-                currentTexture.ArgbToBitmap().Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
+                currentTexture.m_Tex.ToBitmap().Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
             }
             catch (Exception ex)
             {
@@ -137,12 +165,39 @@ namespace SM64DSe
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            p_ParticleTex.SaveTPS();
+            uint flags = (uint)m_Texture.m_Tex.m_TexType;
+            flags |= ((uint)Math.Log(m_Texture.m_Tex.m_Width, 2) - 3) << 4;
+            flags |= ((uint)Math.Log(m_Texture.m_Tex.m_Height, 2) - 3) << 8;
+            flags |= (uint)(m_Texture.m_RepeatX == Particle.Texture.RepeatMode.REPEAT ? 0x1000 : m_Texture.m_RepeatX == Particle.Texture.RepeatMode.FLIP ? 0x5000 : 0);
+            flags |= (uint)(m_Texture.m_RepeatY == Particle.Texture.RepeatMode.REPEAT ? 0x2000 : m_Texture.m_RepeatY == Particle.Texture.RepeatMode.FLIP ? 0xa000 : 0);
+            flags |= (uint)(m_Texture.m_Tex.m_Colour0Mode != 0 ? 1 : 0) << 16;
+
+            uint texelArrSize = (uint)m_Texture.m_Tex.m_RawTextureData.Length;
+            uint palOffset = 0x20 + texelArrSize;
+            uint palSize = (uint)m_Texture.m_Tex.m_RawPaletteData.Length;
+            uint totalSize = palOffset + palSize;
+
+            m_ParticleTexFile.Write32(0x0, 0x53505420); // "SPT " in ascii
+            m_ParticleTexFile.Write32(0x04, flags); // flags
+
+            m_ParticleTexFile.Write32(0x08, texelArrSize); // texelArrSize
+            m_ParticleTexFile.Write32(0x0c, palOffset); // palOffset
+            m_ParticleTexFile.Write32(0x10, palSize); // palSize
+            m_ParticleTexFile.Write32(0x1c, totalSize); // totalSize
+
+            m_ParticleTexFile.WriteBlock(0x20, m_Texture.m_Tex.m_RawTextureData);
+            m_ParticleTexFile.WriteBlock(palOffset, m_Texture.m_Tex.m_RawPaletteData);
+
+            // make it so the file is only as big as it needs to be
+            if (m_ParticleTexFile.m_Data.Length - (int)totalSize > 0)
+                m_ParticleTexFile.RemoveSpace(totalSize, (uint)m_ParticleTexFile.m_Data.Length - totalSize);
+
+            m_ParticleTexFile.SaveChanges();
         }
 
-        private void btnLoadTPS_Click(object sender, EventArgs e)
+        private void btnLoadSPT_Click(object sender, EventArgs e)
         {
-            m_ROMFileSelect.ReInitialize("Select a TPS file to load", new String[] { ".tps" });
+            m_ROMFileSelect.ReInitialize("Select a SPT file to load", new String[] { ".spt" });
             DialogResult result = m_ROMFileSelect.ShowDialog();
             if (result != DialogResult.OK)
             {
@@ -150,11 +205,10 @@ namespace SM64DSe
             }
             else
             {
-                p_Name = m_ROMFileSelect.m_SelectedFile;
-                p_ParticleTexFile = Program.m_ROM.GetFileFromName(p_Name);
-                p_ParticleTex = new TPS(p_ParticleTexFile);
+                m_Name = m_ROMFileSelect.m_SelectedFile;
+                m_ParticleTexFile = Program.m_ROM.GetFileFromName(m_Name);
 
-                cmbFormat.SelectedIndex = previousFormatIndex = (int)(p_ParticleTex.p_flags & 0x7) - 1;
+                LoadTexture();
                 RefreshImage();
                 PopulatePaletteSettings();
                 UpdateForm();
@@ -163,96 +217,36 @@ namespace SM64DSe
 
         private void btnImportTexture_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Title = "Select an image";
-            DialogResult result = ofd.ShowDialog();
-            if (result == DialogResult.Cancel) return;
-            Bitmap bmp = new Bitmap(ofd.FileName);
+            if (cmbFormat.SelectedIndex == -1 || cmbFormat.SelectedIndex == 4
+                || cmbRepeatX.SelectedIndex == -1 || cmbRepeatY.SelectedIndex == -1)
+                return;
 
             try
             {
-                p_ParticleTex.FromBMP(bmp, cmbFormat.SelectedIndex + 1);
-                PopulatePaletteSettings();
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Title = "Select an image";
+                DialogResult result = ofd.ShowDialog();
+                if (result == DialogResult.Cancel) return;
+                Bitmap bmp = new Bitmap(ofd.FileName);
 
-                if (chkFlipS.Checked)
-                    p_ParticleTex.SetFlipSFlag();
-                if (chkFlipT.Checked)
-                    p_ParticleTex.SetFlipTFlag();
-                if (chkRepeatS.Checked)
-                    p_ParticleTex.SetRepeatSFlag();
-                if (chkRepeatT.Checked)
-                    p_ParticleTex.SetRepeatTFlag();
-                if (chkTransparent.Checked)
-                    p_ParticleTex.SetTransparentFlag();
-
-                RefreshImage();
-
-                UpdateForm();
+                m_Texture = new Particle.Texture(bmp, cmbFormat.SelectedIndex + 1,
+                    (Particle.Texture.RepeatMode)cmbRepeatX.SelectedIndex,
+                    (Particle.Texture.RepeatMode)cmbRepeatY.SelectedIndex, 0);
             }
-            catch (ArgumentException argEx)
+            catch (Exception ex)
             {
-                MessageBox.Show(argEx.Message, "Invalid format.");
-            }
-            catch (IndexOutOfRangeException indEx)
-            {
-                MessageBox.Show(indEx.Message, "Something went wrong.");
-            }
-        }
-
-        private void chkRepeatS_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!checkboxesBeingUpdated)
-               p_ParticleTex.SetRepeatSFlag();
-        }
-
-        private void chkRepeatT_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!checkboxesBeingUpdated)
-                p_ParticleTex.SetRepeatTFlag();
-        }
-
-        private void chkFlipS_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!checkboxesBeingUpdated)
-                p_ParticleTex.SetFlipSFlag();
-        }
-
-        private void chkFlipT_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!checkboxesBeingUpdated)
-                p_ParticleTex.SetFlipTFlag();
-        }
-
-        private void chkTransparent_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!checkboxesBeingUpdated)
-            {
-                p_ParticleTex.SetTransparentFlag();
-                RefreshImage();
-            }
-        }
-
-        private void cmbCompression_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cmbFormat.SelectedIndex + 1 == 5)
-            {
-                MessageBox.Show("The 4x4 texel format is not currently supported, please select a different format.", "Format not supported", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                cmbFormat.SelectedIndex = previousFormatIndex;
+                MessageBox.Show("Failed to load image. Details:\n" + ex.Message, "Failed to image");
             }
 
-            previousFormatIndex = cmbFormat.SelectedIndex;
+            RefreshImage();
+            PopulatePaletteSettings();
         }
 
         public void RefreshImage()
         {
-            p_ParticleTex.ArgbFromData();
-            pbxTexture.Image = p_ParticleTex.ArgbToBitmap();
+            m_Texture.m_Tex.FromRaw(m_Texture.m_Tex.m_RawTextureData, m_Texture.m_Tex.m_RawPaletteData);
+            pbxTexture.Image = m_Texture.m_Tex.ToBitmap();
             pbxTexture.Refresh();
-        }
-
-        private void pbxTexture_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnModelPalettesSelectedColour_Click(object sender, EventArgs e)
@@ -265,7 +259,7 @@ namespace SM64DSe
             ushort colourBGR15 = Helper.ColorToBGR15((Color)selectedColour);
             int selectedColourIndex = grdPalette.GetSelectedColourIndex();
 
-            DataHelper.Write16(p_ParticleTex.p_RawPaletteData, (uint)(selectedColourIndex * 2), colourBGR15);
+            DataHelper.Write16(m_Texture.m_Tex.m_RawPaletteData, (uint)(selectedColourIndex * 2), colourBGR15);
             grdPalette.SetColourAtIndex((Color)selectedColour, selectedColourIndex);
 
             RefreshImage();
@@ -299,7 +293,7 @@ namespace SM64DSe
 
         private void PopulatePaletteSettings()
         {
-            byte[] palette = p_ParticleTex.p_RawPaletteData;
+            byte[] palette = m_Texture.m_Tex.m_RawPaletteData;
 
             int nColours = palette.Length / 2;
             Color[] paletteColours = new Color[nColours];
@@ -333,20 +327,31 @@ namespace SM64DSe
             button.ForeColor = Color.Black;
         }
 
-        private void btnChangeFormat_Click(object sender, EventArgs e)
+        private void cmbRepeatX_SelectedIndexChanged(object sender, EventArgs e)
         {
-            /*try
+            if (cmbRepeatX.SelectedIndex != -1)
+                m_Texture.m_RepeatX = (Particle.Texture.RepeatMode)cmbRepeatX.SelectedIndex;
+        }
+
+        private void cmbRepeatY_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbRepeatY.SelectedIndex != -1)
+                m_Texture.m_RepeatY = (Particle.Texture.RepeatMode)cmbRepeatY.SelectedIndex;
+        }
+
+        private void cmbFormat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbFormat.SelectedIndex == -1)
+                return;
+
+            if (cmbFormat.SelectedIndex == 4)
             {
-                p_ParticleTex.ChangeFormat((uint)(cmbFormat.SelectedIndex + 1));
-                p_ParticleTex.DataFromBitmap(p_ParticleTex.ArgbToBitmap()); // update the raw image to the new format
-                RefreshImage();
-                PopulatePaletteSettings();
-                lblDebug.Text = p_ParticleTex.ToString();
+                MessageBox.Show("The Texel4x4 format is not supported by particles.", "Texture format not supported.");
+                cmbFormat.SelectedIndex = prevFormat;
+                return;
             }
-            catch(ArgumentException argEx)
-            {
-                MessageBox.Show(argEx.Message, "Invalid format.");
-            }*/
+
+            prevFormat = cmbFormat.SelectedIndex;
         }
     }
 }

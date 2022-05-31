@@ -35,6 +35,11 @@
             this.lbxMsgList = new System.Windows.Forms.ListBox();
             this.splitCHorizontal = new System.Windows.Forms.SplitContainer();
             this.tbxMsgPreview = new System.Windows.Forms.TextBox();
+            this.chkCopy = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.height_numeric = new System.Windows.Forms.NumericUpDown();
+            this.width_numeric = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -60,10 +65,6 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnLanguages = new System.Windows.Forms.ToolStripDropDownButton();
             this.btnHelp = new System.Windows.Forms.ToolStripButton();
-            this.width_numeric = new System.Windows.Forms.NumericUpDown();
-            this.height_numeric = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitCVertical)).BeginInit();
             this.splitCVertical.Panel1.SuspendLayout();
             this.splitCVertical.Panel2.SuspendLayout();
@@ -72,9 +73,9 @@
             this.splitCHorizontal.Panel1.SuspendLayout();
             this.splitCHorizontal.Panel2.SuspendLayout();
             this.splitCHorizontal.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.width_numeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.height_numeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.width_numeric)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitCVertical
@@ -141,6 +142,7 @@
             // 
             // splitCHorizontal.Panel2
             // 
+            this.splitCHorizontal.Panel2.Controls.Add(this.chkCopy);
             this.splitCHorizontal.Panel2.Controls.Add(this.label6);
             this.splitCHorizontal.Panel2.Controls.Add(this.label3);
             this.splitCHorizontal.Panel2.Controls.Add(this.height_numeric);
@@ -175,6 +177,66 @@
             this.tbxMsgPreview.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbxMsgPreview.Size = new System.Drawing.Size(566, 245);
             this.tbxMsgPreview.TabIndex = 0;
+            // 
+            // chkCopy
+            // 
+            this.chkCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkCopy.AutoSize = true;
+            this.chkCopy.Location = new System.Drawing.Point(393, 148);
+            this.chkCopy.Name = "chkCopy";
+            this.chkCopy.Size = new System.Drawing.Size(155, 17);
+            this.chkCopy.TabIndex = 27;
+            this.chkCopy.Text = "Copy message on selection";
+            this.chkCopy.UseVisualStyleBackColor = true;
+            this.chkCopy.CheckedChanged += new System.EventHandler(this.chkCopy_CheckedChanged);
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(126, 216);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(38, 13);
+            this.label6.TabIndex = 26;
+            this.label6.Text = "Height";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(126, 185);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.TabIndex = 25;
+            this.label3.Text = "Width";
+            // 
+            // height_numeric
+            // 
+            this.height_numeric.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.height_numeric.Location = new System.Drawing.Point(2, 213);
+            this.height_numeric.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.height_numeric.Name = "height_numeric";
+            this.height_numeric.Size = new System.Drawing.Size(120, 20);
+            this.height_numeric.TabIndex = 24;
+            this.height_numeric.ValueChanged += new System.EventHandler(this.height_numeric_ValueChanged);
+            // 
+            // width_numeric
+            // 
+            this.width_numeric.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.width_numeric.Location = new System.Drawing.Point(2, 181);
+            this.width_numeric.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.width_numeric.Name = "width_numeric";
+            this.width_numeric.Size = new System.Drawing.Size(120, 20);
+            this.width_numeric.TabIndex = 23;
+            this.width_numeric.ValueChanged += new System.EventHandler(this.width_numeric_ValueChanged);
             // 
             // label1
             // 
@@ -431,50 +493,6 @@
             this.btnHelp.Text = "Help";
             this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
-            // width_numeric
-            // 
-            this.width_numeric.Location = new System.Drawing.Point(2, 181);
-            this.width_numeric.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.width_numeric.Name = "width_numeric";
-            this.width_numeric.Size = new System.Drawing.Size(120, 20);
-            this.width_numeric.TabIndex = 23;
-            this.width_numeric.ValueChanged += new System.EventHandler(this.width_numeric_ValueChanged);
-            // 
-            // height_numeric
-            // 
-            this.height_numeric.Location = new System.Drawing.Point(2, 213);
-            this.height_numeric.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.height_numeric.Name = "height_numeric";
-            this.height_numeric.Size = new System.Drawing.Size(120, 20);
-            this.height_numeric.TabIndex = 24;
-            this.height_numeric.ValueChanged += new System.EventHandler(this.height_numeric_ValueChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(126, 185);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 25;
-            this.label3.Text = "Width";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(126, 216);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(38, 13);
-            this.label6.TabIndex = 26;
-            this.label6.Text = "Height";
-            // 
             // TextEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -497,10 +515,10 @@
             this.splitCHorizontal.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitCHorizontal)).EndInit();
             this.splitCHorizontal.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.height_numeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.width_numeric)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.width_numeric)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.height_numeric)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -527,7 +545,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton btnImport;
         private System.Windows.Forms.ToolStripButton btnExport;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
@@ -542,5 +559,7 @@
         private System.Windows.Forms.NumericUpDown width_numeric;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox chkCopy;
+        private System.Windows.Forms.ToolStripButton btnImport;
     }
 }

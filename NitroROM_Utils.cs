@@ -409,6 +409,23 @@ namespace SM64DSe {
             }
         }
 
+        public void AddSPA(List<string> filenames, List<string> fullNames, TreeNode root)
+        {
+            string path = "data";
+            this.AddFileEntriesAndCorrectIDs(path, filenames, fullNames);
+            TreeNode fileOrDir = ROMFileSelect.GetFileOrDir(path.TrimEnd('/'), root);
+            for (int index = 0; index < filenames.Count; ++index)
+            {
+                TreeNode treeNode = fileOrDir.Nodes.Add(filenames[index], filenames[index]);
+                treeNode.Tag = (object)(path + filenames[index]);
+                if (index == filenames.Count - 1)
+                {
+                    treeNode.EnsureVisible();
+                    treeNode.TreeView.SelectedNode = treeNode;
+                }
+            }
+        }
+
         public void FixCRC16() {
             int num1 = !this.m_CanRW ? 1 : 0;
             if (num1 != 0)
