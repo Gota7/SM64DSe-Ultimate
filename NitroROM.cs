@@ -26,7 +26,6 @@ using System.Globalization;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 
 namespace SM64DSe
 {

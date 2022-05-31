@@ -73,8 +73,6 @@ namespace SM64DSe
                 return;
             }
 
-            Program.m_ROM.BeginRW();
-
             try
             {
                 m_Patches[gridPatches.SelectedRows[0].Index].ApplyPatch(Program.m_ROM);
@@ -88,8 +86,6 @@ namespace SM64DSe
             {
                 MessageBox.Show("Something went wrong: \n\n" + ex.Message);
             }
-
-            Program.m_ROM.EndRW();
         }
 
         private void btnUndoPatch_Click(object sender, EventArgs e)
@@ -502,6 +498,7 @@ namespace SM64DSe
 
         public void ApplyPatch(NitroROM rom)
         {
+            Program.m_ROM.BeginRW();
             List<AddressDataPair> addressDataPairs = null;
 
             switch (rom.m_Version)
@@ -527,6 +524,23 @@ namespace SM64DSe
             if (m_DecompressAllOverlays)
                 Helper.DecompressOverlaysWithinGame();
 
+            if (m_FileToPatch != null)
+            {
+                NitroFile myFile = Program.m_ROM.GetFileFromName(m_FileToPatch);
+
+                foreach (AddressDataPair addressDataPair in addressDataPairs)
+                {
+                    for (int i = 0; i < addressDataPair.m_Data.Length; i++)
+                    {
+                        myFile.Write8(addressDataPair.m_Address + (uint)i, addressDataPair.m_Data[i]);
+                    }
+                }
+
+                Program.m_ROM.EndRW();
+                myFile.SaveChanges();
+                return;
+            }
+
             INitroROMBlock fileToPatch = null;
             if (m_FileToPatch != null)
                 fileToPatch = Program.m_ROM.GetFileFromName(m_FileToPatch);
@@ -539,10 +553,13 @@ namespace SM64DSe
                 {
                     if (fileToPatch == null)
                     {
-                        if (Program.m_IsROMFolder) {
+                        if (Program.m_IsROMFolder)
+                        {
                             Program.m_ROM.arm9W.BaseStream.Position = addressDataPair.m_Address + (uint)i - Program.m_ROM.headerSize;
                             Program.m_ROM.arm9W.Write(addressDataPair.m_Data[i]);
-                        } else { 
+                        }
+                        else
+                        {
                             rom.Write8(addressDataPair.m_Address + (uint)i, addressDataPair.m_Data[i]);
                         }
                     }
@@ -552,6 +569,8 @@ namespace SM64DSe
                     }
                 }
             }
+
+            Program.m_ROM.EndRW();
 
             if (fileToPatch != null)
                 fileToPatch.SaveChanges();

@@ -99,7 +99,8 @@
             this.btnReplaceOverlay = new System.Windows.Forms.Button();
             this.btnExtractOverlay = new System.Windows.Forms.Button();
             this.btnDecompressOverlay = new System.Windows.Forms.Button();
-            this.particleTextureTPSEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.particleTextureSPTEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.particleArchiveSPAEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsToolBar.SuspendLayout();
             this.ssStatusBar.SuspendLayout();
             this.tbcMainFormTabControl.SuspendLayout();
@@ -342,7 +343,8 @@
             this.mnitToolsCollisionMapEditor,
             this.mnitToolsModelAnimationEditor,
             this.mnitToolsBTPEditor,
-            this.particleTextureTPSEditorToolStripMenuItem,
+            this.particleTextureSPTEditorToolStripMenuItem,
+            this.particleArchiveSPAEditorToolStripMenuItem,
             this.mnitToolsTextEditor,
             this.mnitToolsSoundBrowser,
             this.bMDKLCEditorToolStripMenuItem,
@@ -841,12 +843,19 @@
             this.btnDecompressOverlay.Text = "Decompress Overlay";
             this.btnDecompressOverlay.UseVisualStyleBackColor = true;
             // 
-            // particleTextureTPSEditorToolStripMenuItem
+            // particleTextureSPTEditorToolStripMenuItem
             // 
-            this.particleTextureTPSEditorToolStripMenuItem.Name = "particleTextureTPSEditorToolStripMenuItem";
-            this.particleTextureTPSEditorToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.particleTextureTPSEditorToolStripMenuItem.Text = "Particle Texture (TPS) Editor";
-            this.particleTextureTPSEditorToolStripMenuItem.Click += new System.EventHandler(this.particleTextureTPSEditorToolStripMenuItem_Click);
+            this.particleTextureSPTEditorToolStripMenuItem.Name = "particleTextureSPTEditorToolStripMenuItem";
+            this.particleTextureSPTEditorToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.particleTextureSPTEditorToolStripMenuItem.Text = "Particle Texture (SPT) Editor";
+            this.particleTextureSPTEditorToolStripMenuItem.Click += new System.EventHandler(this.particleTextureSPTEditorToolStripMenuItem_Click);
+            // 
+            // particleArchiveSPAEditorToolStripMenuItem
+            // 
+            this.particleArchiveSPAEditorToolStripMenuItem.Name = "particleArchiveSPAEditorToolStripMenuItem";
+            this.particleArchiveSPAEditorToolStripMenuItem.Size = new System.Drawing.Size(321, 26);
+            this.particleArchiveSPAEditorToolStripMenuItem.Text = "Particle Archive (SPA) Editor";
+            this.particleArchiveSPAEditorToolStripMenuItem.Click += new System.EventHandler(this.particleArchiveSPAEditorToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -958,7 +967,8 @@
         private System.Windows.Forms.ToolStripButton btnBuildROM;
         private System.Windows.Forms.ToolStripButton btnRunROM;
         private System.Windows.Forms.ToolStripButton extractROMButton;
-        private System.Windows.Forms.ToolStripMenuItem particleTextureTPSEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem particleTextureSPTEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem particleArchiveSPAEditorToolStripMenuItem;
     }
 }
 

@@ -489,4 +489,57 @@ namespace SM64DSe
             return false;
         }
     }
+
+    class IntTypeConverter : ExpandableObjectConverter
+    {
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        {
+            if (destinationType == typeof(string))
+                return true;
+            return base.CanConvertTo(context, destinationType);
+        }
+        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
+        {
+            if (destinationType == typeof(string))
+                return ((int)value).ToString();
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            return sourceType == typeof(string);
+        }
+        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+        {
+            int ret = 0;
+            string _val = (string)value;
+            _val = _val.Trim();
+
+            if (!int.TryParse(_val, NumberStyles.Integer, culture, out ret))
+                if (!int.TryParse(_val, NumberStyles.Integer, new CultureInfo("en-US"), out ret))
+                    throw new ArgumentException("Invalid value.");
+
+
+            foreach (Attribute attr in context.PropertyDescriptor.Attributes)
+            {
+                if (attr is IntRangeAttribute)
+                {
+                    IntRangeAttribute rangeAttr = (IntRangeAttribute)attr;
+                    if (!rangeAttr.IsInRange(ret))
+                    {
+                        throw new ArgumentException("Invalid value. Must be an integer between " +
+                            string.Format("{0} and {1}", rangeAttr.m_Min, rangeAttr.m_Max) +
+                            ", inclusive.");
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+        public override bool GetPropertiesSupported(ITypeDescriptorContext context)
+        {
+            return false;
+        }
+    }
 }

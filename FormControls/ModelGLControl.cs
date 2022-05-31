@@ -20,6 +20,7 @@ namespace SM64DSe.FormControls
         protected Matrix4 m_CamMatrix;
         protected float m_PixelFactorX, m_PixelFactorY;
 
+        public Matrix4 CamMatrix { get { return m_CamMatrix; } }
         protected Matrix4 m_ProjectionMatrix;
 
         // mouse
@@ -29,6 +30,7 @@ namespace SM64DSe.FormControls
 
         // display
         protected int[] m_DisplayLists;
+        protected int[] m_PostDisplayLists;
         public delegate void CallListForDisplayLists();
         protected CallListForDisplayLists m_CallListForDisplayLists;
 
@@ -46,6 +48,7 @@ namespace SM64DSe.FormControls
             this.VSync = false;
 
             m_DisplayLists = new int[0];
+            m_PostDisplayLists = new int[0];
             m_CallListForDisplayLists = CallListForDisplayLists_Default;
         }
 
@@ -68,6 +71,11 @@ namespace SM64DSe.FormControls
             m_DisplayLists = displayLists;
         }
 
+        public void ProvidePostDisplayLists(int[] displayLists)
+        {
+            m_PostDisplayLists = displayLists;
+        }
+
         public void ProvideCallListForDisplayLists(CallListForDisplayLists callListForDisplayLists)
         {
             m_CallListForDisplayLists = callListForDisplayLists;
@@ -81,6 +89,10 @@ namespace SM64DSe.FormControls
         public virtual void PrepareForClose()
         {
             foreach (int dl in m_DisplayLists)
+            {
+                GL.DeleteLists(dl, 1);
+            }
+            foreach (int dl in m_PostDisplayLists)
             {
                 GL.DeleteLists(dl, 1);
             }
@@ -250,6 +262,10 @@ namespace SM64DSe.FormControls
         protected void CallListForDisplayLists_Default()
         {
             foreach (int displayList in m_DisplayLists)
+            {
+                GL.CallList(displayList);
+            }
+            foreach (int displayList in m_PostDisplayLists)
             {
                 GL.CallList(displayList);
             }
@@ -606,6 +622,13 @@ namespace SM64DSe.FormControls
             if (m_ShowMarioReference)
             {
                 GL.CallList(m_DisplayListMario);
+            }
+            foreach (int displayList in m_PostDisplayLists)
+            {
+                if (displayList > 0)
+                {
+                    GL.CallList(displayList);
+                }
             }
         }
 

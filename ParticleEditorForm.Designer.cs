@@ -1,6 +1,6 @@
 ﻿namespace SM64DSe
 {
-    partial class ParticleEdtorForm
+    partial class ParticleEditorForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,26 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParticleEdtorForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParticleEditorForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.btnImportTexture = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnExport = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnLoadTPS = new System.Windows.Forms.ToolStripButton();
+            this.btnLoadSPT = new System.Windows.Forms.ToolStripButton();
             this.pbxTexture = new System.Windows.Forms.PictureBox();
-            this.chkRepeatS = new System.Windows.Forms.CheckBox();
-            this.chkRepeatT = new System.Windows.Forms.CheckBox();
-            this.chkFlipS = new System.Windows.Forms.CheckBox();
-            this.chkFlipT = new System.Windows.Forms.CheckBox();
-            this.chkTransparent = new System.Windows.Forms.CheckBox();
-            this.cmbFormat = new System.Windows.Forms.ComboBox();
-            this.lblCompression = new System.Windows.Forms.Label();
             this.btnModelPalettesSelectedColour = new System.Windows.Forms.Button();
             this.lblModelPalettesPaletteSelectedColour = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.grdPalette = new SM64DSe.PaletteColourGrid();
+            this.cmbRepeatY = new System.Windows.Forms.ComboBox();
+            this.lblRepeatY = new System.Windows.Forms.Label();
+            this.lblRepeatX = new System.Windows.Forms.Label();
+            this.cmbRepeatX = new System.Windows.Forms.ComboBox();
+            this.lblFormat = new System.Windows.Forms.Label();
+            this.cmbFormat = new System.Windows.Forms.ComboBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxTexture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdPalette)).BeginInit();
@@ -62,10 +60,10 @@
             this.toolStripSeparator1,
             this.btnExport,
             this.toolStripSeparator2,
-            this.btnLoadTPS});
+            this.btnLoadSPT});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(740, 31);
+            this.toolStrip1.Size = new System.Drawing.Size(740, 27);
             this.toolStrip1.TabIndex = 10;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -74,9 +72,9 @@
             this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(44, 28);
+            this.btnSave.Size = new System.Drawing.Size(44, 24);
             this.btnSave.Text = "Save";
-            this.btnSave.ToolTipText = "Save the TPS file";
+            this.btnSave.ToolTipText = "Save the SPT file";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnImportTexture
@@ -84,37 +82,37 @@
             this.btnImportTexture.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnImportTexture.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImportTexture.Name = "btnImportTexture";
-            this.btnImportTexture.Size = new System.Drawing.Size(110, 28);
+            this.btnImportTexture.Size = new System.Drawing.Size(110, 24);
             this.btnImportTexture.Text = "Import Texture";
             this.btnImportTexture.Click += new System.EventHandler(this.btnImportTexture_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // btnExport
             // 
             this.btnExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(108, 28);
+            this.btnExport.Size = new System.Drawing.Size(108, 24);
             this.btnExport.Text = "Export Texture";
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
             // 
-            // btnLoadTPS
+            // btnLoadSPT
             // 
-            this.btnLoadTPS.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnLoadTPS.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnLoadTPS.Name = "btnLoadTPS";
-            this.btnLoadTPS.Size = new System.Drawing.Size(74, 28);
-            this.btnLoadTPS.Text = "Load TPS";
-            this.btnLoadTPS.Click += new System.EventHandler(this.btnLoadTPS_Click);
+            this.btnLoadSPT.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnLoadSPT.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLoadSPT.Name = "btnLoadSPT";
+            this.btnLoadSPT.Size = new System.Drawing.Size(74, 24);
+            this.btnLoadSPT.Text = "Load SPT";
+            this.btnLoadSPT.Click += new System.EventHandler(this.btnLoadSPT_Click);
             // 
             // pbxTexture
             // 
@@ -127,87 +125,6 @@
             this.pbxTexture.Size = new System.Drawing.Size(320, 320);
             this.pbxTexture.TabIndex = 11;
             this.pbxTexture.TabStop = false;
-            this.pbxTexture.Click += new System.EventHandler(this.pbxTexture_Click);
-            // 
-            // chkRepeatS
-            // 
-            this.chkRepeatS.AutoSize = true;
-            this.chkRepeatS.Location = new System.Drawing.Point(16, 362);
-            this.chkRepeatS.Margin = new System.Windows.Forms.Padding(4);
-            this.chkRepeatS.Name = "chkRepeatS";
-            this.chkRepeatS.Size = new System.Drawing.Size(89, 21);
-            this.chkRepeatS.TabIndex = 13;
-            this.chkRepeatS.Text = "Repeat S";
-            this.chkRepeatS.UseVisualStyleBackColor = true;
-            this.chkRepeatS.CheckedChanged += new System.EventHandler(this.chkRepeatS_CheckedChanged);
-            // 
-            // chkRepeatT
-            // 
-            this.chkRepeatT.AutoSize = true;
-            this.chkRepeatT.Location = new System.Drawing.Point(16, 390);
-            this.chkRepeatT.Margin = new System.Windows.Forms.Padding(4);
-            this.chkRepeatT.Name = "chkRepeatT";
-            this.chkRepeatT.Size = new System.Drawing.Size(89, 21);
-            this.chkRepeatT.TabIndex = 14;
-            this.chkRepeatT.Text = "Repeat T";
-            this.chkRepeatT.UseVisualStyleBackColor = true;
-            this.chkRepeatT.CheckedChanged += new System.EventHandler(this.chkRepeatT_CheckedChanged);
-            // 
-            // chkFlipS
-            // 
-            this.chkFlipS.AutoSize = true;
-            this.chkFlipS.Location = new System.Drawing.Point(16, 418);
-            this.chkFlipS.Margin = new System.Windows.Forms.Padding(4);
-            this.chkFlipS.Name = "chkFlipS";
-            this.chkFlipS.Size = new System.Drawing.Size(65, 21);
-            this.chkFlipS.TabIndex = 15;
-            this.chkFlipS.Text = "Flip S";
-            this.chkFlipS.UseVisualStyleBackColor = true;
-            this.chkFlipS.CheckedChanged += new System.EventHandler(this.chkFlipS_CheckedChanged);
-            // 
-            // chkFlipT
-            // 
-            this.chkFlipT.AutoSize = true;
-            this.chkFlipT.Location = new System.Drawing.Point(16, 447);
-            this.chkFlipT.Margin = new System.Windows.Forms.Padding(4);
-            this.chkFlipT.Name = "chkFlipT";
-            this.chkFlipT.Size = new System.Drawing.Size(65, 21);
-            this.chkFlipT.TabIndex = 16;
-            this.chkFlipT.Text = "Flip T";
-            this.chkFlipT.UseVisualStyleBackColor = true;
-            this.chkFlipT.CheckedChanged += new System.EventHandler(this.chkFlipT_CheckedChanged);
-            // 
-            // chkTransparent
-            // 
-            this.chkTransparent.AutoSize = true;
-            this.chkTransparent.Location = new System.Drawing.Point(16, 475);
-            this.chkTransparent.Margin = new System.Windows.Forms.Padding(4);
-            this.chkTransparent.Name = "chkTransparent";
-            this.chkTransparent.Size = new System.Drawing.Size(176, 21);
-            this.chkTransparent.TabIndex = 17;
-            this.chkTransparent.Text = "First Color Transparent";
-            this.chkTransparent.UseVisualStyleBackColor = true;
-            this.chkTransparent.CheckedChanged += new System.EventHandler(this.chkTransparent_CheckedChanged);
-            // 
-            // cmbFormat
-            // 
-            this.cmbFormat.FormattingEnabled = true;
-            this.cmbFormat.Location = new System.Drawing.Point(201, 385);
-            this.cmbFormat.Margin = new System.Windows.Forms.Padding(4);
-            this.cmbFormat.Name = "cmbFormat";
-            this.cmbFormat.Size = new System.Drawing.Size(160, 24);
-            this.cmbFormat.TabIndex = 18;
-            this.cmbFormat.SelectedIndexChanged += new System.EventHandler(this.cmbCompression_SelectedIndexChanged);
-            // 
-            // lblCompression
-            // 
-            this.lblCompression.AutoSize = true;
-            this.lblCompression.Location = new System.Drawing.Point(201, 362);
-            this.lblCompression.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCompression.Name = "lblCompression";
-            this.lblCompression.Size = new System.Drawing.Size(119, 17);
-            this.lblCompression.TabIndex = 19;
-            this.lblCompression.Text = "Format on import:";
             // 
             // btnModelPalettesSelectedColour
             // 
@@ -229,18 +146,6 @@
             this.lblModelPalettesPaletteSelectedColour.Size = new System.Drawing.Size(112, 17);
             this.lblModelPalettesPaletteSelectedColour.TabIndex = 21;
             this.lblModelPalettesPaletteSelectedColour.Text = "Selected Colour:";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(201, 418);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(161, 28);
-            this.button1.TabIndex = 23;
-            this.button1.Text = "Change Format";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
-            this.button1.Click += new System.EventHandler(this.btnChangeFormat_Click);
             // 
             // grdPalette
             // 
@@ -268,28 +173,84 @@
             this.grdPalette.TabIndex = 12;
             this.grdPalette.CurrentCellChanged += new System.EventHandler(this.grdPalette_CurrentCellChanged);
             // 
-            // ParticleEdtorForm
+            // cmbRepeatY
+            // 
+            this.cmbRepeatY.FormattingEnabled = true;
+            this.cmbRepeatY.Location = new System.Drawing.Point(143, 419);
+            this.cmbRepeatY.Name = "cmbRepeatY";
+            this.cmbRepeatY.Size = new System.Drawing.Size(121, 24);
+            this.cmbRepeatY.TabIndex = 46;
+            this.cmbRepeatY.SelectedIndexChanged += new System.EventHandler(this.cmbRepeatY_SelectedIndexChanged);
+            // 
+            // lblRepeatY
+            // 
+            this.lblRepeatY.AutoSize = true;
+            this.lblRepeatY.Location = new System.Drawing.Point(13, 426);
+            this.lblRepeatY.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblRepeatY.Name = "lblRepeatY";
+            this.lblRepeatY.Size = new System.Drawing.Size(110, 17);
+            this.lblRepeatY.TabIndex = 45;
+            this.lblRepeatY.Text = "Repeat Mode Y:";
+            // 
+            // lblRepeatX
+            // 
+            this.lblRepeatX.AutoSize = true;
+            this.lblRepeatX.Location = new System.Drawing.Point(13, 396);
+            this.lblRepeatX.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblRepeatX.Name = "lblRepeatX";
+            this.lblRepeatX.Size = new System.Drawing.Size(110, 17);
+            this.lblRepeatX.TabIndex = 44;
+            this.lblRepeatX.Text = "Repeat Mode X:";
+            // 
+            // cmbRepeatX
+            // 
+            this.cmbRepeatX.FormattingEnabled = true;
+            this.cmbRepeatX.Location = new System.Drawing.Point(143, 389);
+            this.cmbRepeatX.Name = "cmbRepeatX";
+            this.cmbRepeatX.Size = new System.Drawing.Size(121, 24);
+            this.cmbRepeatX.TabIndex = 43;
+            this.cmbRepeatX.SelectedIndexChanged += new System.EventHandler(this.cmbRepeatX_SelectedIndexChanged);
+            // 
+            // lblFormat
+            // 
+            this.lblFormat.AutoSize = true;
+            this.lblFormat.Location = new System.Drawing.Point(13, 457);
+            this.lblFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFormat.Name = "lblFormat";
+            this.lblFormat.Size = new System.Drawing.Size(119, 17);
+            this.lblFormat.TabIndex = 42;
+            this.lblFormat.Text = "Format on import:";
+            // 
+            // cmbFormat
+            // 
+            this.cmbFormat.FormattingEnabled = true;
+            this.cmbFormat.Location = new System.Drawing.Point(143, 450);
+            this.cmbFormat.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbFormat.Name = "cmbFormat";
+            this.cmbFormat.Size = new System.Drawing.Size(121, 24);
+            this.cmbFormat.TabIndex = 41;
+            this.cmbFormat.SelectedIndexChanged += new System.EventHandler(this.cmbFormat_SelectedIndexChanged);
+            // 
+            // ParticleEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(740, 507);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.cmbRepeatY);
+            this.Controls.Add(this.lblRepeatY);
+            this.Controls.Add(this.lblRepeatX);
+            this.Controls.Add(this.cmbRepeatX);
+            this.Controls.Add(this.lblFormat);
+            this.Controls.Add(this.cmbFormat);
             this.Controls.Add(this.btnModelPalettesSelectedColour);
             this.Controls.Add(this.lblModelPalettesPaletteSelectedColour);
-            this.Controls.Add(this.lblCompression);
-            this.Controls.Add(this.cmbFormat);
-            this.Controls.Add(this.chkTransparent);
-            this.Controls.Add(this.chkFlipT);
-            this.Controls.Add(this.chkFlipS);
-            this.Controls.Add(this.chkRepeatT);
-            this.Controls.Add(this.chkRepeatS);
             this.Controls.Add(this.grdPalette);
             this.Controls.Add(this.pbxTexture);
             this.Controls.Add(this.toolStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "ParticleEdtorForm";
-            this.Text = "TPS Editor";
+            this.Name = "ParticleEditorForm";
+            this.Text = "SPT Editor";
             this.Load += new System.EventHandler(this.TextureEditorForm_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
@@ -302,7 +263,7 @@
 
         #endregion
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton btnLoadTPS;
+        private System.Windows.Forms.ToolStripButton btnLoadSPT;
         private System.Windows.Forms.ToolStripButton btnImportTexture;
         private System.Windows.Forms.ToolStripButton btnSave;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -310,15 +271,13 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.PictureBox pbxTexture;
         private PaletteColourGrid grdPalette;
-        private System.Windows.Forms.CheckBox chkRepeatS;
-        private System.Windows.Forms.CheckBox chkRepeatT;
-        private System.Windows.Forms.CheckBox chkFlipS;
-        private System.Windows.Forms.CheckBox chkFlipT;
-        private System.Windows.Forms.CheckBox chkTransparent;
-        private System.Windows.Forms.ComboBox cmbFormat;
-        private System.Windows.Forms.Label lblCompression;
         private System.Windows.Forms.Button btnModelPalettesSelectedColour;
         private System.Windows.Forms.Label lblModelPalettesPaletteSelectedColour;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox cmbRepeatY;
+        private System.Windows.Forms.Label lblRepeatY;
+        private System.Windows.Forms.Label lblRepeatX;
+        private System.Windows.Forms.ComboBox cmbRepeatX;
+        private System.Windows.Forms.Label lblFormat;
+        private System.Windows.Forms.ComboBox cmbFormat;
     }
 }

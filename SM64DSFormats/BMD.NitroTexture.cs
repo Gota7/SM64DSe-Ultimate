@@ -33,7 +33,7 @@ namespace SM64DSe.SM64DSFormats
         public uint m_EntryOffset, m_PalEntryOffset, m_PalOffset;
 
         // texture stored as 8bit ARGB
-        protected byte[] m_ARGB;
+        public byte[] m_ARGB;
 
         public static NitroTexture ReadFromBMD(BMD bmd, uint texID, uint palID)
         {
@@ -173,7 +173,7 @@ namespace SM64DSe.SM64DSFormats
             m_TexType = textype;
             m_Colour0Mode = SetColour0Mode(bmp);
             m_DSTexParam = CalculateTexImageParams();
-            m_ARGB = new byte[0];
+            m_ARGB = new byte[m_Width * m_Height * 4];
 
             FromBitmap(bmp);
 
@@ -291,7 +291,7 @@ namespace SM64DSe.SM64DSFormats
             return ushorts;
         }
 
-        protected abstract void FromRaw(byte[] tex, byte[] pal);
+        public abstract void FromRaw(byte[] tex, byte[] pal);
         protected abstract void FromBitmap(Bitmap bmp);
 
         public override bool Equals(Object obj)
@@ -627,7 +627,7 @@ namespace SM64DSe.SM64DSFormats
         public NitroTexture_A3I5(uint texID, string texname, uint palID, string palname, Bitmap bmp)
             : base(texID, texname, palID, palname, bmp, 1) { }
 
-        protected override void FromRaw(byte[] tex, byte[] pal)
+        public override void FromRaw(byte[] tex, byte[] pal)
         {
             for (uint _in = 0, _out = 0; _in < m_TextureDataLength; _in++, _out += 4)
             {
@@ -679,7 +679,7 @@ namespace SM64DSe.SM64DSFormats
         public NitroTexture_Palette4(uint texID, string texname, uint palID, string palname, Bitmap bmp)
             : base(texID, texname, palID, palname, bmp, 2) { }
 
-        protected override void FromRaw(byte[] tex, byte[] pal)
+        public override void FromRaw(byte[] tex, byte[] pal)
         {
             byte zeroAlpha = (byte)((m_Colour0Mode > 0) ? 0x00 : 0xFF);
             for (int _in = 0, _out = 0; _in < m_TextureDataLength; _in++, _out += 16)
@@ -732,7 +732,7 @@ namespace SM64DSe.SM64DSFormats
         {
             m_RawTextureData = new byte[(bmp.Width * bmp.Height) / 4];
 
-            Palette txpal = new Palette(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height), 4, (m_Colour0Mode > 0));
+            Palette txpal = new Palette(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height), 4);
 
             for (int y = 0; y < bmp.Height; y++)
             {
@@ -767,7 +767,7 @@ namespace SM64DSe.SM64DSFormats
         public NitroTexture_Palette16(uint texID, string texname, uint palID, string palname, Bitmap bmp)
             : base(texID, texname, palID, palname, bmp, 3) { }
 
-        protected override void FromRaw(byte[] tex, byte[] pal)
+        public override void FromRaw(byte[] tex, byte[] pal)
         {
             byte zeroAlpha = (byte)((m_Colour0Mode > 0) ? 0x00 : 0xFF);
             for (int _in = 0, _out = 0; _in < m_TextureDataLength; _in++, _out += 8)
@@ -800,7 +800,7 @@ namespace SM64DSe.SM64DSFormats
         {
             m_RawTextureData = new byte[(bmp.Width * bmp.Height) / 2];
 
-            Palette txpal = new Palette(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height), 16, (m_Colour0Mode > 0));
+            Palette txpal = new Palette(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height), 16);
 
             for (int y = 0; y < bmp.Height; y++)
             {
@@ -835,7 +835,7 @@ namespace SM64DSe.SM64DSFormats
         public NitroTexture_Palette256(uint texID, string texname, uint palID, string palname, Bitmap bmp)
             : base(texID, texname, palID, palname, bmp, 4) { }
 
-        protected override void FromRaw(byte[] tex, byte[] pal)
+        public override void FromRaw(byte[] tex, byte[] pal)
         {
             byte zeroAlpha = (byte)((m_Colour0Mode > 0) ? 0x00 : 0xFF);
             for (int _in = 0, _out = 0; _in < m_TextureDataLength; _in++, _out += 4)
@@ -858,7 +858,7 @@ namespace SM64DSe.SM64DSFormats
         {
             m_RawTextureData = new byte[m_Width * m_Height];
 
-            Palette txpal = new Palette(bmp, new Rectangle(0, 0, m_Width, m_Height), 256, (m_Colour0Mode > 0));
+            Palette txpal = new Palette(bmp, new Rectangle(0, 0, m_Width, m_Height), 256);
 
             for (int y = 0; y < m_Height; y++)
             {
@@ -890,7 +890,7 @@ namespace SM64DSe.SM64DSFormats
         public NitroTexture_Tex4x4(uint texID, string texname, uint palID, string palname, Bitmap bmp)
             : base(texID, texname, palID, palname, bmp, 5) { }
 
-        protected override void FromRaw(byte[] tex, byte[] pal)
+        public override void FromRaw(byte[] tex, byte[] pal)
         {
             int yout = 0, xout = 0;
 
@@ -1318,7 +1318,7 @@ namespace SM64DSe.SM64DSFormats
         public NitroTexture_A5I3(uint texID, string texname, uint palID, string palname, Bitmap bmp)
             : base(texID, texname, palID, palname, bmp, 6) { }
 
-        protected override void FromRaw(byte[] tex, byte[] pal)
+        public override void FromRaw(byte[] tex, byte[] pal)
         {
             for (int _in = 0, _out = 0; _in < m_TextureDataLength; _in++, _out += 4)
             {
@@ -1369,7 +1369,7 @@ namespace SM64DSe.SM64DSFormats
         public NitroTexture_Direct(uint texID, string texname, Bitmap bmp)
             : base(texID, texname, 0xFFFFFFFF, null, bmp, 7) { }
 
-        protected override void FromRaw(byte[] tex, byte[] pal)
+        public override void FromRaw(byte[] tex, byte[] pal)
         {
             for (int _in = 0, _out = 0; _in < m_TextureDataLength; _in += 2, _out += 4)
             {

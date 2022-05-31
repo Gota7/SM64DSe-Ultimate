@@ -688,6 +688,65 @@ namespace SM64DSe
         {
             return (OpenTK.Graphics.GraphicsContext.CurrentContext != null);
         }
+
+        public static bool TryParseHexInt(string value, ref int result)
+        {
+            return int.TryParse(value, System.Globalization.NumberStyles.HexNumber, USA, out result) ||
+                (value.Length > 2 && value.Substring(0, 2).Equals("0x", StringComparison.CurrentCultureIgnoreCase) &&
+                int.TryParse(value.Substring(2), System.Globalization.NumberStyles.HexNumber, USA, out result));
+        }
+
+        public static string uintToString(uint number)
+        {
+            return $"0x{Convert.ToString(number, 16).PadLeft(8, '0')}";
+        }
+
+        public static string intToString(int number)
+        {
+            return $"{(number < 0 ? "-" : "")}0x{Convert.ToString(Math.Abs(number), 16).PadLeft(8, '0')}";
+        }
+
+        public static string ushortToString(ushort number)
+        {
+            return $"0x{Convert.ToString(number, 16).PadLeft(4, '0')}";
+        }
+
+        public static string shortToString(short number)
+        {
+            return $"{(number < 0 ? "-" : "")}0x{Convert.ToString(Math.Abs(number), 16).PadLeft(4, '0')}";
+        }
+
+        public static string byteToString(byte number)
+        {
+            return $"0x{Convert.ToString(number, 16).PadLeft(2, '0')}";
+        }
+
+        public static string sbyteToString(sbyte number)
+        {
+            return $"{(number < 0 ? "-" : "")}0x{Convert.ToString(Math.Abs(number), 16).PadLeft(2, '0')}";
+        }
+
+        public static ushort Read16(byte[] data, uint offset)
+        {
+            if (offset + 1 >= data.Length)
+            {
+                Console.WriteLine($"data.Length = {data.Length}");
+                throw new IndexOutOfRangeException();
+            }
+
+            return (ushort)((data[offset] << 0x0) | (data[offset + 1] << 0x8));
+        }
+
+        public static uint Read32(byte[] data, uint offset)
+        {
+            if (offset + 3 >= data.Length)
+            {
+                Console.WriteLine($"data.Length = {data.Length}");
+                throw new IndexOutOfRangeException();
+            }
+
+            return (uint)((data[offset] << 0x0) | (data[offset + 1] << 0x8) | (data[offset + 2] << 0x10) | (data[offset + 3] << 0x18));
+        }
     }
 
     // Taken from http://stackoverflow.com/questions/1440392/use-byte-as-key-in-dictionary
