@@ -8,3 +8,4 @@ bin/Release/.ninja_deps
 bin/Release/.ninja_log
 bin/Release/build.ninja
 bin/Debug
+obj/Debug/SM64DSe.csproj.FileListAbsolute.txt
