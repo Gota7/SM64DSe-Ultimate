@@ -13,7 +13,7 @@ namespace SM64DSe {
     public partial class NitroROM {
 
         public bool StartFilesystemEdit() {
-            if (this.CanRW()) {
+            if (!this.CanRW()) {
                 int num = (int)MessageBox.Show("Error", "The file is being read from or written to by another process in this editor.");
                 return false;
             }
