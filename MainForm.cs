@@ -209,7 +209,15 @@ namespace SM64DSe
             slStatusLabel.Text = "Ready";
             ObjectDatabase.Initialize();
 
-            if (args.Length >= 1) LoadROM(args[0]);
+            if (args.Length >= 1) {
+                if (args[0].EndsWith(".nds")) { 
+                    LoadROM(args[0]);
+                } else {
+                    string[] inSettings = File.ReadAllLines(args[0]);
+                    Program.m_ROMPath = args[0];
+                    LoadROMExtracted(inSettings[0], inSettings[1], inSettings[2], inSettings[3]);
+                }
+            }
         }
 
         private void MainForm_Shown(object sender, EventArgs e)
@@ -475,6 +483,10 @@ namespace SM64DSe
 
         private void mnitAdditionalPatches_Click(object sender, EventArgs e)
         {
+            if (Program.m_IsROMFolder) {
+                MessageBox.Show("This feature is not for extracted ROMs!");
+                return;
+            }
             AdditionalPatchesForm addPatchesForm = new AdditionalPatchesForm();
             addPatchesForm.Show();
         }
@@ -635,6 +647,12 @@ namespace SM64DSe
         {
             // The v3 patch applied at the beginning prevents patched ROM's working with NSMBe's useful 
             // ASM patching feature - this simply toggles the application of that patch on and off.
+
+            if (Program.m_IsROMFolder)
+            {
+                MessageBox.Show("This feature is not for extracted ROMs!");
+                return;
+            }
 
             Program.m_ROM.BeginRW();
 
@@ -838,6 +856,11 @@ namespace SM64DSe
 
         private void dLPatchToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (Program.m_IsROMFolder)
+            {
+                MessageBox.Show("This feature is not for extracted ROMs!");
+                return;
+            }
 
             if (Program.m_ROM.m_Version != NitroROM.Version.EUR)
             {
@@ -905,12 +928,21 @@ namespace SM64DSe
                 MessageBox.Show("This is for EUR ROMs only!");
                 return;
             }
+            if (Program.m_IsROMFolder) {
+                MessageBox.Show("This feature is not for extracted ROMs!");
+                return;
+            }
             if (new FilesystemEditorForm(this).ShowDialog() != DialogResult.OK)
                 return;
             this.LoadROM(Program.m_ROMPath);
         }
 
         private void editOverlaysToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (Program.m_IsROMFolder)
+            {
+                MessageBox.Show("This feature is not for extracted ROMs!");
+                return;
+            }
             if (Program.m_ROM.m_Version != NitroROM.Version.EUR) {
                 MessageBox.Show("This is for EUR ROMs only!");
                 return;
@@ -919,6 +951,11 @@ namespace SM64DSe
         }
 
         private void importPatchToolStripMenuItem_Click(object sender, EventArgs e) {
+
+            if (Program.m_IsROMFolder) {
+                MessageBox.Show("This feature is not for extracted ROMs!");
+                return;
+            }
 
             OpenFileDialog o = new OpenFileDialog();
             o.Filter = "SM64DSe Patch|*.sp";

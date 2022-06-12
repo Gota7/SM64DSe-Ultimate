@@ -233,6 +233,12 @@ namespace SM64DSe
                 //Who expected a new object to be inserted, anyway?
                 m_FileTableOffset = ov0.ReadPointer(0xA4);
                 m_FileTableLength = ov0.Read32(0x9C);
+
+                // Hack for new overlay 0.
+                if (m_FileTableLength > 0x2000) {
+                    m_FileTableOffset = ov0.ReadPointer(0xAC) + 4;
+                    m_FileTableLength = ov0.Read32(0xA4);
+                }
             }
 
             LoadTables();
@@ -303,6 +309,13 @@ namespace SM64DSe
                 //Who expected a new object to be inserted, anyway?
                 m_FileTableOffset = ov0.ReadPointer(0xA4);
                 m_FileTableLength = ov0.Read32(0x9C);
+
+                // Hack for new overlay 0.
+                if (m_FileTableLength > 0x2000)
+                {
+                    m_FileTableOffset = ov0.ReadPointer(0xAC) + 4;
+                    m_FileTableLength = ov0.Read32(0xA4);
+                }
             }
 
             // Read files.
@@ -425,15 +438,25 @@ namespace SM64DSe
         public static void BuildROM(bool run = false) {
             if (BuildingROM) return;
             BuildingROM = true;
-            Ndst.NinjaBuildSystem.GenerateBuildSystem(Program.m_ROMBasePath, Program.m_ROMPatchPath, Program.m_ROMConversionPath, "Tmp.nds");
+            //Ndst.NinjaBuildSystem.GenerateBuildSystem(Program.m_ROMBasePath, Program.m_ROMPatchPath, Program.m_ROMConversionPath, "Tmp.nds");
             ProcessStartInfo p = new ProcessStartInfo();
+            p.CreateNoWindow = true;
+            p.WindowStyle = ProcessWindowStyle.Hidden;
+            p.FileName = "Ndst";
+            p.Arguments = "-n " + Program.m_ROMBasePath + " " + Program.m_ROMPatchPath + " " + Program.m_ROMConversionPath + " Tmp.nds";
+            p.UseShellExecute = false;
+            p.RedirectStandardOutput = true;
+            Process proc = Process.Start(p);
+            proc.WaitForExit();
+
+            p = new ProcessStartInfo();
             p.CreateNoWindow = true;
             p.WindowStyle = ProcessWindowStyle.Hidden;
             p.FileName = "ninja";
             p.UseShellExecute = false;
             p.RedirectStandardOutput = true;
 
-            Process proc = Process.Start(p);
+            proc = Process.Start(p);
             ProgressDialog pd = new ProgressDialog("Building ROM", 100, null);
             pd.Show();
             proc.EnableRaisingEvents = true;
