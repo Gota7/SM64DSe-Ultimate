@@ -81,6 +81,7 @@
             this.lbxLevels = new System.Windows.Forms.ListBox();
             this.btnEditCollisionMap = new System.Windows.Forms.Button();
             this.btnEditLevel = new System.Windows.Forms.Button();
+            this.btnEditLevelNames = new System.Windows.Forms.Button();
             this.tbpFileSystem = new System.Windows.Forms.TabPage();
             this.spcFileSystemTab = new System.Windows.Forms.SplitContainer();
             this.tvFileList = new System.Windows.Forms.TreeView();
@@ -562,6 +563,7 @@
             // 
             this.splitContainerLevels.Panel2.Controls.Add(this.btnEditCollisionMap);
             this.splitContainerLevels.Panel2.Controls.Add(this.btnEditLevel);
+            this.splitContainerLevels.Panel2.Controls.Add(this.btnEditLevelNames);
             this.splitContainerLevels.Size = new System.Drawing.Size(577, 399);
             this.splitContainerLevels.SplitterDistance = 370;
             this.splitContainerLevels.TabIndex = 0;
@@ -611,6 +613,7 @@
             this.lbxLevels.TabIndex = 2;
             this.lbxLevels.SelectedIndexChanged += new System.EventHandler(this.lbxLevels_SelectedIndexChanged);
             this.lbxLevels.DoubleClick += new System.EventHandler(this.lbxLevels_DoubleClick);
+            this.lbxLevels.Font = new System.Drawing.Font("Consolas", 8);
             // 
             // btnEditCollisionMap
             // 
@@ -633,6 +636,17 @@
             this.btnEditLevel.Text = "Edit Level";
             this.btnEditLevel.UseVisualStyleBackColor = true;
             this.btnEditLevel.Click += new System.EventHandler(this.btnEditLevel_Click);
+            // 
+            // btnEditLevelNamesOverlays
+            // 
+            this.btnEditLevelNames.Enabled = false;
+            this.btnEditLevelNames.Location = new System.Drawing.Point(192, 3);
+            this.btnEditLevelNames.Name = "btnEditLevelNamesOverlays";
+            this.btnEditLevelNames.Size = new System.Drawing.Size(100, 23);
+            this.btnEditLevelNames.TabIndex = 0;
+            this.btnEditLevelNames.Text = "Edit Level Names / Overlays";
+            this.btnEditLevelNames.UseVisualStyleBackColor = true;
+            this.btnEditLevelNames.Click += new System.EventHandler(this.btnEditLevelNames_Click);
             // 
             // tbpFileSystem
             // 
@@ -938,6 +952,7 @@
         private System.Windows.Forms.SplitContainer splitContainerLevels;
         private System.Windows.Forms.Button btnEditCollisionMap;
         private System.Windows.Forms.Button btnEditLevel;
+        private System.Windows.Forms.Button btnEditLevelNames;
         private System.Windows.Forms.ToolStripDropDownButton btnTools;
         private System.Windows.Forms.ToolStripMenuItem mnitToolsModelAndCollisionMapImporter;
         private System.Windows.Forms.ToolStripMenuItem mnitToolsModelAnimationEditor;

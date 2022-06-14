@@ -591,7 +591,7 @@ namespace SM64DSe
             m_Properties = new PropertyTable();
             m_ParameterFields = new ParameterField[]
             {
-                new ListField("Destination level",8,8,ComboBoxInfoFromStrings(Strings.LevelNames)){Name = "Destination level"},
+                new ListField("Destination level",8,8,ComboBoxInfoFromStrings(Strings.LevelNames().ToArray())){Name = "Destination level"},
                 new DefaultField("Destination entrance",8,8){ Name = "Destination entrance", Description = "The Entrance you spawn at in the level", DislpayInHex = false },
                 new FloatConvertField("Parameter 1",0,16,0x1000,22.5f){ Name = "X Rotation"},
                 new DefaultField("Parameter 2",4,4){ Name = "width", Description = "The width of the exits trigger area", DislpayInHex = false },
@@ -608,7 +608,7 @@ namespace SM64DSe
 
         public override string GetDescription()
         {
-            return string.Format("Exit ({0}, entrance {1}) {2}", Strings.LevelNames[LevelID], EntranceID, k_Layers[m_Layer]);
+            return string.Format("Exit ({0}, entrance {1}) {2}", Strings.LevelNames()[LevelID], EntranceID, k_Layers[m_Layer]);
         }
 
         public override System.Boolean SupportsActs() { return true; }

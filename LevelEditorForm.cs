@@ -175,7 +175,7 @@ namespace SM64DSe
             btnCreateFormation.Width = 110;
             btnCreateFormation.Click += btnCreateCoinFormation_Click;
 
-            this.Text = string.Format("[{0}] {1} [{2}] - {3} {4}", levelid, Strings.LevelNames[levelid], Program.m_ROM.GetInternalLevelNameFromID(levelid), Program.AppTitle, Program.AppVersion);
+            this.Text = string.Format("[{0}] {1} [{2}] - {3} {4}", levelid, Strings.LevelNames()[levelid], Program.m_ROM.GetInternalLevelNameFromID(levelid), Program.AppTitle, Program.AppVersion);
             
             m_MouseDown = MouseButtons.None;
 

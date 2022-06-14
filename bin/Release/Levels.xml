@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--SM64DS Editor Infinity-->
+<Levels>
+	<Level>
+		<Name>General Purpose Test Map</Name>
+		<ShortName>Test Map</ShortName>
+	</Level>
+	<Level>
+		<Name>Castle Grounds</Name>
+		<ShortName>Castle Out</ShortName>
+	</Level>
+	<Level>
+		<Name>Castle Floor 1</Name>
+		<ShortName>Castle F1</ShortName>
+	</Level>
+	<Level>
+		<Name>Castle Courtyard</Name>
+		<ShortName>Castle Court</ShortName>
+	</Level>
+	<Level>
+		<Name>Castle Basement</Name>
+		<ShortName>Castle B</ShortName>
+	</Level>
+	<Level>
+		<Name>Castle Floor 2</Name>
+		<ShortName>Castle F2</ShortName>
+	</Level>
+	<Level>
+		<Name>Bob-omb Battlefield</Name>
+		<ShortName>BOB</ShortName>
+	</Level>
+	<Level>
+		<Name>Whomp's Fortress</Name>
+		<ShortName>WF</ShortName>
+	</Level>
+	<Level>
+		<Name>Jolly Roger Bay</Name>
+		<ShortName>JRB</ShortName>
+	</Level>
+	<Level>
+		<Name>Jolly Roger Bay - Ship</Name>
+		<ShortName>JRB Ship</ShortName>
+	</Level>
+	<Level>
+		<Name>Cool, Cool Mountain</Name>
+		<ShortName>CCM</ShortName>
+	</Level>
+	<Level>
+		<Name>Cool, Cool Mountain - Slide</Name>
+		<ShortName>CCM Slide</ShortName>
+	</Level>
+	<Level>
+		<Name>Big Boo's Haunt</Name>
+		<ShortName>BBH</ShortName>
+	</Level>
+	<Level>
+		<Name>Hazy Maze Cave</Name>
+		<ShortName>HMC</ShortName>
+	</Level>
+	<Level>
+		<Name>Lethal Lava Land</Name>
+		<ShortName>LLL</ShortName>
+	</Level>
+	<Level>
+		<Name>Lethal Lava Land - Volcano</Name>
+		<ShortName>LLL Volcano</ShortName>
+	</Level>
+	<Level>
+		<Name>Shifting Sand Land</Name>
+		<ShortName>SSL</ShortName>
+	</Level>
+	<Level>
+		<Name>Shifting Sand Land - Pyramid</Name>
+		<ShortName>SSL Pyramid</ShortName>
+	</Level>
+	<Level>
+		<Name>Dire, Dire Docks</Name>
+		<ShortName>DDD</ShortName>
+	</Level>
+	<Level>
+		<Name>Snowman's Land</Name>
+		<ShortName>SL</ShortName>
+	</Level>
+	<Level>
+		<Name>Snowman's Land - Igloo</Name>
+		<ShortName>SL Igloo</ShortName>
+	</Level>
+	<Level>
+		<Name>Wet-Dry World</Name>
+		<ShortName>WDW</ShortName>
+	</Level>
+	<Level>
+		<Name>Tall, Tall Mountain</Name>
+		<ShortName>TTM</ShortName>
+	</Level>
+	<Level>
+		<Name>Tall, Tall Mountain - Slide</Name>
+		<ShortName>TTM Slide</ShortName>
+	</Level>
+	<Level>
+		<Name>Tiny-Huge Island - Huge</Name>
+		<ShortName>THI Huge</ShortName>
+	</Level>
+	<Level>
+		<Name>Tiny-Huge Island - Tiny</Name>
+		<ShortName>THI Tiny</ShortName>
+	</Level>
+	<Level>
+		<Name>Tiny-Huge Island - Cave</Name>
+		<ShortName>THI Cave</ShortName>
+	</Level>
+	<Level>
+		<Name>Tick Tock Clock</Name>
+		<ShortName>TTC</ShortName>
+	</Level>
+	<Level>
+		<Name>Rainbow Ride</Name>
+		<ShortName>RR</ShortName>
+	</Level>
+	<Level>
+		<Name>The Princess' Secret Slide</Name>
+		<ShortName>SS</ShortName>
+	</Level>
+	<Level>
+		<Name>The Secret Aquarium</Name>
+		<ShortName>SA</ShortName>
+	</Level>
+	<Level>
+		<Name>? Switch</Name>
+		<ShortName>Switch</ShortName>
+	</Level>
+	<Level>
+		<Name>The Secret Under the Moat</Name>
+		<ShortName>SUTM</ShortName>
+	</Level>
+	<Level>
+		<Name>Behind the Waterfall</Name>
+		<ShortName>BTW</ShortName>
+	</Level>
+	<Level>
+		<Name>Over the Rainbows</Name>
+		<ShortName>OTR</ShortName>
+	</Level>
+	<Level>
+		<Name>Bowser in the Dark World</Name>
+		<ShortName>BITDW</ShortName>
+	</Level>
+	<Level>
+		<Name>Bowser in the Dark World - Arena</Name>
+		<ShortName>BITDW Arena</ShortName>
+	</Level>
+	<Level>
+		<Name>Bowser in the Fire Sea</Name>
+		<ShortName>BITFS</ShortName>
+	</Level>
+	<Level>
+		<Name>Bowser in the Fire Sea - Arena</Name>
+		<ShortName>BITFS Arena</ShortName>
+	</Level>
+	<Level>
+		<Name>Bowser in the Sky</Name>
+		<ShortName>BITS</ShortName>
+	</Level>
+	<Level>
+		<Name>Bowser in the Sky - Arena</Name>
+		<ShortName>BITS Arena</ShortName>
+	</Level>
+	<Level>
+		<Name>Tox Box Test Map</Name>
+		<ShortName>TB Test Map</ShortName>
+	</Level>
+	<Level>
+		<Name>The Secret of Battle Fort</Name>
+		<ShortName>SOBF</ShortName>
+	</Level>
+	<Level>
+		<Name>Sunshine Isles</Name>
+		<ShortName>SI</ShortName>
+	</Level>
+	<Level>
+		<Name>Goomboss Battle</Name>
+		<ShortName>GB</ShortName>
+	</Level>
+	<Level>
+		<Name>Goomboss Battle - Arena</Name>
+		<ShortName>GB Arena</ShortName>
+	</Level>
+	<Level>
+		<Name>Big Boo Battle</Name>
+		<ShortName>BBB</ShortName>
+	</Level>
+	<Level>
+		<Name>Big Boo Battle - Arena</Name>
+		<ShortName>BBB Arena</ShortName>
+	</Level>
+	<Level>
+		<Name>Chief Chilly Challenge</Name>
+		<ShortName>CCC</ShortName>
+	</Level>
+	<Level>
+		<Name>Chief Chilly Challenge - Arena</Name>
+		<ShortName>CCC Arena</ShortName>
+	</Level>
+	<Level>
+		<Name>Castle Rec Room</Name>
+		<ShortName>Rec Room</ShortName>
+	</Level>
+	<Level>
+		<Name>Castle Grounds (Multiplayer)</Name>
+		<ShortName>Castle Out (VS)</ShortName>
+	</Level>
+</Levels>
