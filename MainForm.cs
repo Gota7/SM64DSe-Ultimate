@@ -143,6 +143,7 @@ namespace SM64DSe
             btnLZDecompressWithHeader.Enabled = true;
             btnLZForceCompression.Enabled = true;
             btnLZForceDecompression.Enabled = true;
+            btnEditLevelNames.Enabled = true;
         }
 
         private void LoadROMExtracted(string basePath, string patchPath, string conversionPath, string buildPath) {
@@ -754,59 +755,75 @@ namespace SM64DSe
             List<string> ids = new List<string>();
             List<string> internalNames = new List<string>();
             List<string> names = new List<string>();
-            foreach (String lvlName in Strings.LevelNames) {
+
+            foreach (string lvlName in Strings.LevelNames())
+            {
                 ids.Add("[" + i + "]");
                 internalNames.Add(Program.m_ROM.GetInternalLevelNameFromID(i));
                 names.Add(lvlName);
                 i++;
             }
+
             i = 0;
-            if (cbLevelListDisplay.SelectedIndex == 0) {
+            if (cbLevelListDisplay.SelectedIndex == 0)
+            {
                 int maxIdLen = ids.Select(x => x.Length).Max();
-                int maxInternalLen = internalNames.Select(x => x.Length).Max();
-                foreach (String lvlName in Strings.LevelNames) {
+                int maxInternalLen = internalNames.Select(x => x.Length).Max() + 16;
+                foreach (string lvlName in Strings.LevelNames())
+                {
                     string id = ids[i];
-                    while (id.Length < maxIdLen + 1) {
+                    while (id.Length < maxIdLen + 1)
                         id += " ";
-                    }
+
                     string internalN = internalNames[i];
-                    int numTabs = (maxInternalLen - internalN.Length) / 11;
-                    while (internalN.Length < maxInternalLen + 1) {
-                        internalN += " ";
-                    }
-                    for (int j = 0; j < numTabs; j++) {
+                    int numTabs = ((maxInternalLen + (maxInternalLen % 8)) - (internalN.Length + (8 - internalN.Length % 8))) / 8;
+
+                    for (int j = 0; j < numTabs; j++)
                         internalN += "\t";
-                    }
-                    lbxLevels.Items.Add(id + "\t" + internalN + "\t\t" + names[i]);
+
+                    lbxLevels.Items.Add(id + "\t" + internalN + names[i]);
                     i++;
                 }
-            } else if (cbLevelListDisplay.SelectedIndex == 1)
+            }
+            else if (cbLevelListDisplay.SelectedIndex == 1)
             {
-                foreach (String lvlName in Strings.LevelNames)
+                foreach (string lvlName in Strings.LevelNames())
                 {
                     lbxLevels.Items.Add(lvlName);
                     i++;
                 }
-            } else if (cbLevelListDisplay.SelectedIndex == 2)
+            }
+            else if (cbLevelListDisplay.SelectedIndex == 2)
             {
-                foreach (String lvlName in Strings.ShortLvlNames)
+                foreach (string lvlName in Strings.ShortLvlNames())
                 {
                     lbxLevels.Items.Add(i + "\t[" + internalNames[i] + "]");
                     i++;
                 }
-            } else if (cbLevelListDisplay.SelectedIndex == 3)
+            }
+            else if (cbLevelListDisplay.SelectedIndex == 3)
             {
-                foreach (String lvlName in Strings.ShortLvlNames)
+                int maxInternalLen = internalNames.Select(x => x.Length).Max() + 8;
+
+                foreach (string lvlName in Strings.ShortLvlNames())
                 {
-                    lbxLevels.Items.Add(lvlName + " [" + internalNames[i] + "]");
+                    string trimmedName = lvlName.Trim();
+                    int numTabs = ((maxInternalLen + (maxInternalLen % 8)) - (trimmedName.Length + (8 - trimmedName.Length % 8))) / 8;
+
+                    for (int j = 0; j < numTabs; j++)
+                        trimmedName += "\t";
+
+                    lbxLevels.Items.Add(trimmedName + " [" + internalNames[i] + "]");
                     i++;
                 }
-            } else {
+            }
+            else
+            {
                 int hubCounter = 1;
-                foreach (String lvlName in Strings.ShortLvlNames)
+                foreach (string lvlName in Strings.ShortLvlNames())
                 {
                     ushort selectorId = Program.m_ROM.GetActSelectorIdByLevelID(i);
-                    String lvlString = "";
+                    string lvlString = "";
                     if (selectorId < 29)
                     {
                         lvlString = Program.m_ROM.GetInternalLevelNameFromID(i);
@@ -822,9 +839,9 @@ namespace SM64DSe
                             lvlString = lvlString.Remove(0, 1);
 
 
-                        String optimizedLvlString = "";
+                        string optimizedLvlString = "";
                         char lastChar = ' ';
-                        foreach(char c in lvlString)
+                        foreach (char c in lvlString)
                         {
                             string letter = c.ToString();
                             if (lastChar == ' ')
@@ -1161,6 +1178,12 @@ namespace SM64DSe
         private void particleArchiveSPAEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new ParticleViewerForm().Show();
+        }
+
+        private void btnEditLevelNames_Click(object sender, EventArgs e)
+        {
+            new LevelNameEditorForm().ShowDialog();
+            btnRefresh_Click(sender, e);
         }
     }
 

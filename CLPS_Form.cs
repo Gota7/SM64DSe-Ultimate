@@ -159,8 +159,9 @@ namespace SM64DSe
 
             this.m_CLPS = CLPS;
 
+            List<string> levelNames = Strings.LevelNames();
             for (int i = 0; i < 52; i++)
-                cbxLevels.Items.Add(i + " - " + Strings.LevelNames[i]);
+                cbxLevels.Items.Add(i + " - " + levelNames[i]);
 
             LoadCLPSData();
         }

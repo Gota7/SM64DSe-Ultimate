@@ -15,122 +15,63 @@
     You should have received a copy of the GNU General Public License along 
     with SM64DSe. If not, see http://www.gnu.org/licenses/.
 */
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using System.Windows.Forms;
 
 namespace SM64DSe
 {
     public static class Strings
     {
-        public static string[] LevelNames = 
+        public static List<string> LevelNames()
         {
-            "General purpose test map",
-	        "Castle grounds",
-	        "Castle - 1st floor",
-	        "Castle backyards",
-	        "Castle - basement",
-	        "Castle - 2nd floor",
-	        "Bob-Omb Battlefield",
-	        "Whomp's Fortress",
-	        "Jolly Roger Bay",
-	        "Jolly Roger Bay - ship",
-	        "Cool, Cool Mountain",
-	        "Cool, Cool Mountain - slider",
-	        "Big Boo's Haunt",
-	        "Hazy Maze Cave",
-	        "Lethal Lava Land",
-	        "Lethal Lava Land - volcano",
-	        "Shifting Sand Land",
-	        "Shifting Sand Land - pyramid",
-	        "Dire, Dire Docks",
-	        "Snowman's Land",
-	        "Snowman's Land - Igloo",
-	        "Wet-Dry World",
-	        "Tall Tall Mountain",
-	        "Tall Tall Mountain - slider",
-	        "Tiny-Huge Island - huge",
-	        "Tiny-Huge Island - tiny",
-	        "Tiny-Huge Island - mountain",
-	        "Tick Tock Clock",
-	        "Rainbow Ride",
-	        "The Princess' Secret Slide",
-	        "The Secret Aquarium",
-	        "[?] Switch",
-	        "The Secret Under the Moat",
-	        "Behind the Waterfall",
-	        "Over the Rainbows",
-	        "Bowser in the Dark World - map",
-	        "Bowser in the Dark World - fight",
-	        "Bowser in the Fire Sea - map",
-	        "Bowser in the Fire Sea - fight",
-	        "Bowser in the Sky - map",
-	        "Bowser in the Sky - fight",
-	        "Tox Box test map",
-	        "The Secret of Battle Fort",
-	        "Sunshine Isles",
-	        "Goomboss Battle - map",
-	        "Goomboss Battle - fight",
-	        "Big Boo Battle - map",
-	        "Big Boo Battle - fight",
-	        "Chief Chilly Challenge - map",
-	        "Chief Chilly Challenge - fight",
-	        "Play Room",
-	        "Castle grounds (multiplayer)"
-        };
+            List<string> levelNames = new List<string>();
 
-        public static string[] ShortLvlNames = 
+            using (XmlReader reader = XmlReader.Create(Path.Combine(Application.StartupPath, "Levels.xml")))
+            {
+                reader.MoveToContent();
+
+                while (reader.Read())
+                {
+                    if (reader.NodeType.Equals(XmlNodeType.Element))
+                    {
+                        if (reader.LocalName == "Name")
+                        {
+                            reader.MoveToContent();
+                            levelNames.Add(reader.ReadElementContentAsString());
+                        }
+                    }
+                }
+            }
+
+            return levelNames;
+        }
+
+        public static List<string> ShortLvlNames()
         {
-            "TestMap\t\t",
-            "CastleOut\t",
-            "Castle 1.Floor\t",
-            "Castle Back\t",
-            "Castle Basement\t",
-            "C2 2.Floor\t",
-            "BoB\t\t",
-            "WF\t\t",
-            "JRB\t\t",
-            "JRB-ship\t\t",
-            "CCM\t\t",
-            "CCM-slider\t",
-            "BBH\t\t",
-            "HMC\t\t",
-            "LLL\t\t",
-            "LLL\t\t",
-            "SSL\t\t",
-            "SSL-pyramid\t",
-            "DDD\t\t",
-            "SL\t\t",
-            "SL-Igloo\t\t",
-            "WDW\t\t",
-            "TTM\t\t",
-            "TTM-slider\t",
-            "THI-huge\t\t",
-            "THI-tiny\t\t",
-            "THI-mountain\t",
-            "TTC\t\t",
-            "RR\t\t",
-            "SS\t\t",
-            "SA\t\t",
-            "Switch\t\t",
-            "SutM\t\t",
-            "BtW\t\t",
-            "OtR\t\t",
-            "BitDW\t\t",
-            "BitDW-fight\t",
-            "BitFS\t\t",
-            "BitFS-fight\t",
-            "BitS\t\t",
-            "BitS-fight\t\t",
-            "TB TestMap\t",
-            "SoBF\t\t",
-            "SI\t\t",
-            "GB\t\t",
-            "GB-fight\t\t",
-            "BBB\t\t",
-            "BBB-fight\t\t",
-            "CCC\t\t",
-            "CCC-fight\t\t",
-            "PlayRoom\t",
-            "Castle Out(VS)\t"
-        };
+            List<string> levelNames = new List<string>();
+
+            using (XmlReader reader = XmlReader.Create(Path.Combine(Application.StartupPath, "Levels.xml")))
+            {
+                reader.MoveToContent();
+
+                while (reader.Read())
+                {
+                    if (reader.NodeType.Equals(XmlNodeType.Element))
+                    {
+                        if (reader.LocalName == "ShortName")
+                        {
+                            reader.MoveToContent();
+                            levelNames.Add(reader.ReadElementContentAsString());
+                        }
+                    }
+                }
+            }
+
+            return levelNames;
+        }
 
         public static string[] PaintingNames =
         {

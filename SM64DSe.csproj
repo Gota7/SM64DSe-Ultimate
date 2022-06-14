@@ -235,6 +235,12 @@
     <Compile Include="KuppaScript\KuppaLib.cs" />
     <Compile Include="KuppaScript\KuppaScript.cs" />
     <Compile Include="KuppaScript\NumberInterpreter.cs" />
+    <Compile Include="LevelNameEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LevelNameEditorForm.Designer.cs">
+      <DependentUpon>LevelNameEditorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LevelDisplaySettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -504,6 +510,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="KuppaScriptEditor.resx">
       <DependentUpon>KuppaScriptEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LevelNameEditorForm.resx">
+      <DependentUpon>LevelNameEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LevelDisplaySettingsForm.resx">
       <DependentUpon>LevelDisplaySettingsForm.cs</DependentUpon>

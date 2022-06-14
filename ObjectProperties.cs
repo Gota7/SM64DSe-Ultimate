@@ -252,7 +252,7 @@ namespace SM64DSe
             if (destinationType == typeof(string))
             {
                 if (value is int)
-                    return string.Format("{0} - {1}", (int)value, Strings.LevelNames[(int)value]);
+                    return string.Format("{0} - {1}", (int)value, Strings.LevelNames()[(int)value]);
                 else
                     return value;
             }
@@ -296,9 +296,8 @@ namespace SM64DSe
         }
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            List<string> levelnames = new List<string>(Strings.LevelNames.Length);
-            for (int i = 0; i < Strings.LevelNames.Length; i++)
-                levelnames.Add(string.Format("{0} - {1}", i, Strings.LevelNames[i]));
+            int i = 0;
+            List<string> levelnames = (List<string>)Strings.LevelNames().Select(l => string.Format("{0} - {1}", i++, l));
             return new StandardValuesCollection(levelnames);
         }
     }
