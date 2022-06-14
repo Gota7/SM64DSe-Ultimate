@@ -93,6 +93,8 @@ namespace SM64DSe
 
         private void m_AnimationTimer_Tick(object sender, EventArgs e)
         {
+            foreach (int dl in m_LevelModelDLs)
+                GL.DeleteLists(dl, 1);
             RenderLevelAreas(m_currentArea);
             m_texAnimFrame++;
         }
@@ -214,6 +216,8 @@ namespace SM64DSe
                 romBuildButton.Visible = true;
                 romRunButton.Visible = true;
             }
+
+            StartTimer();
 
             slStatusLabel.Text = "Ready";
         }
