@@ -32,7 +32,7 @@ namespace SM64DSe
 
         private bool m_Frozen;
 
-        private bool externalSPT = false;
+        const bool externalSPT = true;
         private int builtInTextures;
         private int totalTextures;
         private string m_Name;
@@ -69,7 +69,7 @@ namespace SM64DSe
             if (!autorw)
                 Program.m_ROM.BeginRW();
 
-            externalSPT = Program.m_ROM.Read32(Particle.EXTERNAL_SPT_MARK_ROM_ADDR) == Particle.EXTERNAL_SPT_MARK_VALUE;
+            // externalSPT = Program.m_ROM.Read32(Particle.EXTERNAL_SPT_MARK_ROM_ADDR) == Particle.EXTERNAL_SPT_MARK_VALUE;
 
             if (!autorw)
                 Program.m_ROM.EndRW();
