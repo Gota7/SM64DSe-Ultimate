@@ -315,6 +315,9 @@ namespace SM64DSe
                 {
                     m_FileTableOffset = ov0.ReadPointer(0xAC) + 4;
                     m_FileTableLength = ov0.Read32(0xA4);
+                    if (File.Exists(Program.m_ROMPatchPath + "/../ASM/Overlays/filenames/filenamesWhole.h")) {
+                        m_FileTableOffset = uint.MaxValue; // Hack for new overlay 0 having inconsistent placement with more files.
+                    }
                 }
             }
 
@@ -532,18 +535,40 @@ namespace SM64DSe
             m_FileTable = new ushort[m_FileTableLength];
 
             NitroOverlay ovl0 = new NitroOverlay(this, 0);
-            for (uint i = 0; i < m_FileTableLength; i++)
+
+            // Read table from overlay.
+            if (m_FileTableOffset != uint.MaxValue)
             {
-                if (ovl0.Read32(m_FileTableOffset + (i * 4)) != 0 || m_Version != Version.EUR)
+                for (uint i = 0; i < m_FileTableLength; i++)
                 {
-                    uint str_offset = ovl0.ReadPointer(m_FileTableOffset + (i * 4));
-                    string fname = ovl0.ReadString(str_offset, 0);
-                    ushort id = GetFileIDFromName(fname);
-                    m_FileTable[i] = id;
-                    m_FileEntries[id].InternalID = (ushort)i;
+                    if (ovl0.Read32(m_FileTableOffset + (i * 4)) != 0 || m_Version != Version.EUR)
+                    {
+                        uint str_offset = ovl0.ReadPointer(m_FileTableOffset + (i * 4));
+                        string fname = ovl0.ReadString(str_offset, 0);
+                        ushort id = GetFileIDFromName(fname);
+                        m_FileTable[i] = id;
+                        m_FileEntries[id].InternalID = (ushort)i;
+                    }
+                    else
+                        m_FileTable[i] = 0xffff;
                 }
-                else
+            }
+
+            // Read table from an external file.
+            else {
+                for (int i = 0; i < m_FileTable.Length; i++) {
                     m_FileTable[i] = 0xffff;
+                }
+                var wholeNames = File.ReadAllLines(Program.m_ROMPatchPath + "/../ASM/Overlays/filenames/filenamesWhole.h");
+                int currInd = 0;
+                foreach (var line in wholeNames) {
+                    if (line.Contains("\"")) {
+                        string name = line.Replace(" ", "").Replace("\t", "").Replace("\"", "").Replace(",", "");
+                        ushort id = GetFileIDFromName(name);
+                        m_FileTable[currInd] = id;
+                        m_FileEntries[id].InternalID = (ushort)currInd++;
+                    }
+                }
             }
 
             if (Program.m_IsROMFolder) {
