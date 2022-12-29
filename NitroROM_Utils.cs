@@ -21,161 +21,239 @@ namespace SM64DSe {
             return true;
         }
 
-        public void SaveFilesystem() {
-            MemoryStream memoryStream = new MemoryStream();
-            BinaryWriter binWriter = new BinaryWriter((Stream)memoryStream, Encoding.ASCII);
-            List<NitroROM.FileEntry> list1 = ((IEnumerable<NitroROM.FileEntry>)this.m_FileEntries).ToList<NitroROM.FileEntry>();
-            list1.RemoveAll((Predicate<NitroROM.FileEntry>)(x => x.Name == ""));
-            list1.Sort((Comparison<NitroROM.FileEntry>)((x, y) =>
+        public void SaveFilesystem()
+        {
+            MemoryStream newBinStream = new MemoryStream();
+            BinaryWriter newBinWriter = new BinaryWriter(newBinStream, Encoding.ASCII);
+            int oldPos;
+            List<FileEntry> fileEntries = m_FileEntries.ToList();
+            fileEntries.RemoveAll(x => x.Name == ""); //file IDs don't matter; remove the excess space.
+            fileEntries.Sort((x, y) => x.ParentID > y.ParentID ? 1 :
+                                       x.ParentID < y.ParentID ? -1 :
+                                       String.Compare(x.Name, y.Name));
+
+            ////////////
+            // HEADER //
+            ////////////
+            // just copy it for now, no offsets or sizes are known yet
+            // We can assume a constant arm9 offset and size because editing the size
+            // can break overlays and the bss.
+            m_BinReader.BaseStream.Position = 0;
+            newBinWriter.Write(m_BinReader.ReadBytes(0x4000));
+
+            //////////
+            // ARM9 //
+            //////////
+            m_BinReader.BaseStream.Position = 0x2c;
+            int arm9Size = m_BinReader.ReadInt32(); //includes ITCM
+            m_BinReader.BaseStream.Position = 0x4000;
+            newBinWriter.Write(m_BinReader.ReadBytes(arm9Size));
+
+            //////////
+            // ARM7 //
+            //////////
+            oldPos = (int)newBinWriter.BaseStream.Position;
+            newBinWriter.BaseStream.Position = 0x30;
+            newBinWriter.Write(oldPos); // ARM7 offset
+            m_BinReader.BaseStream.Position = 0x30;
+            int oldArm7Offset = m_BinReader.ReadInt32();
+
+            newBinWriter.BaseStream.Position = oldPos;
+            m_BinReader.BaseStream.Position = oldArm7Offset;
+            newBinWriter.Write(m_BinReader.ReadBytes(0x24b24)); //also assume a constant arm7 size
+
+            ///////////////
+            // Overlay 0 //
+            ///////////////
+            m_OverlayEntries[0].Flags &= 0xfeffffff;// overlay 0 is now decompressed
+
+            int[] newFileOffsets = new int[m_OverlayEntries.Length + fileEntries.Count];
+            int[] newFileEndOffsets = new int[m_OverlayEntries.Length + fileEntries.Count];
+            newFileOffsets[0] = (int)newBinWriter.BaseStream.Position;
+
+            int numOverlay0IDs = fileEntries.Max(x => x.InternalID == 0xffff ? 0 : x.InternalID) + 1; //overlay 0 IDs DO matter.
+
+            NitroOverlay overlay = new NitroOverlay(this, 0);
+            oldPos = (int)newBinWriter.BaseStream.Position;
+            newBinWriter.Write(overlay.ReadBlock(0, 0x9c));
+            newBinWriter.Write(numOverlay0IDs);
+            newBinWriter.Write(overlay.Read32(0xa0));
+            newBinWriter.Write(0xffffffff); //supposed to be the address of the entries; not known yet.
+            newBinWriter.Write(overlay.ReadBlock(0xa8, 0x18));
+
+            int[] ov0FileNameOffsets = new int[numOverlay0IDs];
+            for (int i = 0; i < fileEntries.Count; ++i)
             {
-                if ((int)x.ParentID > (int)y.ParentID)
-                    return 1;
-                return (int)x.ParentID >= (int)y.ParentID ? string.Compare(x.Name, y.Name) : -1;
-            }));
-            this.m_BinReader.BaseStream.Position = 0L;
-            binWriter.Write(this.m_BinReader.ReadBytes(16384));
-            this.m_BinReader.BaseStream.Position = 44L;
-            int count = this.m_BinReader.ReadInt32();
-            this.m_BinReader.BaseStream.Position = 16384L;
-            binWriter.Write(this.m_BinReader.ReadBytes(count));
-            int position1 = (int)binWriter.BaseStream.Position;
-            binWriter.BaseStream.Position = 48L;
-            binWriter.Write(position1);
-            this.m_BinReader.BaseStream.Position = 48L;
-            int num1 = this.m_BinReader.ReadInt32();
-            binWriter.BaseStream.Position = (long)position1;
-            this.m_BinReader.BaseStream.Position = (long)num1;
-            binWriter.Write(this.m_BinReader.ReadBytes(150308));
-            int[] numArray1 = new int[this.m_OverlayEntries.Length + list1.Count];
-            int[] numArray2 = new int[this.m_OverlayEntries.Length + list1.Count];
-            numArray1[0] = (int)binWriter.BaseStream.Position;
-            int length = list1.Max<NitroROM.FileEntry>((Func<NitroROM.FileEntry, int>)(x => x.InternalID != ushort.MaxValue ? (int)x.InternalID : 0)) + 1;
-            NitroOverlay nitroOverlay = new NitroOverlay(this, 0U);
-            int position2 = (int)binWriter.BaseStream.Position;
-            binWriter.Write(nitroOverlay.ReadBlock(0U, 156U));
-            binWriter.Write(length);
-            binWriter.Write(nitroOverlay.Read32(160U));
-            binWriter.Write(uint.MaxValue);
-            binWriter.Write(nitroOverlay.ReadBlock(168U, 24U));
-            int[] numArray3 = new int[length];
-            for (int index = 0; index < list1.Count; ++index) {
-                if (list1[index].InternalID != ushort.MaxValue) {
-                    numArray3[(int)list1[index].InternalID] = (int)binWriter.BaseStream.Position - position2 + 34251808;
-                    binWriter.Write((list1[index].FullName + "\0").ToCharArray());
-                    Helper.AlignWriter(binWriter, 4U);
-                }
+                if (fileEntries[i].InternalID == 0xffff)
+                    continue;
+
+                ov0FileNameOffsets[fileEntries[i].InternalID] =
+                    (int)newBinWriter.BaseStream.Position - oldPos + 0x020aa420;
+                newBinWriter.Write((fileEntries[i].FullName + '\0').ToCharArray());
+                Helper.AlignWriter(newBinWriter, 4);
             }
-            Helper.WritePosAndRestore(binWriter, (uint)(position2 + 164), (uint)(34251808 - position2));
-            foreach (int num2 in numArray3)
-                binWriter.Write(num2);
-            numArray2[0] = (int)binWriter.BaseStream.Position;
-            for (int index = 1; index < this.m_OverlayEntries.Length; ++index) {
-                numArray1[index] = (int)binWriter.BaseStream.Position;
-                NitroROM.FileEntry fileEntry = this.m_FileEntries[(int)this.m_OverlayEntries[index].FileID];
-                if (fileEntry.Data != null) {
-                    binWriter.Write(fileEntry.Data);
-                } else {
-                    this.m_BinReader.BaseStream.Position = (long)fileEntry.Offset;
-                    binWriter.Write(this.m_BinReader.ReadBytes((int)fileEntry.Size));
-                }
-                numArray2[index] = (int)binWriter.BaseStream.Position;
-                Helper.AlignWriter(binWriter, 4U);
-            }
-            Helper.WritePosAndRestore(binWriter, 80U, 0U);
-            for (int index = 0; index < this.m_OverlayEntries.Length; ++index) {
-                binWriter.Write(index);
-                binWriter.Write(this.m_OverlayEntries[index].RAMAddress);
-                binWriter.Write(this.m_OverlayEntries[index].RAMSize);
-                binWriter.Write(this.m_OverlayEntries[index].BSSSize);
-                binWriter.Write(this.m_OverlayEntries[index].StaticInitStart);
-                binWriter.Write(this.m_OverlayEntries[index].StaticInitEnd);
-                binWriter.Write(index);
-                binWriter.Write((uint)((long)this.m_OverlayEntries[index].Flags & (long)~(index == 0 ? 16777216 : 0)));
-            }
-            for (int index = 0; index < list1.Count; ++index) {
-                numArray1[index + this.m_OverlayEntries.Length] = (int)binWriter.BaseStream.Position;
-                if (list1[index].Data != null) {
-                    binWriter.Write(list1[index].Data);
-                    NitroROM.FileEntry fileEntry = list1[index];
-                    fileEntry.Data = (byte[])null;
-                    list1[index] = fileEntry;
-                } else {
-                    this.m_BinReader.BaseStream.Position = (long)list1[index].Offset;
-                    binWriter.Write(this.m_BinReader.ReadBytes((int)list1[index].Size));
-                }
-                numArray2[index + this.m_OverlayEntries.Length] = (int)binWriter.BaseStream.Position;
-                Helper.AlignWriter(binWriter, 4U);
-            }
-            int position3 = (int)binWriter.BaseStream.Position;
-            binWriter.Write(new byte[8 * this.m_DirEntries.Length]);
-            int[] numArray4 = new int[this.m_DirEntries.Length];
-            List<NitroROM.DirEntry> list2 = ((IEnumerable<NitroROM.DirEntry>)this.m_DirEntries).ToList<NitroROM.DirEntry>();
-            list2.RemoveAt(0);
-            list2.Sort((Comparison<NitroROM.DirEntry>)((x, y) =>
+            Helper.WritePosAndRestore(newBinWriter, (uint)(oldPos + 0xa4), (uint)(0x020aa420 - oldPos)); //now said address is known
+            foreach (int offset in ov0FileNameOffsets)
+                newBinWriter.Write(offset);
+
+            newFileEndOffsets[0] = (int)newBinWriter.BaseStream.Position;
+
+            ////////////////////
+            // Other Overlays //
+            ////////////////////
+            for (int i = 1; i < m_OverlayEntries.Length; ++i)
             {
-                if ((int)x.ParentID > (int)y.ParentID)
-                    return 1;
-                return (int)x.ParentID >= (int)y.ParentID ? string.Compare(x.Name, y.Name) : -1;
-            }));
-            int index1 = 0;
-            int index2 = 0;
-            for (int index3 = 0; index3 < this.m_DirEntries.Length; ++index3) {
-                numArray4[index3] = (int)binWriter.BaseStream.Position - position3;
-                for (; index1 < list1.Count && (int)list1[index1].ParentID == index3 + 61440; ++index1) {
-                    binWriter.Write((byte)list1[index1].Name.Length);
-                    binWriter.Write(list1[index1].Name.ToCharArray());
-                }
-                for (; index2 < list2.Count && (int)list2[index2].ParentID == index3 + 61440; ++index2) {
-                    binWriter.Write((byte)(list2[index2].Name.Length + 128));
-                    binWriter.Write(list2[index2].Name.ToCharArray());
-                    binWriter.Write(list2[index2].ID);
-                }
-                binWriter.Write((byte)0);
-            }
-            Helper.AlignWriter(binWriter, 4U);
-            int position4 = (int)binWriter.BaseStream.Position;
-            binWriter.BaseStream.Position = (long)position3;
-            int index4 = 0;
-            for (int index3 = 0; index3 < this.m_DirEntries.Length; ++index3) {
-                binWriter.Write(numArray4[index3]);
-                binWriter.Write((ushort)(index4 + this.m_OverlayEntries.Length));
-                if (index3 == 0)
-                    binWriter.Write((ushort)this.m_DirEntries.Length);
+                newFileOffsets[i] = (int)newBinWriter.BaseStream.Position;
+                FileEntry fEntry = m_FileEntries[m_OverlayEntries[i].FileID];
+                if (fEntry.Data != null)
+                    newBinWriter.Write(fEntry.Data);
                 else
-                    binWriter.Write(this.m_DirEntries[index3].ParentID);
-                while (index4 < list1.Count && (int)list1[index4].ParentID == index3 + 61440)
-                    ++index4;
+                {
+                    m_BinReader.BaseStream.Position = fEntry.Offset;
+                    newBinWriter.Write(m_BinReader.ReadBytes((int)fEntry.Size));
+                }
+                newFileEndOffsets[i] = (int)newBinWriter.BaseStream.Position;
+                Helper.AlignWriter(newBinWriter, 4);
             }
-            binWriter.BaseStream.Position = (long)position4;
-            for (int index3 = 0; index3 < numArray1.Length; ++index3) {
-                binWriter.Write(numArray1[index3]);
-                binWriter.Write(numArray2[index3]);
+
+            Helper.WritePosAndRestore(newBinWriter, 0x50, 0);
+            for (int i = 0; i < m_OverlayEntries.Length; ++i)
+            {
+                newBinWriter.Write(i);
+                newBinWriter.Write(m_OverlayEntries[i].RAMAddress);
+                newBinWriter.Write(m_OverlayEntries[i].RAMSize);
+                newBinWriter.Write(m_OverlayEntries[i].BSSSize);
+                newBinWriter.Write(m_OverlayEntries[i].StaticInitStart);
+                newBinWriter.Write(m_OverlayEntries[i].StaticInitEnd);
+                newBinWriter.Write(i); //assign file IDs
+                newBinWriter.Write(m_OverlayEntries[i].Flags);
             }
-            int position5 = (int)binWriter.BaseStream.Position;
-            binWriter.BaseStream.Position = 64L;
-            binWriter.Write(position3);
-            binWriter.Write(position4 - position3);
-            binWriter.Write(position4);
-            binWriter.Write(position5 - position4);
-            binWriter.BaseStream.Position = 20L;
-            byte num3 = 0;
-            int num4 = position5;
-            while (num4 > 131072) {
-                num4 >>= 1;
-                ++num3;
+
+            ///////////
+            // Files //
+            ///////////
+            for (int i = 0; i < fileEntries.Count; ++i)
+            {
+                newFileOffsets[i + m_OverlayEntries.Length] = (int)newBinWriter.BaseStream.Position;
+                if (fileEntries[i].Data != null)
+                {
+                    newBinWriter.Write(fileEntries[i].Data);
+                    FileEntry file = fileEntries[i];
+                    file.Data = null;
+                    fileEntries[i] = file;
+                }
+                else
+                {
+                    m_BinReader.BaseStream.Position = fileEntries[i].Offset;
+                    newBinWriter.Write(m_BinReader.ReadBytes((int)fileEntries[i].Size));
+                }
+                newFileEndOffsets[i + m_OverlayEntries.Length] = (int)newBinWriter.BaseStream.Position;
+                Helper.AlignWriter(newBinWriter, 4);
             }
-            binWriter.Write(num3);
-            binWriter.BaseStream.Position = 128L;
-            binWriter.Write(position5);
-            this.m_FileStream.Close();
-            this.m_FileStream = (Stream)memoryStream;
-            this.m_BinReader = new BinaryReader(this.m_FileStream, Encoding.ASCII);
-            this.m_BinWriter = binWriter;
-            this.FixCRC16();
-            this.AllowEmptySpaceInOv0();
-            this.m_BinWriter.BaseStream.SetLength((long)position5);
-            this.EndRW(true);
-            this.LoadROM(this.m_Path);
+
+            ////////////
+            // Banner //
+            ////////////
+            m_BinReader.BaseStream.Position = 0x68;
+            uint bannerOffset = m_BinReader.ReadUInt32();
+
+            Helper.WritePosAndRestore(newBinWriter, 0x68, 0);
+
+            m_BinReader.BaseStream.Position = bannerOffset;
+            newBinWriter.Write(m_BinReader.ReadBytes(0xa00));
+
+            /////////////////////
+            // File Name Table //
+            /////////////////////
+            int newFNTOffset = (int)newBinWriter.BaseStream.Position;
+            newBinWriter.Write(new byte[8 * m_DirEntries.Length]); // offsets to subtables are not known yet
+
+            int[] subTableOffsets = new int[m_DirEntries.Length];
+            List<DirEntry> sortedDirs = m_DirEntries.ToList();
+            sortedDirs.RemoveAt(0); //the root directory is not named
+            sortedDirs.Sort((x, y) => x.ParentID > y.ParentID ? 1 :
+                                      x.ParentID < y.ParentID ? -1 :
+                                      string.Compare(x.Name, y.Name));
+
+            int fileListIter = 0, dirListIter = 0; //iterates by parent ID
+            for (int i = 0; i < m_DirEntries.Length; ++i)
+            {
+                subTableOffsets[i] = (int)newBinWriter.BaseStream.Position - newFNTOffset;
+                while (fileListIter < fileEntries.Count && fileEntries[fileListIter].ParentID == i + 0xf000)
+                {
+                    newBinWriter.Write((byte)fileEntries[fileListIter].Name.Length);
+                    newBinWriter.Write(fileEntries[fileListIter].Name.ToCharArray());
+                    ++fileListIter;
+                }
+                while (dirListIter < sortedDirs.Count && sortedDirs[dirListIter].ParentID == i + 0xf000)
+                {
+                    newBinWriter.Write((byte)(sortedDirs[dirListIter].Name.Length + 0x80));
+                    newBinWriter.Write(sortedDirs[dirListIter].Name.ToCharArray());
+                    newBinWriter.Write(sortedDirs[dirListIter].ID);
+                    ++dirListIter;
+                }
+                newBinWriter.Write((byte)0);
+            }
+            Helper.AlignWriter(newBinWriter, 4);
+            int newFATOffset = (int)newBinWriter.BaseStream.Position;
+            newBinWriter.BaseStream.Position = newFNTOffset;
+
+            fileListIter = 0;
+            for (int i = 0; i < m_DirEntries.Length; ++i)
+            {
+                newBinWriter.Write(subTableOffsets[i]);
+                newBinWriter.Write((ushort)(fileListIter + m_OverlayEntries.Length));
+                if (i == 0)
+                    newBinWriter.Write((ushort)m_DirEntries.Length);
+                else
+                    newBinWriter.Write(m_DirEntries[i].ParentID);
+                while (fileListIter < fileEntries.Count && fileEntries[fileListIter].ParentID == i + 0xf000)
+                    ++fileListIter;
+            }
+
+            ///////////////////////////
+            // File Allocation Table //
+            ///////////////////////////
+            newBinWriter.BaseStream.Position = newFATOffset;
+            for (int i = 0; i < newFileOffsets.Length; ++i)
+            {
+                newBinWriter.Write(newFileOffsets[i]);
+                newBinWriter.Write(newFileEndOffsets[i]);
+            }
+
+            int endOfFile = (int)newBinWriter.BaseStream.Position;
+            newBinWriter.BaseStream.Position = 0x40;
+            newBinWriter.Write(newFNTOffset);
+            newBinWriter.Write(newFATOffset - newFNTOffset);
+            newBinWriter.Write(newFATOffset);
+            newBinWriter.Write(endOfFile - newFATOffset);
+
+            newBinWriter.BaseStream.Position = 0x14;
+            byte deviceCapacity = 0;
+            { //This is it's own block to hide the shameless use of a boringly-named variable.
+                int num = endOfFile;
+                while (num > 0x20000 /*128 KB*/)
+                {
+                    num >>= 1;
+                    ++deviceCapacity;
+                }
+            }
+            newBinWriter.Write(deviceCapacity);
+            newBinWriter.BaseStream.Position = 0x80;
+            newBinWriter.Write(endOfFile);
+
+            //this is the proper way to copy a new stream back to the base stream:)
+            m_FileStream.Close();
+            m_FileStream = newBinStream;
+            m_BinReader = new BinaryReader(m_FileStream, Encoding.ASCII);
+            m_BinWriter = newBinWriter;
+
+            FixCRC16();
+            AllowEmptySpaceInOv0();
+
+            m_BinWriter.BaseStream.SetLength(endOfFile);
+            EndRW(true);
+            LoadROM(m_Path);
         }
 
         public void RevertFilesystem() {
