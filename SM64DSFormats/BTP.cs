@@ -66,6 +66,8 @@ namespace SM64DSe.SM64DSFormats
             // Read in the frames for each material
             m_MaterialData = new Dictionary<string, BTPMaterialData>();
             m_Frames = new List<BTPFrameData>();
+            List<ushort> addedFrameOffsets = new List<ushort>(); // there might be duplicates because 2 material frame changes overlap
+
             for (int i = 0; i < m_NumMaterials; i++)
             {
                 m_MaterialNames.Add(m_File.ReadString(m_File.Read32(m_MaterialHeadersOffset + 0x04 + (uint)(i * 12)), 0));
@@ -87,7 +89,9 @@ namespace SM64DSe.SM64DSFormats
                     ushort texID = m_File.Read16((uint)(m_FrameTextureIDsOffset + (startOffsetFrameChanges * 2) + (j * 2)));
                     ushort palID = m_File.Read16((uint)(m_FramePaletteIDsOffset + (startOffsetFrameChanges * 2) + (j * 2)));
 
-                    AddFrame(matNumFrames, m_Frames.Count, texID, palID, length);
+                    // only the first material with this start offset can add frames
+                    if (!addedFrameOffsets.Contains(startOffsetFrameChanges))
+                        AddFrame(matNumFrames, m_Frames.Count, texID, palID, length);
 
                     matNumFrames += length;
                 }
@@ -95,6 +99,7 @@ namespace SM64DSe.SM64DSFormats
                 BTPMaterialData matData = new BTPMaterialData(m_MaterialNames[i], matFrameChanges, startOffsetFrameChanges, matNumFrames);
 
                 m_MaterialData.Add(m_MaterialNames[i], matData);
+                addedFrameOffsets.Add(startOffsetFrameChanges);
             }
         }
 
@@ -284,16 +289,18 @@ namespace SM64DSe.SM64DSFormats
                 m_File.Write16(dataOffset + 0x02, 0);
                 m_File.Write32(dataOffset + 0x04, texNameAddr);
 
-                texNameAddr += (uint)(((m_TextureNames[i].Length + 1) + 3) & ~3);
+                texNameAddr += (uint)m_TextureNames[i].Length + 1;
 
                 dataOffset += 8;
             }
+
             // Write texture names
             for (int i = 0; i < m_TextureNames.Count; i++)
             {
                 m_File.WriteString(dataOffset, m_TextureNames[i], 0);
-                dataOffset += (uint)(((m_TextureNames[i].Length + 1) + 3) & ~3);
+                dataOffset += (uint)m_TextureNames[i].Length + 1;
             }
+            dataOffset = (uint)((dataOffset + 3) & ~3);
 
             // Write palette headers
             m_File.Write32(0x0C, dataOffset);
@@ -304,31 +311,39 @@ namespace SM64DSe.SM64DSFormats
                 m_File.Write16(dataOffset + 0x02, 0x0000);
                 m_File.Write32(dataOffset + 0x04, palNameAddr);
 
-                palNameAddr += (uint)(((m_PaletteNames[i].Length + 1) + 3) & ~3);
+                palNameAddr += (uint)m_PaletteNames[i].Length + 1;
 
                 dataOffset += 8;
             }
+
             // Write palette names
             for (int i = 0; i < m_PaletteNames.Count; i++)
             {
                 m_File.WriteString(dataOffset, m_PaletteNames[i], 0);
-                dataOffset += (uint)(((m_PaletteNames[i].Length + 1) + 3) & ~3);
+                dataOffset += (uint)m_PaletteNames[i].Length + 1;
             }
+            dataOffset = (uint)((dataOffset + 1) & ~1);
+
+            // frames might have multiple materials
+            List<ushort> addedFrameOffsets = new List<ushort>();
 
             // Write frame changes
             m_File.Write32(0x10, dataOffset);
             foreach (BTPMaterialData matData in m_MaterialData.Values)
             {
+                if (addedFrameOffsets.Contains(matData.m_StartOffsetFrameChanges))
+                    continue;
+
                 ushort count = 0;
-                for (int i = matData.m_StartOffsetFrameChanges;
-                    i < matData.m_StartOffsetFrameChanges + matData.m_NumFrameChanges; i++)
+                for (int i = matData.m_StartOffsetFrameChanges; i < matData.m_StartOffsetFrameChanges + matData.m_NumFrameChanges; i++)
                 {
                     m_File.Write16(dataOffset, count);
                     count += (ushort)m_Frames[i].m_Length;
                     dataOffset += 0x02;
                 }
+
+                addedFrameOffsets.Add(matData.m_StartOffsetFrameChanges);
             }
-            dataOffset = (uint)((dataOffset + 3) & ~3);
 
             // Write texture ID's for frame changes
             m_File.Write32(0x14, dataOffset);
@@ -337,7 +352,6 @@ namespace SM64DSe.SM64DSFormats
                 m_File.Write16(dataOffset, (ushort)m_Frames[i].m_TextureID);
                 dataOffset += 0x02;
             }
-            dataOffset = (uint)((dataOffset + 3) & ~3);
 
             // Write palette ID's for frame changes
             m_File.Write32(0x18, dataOffset);
@@ -359,16 +373,18 @@ namespace SM64DSe.SM64DSFormats
                 m_File.Write16(dataOffset + 0x08, m_MaterialData.Values.ElementAt(i).m_NumFrameChanges);
                 m_File.Write16(dataOffset + 0x0A, m_MaterialData.Values.ElementAt(i).m_StartOffsetFrameChanges);
 
-                matNameAddr += (uint)(((m_MaterialData.Values.ElementAt(i).m_Name.Length + 1) + 3) & ~3);
+                matNameAddr += (uint)m_MaterialData.Values.ElementAt(i).m_Name.Length + 1;
 
                 dataOffset += 12;
             }
+
             // Write material names
             for (int i = 0; i < m_MaterialData.Values.Count; i++)
             {
                 m_File.WriteString(dataOffset, m_MaterialData.Values.ElementAt(i).m_Name, 0);
-                dataOffset += (uint)(((m_MaterialData.Values.ElementAt(i).m_Name.Length + 1) + 3) & ~3);
+                dataOffset += (uint)m_MaterialData.Values.ElementAt(i).m_Name.Length + 1;
             }
+            dataOffset = (uint)((dataOffset + 3) & ~3);
 
             m_File.SaveChanges();
         }
