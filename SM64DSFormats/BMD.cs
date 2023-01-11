@@ -288,15 +288,11 @@ namespace SM64DSe
             m_NumModelChunks = m_File.Read32(0x04);
             m_ModelChunksOffset = m_File.Read32(0x08);
             AddPointer(0x08);
-            Console.WriteLine(1);
-            Console.WriteLine($"m_NumModelChunks = {m_NumModelChunks}");
+
             for (int i = 0; i < m_NumModelChunks; i++)
             {
-                Console.WriteLine(2 + i*3);
                 AddPointer((uint)(m_ModelChunksOffset + (i * 64) + 0x04));
-                Console.WriteLine(3 + i*3);
                 AddPointer((uint)(m_ModelChunksOffset + (i * 64) + 0x34));
-                Console.WriteLine(4 + i*3);
                 AddPointer((uint)(m_ModelChunksOffset + (i * 64) + 0x38));
             }
 
@@ -618,8 +614,6 @@ namespace SM64DSe
 
         public void AddPointer(uint _ref)
         {
-
-            Console.WriteLine("Address: " + _ref);
             uint _ptr = m_File.Read32(_ref);
             m_PointerList.Add(new PointerReference(_ref, _ptr));
         }

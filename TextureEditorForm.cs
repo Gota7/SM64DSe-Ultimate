@@ -131,7 +131,8 @@ namespace SM64DSe
                     if (m_Model.m_TextureIDs.ContainsKey(texName))
                         lblTexture.Text = "Texture: (ID " + m_Model.m_TextureIDs[texName] + ")";
                 }
-            } // let's not annoy the user with these error messages
+            }
+            // let's not annoy the user with these error messages
             catch (KeyNotFoundException ex)
             {
                 Console.WriteLine(ex.Message);
@@ -167,11 +168,12 @@ namespace SM64DSe
                         lblPalette.Text = "Palette: (ID " + m_Model.m_PaletteIDs[palName] + ")";
                     }
                 }
-            } // let's not annoy the user with these error messages
+            }
+            // let's not annoy the user with these error messages
             catch (IndexOutOfRangeException ex)
             {
                 Console.WriteLine(ex.Message);
-                pbxTexture.Image = new Bitmap(1,1);
+                pbxTexture.Image = new Bitmap(1, 1);
             }
         }
 
@@ -202,8 +204,8 @@ namespace SM64DSe
         {
             if (lbxTextures.SelectedIndex != -1 && lbxPalettes.SelectedIndex != -1)
             {
-                string texName = lbxTextures.Items[lbxTextures.SelectedIndex].ToString();
-                string palName = lbxPalettes.Items[lbxPalettes.SelectedIndex].ToString();
+                string texName = lbxTextures.SelectedItem.ToString();
+                string palName = lbxPalettes.SelectedItem.ToString();
                 NitroTexture currentTexture = NitroTexture.ReadFromBMD(m_Model, m_Model.m_TextureIDs[texName],
                     m_Model.m_PaletteIDs[palName]);
 
@@ -264,20 +266,22 @@ namespace SM64DSe
                 DialogResult result = ofd.ShowDialog();
                 if (result == DialogResult.Cancel) return;
 
-                int texIndex = lbxTextures.SelectedIndex = (int)m_Model.m_Textures[lbxTextures.SelectedItem.ToString()].m_TextureID;
-                int palIndex = lbxPalettes.SelectedIndex = (int)m_Model.m_Textures[lbxTextures.SelectedItem.ToString()].m_PaletteID;
+                string texName = lbxTextures.SelectedItem.ToString();
+                string palName = lbxPalettes.SelectedItem.ToString();
+                int texIndex = (int)m_Model.m_TextureIDs[texName];
+                int palIndex = (int)m_Model.m_PaletteIDs[palName];
 
                 try
                 {
                     Bitmap bmp = new Bitmap(ofd.FileName);
 
                     NitroTexture tex = NitroTexture.FromBitmapAndType(
-                        (uint)texIndex, m_Model.m_Textures[lbxTextures.SelectedItem.ToString()].m_TextureName, 
-                        (uint)palIndex, m_Model.m_Textures[lbxTextures.SelectedItem.ToString()].m_PaletteName, 
+                        (uint)texIndex, texName, 
+                        (uint)palIndex, palName, 
                         bmp, BestTexTypeForBitmap(bmp, chkCompressReplacedTextures.Checked));
 
                     // Update texture entry
-                    uint curoffset = m_Model.m_Textures[lbxTextures.SelectedItem.ToString()].m_EntryOffset;
+                    uint curoffset = m_Model.m_Textures[texName].m_EntryOffset;
 
                     m_Model.m_File.Write32(curoffset + 0x08, (uint)tex.m_TextureDataLength);
                     m_Model.m_File.Write16(curoffset + 0x0C, (ushort)(8 << (int)((tex.m_DSTexParam >> 20) & 0x7)));
@@ -287,7 +291,7 @@ namespace SM64DSe
                     // Update palette entry
                     if (tex.m_RawPaletteData != null)
                     {
-                        curoffset = m_Model.m_Textures[lbxTextures.SelectedItem.ToString()].m_PalEntryOffset;
+                        curoffset = m_Model.m_Textures[texName].m_PalEntryOffset;
 
                         m_Model.m_File.Write32(curoffset + 0x08, (uint)tex.m_RawPaletteData.Length);
                         m_Model.m_File.Write32(curoffset + 0x0C, 0xFFFFFFFF);
@@ -296,22 +300,22 @@ namespace SM64DSe
                     // Write new texture and texture palette data
 
                     // Check whether we need to make room for additional data
-                    uint oldTexDataSize = (uint)m_Model.m_Textures[lbxTextures.SelectedItem.ToString()].m_RawTextureData.Length;
+                    uint oldTexDataSize = (uint)m_Model.m_Textures[texName].m_RawTextureData.Length;
                     uint newTexDataSize = (uint)((tex.m_RawTextureData.Length + 3) & ~3);
-                    uint oldPalDataSize = (uint)m_Model.m_Textures[lbxTextures.SelectedItem.ToString()].m_PaletteDataLength;
+                    uint oldPalDataSize = (uint)m_Model.m_Textures[texName].m_PaletteDataLength;
                     uint newPalDataSize = (uint)((tex.m_PaletteDataLength + 3) & ~3);
 
-                    uint texDataOffset = m_Model.m_File.Read32(m_Model.m_Textures[lbxTextures.SelectedItem.ToString()].m_EntryOffset + 0x04);
+                    uint texDataOffset = m_Model.m_File.Read32(m_Model.m_Textures[texName].m_EntryOffset + 0x04);
                     // If necessary, make room for additional texture data
                     if (newTexDataSize > oldTexDataSize) m_Model.AddSpace(texDataOffset + oldTexDataSize, newTexDataSize - oldTexDataSize);
 
                     m_Model.m_File.WriteBlock(texDataOffset, tex.m_RawTextureData);
 
-                    uint palDataOffset = m_Model.m_File.Read32(m_Model.m_Textures[lbxTextures.SelectedItem.ToString()].m_PalEntryOffset + 0x04);
+                    uint palDataOffset = m_Model.m_File.Read32(m_Model.m_Textures[texName].m_PalEntryOffset + 0x04);
                     // If necessary, make room for additional palette data
                     if (newPalDataSize > oldPalDataSize) m_Model.AddSpace(palDataOffset + oldPalDataSize, newPalDataSize - oldPalDataSize);
                     // Reload palette data offset
-                    palDataOffset = m_Model.m_File.Read32(m_Model.m_Textures[lbxTextures.SelectedItem.ToString()].m_PalEntryOffset + 0x04);
+                    palDataOffset = m_Model.m_File.Read32(m_Model.m_Textures[texName].m_PalEntryOffset + 0x04);
 
                     if (tex.m_RawPaletteData != null) m_Model.m_File.WriteBlock(palDataOffset, tex.m_RawPaletteData);
 
