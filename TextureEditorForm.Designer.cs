@@ -81,10 +81,10 @@
             this.btnBTPRenamePalette = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.chkCompressReplacedTextures = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxTexture)).BeginInit();
+            //((System.ComponentModel.ISupportInitialize)(this.pbxTexture)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            //((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -93,61 +93,54 @@
             // lblTexture
             // 
             this.lblTexture.AutoSize = true;
-            this.lblTexture.Location = new System.Drawing.Point(4, 0);
-            this.lblTexture.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTexture.Location = new System.Drawing.Point(3, 0);
             this.lblTexture.Name = "lblTexture";
-            this.lblTexture.Size = new System.Drawing.Size(60, 17);
+            this.lblTexture.Size = new System.Drawing.Size(46, 13);
             this.lblTexture.TabIndex = 0;
             this.lblTexture.Text = "Texture:";
             // 
             // lbxTextures
             // 
-            this.lbxTextures.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbxTextures.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.lbxTextures.FormattingEnabled = true;
-            this.lbxTextures.ItemHeight = 16;
-            this.lbxTextures.Location = new System.Drawing.Point(8, 20);
-            this.lbxTextures.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lbxTextures.Location = new System.Drawing.Point(6, 16);
             this.lbxTextures.Name = "lbxTextures";
-            this.lbxTextures.Size = new System.Drawing.Size(265, 244);
+            this.lbxTextures.Size = new System.Drawing.Size(200, 199);
             this.lbxTextures.TabIndex = 1;
             this.lbxTextures.SelectedIndexChanged += new System.EventHandler(this.lbxTextures_SelectedIndexChanged);
             // 
             // pbxTexture
             // 
-            this.pbxTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbxTexture.Location = new System.Drawing.Point(555, 20);
-            this.pbxTexture.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pbxTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbxTexture.Location = new System.Drawing.Point(416, 16);
             this.pbxTexture.Name = "pbxTexture";
-            this.pbxTexture.Size = new System.Drawing.Size(312, 246);
+            this.pbxTexture.Size = new System.Drawing.Size(234, 199);
             this.pbxTexture.TabIndex = 2;
             this.pbxTexture.TabStop = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(551, 0);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(413, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 17);
+            this.label2.Size = new System.Drawing.Size(48, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "Preview:";
             // 
             // lblPalette
             // 
             this.lblPalette.AutoSize = true;
-            this.lblPalette.Location = new System.Drawing.Point(277, 0);
-            this.lblPalette.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPalette.Location = new System.Drawing.Point(208, 0);
             this.lblPalette.Name = "lblPalette";
-            this.lblPalette.Size = new System.Drawing.Size(56, 17);
+            this.lblPalette.Size = new System.Drawing.Size(43, 13);
             this.lblPalette.TabIndex = 9;
             this.lblPalette.Text = "Palette:";
             // 
             // toolStrip1
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnSave,
             this.btnReplaceSelected,
@@ -158,7 +151,7 @@
             this.btnLoadBTP});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(879, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(659, 25);
             this.toolStrip1.TabIndex = 10;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -168,7 +161,7 @@
             this.btnSave.Enabled = false;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(44, 24);
+            this.btnSave.Size = new System.Drawing.Size(35, 22);
             this.btnSave.Text = "Save";
             this.btnSave.Visible = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -178,21 +171,21 @@
             this.btnReplaceSelected.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnReplaceSelected.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnReplaceSelected.Name = "btnReplaceSelected";
-            this.btnReplaceSelected.Size = new System.Drawing.Size(127, 24);
+            this.btnReplaceSelected.Size = new System.Drawing.Size(99, 22);
             this.btnReplaceSelected.Text = "Replace Selected";
             this.btnReplaceSelected.Click += new System.EventHandler(this.btnReplaceSelected_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // btnExport
             // 
             this.btnExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(56, 24);
+            this.btnExport.Size = new System.Drawing.Size(44, 22);
             this.btnExport.Text = "Export";
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
@@ -201,34 +194,32 @@
             this.btnExportAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnExportAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExportAll.Name = "btnExportAll";
-            this.btnExportAll.Size = new System.Drawing.Size(78, 24);
+            this.btnExportAll.Size = new System.Drawing.Size(61, 22);
             this.btnExportAll.Text = "Export All";
             this.btnExportAll.Click += new System.EventHandler(this.btnExportAll_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // btnLoadBTP
             // 
             this.btnLoadBTP.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnLoadBTP.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadBTP.Name = "btnLoadBTP";
-            this.btnLoadBTP.Size = new System.Drawing.Size(74, 24);
+            this.btnLoadBTP.Size = new System.Drawing.Size(61, 22);
             this.btnLoadBTP.Text = "Load BTP";
             this.btnLoadBTP.Click += new System.EventHandler(this.btnLoadBTP_Click);
             // 
             // lbxPalettes
             // 
-            this.lbxPalettes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbxPalettes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.lbxPalettes.FormattingEnabled = true;
-            this.lbxPalettes.ItemHeight = 16;
-            this.lbxPalettes.Location = new System.Drawing.Point(281, 20);
-            this.lbxPalettes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lbxPalettes.Location = new System.Drawing.Point(211, 16);
             this.lbxPalettes.Name = "lbxPalettes";
-            this.lbxPalettes.Size = new System.Drawing.Size(265, 244);
+            this.lbxPalettes.Size = new System.Drawing.Size(200, 199);
             this.lbxPalettes.TabIndex = 12;
             this.lbxPalettes.SelectedIndexChanged += new System.EventHandler(this.lbxPalettes_SelectedIndexChanged);
             // 
@@ -260,10 +251,8 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox1.Size = new System.Drawing.Size(879, 256);
+            this.groupBox1.Size = new System.Drawing.Size(659, 206);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "BTP (Texture Sequence Animation)";
@@ -272,10 +261,9 @@
             // 
             this.btnMatPreviewStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnMatPreviewStop.Enabled = false;
-            this.btnMatPreviewStop.Location = new System.Drawing.Point(749, 166);
-            this.btnMatPreviewStop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnMatPreviewStop.Location = new System.Drawing.Point(562, 133);
             this.btnMatPreviewStop.Name = "btnMatPreviewStop";
-            this.btnMatPreviewStop.Size = new System.Drawing.Size(56, 28);
+            this.btnMatPreviewStop.Size = new System.Drawing.Size(42, 23);
             this.btnMatPreviewStop.TabIndex = 27;
             this.btnMatPreviewStop.Text = "Stop";
             this.btnMatPreviewStop.UseVisualStyleBackColor = true;
@@ -284,19 +272,17 @@
             // txtBTPMaterialName
             // 
             this.txtBTPMaterialName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtBTPMaterialName.Location = new System.Drawing.Point(501, 204);
-            this.txtBTPMaterialName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBTPMaterialName.Location = new System.Drawing.Point(376, 164);
             this.txtBTPMaterialName.Name = "txtBTPMaterialName";
-            this.txtBTPMaterialName.Size = new System.Drawing.Size(112, 22);
+            this.txtBTPMaterialName.Size = new System.Drawing.Size(85, 20);
             this.txtBTPMaterialName.TabIndex = 23;
             // 
             // btnBTPRemoveMaterial
             // 
             this.btnBTPRemoveMaterial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBTPRemoveMaterial.Location = new System.Drawing.Point(463, 201);
-            this.btnBTPRemoveMaterial.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBTPRemoveMaterial.Location = new System.Drawing.Point(347, 162);
             this.btnBTPRemoveMaterial.Name = "btnBTPRemoveMaterial";
-            this.btnBTPRemoveMaterial.Size = new System.Drawing.Size(31, 28);
+            this.btnBTPRemoveMaterial.Size = new System.Drawing.Size(23, 23);
             this.btnBTPRemoveMaterial.TabIndex = 26;
             this.btnBTPRemoveMaterial.Text = "-";
             this.btnBTPRemoveMaterial.UseVisualStyleBackColor = true;
@@ -305,10 +291,9 @@
             // btnBTPAddMaterial
             // 
             this.btnBTPAddMaterial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBTPAddMaterial.Location = new System.Drawing.Point(424, 201);
-            this.btnBTPAddMaterial.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBTPAddMaterial.Location = new System.Drawing.Point(318, 162);
             this.btnBTPAddMaterial.Name = "btnBTPAddMaterial";
-            this.btnBTPAddMaterial.Size = new System.Drawing.Size(31, 28);
+            this.btnBTPAddMaterial.Size = new System.Drawing.Size(23, 23);
             this.btnBTPAddMaterial.TabIndex = 25;
             this.btnBTPAddMaterial.Text = "+";
             this.btnBTPAddMaterial.UseVisualStyleBackColor = true;
@@ -317,10 +302,9 @@
             // btnBTPRemoveFrame
             // 
             this.btnBTPRemoveFrame.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBTPRemoveFrame.Location = new System.Drawing.Point(47, 201);
-            this.btnBTPRemoveFrame.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBTPRemoveFrame.Location = new System.Drawing.Point(35, 162);
             this.btnBTPRemoveFrame.Name = "btnBTPRemoveFrame";
-            this.btnBTPRemoveFrame.Size = new System.Drawing.Size(31, 28);
+            this.btnBTPRemoveFrame.Size = new System.Drawing.Size(23, 23);
             this.btnBTPRemoveFrame.TabIndex = 24;
             this.btnBTPRemoveFrame.Text = "-";
             this.btnBTPRemoveFrame.UseVisualStyleBackColor = true;
@@ -329,10 +313,9 @@
             // btnSaveBTP
             // 
             this.btnSaveBTP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSaveBTP.Location = new System.Drawing.Point(649, 201);
-            this.btnSaveBTP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSaveBTP.Location = new System.Drawing.Point(487, 162);
             this.btnSaveBTP.Name = "btnSaveBTP";
-            this.btnSaveBTP.Size = new System.Drawing.Size(156, 28);
+            this.btnSaveBTP.Size = new System.Drawing.Size(117, 23);
             this.btnSaveBTP.TabIndex = 17;
             this.btnSaveBTP.Text = "Save BTP";
             this.btnSaveBTP.UseVisualStyleBackColor = true;
@@ -341,10 +324,9 @@
             // btnBTPAddFrame
             // 
             this.btnBTPAddFrame.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBTPAddFrame.Location = new System.Drawing.Point(8, 201);
-            this.btnBTPAddFrame.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBTPAddFrame.Location = new System.Drawing.Point(6, 162);
             this.btnBTPAddFrame.Name = "btnBTPAddFrame";
-            this.btnBTPAddFrame.Size = new System.Drawing.Size(31, 28);
+            this.btnBTPAddFrame.Size = new System.Drawing.Size(23, 23);
             this.btnBTPAddFrame.TabIndex = 23;
             this.btnBTPAddFrame.Text = "+";
             this.btnBTPAddFrame.UseVisualStyleBackColor = true;
@@ -353,10 +335,9 @@
             // btnMatPreview
             // 
             this.btnMatPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnMatPreview.Location = new System.Drawing.Point(649, 166);
-            this.btnMatPreview.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnMatPreview.Location = new System.Drawing.Point(487, 133);
             this.btnMatPreview.Name = "btnMatPreview";
-            this.btnMatPreview.Size = new System.Drawing.Size(92, 28);
+            this.btnMatPreview.Size = new System.Drawing.Size(69, 23);
             this.btnMatPreview.TabIndex = 16;
             this.btnMatPreview.Text = "Preview";
             this.btnMatPreview.UseVisualStyleBackColor = true;
@@ -365,161 +346,143 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(645, 91);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Location = new System.Drawing.Point(484, 74);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(149, 17);
+            this.label11.Size = new System.Drawing.Size(112, 13);
             this.label11.TabIndex = 14;
             this.label11.Text = "Num. Frame Changes:";
             // 
             // txtBTPMatNumFrameChanges
             // 
-            this.txtBTPMatNumFrameChanges.Location = new System.Drawing.Point(649, 111);
-            this.txtBTPMatNumFrameChanges.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBTPMatNumFrameChanges.Location = new System.Drawing.Point(487, 90);
             this.txtBTPMatNumFrameChanges.Name = "txtBTPMatNumFrameChanges";
-            this.txtBTPMatNumFrameChanges.Size = new System.Drawing.Size(155, 22);
+            this.txtBTPMatNumFrameChanges.Size = new System.Drawing.Size(117, 20);
             this.txtBTPMatNumFrameChanges.TabIndex = 15;
             this.txtBTPMatNumFrameChanges.TextChanged += new System.EventHandler(this.txtBTPMatNumFrameChanges_TextChanged);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(645, 20);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Location = new System.Drawing.Point(484, 16);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(117, 17);
+            this.label9.Size = new System.Drawing.Size(88, 13);
             this.label9.TabIndex = 13;
             this.label9.Text = "Material Settings:";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(645, 43);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Location = new System.Drawing.Point(484, 35);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(128, 17);
+            this.label10.Size = new System.Drawing.Size(95, 13);
             this.label10.TabIndex = 11;
             this.label10.Text = "Frame Start Offset:";
             // 
             // txtBTPMatStartOffsetFrameChanges
             // 
-            this.txtBTPMatStartOffsetFrameChanges.Location = new System.Drawing.Point(649, 63);
-            this.txtBTPMatStartOffsetFrameChanges.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBTPMatStartOffsetFrameChanges.Location = new System.Drawing.Point(487, 51);
             this.txtBTPMatStartOffsetFrameChanges.Name = "txtBTPMatStartOffsetFrameChanges";
-            this.txtBTPMatStartOffsetFrameChanges.Size = new System.Drawing.Size(155, 22);
+            this.txtBTPMatStartOffsetFrameChanges.Size = new System.Drawing.Size(117, 20);
             this.txtBTPMatStartOffsetFrameChanges.TabIndex = 12;
             this.txtBTPMatStartOffsetFrameChanges.TextChanged += new System.EventHandler(this.txtBTPMatStartOffsetFrameChanges_TextChanged);
             // 
             // lbxBTPMaterials
             // 
-            this.lbxBTPMaterials.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbxBTPMaterials.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.lbxBTPMaterials.FormattingEnabled = true;
-            this.lbxBTPMaterials.ItemHeight = 16;
-            this.lbxBTPMaterials.Location = new System.Drawing.Point(424, 43);
-            this.lbxBTPMaterials.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lbxBTPMaterials.Location = new System.Drawing.Point(318, 35);
             this.lbxBTPMaterials.Name = "lbxBTPMaterials";
-            this.lbxBTPMaterials.Size = new System.Drawing.Size(189, 148);
+            this.lbxBTPMaterials.Size = new System.Drawing.Size(143, 121);
             this.lbxBTPMaterials.TabIndex = 10;
             this.lbxBTPMaterials.SelectedIndexChanged += new System.EventHandler(this.lbxBTPMaterials_SelectedIndexChanged);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(420, 20);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Location = new System.Drawing.Point(315, 16);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(62, 17);
+            this.label8.Size = new System.Drawing.Size(47, 13);
             this.label8.TabIndex = 9;
             this.label8.Text = "Material:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 20);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(3, 16);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(105, 17);
+            this.label3.Size = new System.Drawing.Size(79, 13);
             this.label3.TabIndex = 1;
             this.label3.Text = "Frame Change:";
             // 
             // lbxBTPFrames
             // 
-            this.lbxBTPFrames.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbxBTPFrames.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.lbxBTPFrames.FormattingEnabled = true;
-            this.lbxBTPFrames.ItemHeight = 16;
-            this.lbxBTPFrames.Location = new System.Drawing.Point(8, 43);
-            this.lbxBTPFrames.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lbxBTPFrames.Location = new System.Drawing.Point(6, 35);
             this.lbxBTPFrames.Name = "lbxBTPFrames";
-            this.lbxBTPFrames.Size = new System.Drawing.Size(189, 148);
+            this.lbxBTPFrames.Size = new System.Drawing.Size(143, 121);
             this.lbxBTPFrames.TabIndex = 0;
             this.lbxBTPFrames.SelectedIndexChanged += new System.EventHandler(this.lbxBTPFrames_SelectedIndexChanged);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(228, 20);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Location = new System.Drawing.Point(171, 16);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(160, 17);
+            this.label7.Size = new System.Drawing.Size(120, 13);
             this.label7.TabIndex = 8;
             this.label7.Text = "Frame Change Settings:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(228, 43);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(171, 35);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(77, 17);
+            this.label4.Size = new System.Drawing.Size(60, 13);
             this.label4.TabIndex = 2;
             this.label4.Text = "Texture ID:";
             // 
             // txtBTPFrameTexID
             // 
-            this.txtBTPFrameTexID.Location = new System.Drawing.Point(232, 63);
-            this.txtBTPFrameTexID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBTPFrameTexID.Location = new System.Drawing.Point(174, 51);
             this.txtBTPFrameTexID.Name = "txtBTPFrameTexID";
-            this.txtBTPFrameTexID.Size = new System.Drawing.Size(155, 22);
+            this.txtBTPFrameTexID.Size = new System.Drawing.Size(117, 20);
             this.txtBTPFrameTexID.TabIndex = 3;
             this.txtBTPFrameTexID.TextChanged += new System.EventHandler(this.txtBTPFrameTexID_TextChanged);
             // 
             // txtBTPFrameLength
             // 
-            this.txtBTPFrameLength.Location = new System.Drawing.Point(232, 159);
-            this.txtBTPFrameLength.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBTPFrameLength.Location = new System.Drawing.Point(174, 129);
             this.txtBTPFrameLength.Name = "txtBTPFrameLength";
-            this.txtBTPFrameLength.Size = new System.Drawing.Size(155, 22);
+            this.txtBTPFrameLength.Size = new System.Drawing.Size(117, 20);
             this.txtBTPFrameLength.TabIndex = 7;
             this.txtBTPFrameLength.TextChanged += new System.EventHandler(this.txtBTPFrameLength_TextChanged);
             // 
             // txtBTPFramePalID
             // 
-            this.txtBTPFramePalID.Location = new System.Drawing.Point(232, 111);
-            this.txtBTPFramePalID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBTPFramePalID.Location = new System.Drawing.Point(174, 90);
             this.txtBTPFramePalID.Name = "txtBTPFramePalID";
-            this.txtBTPFramePalID.Size = new System.Drawing.Size(155, 22);
+            this.txtBTPFramePalID.Size = new System.Drawing.Size(117, 20);
             this.txtBTPFramePalID.TabIndex = 5;
             this.txtBTPFramePalID.TextChanged += new System.EventHandler(this.txtBTPFramePalID_TextChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(228, 91);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(171, 74);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(73, 17);
+            this.label5.Size = new System.Drawing.Size(57, 13);
             this.label5.TabIndex = 4;
             this.label5.Text = "Palette ID:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(228, 139);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(171, 113);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(100, 17);
+            this.label6.Size = new System.Drawing.Size(75, 13);
             this.label6.TabIndex = 6;
             this.label6.Text = "Frame Length:";
             // 
@@ -527,10 +490,9 @@
             // 
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(4, 303);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label12.Location = new System.Drawing.Point(3, 245);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(105, 17);
+            this.label12.Size = new System.Drawing.Size(81, 13);
             this.label12.TabIndex = 14;
             this.label12.Text = "Show Textures:";
             // 
@@ -539,10 +501,9 @@
             this.rbTexAllInBMD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.rbTexAllInBMD.AutoSize = true;
             this.rbTexAllInBMD.Checked = true;
-            this.rbTexAllInBMD.Location = new System.Drawing.Point(120, 300);
-            this.rbTexAllInBMD.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbTexAllInBMD.Location = new System.Drawing.Point(90, 243);
             this.rbTexAllInBMD.Name = "rbTexAllInBMD";
-            this.rbTexAllInBMD.Size = new System.Drawing.Size(93, 21);
+            this.rbTexAllInBMD.Size = new System.Drawing.Size(74, 17);
             this.rbTexAllInBMD.TabIndex = 15;
             this.rbTexAllInBMD.TabStop = true;
             this.rbTexAllInBMD.Text = "All in BMD";
@@ -554,10 +515,9 @@
             this.rbTexAsRefInBTP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.rbTexAsRefInBTP.AutoSize = true;
             this.rbTexAsRefInBTP.Enabled = false;
-            this.rbTexAsRefInBTP.Location = new System.Drawing.Point(227, 300);
-            this.rbTexAsRefInBTP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbTexAsRefInBTP.Location = new System.Drawing.Point(170, 243);
             this.rbTexAsRefInBTP.Name = "rbTexAsRefInBTP";
-            this.rbTexAsRefInBTP.Size = new System.Drawing.Size(264, 21);
+            this.rbTexAsRefInBTP.Size = new System.Drawing.Size(201, 17);
             this.rbTexAsRefInBTP.TabIndex = 16;
             this.rbTexAsRefInBTP.Text = "As Referenced in BTP (Different ID\'s)";
             this.rbTexAsRefInBTP.UseVisualStyleBackColor = true;
@@ -567,10 +527,9 @@
             // 
             this.btnBTPAddTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnBTPAddTexture.Enabled = false;
-            this.btnBTPAddTexture.Location = new System.Drawing.Point(8, 267);
-            this.btnBTPAddTexture.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBTPAddTexture.Location = new System.Drawing.Point(6, 216);
             this.btnBTPAddTexture.Name = "btnBTPAddTexture";
-            this.btnBTPAddTexture.Size = new System.Drawing.Size(31, 31);
+            this.btnBTPAddTexture.Size = new System.Drawing.Size(23, 25);
             this.btnBTPAddTexture.TabIndex = 17;
             this.btnBTPAddTexture.Text = "+";
             this.btnBTPAddTexture.UseVisualStyleBackColor = true;
@@ -581,10 +540,9 @@
             // 
             this.btnBTPRemoveTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnBTPRemoveTexture.Enabled = false;
-            this.btnBTPRemoveTexture.Location = new System.Drawing.Point(47, 267);
-            this.btnBTPRemoveTexture.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBTPRemoveTexture.Location = new System.Drawing.Point(35, 216);
             this.btnBTPRemoveTexture.Name = "btnBTPRemoveTexture";
-            this.btnBTPRemoveTexture.Size = new System.Drawing.Size(31, 31);
+            this.btnBTPRemoveTexture.Size = new System.Drawing.Size(23, 25);
             this.btnBTPRemoveTexture.TabIndex = 18;
             this.btnBTPRemoveTexture.Text = "-";
             this.btnBTPRemoveTexture.UseVisualStyleBackColor = true;
@@ -595,10 +553,9 @@
             // 
             this.btnBTPRemovePalette.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnBTPRemovePalette.Enabled = false;
-            this.btnBTPRemovePalette.Location = new System.Drawing.Point(320, 267);
-            this.btnBTPRemovePalette.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBTPRemovePalette.Location = new System.Drawing.Point(240, 216);
             this.btnBTPRemovePalette.Name = "btnBTPRemovePalette";
-            this.btnBTPRemovePalette.Size = new System.Drawing.Size(31, 31);
+            this.btnBTPRemovePalette.Size = new System.Drawing.Size(23, 25);
             this.btnBTPRemovePalette.TabIndex = 20;
             this.btnBTPRemovePalette.Text = "-";
             this.btnBTPRemovePalette.UseVisualStyleBackColor = true;
@@ -609,10 +566,9 @@
             // 
             this.btnBTPAddPalette.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnBTPAddPalette.Enabled = false;
-            this.btnBTPAddPalette.Location = new System.Drawing.Point(281, 267);
-            this.btnBTPAddPalette.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBTPAddPalette.Location = new System.Drawing.Point(211, 216);
             this.btnBTPAddPalette.Name = "btnBTPAddPalette";
-            this.btnBTPAddPalette.Size = new System.Drawing.Size(31, 31);
+            this.btnBTPAddPalette.Size = new System.Drawing.Size(23, 25);
             this.btnBTPAddPalette.TabIndex = 19;
             this.btnBTPAddPalette.Text = "+";
             this.btnBTPAddPalette.UseVisualStyleBackColor = true;
@@ -623,10 +579,9 @@
             // 
             this.txtBTPTextureName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtBTPTextureName.Enabled = false;
-            this.txtBTPTextureName.Location = new System.Drawing.Point(120, 268);
-            this.txtBTPTextureName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBTPTextureName.Location = new System.Drawing.Point(90, 217);
             this.txtBTPTextureName.Name = "txtBTPTextureName";
-            this.txtBTPTextureName.Size = new System.Drawing.Size(153, 22);
+            this.txtBTPTextureName.Size = new System.Drawing.Size(116, 20);
             this.txtBTPTextureName.TabIndex = 21;
             this.txtBTPTextureName.Visible = false;
             // 
@@ -634,10 +589,9 @@
             // 
             this.txtBTPPaletteName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtBTPPaletteName.Enabled = false;
-            this.txtBTPPaletteName.Location = new System.Drawing.Point(393, 269);
-            this.txtBTPPaletteName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBTPPaletteName.Location = new System.Drawing.Point(295, 218);
             this.txtBTPPaletteName.Name = "txtBTPPaletteName";
-            this.txtBTPPaletteName.Size = new System.Drawing.Size(153, 22);
+            this.txtBTPPaletteName.Size = new System.Drawing.Size(116, 20);
             this.txtBTPPaletteName.TabIndex = 22;
             this.txtBTPPaletteName.Visible = false;
             // 
@@ -645,10 +599,9 @@
             // 
             this.btnBTPRenameTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnBTPRenameTexture.Enabled = false;
-            this.btnBTPRenameTexture.Location = new System.Drawing.Point(85, 267);
-            this.btnBTPRenameTexture.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBTPRenameTexture.Location = new System.Drawing.Point(64, 216);
             this.btnBTPRenameTexture.Name = "btnBTPRenameTexture";
-            this.btnBTPRenameTexture.Size = new System.Drawing.Size(31, 31);
+            this.btnBTPRenameTexture.Size = new System.Drawing.Size(23, 25);
             this.btnBTPRenameTexture.TabIndex = 23;
             this.btnBTPRenameTexture.Text = ".I";
             this.btnBTPRenameTexture.UseVisualStyleBackColor = true;
@@ -659,10 +612,9 @@
             // 
             this.btnBTPRenamePalette.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnBTPRenamePalette.Enabled = false;
-            this.btnBTPRenamePalette.Location = new System.Drawing.Point(359, 267);
-            this.btnBTPRenamePalette.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBTPRenamePalette.Location = new System.Drawing.Point(269, 216);
             this.btnBTPRenamePalette.Name = "btnBTPRenamePalette";
-            this.btnBTPRenamePalette.Size = new System.Drawing.Size(31, 31);
+            this.btnBTPRenamePalette.Size = new System.Drawing.Size(23, 25);
             this.btnBTPRenamePalette.TabIndex = 24;
             this.btnBTPRenamePalette.Text = ".I";
             this.btnBTPRenamePalette.UseVisualStyleBackColor = true;
@@ -672,8 +624,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 27);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -701,36 +652,33 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(879, 596);
-            this.splitContainer1.SplitterDistance = 335;
-            this.splitContainer1.SplitterWidth = 5;
+            this.splitContainer1.Size = new System.Drawing.Size(659, 481);
+            this.splitContainer1.SplitterDistance = 271;
             this.splitContainer1.TabIndex = 25;
             // 
             // chkCompressReplacedTextures
             // 
             this.chkCompressReplacedTextures.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkCompressReplacedTextures.AutoSize = true;
-            this.chkCompressReplacedTextures.Location = new System.Drawing.Point(555, 301);
-            this.chkCompressReplacedTextures.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.chkCompressReplacedTextures.Location = new System.Drawing.Point(416, 244);
             this.chkCompressReplacedTextures.Name = "chkCompressReplacedTextures";
-            this.chkCompressReplacedTextures.Size = new System.Drawing.Size(216, 21);
+            this.chkCompressReplacedTextures.Size = new System.Drawing.Size(165, 17);
             this.chkCompressReplacedTextures.TabIndex = 25;
             this.chkCompressReplacedTextures.Text = "Compress Replaced Textures";
             this.chkCompressReplacedTextures.UseVisualStyleBackColor = true;
             // 
             // TextureEditorForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(879, 623);
+            this.ClientSize = new System.Drawing.Size(659, 506);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "TextureEditorForm";
             this.Text = "Texture and BTP Editor";
-            this.Load += new System.EventHandler(this.TextureEditorForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pbxTexture)).EndInit();
+            this.Load += new System.EventHandler(TextureEditorForm_Load);
+            //((System.ComponentModel.ISupportInitialize)(this.pbxTexture)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -738,7 +686,7 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            //((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
