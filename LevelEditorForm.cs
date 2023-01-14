@@ -65,6 +65,9 @@ namespace SM64DSe
 
         private System.Windows.Forms.Timer m_texAnimTimer;
         private int m_texAnimFrame = 0;
+
+        bool m_PathsAsBezierCurve = false;
+
         private void InitTimer()
         {
             m_texAnimTimer = new System.Windows.Forms.Timer();
@@ -480,6 +483,78 @@ namespace SM64DSe
                         GL.Vertex3(((PathPointObject)objs.ElementAt(0)).Position);
                         GL.End();
                     }
+                }
+
+                GL.ColorMask(true, true, true, true);
+                GL.Enable(EnableCap.PolygonOffsetFill);
+                GL.PolygonOffset(-1.0f, -1.0f);
+                GL.StencilFunc(StencilFunction.Equal, 0x1, 0x3);
+                GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Incr);
+                if (i == 0 || objs.Count() == 1)
+                    GL.Color4(Color.FromArgb(50, 0, 255, 0));
+                else if (i == objs.Count() - 1)
+                    GL.Color4(Color.FromArgb(50, 255, 0, 0));
+                else
+                    GL.Color4(Color.FromArgb(50, color));
+                obj.Render(RenderMode.Picking);
+
+                GL.Disable(EnableCap.PolygonOffsetFill);
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+                GL.LineWidth(3.0f);
+                GL.StencilFunc(StencilFunction.Equal, 0x0, 0x3);
+                GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Replace);
+                GL.DepthFunc(DepthFunction.Always);
+                if (i == 0 || objs.Count() == 1)
+                    GL.Color4(Color.FromArgb(50, 0, 255, 0));
+                else if (i == objs.Count() - 1)
+                    GL.Color4(Color.FromArgb(50, 255, 0, 0));
+                else
+                    GL.Color4(Color.FromArgb(50, color));
+                obj.Render(RenderMode.Picking);
+            }
+
+            GL.PopAttrib();
+            GL.EndList();
+        }
+
+        private void RenderPathBezierCurveHilite(List<LevelObject> objs, System.Boolean closed, Color color, int dlist)
+        {
+            GL.NewList(dlist, ListMode.Compile);
+            GL.PushAttrib(AttribMask.AllAttribBits);
+
+            GL.Disable(EnableCap.Lighting);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+
+            for (int i = 0; i < objs.Count(); i++)
+            {
+                LevelObject obj = objs.ElementAt(i);
+                if (i % 3 == 0 && i != 0)
+                {
+                    PathPointObject pathPt1 = (PathPointObject)objs.ElementAt(i - 3);
+                    PathPointObject pathPt2 = (PathPointObject)objs.ElementAt(i - 2);
+                    PathPointObject pathPt3 = (PathPointObject)objs.ElementAt(i - 1);
+                    PathPointObject pathPt4 = (PathPointObject)objs.ElementAt(i);
+
+                    float[] pathPtPositions =
+                    {
+                        pathPt1.Position.X, pathPt1.Position.Y, pathPt1.Position.Z,
+                        pathPt2.Position.X, pathPt2.Position.Y, pathPt2.Position.Z,
+                        pathPt3.Position.X, pathPt3.Position.Y, pathPt3.Position.Z,
+                        pathPt4.Position.X, pathPt4.Position.Y, pathPt4.Position.Z,
+                    };
+
+                    GL.Map1(MapTarget.Map1Vertex3, 0.0f, 1.0f, 3, 4, pathPtPositions);
+                    GL.MapGrid1(100, 0, 1);
+
+                    GL.Enable(EnableCap.Map1Vertex3);
+                    GL.Begin(PrimitiveType.LineStrip);
+                    GL.Color4(Color.FromArgb(255, color));
+
+                    for (int j = 0; j <= 100; j++)
+                        GL.EvalCoord1(j / 100f);
+
+                    GL.End();
+                    GL.Disable(EnableCap.Map1Vertex3);
                 }
 
                 GL.ColorMask(true, true, true, true);
@@ -2010,17 +2085,7 @@ namespace SM64DSe
 
             if (m_SelectedObject.m_Type == LevelObject.Type.PATH)
             {
-                // If object selected is a path, highlight all nodes in current path
-                List<LevelObject> pathNodes = m_Level.GetAllObjectsByType(LevelObject.Type.PATH_NODE)
-                    .OrderBy(obj => ((PathPointObject)obj).m_NodeID).ToList();
-                List<LevelObject> nodes = new List<LevelObject>();
-                for (int i = ((PathObject)m_SelectedObject).Parameters[0]; i < (((PathObject)m_SelectedObject).Parameters[0] + ((PathObject)m_SelectedObject).Parameters[1]); i++)
-                {
-                    PathPointObject node = (PathPointObject)pathNodes[i];
-                    nodes.Add(node);
-                }
-                PropertyTable ptable = m_SelectedObject.m_Properties;
-                RenderPathHilite(nodes, ((float)ptable["Parameter 5"]==255.0f),k_SelectionColor, m_SelectHiliteDL);
+                RenderPath();
                 btnAddPathNode.Visible = true;
             }
             else
@@ -2030,6 +2095,28 @@ namespace SM64DSe
                     btnAddPathNode.Visible = true;
             }
             glLevelView.Refresh();
+        }
+
+        private void RenderPath()
+        {
+            if (m_SelectedObject == null || !(m_SelectedObject is PathObject))
+                return;
+
+            // If object selected is a path, highlight all nodes in current path
+            List <LevelObject> pathNodes = m_Level.GetAllObjectsByType(LevelObject.Type.PATH_NODE)
+                .OrderBy(obj => ((PathPointObject)obj).m_NodeID).ToList();
+            List<LevelObject> nodes = new List<LevelObject>();
+            for (int i = ((PathObject)m_SelectedObject).Parameters[0]; i < (((PathObject)m_SelectedObject).Parameters[0] + ((PathObject)m_SelectedObject).Parameters[1]); i++)
+            {
+                PathPointObject node = (PathPointObject)pathNodes[i];
+                nodes.Add(node);
+            }
+            PropertyTable ptable = m_SelectedObject.m_Properties;
+
+            if (!m_PathsAsBezierCurve)
+                RenderPathHilite(nodes, ((float)ptable["Parameter 5"] == 255.0f), k_SelectionColor, m_SelectHiliteDL);
+            else
+                RenderPathBezierCurveHilite(nodes, ((float)ptable["Parameter 5"] == 255.0f), k_SelectionColor, m_SelectHiliteDL);
         }
 
         private void btnAddObject_Click(object sender, EventArgs e)
@@ -3231,7 +3318,13 @@ namespace SM64DSe
             NitroROM.RunROM();
         }
 
-        private void btnOpenRawEditor_Click(object sender, EventArgs e)
+		private void btnBezierCurve_Click(object sender, EventArgs e)
+		{
+            m_PathsAsBezierCurve = btnBezierCurve.Checked;
+            RenderPath();
+        }
+
+		private void btnOpenRawEditor_Click(object sender, EventArgs e)
         {
             if (m_rawEditor==null)
                 m_rawEditor = new RawEditorForm(this);
