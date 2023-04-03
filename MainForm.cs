@@ -388,7 +388,8 @@ namespace SM64DSe
 
         private void btnUpdateODB_Click(object sender, EventArgs e)
         {
-            ObjectDatabase.Update(true);
+            // this is outdated
+            // ObjectDatabase.Update(true);
         }
 
         private void btnEditorSettings_Click(object sender, EventArgs e)
@@ -497,20 +498,31 @@ namespace SM64DSe
 
         private void tvFileList_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            this.m_SelectedFile = e.Node == null || e.Node.Tag == null ? "" : e.Node.Tag.ToString();
-            if (!(this.m_SelectedFile != ""))
+            m_SelectedFile = e.Node == null || e.Node.Tag == null ? "" : e.Node.Tag.ToString();
+
+            if (m_SelectedFile == "")
                 return;
-            string str1;
-            if (!this.m_SelectedFile.StartsWith("ARCHIVE") && Program.m_ROM.GetFileIDFromName(this.m_SelectedFile) != ushort.MaxValue) {
-                string str2;
-                if (this.m_SelectedFile.Last<char>() != '/')
-                    str2 = string.Format("File, ID = 0x{0:x4}, Ov0ID = 0x{1:x4}", (object)Program.m_ROM.GetFileIDFromName(this.m_SelectedFile), (object)Program.m_ROM.GetFileEntries()[(int)Program.m_ROM.GetFileIDFromName(this.m_SelectedFile)].InternalID);
-                else
-                    str2 = string.Format("Directory, ID = 0x{0:x4}", (object)Program.m_ROM.GetDirIDFromName(this.m_SelectedFile.TrimEnd('/')));
-                str1 = str2;
-            } else
-                str1 = "";
-            this.slStatusLabel.Text = str1;
+
+            Console.WriteLine(m_SelectedFile);
+
+            string status;
+            if (Program.m_ROM.GetFileIDFromName(this.m_SelectedFile) != ushort.MaxValue)
+                status = m_SelectedFile.Last() == '/' ?
+                    string.Format("Directory, ID = 0x{0:x4}", Program.m_ROM.GetDirIDFromName(m_SelectedFile.TrimEnd('/'))) :
+                    string.Format("File, ID = 0x{0:x4}, Ov0ID = 0x{1:x4}",
+                        Program.m_ROM.GetFileIDFromName(m_SelectedFile),
+                        Program.m_ROM.GetFileEntries()[Program.m_ROM.GetFileIDFromName(m_SelectedFile)].InternalID);
+            else
+                status = "";
+            slStatusLabel.Text = status;
+
+            UpdateOpenFileButton();
+        }
+
+        private void tvFileList_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (btnOpenFile.Enabled)
+                btnOpenFile.PerformClick();
         }
 
         private void btnExtractRaw_Click(object sender, EventArgs e)
@@ -1184,6 +1196,94 @@ namespace SM64DSe
         {
             new LevelNameEditorForm().ShowDialog();
             btnRefresh_Click(sender, e);
+        }
+
+        string m_SavedFile = null;
+
+        private void btnOpenFile_Click(object sender, EventArgs e)
+		{
+            // Console.WriteLine("Trying to open: " + m_SelectedFile);
+
+            if (m_SelectedFile.EndsWith(".bmd"))
+            {
+                if (string.IsNullOrWhiteSpace(m_SavedFile))
+                    new ModelAndCollisionMapEditor(m_SelectedFile, null, 0.008f, ModelAndCollisionMapEditor.StartMode.ModelAndCollisionMap, true).Show();
+                else if (m_SavedFile.EndsWith(".btp"))
+                    new TextureEditorForm(m_SavedFile, m_SelectedFile).Show();
+                else if (m_SavedFile.EndsWith(".bca"))
+                    new AnimationEditorForm(m_SavedFile, m_SelectedFile).Show();
+            }
+            else if (m_SelectedFile.EndsWith(".kcl"))
+                new ModelAndCollisionMapEditor(null, m_SelectedFile, 1f, ModelAndCollisionMapEditor.StartMode.CollisionMap).Show();
+            // new KCLEditorForm(Program.m_ROM.GetFileFromName(m_SelectedFile)).Show();
+            else if (m_SelectedFile.EndsWith(".spt"))
+                new ParticleEditorForm(m_SelectedFile).Show();
+            else if (m_SelectedFile.EndsWith(".spa"))
+                new ParticleViewerForm(m_SelectedFile).Show();
+
+            if (m_SelectedFile.EndsWith(".bca") || m_SelectedFile.EndsWith(".btp"))
+                m_SavedFile = m_SavedFile != null ? null : m_SelectedFile;
+            else
+                m_SavedFile = null;
+
+            UpdateOpenFileButton();
+        }
+
+        private void UpdateOpenFileButton()
+        {
+            if (!string.IsNullOrWhiteSpace(m_SavedFile))
+            {
+                if (m_SelectedFile.EndsWith(".bmd"))
+                {
+                    btnOpenFile.Text = "Open " + m_SavedFile.Substring(m_SavedFile.Length - 3, 3) + " with model";
+                    btnOpenFile.Enabled = true;
+                }
+                else
+                {
+                    btnOpenFile.Text = "Cancel opening " + m_SavedFile.Substring(m_SavedFile.Length - 3, 3);
+                    btnOpenFile.Enabled = true;
+                }
+            }
+            else if (string.IsNullOrWhiteSpace(m_SelectedFile))
+            {
+                btnOpenFile.Text = "Open file";
+                btnOpenFile.Enabled = false;
+            }
+            else if (m_SelectedFile.EndsWith(".bmd"))
+            {
+                btnOpenFile.Text = "Open model";
+                btnOpenFile.Enabled = true;
+            }
+            else if (m_SelectedFile.EndsWith(".kcl"))
+            {
+                btnOpenFile.Text = "Open collision map";
+                btnOpenFile.Enabled = true;
+            }
+            else if (m_SelectedFile.EndsWith(".spt"))
+            {
+                btnOpenFile.Text = "Open particle texture";
+                btnOpenFile.Enabled = true;
+            }
+            else if (m_SelectedFile.EndsWith(".spa"))
+            {
+                btnOpenFile.Text = "Open particle archive";
+                btnOpenFile.Enabled = true;
+            }
+            else if (m_SelectedFile.EndsWith(".btp"))
+            {
+                btnOpenFile.Text = "Open texture sequence";
+                btnOpenFile.Enabled = true;
+            }
+            else if (m_SelectedFile.EndsWith(".bca"))
+            {
+                btnOpenFile.Text = "Open model animation";
+                btnOpenFile.Enabled = true;
+            }
+            else
+            {
+                btnOpenFile.Text = "Open file";
+                btnOpenFile.Enabled = false;
+            }
         }
     }
 

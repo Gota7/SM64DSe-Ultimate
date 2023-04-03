@@ -30,13 +30,42 @@ namespace SM64DSe
 
         private ROMFileSelect m_ROMFileSelect = new ROMFileSelect();
 
-        public AnimationEditorForm()
+        private string m_StartBCA;
+        private string m_StartBMD;
+
+        public AnimationEditorForm(string bcaFileName = null, string bmdFileName = null)
         {
             InitializeComponent();
             InitTimer();
             glModelView.Initialise();
             glModelView.ProvideDisplayLists(m_DisplayLists);
             m_BCAImportationOptions = BMDImporter.BCAImportationOptions.DEFAULT;
+
+            m_StartBCA = bcaFileName;
+            m_StartBMD = bmdFileName;
+        }
+
+        private void AnimationEditorForm_Load(object sender, EventArgs e)
+        {
+            if (m_StartBMD != null)
+            {
+                m_BMD = new BMD(Program.m_ROM.GetFileFromName(m_StartBMD));
+                txtBMDName.Text = m_BMD.m_FileName;
+                m_ModelPreviewScale = 0.008f;
+
+                PrerenderModel();
+
+                if (m_StartBCA != null)
+                {
+                    m_BCA = new BCA(Program.m_ROM.GetFileFromName(m_StartBCA));
+                    txtBCAName.Text = m_BCA.m_FileName;
+
+                    m_AnimationFrameNumber = 0;
+                    m_AnimationNumFrames = m_BCA.m_NumFrames;
+                    txtCurrentFrameNum.Text = "" + m_AnimationFrameNumber;
+                    txtNumFrames.Text = "" + (m_BCA.m_NumFrames - 1);
+                }
+            }
         }
 
         private void PrerenderModel()
@@ -379,5 +408,5 @@ namespace SM64DSe
                 PrerenderModel();
             }
         }
-    }
+	}
 }
