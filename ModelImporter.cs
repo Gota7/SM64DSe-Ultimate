@@ -405,7 +405,7 @@ namespace SM64DSe
 
         private void btnEditTextures_Click(object sender, EventArgs e)
         {
-            new TextureEditorForm(m_BMDName).Show(this);
+            new TextureEditorForm(m_BMDName, null).Show(this);
         }
 
         private void chkInGamePreview_CheckedChanged(object sender, EventArgs e)

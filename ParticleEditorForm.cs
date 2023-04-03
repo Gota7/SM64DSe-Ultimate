@@ -43,37 +43,36 @@ namespace SM64DSe
                 if (result != DialogResult.OK)
                 {
                     Close();
+                    return;
                 }
-                else
-                {
-                    m_Name = m_ROMFileSelect.m_SelectedFile;
-                    m_ParticleTexFile = Program.m_ROM.GetFileFromName(m_Name);
 
-                    cmbRepeatX.Items.Add(Particle.Texture.RepeatMode.CLAMP);
-                    cmbRepeatX.Items.Add(Particle.Texture.RepeatMode.REPEAT);
-                    cmbRepeatX.Items.Add(Particle.Texture.RepeatMode.FLIP);
-                    cmbRepeatX.SelectedIndex = -1;
+                m_Name = m_ROMFileSelect.m_SelectedFile;
+                m_ParticleTexFile = Program.m_ROM.GetFileFromName(m_Name);
 
-                    cmbRepeatY.Items.Add(Particle.Texture.RepeatMode.CLAMP);
-                    cmbRepeatY.Items.Add(Particle.Texture.RepeatMode.REPEAT);
-                    cmbRepeatY.Items.Add(Particle.Texture.RepeatMode.FLIP);
-                    cmbRepeatY.SelectedIndex = -1;
+                cmbRepeatX.Items.Add(Particle.Texture.RepeatMode.CLAMP);
+                cmbRepeatX.Items.Add(Particle.Texture.RepeatMode.REPEAT);
+                cmbRepeatX.Items.Add(Particle.Texture.RepeatMode.FLIP);
+                cmbRepeatX.SelectedIndex = -1;
 
-                    cmbFormat.Items.Add("A3I5");
-                    cmbFormat.Items.Add("Color4");
-                    cmbFormat.Items.Add("Color16");
-                    cmbFormat.Items.Add("Color256");
-                    cmbFormat.Items.Add("Texel4x4 (unsupported)");
-                    cmbFormat.Items.Add("A5I3");
-                    cmbFormat.Items.Add("Direct");
-                    cmbFormat.SelectedIndex = prevFormat = -1;
+                cmbRepeatY.Items.Add(Particle.Texture.RepeatMode.CLAMP);
+                cmbRepeatY.Items.Add(Particle.Texture.RepeatMode.REPEAT);
+                cmbRepeatY.Items.Add(Particle.Texture.RepeatMode.FLIP);
+                cmbRepeatY.SelectedIndex = -1;
 
-                    LoadTexture();
-                    RefreshImage();
-                    PopulatePaletteSettings();
-                    UpdateForm();
-                    ResetColourButtonValue(btnModelPalettesSelectedColour);
-                }
+                cmbFormat.Items.Add("A3I5");
+                cmbFormat.Items.Add("Color4");
+                cmbFormat.Items.Add("Color16");
+                cmbFormat.Items.Add("Color256");
+                cmbFormat.Items.Add("Texel4x4 (unsupported)");
+                cmbFormat.Items.Add("A5I3");
+                cmbFormat.Items.Add("Direct");
+                cmbFormat.SelectedIndex = prevFormat = -1;
+
+                LoadTexture();
+                RefreshImage();
+                PopulatePaletteSettings();
+                UpdateForm();
+                ResetColourButtonValue(btnModelPalettesSelectedColour);
             }
         }
 

@@ -165,6 +165,9 @@ namespace SM64DSe
         private static readonly byte[] DUMMY_KCL_DATA;
         private static readonly NitroFile DUMMY_KCL_NITRO_FILE;
         private static readonly KCL DUMMY_KCL;
+
+        private bool m_LoadInternalModel = false;
+
         static ModelAndCollisionMapEditor()
         {
             DUMMY_BMD_DATA = new byte[0x30];
@@ -186,7 +189,8 @@ namespace SM64DSe
             string bmdModelTargetName, 
             string kclTargetName, 
             float gameScale, 
-            StartMode startMode
+            StartMode startMode,
+            bool loadInternalModel = false
             )
         {
             m_BMDTargetName = bmdModelTargetName;
@@ -206,6 +210,8 @@ namespace SM64DSe
 
             m_ModelSourceType = ModelSourceType.None;
             m_ModelSourceLoaded = false;
+
+            m_LoadInternalModel = loadInternalModel;
 
             InitialiseForm();
         }
@@ -338,6 +344,13 @@ namespace SM64DSe
                 m_ModelSourceType = ModelSourceType.Internal;
 
                 LoadCollisionMap();
+            }
+            else if (m_LoadInternalModel)
+            {
+                m_ModelSourceName = m_BMDTargetName;
+                m_ModelSourceType = ModelSourceType.Internal;
+
+                LoadModel();
             }
         }
 
