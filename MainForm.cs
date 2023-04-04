@@ -1285,6 +1285,5 @@ namespace SM64DSe
                 btnOpenFile.Enabled = false;
             }
         }
-    }
-
+	}
 }
