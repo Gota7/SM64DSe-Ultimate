@@ -12,3 +12,4 @@ obj/Debug/SM64DSe.csproj.FileListAbsolute.txt
 obj/Release/SM64DSe.csproj.FileListAbsolute.txt
 obj/Release/SM64DSe.csproj.FilesWrittenAbsolute.txt
 obj/Debug
+obj/*
