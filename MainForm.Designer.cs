@@ -700,6 +700,7 @@
 			this.tvFileList.Size = new System.Drawing.Size(577, 343);
 			this.tvFileList.TabIndex = 0;
 			this.tvFileList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvFileList_AfterSelect);
+			this.tvFileList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvFileList_NodeMouseDoubleClick);
 			// 
 			// pnlFileOptions
 			// 
@@ -775,6 +776,7 @@
 			this.btnOpenFile.TabIndex = 1;
 			this.btnOpenFile.Text = "Open file";
 			this.btnOpenFile.UseVisualStyleBackColor = true;
+			this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
 			// 
 			// btnExtractRaw
 			// 
