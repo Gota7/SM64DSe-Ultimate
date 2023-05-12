@@ -610,6 +610,43 @@ namespace SM64DSe
             return rendered_something;
         }
 
+        public int PolygonCount
+        {
+            get
+            {
+                int count = 0;
+                foreach (ModelChunk modelChunk in m_ModelChunks)
+                {
+                    foreach (MaterialGroup matGroup in modelChunk.m_MatGroups)
+                    {
+                        foreach (VertexList geometry in matGroup.m_Geometry)
+                        {
+                            uint polyType = geometry.m_PolyType;
+                            List<Vertex> vtxList = geometry.m_VertexList;
+                            switch (polyType)
+                            {
+                                case 0: //Separate Triangles
+                                    count += vtxList.Count / 3;
+                                    break;
+                                case 1: //Separate Quadrilaterals
+                                    count += vtxList.Count / 4;
+                                    break;
+                                case 2: //Triangle Strips
+                                    count += vtxList.Count - 2;
+                                    break;
+                                case 3: //Quadrilateral Strips
+                                    count += ((vtxList.Count - 4) / 2) + 1;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+                return count;
+            }
+        }
+
         public List<PointerReference> m_PointerList;
 
         public void AddPointer(uint _ref)

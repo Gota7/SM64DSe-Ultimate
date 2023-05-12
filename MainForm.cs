@@ -144,6 +144,8 @@ namespace SM64DSe
             btnLZForceCompression.Enabled = true;
             btnLZForceDecompression.Enabled = true;
             btnEditLevelNames.Enabled = true;
+
+            slStatusLabel.Text = "Loaded ROM Version: " + Program.m_ROM.m_Version.ToString().Replace('_', ' ');
         }
 
         private void LoadROMExtracted(string basePath, string patchPath, string conversionPath, string buildPath) {

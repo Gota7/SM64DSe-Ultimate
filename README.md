@@ -3,6 +3,8 @@ This is an edited version of sm64dse 2.3.5 by Fiachra
 
 The .exe file is in bin/release
 
+Requires at least Visual Studio 2015
+
 <h3>Changelog:</h3><br/>
 -invisible pole now has an indicator for its height
 <br/>

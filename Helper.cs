@@ -629,6 +629,20 @@ namespace SM64DSe
             }
         }
 
+        public static bool TryParseFloat(ToolStripTextBox textBox, out float result)
+        {
+            if (!TryParseFloat(textBox.Text, out result))
+            {
+                textBox.BackColor = LIGHT_RED;
+                return false;
+            }
+            else
+            {
+                textBox.BackColor = Color.White;
+                return true;
+            }
+        }
+
         public static bool TryParseFloat(string value, out float result)
         {
             return (float.TryParse(value, NumberStyles.Float, USA, out result) || float.TryParse(value, out result));

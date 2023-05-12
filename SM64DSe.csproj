@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -34,6 +35,8 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -107,6 +110,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.InteropServices" />
+    <Reference Include="System.Threading.Thread" />
     <Reference Include="Xceed.Wpf.AvalonDock, Version=2.0.2000.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Xceed.Wpf.AvalonDock.dll</HintPath>
@@ -189,6 +195,7 @@
     <Compile Include="GraphicEditor.Designer.cs">
       <DependentUpon>GraphicEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImportExport\BaseStripConverter.cs" />
     <Compile Include="ImportExport\BMD_BCA_KCLExporter.cs" />
     <Compile Include="ImportExport\BMDImporter.cs" />
     <Compile Include="ImportExport\KCLImporter.cs" />
@@ -212,7 +219,8 @@
     <Compile Include="ImportExport\Loaders\InternalLoaders\BMDLoader.cs" />
     <Compile Include="ImportExport\Loaders\InternalLoaders\KCLLoader.cs" />
     <Compile Include="ImportExport\ModelBase.cs" />
-    <Compile Include="ImportExport\TriangleStripper.cs" />
+    <Compile Include="ImportExport\QuadsToStripsConverter.cs" />
+    <Compile Include="ImportExport\TrianglesToStripsConverter.cs" />
     <Compile Include="ImportExport\Writers\AbstractModelWriter.cs" />
     <Compile Include="ImportExport\Writers\ExternalWriters\DAEWriter.cs" />
     <Compile Include="ImportExport\Writers\ExternalWriters\OBJWriter.cs" />
@@ -740,6 +748,12 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

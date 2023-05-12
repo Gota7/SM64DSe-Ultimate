@@ -113,8 +113,8 @@ namespace SM64DSe
             txtThreshold.Text = m_ModelImportSettings.m_KCLMinimumFaceSize.ToString(Helper.USA);
 
             chkAlwaysWriteFullVertexCmd23h.Checked = m_ModelImportSettings.m_ExtraOptions.m_AlwaysWriteFullVertexCmd23h;
-            chkStripify.Checked = m_ModelImportSettings.m_ExtraOptions.m_ConvertToTriangleStrips;
-            chkKeepVertexOrderDuringStripping.Checked = m_ModelImportSettings.m_ExtraOptions.m_KeepVertexOrderDuringStripping;
+            chkStripify.Checked = m_ModelImportSettings.m_ExtraOptions.m_ConvertTrianglesToStrips;
+            chkKeepVertexOrderDuringStripping.Checked = m_ModelImportSettings.m_ExtraOptions.m_TriangleStripsKeepVertexOrder;
             switch (m_ModelImportSettings.m_ExtraOptions.m_TextureQualitySetting)
             {
                 case BMDImporter.BMDExtraImportOptions.TextureQualitySetting.SmallestSize:
@@ -451,7 +451,7 @@ namespace SM64DSe
 
         private void chkStripify_CheckedChanged(object sender, EventArgs e)
         {
-            m_ModelImportSettings.m_ExtraOptions.m_ConvertToTriangleStrips = chkStripify.Checked;
+            m_ModelImportSettings.m_ExtraOptions.m_ConvertTrianglesToStrips = chkStripify.Checked;
 
             if (chkStripify.Checked)
                 chkKeepVertexOrderDuringStripping.Enabled = true;
@@ -461,7 +461,7 @@ namespace SM64DSe
 
         private void chkKeepVertexOrderDuringStripping_CheckedChanged(object sender, EventArgs e)
         {
-            m_ModelImportSettings.m_ExtraOptions.m_KeepVertexOrderDuringStripping = chkKeepVertexOrderDuringStripping.Checked;
+            m_ModelImportSettings.m_ExtraOptions.m_TriangleStripsKeepVertexOrder = chkKeepVertexOrderDuringStripping.Checked;
         }
 
         private void chkVFlipAllTextures_CheckedChanged(object sender, EventArgs e)
