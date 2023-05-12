@@ -1258,15 +1258,60 @@ namespace SM64DSe.ImportExport
             return true;
         }
 
-        public void EnsureTriangulation()
+        /**
+         * Iterates through each FaceListDef of type Polygons, removes any triangles and adds them to new 
+         * FaceListDefs of type Triangles
+         */ 
+        public void SeparateTrianglesFromQuads()
         {
-            if (!IsTriangulated())
+            foreach (ModelBase.BoneDef bone in m_BoneTree)
             {
-                Triangulate();
+                foreach (GeometryDef geometry in bone.m_Geometries.Values)
+                {
+                    foreach (PolyListDef polyList in geometry.m_PolyLists.Values)
+                    {
+                        List<FaceListDef> triangleFaceLists = new List<FaceListDef>();
+                        List<int> removeFLs = new List<int>();
+
+                        for (int fl = 0; fl < polyList.m_FaceLists.Count; fl++)
+                        {
+                            FaceListDef faceList = polyList.m_FaceLists[fl];
+                            if (!(faceList.m_Type == PolyListType.Triangles || faceList.m_Type == PolyListType.TriangleStrip))
+                            {
+                                FaceListDef triangles = new FaceListDef(PolyListType.Triangles);
+
+                                for (int pg = faceList.m_Faces.Count - 1; pg >= 0; pg--)
+                                {
+                                    FaceDef face = faceList.m_Faces[pg];
+                                    if (face.m_NumVertices == 3)
+                                    {
+                                        triangles.m_Faces.Add(face);
+                                        faceList.m_Faces.RemoveAt(pg);
+                                    }
+                                }
+
+                                if (triangles.m_Faces.Count > 1) { triangleFaceLists.Add(triangles); }
+                                if (faceList.m_Faces.Count < 1) { removeFLs.Add(fl); }
+                            }
+                        }
+
+                        for (int i = removeFLs.Count - 1; i >= 0; i--)
+                        {
+                            polyList.m_FaceLists.RemoveAt(removeFLs.ElementAt(i));
+                        }
+
+                        polyList.m_FaceLists.AddRange(triangleFaceLists);
+                    }
+                }
             }
         }
 
-        private void Triangulate()
+        public void Triangulate()
+        {
+            TriangulateFacesWithVertexCountAbove(3);
+        }
+
+        public void TriangulateFacesWithVertexCountAbove(int vertexCount)
         {
             foreach (ModelBase.BoneDef bone in m_BoneTree)
             {
@@ -1276,16 +1321,25 @@ namespace SM64DSe.ImportExport
                     {
                         List<int> removeFLs = new List<int>();
                         List<FaceListDef> triangulated = new List<FaceListDef>();
+                        List<FaceListDef> unmodifiedFaceLists = new List<FaceListDef>();
+
                         for (int fl = 0; fl < polyList.m_FaceLists.Count; fl++)
                         {
                             FaceListDef faceList = polyList.m_FaceLists[fl];
                             if (!(faceList.m_Type == PolyListType.Triangles || faceList.m_Type == PolyListType.TriangleStrip))
                             {
                                 FaceListDef triangles = new FaceListDef(PolyListType.Triangles);
+                                FaceListDef unmodifiedFaces = new FaceListDef(faceList.m_Type);
 
                                 for (int pg = 0; pg < faceList.m_Faces.Count; pg++)
                                 {
                                     FaceDef face = faceList.m_Faces[pg];
+                                    if (face.m_NumVertices <= vertexCount)
+                                    {
+                                        unmodifiedFaces.m_Faces.Add(face);
+                                        continue;
+                                    }
+
                                     int numTriangles;
                                     switch (faceList.m_Type)
                                     {
@@ -1307,8 +1361,15 @@ namespace SM64DSe.ImportExport
                                     }
                                 }
 
+                                if (triangles.m_Faces.Count < 1) { continue; }
+
                                 removeFLs.Add(fl);
                                 triangulated.Add(triangles);
+
+                                if (unmodifiedFaces.m_Faces.Count > 0)
+                                {
+                                    unmodifiedFaceLists.Add(unmodifiedFaces);
+                                }
                             }
                         }
 
@@ -1318,8 +1379,32 @@ namespace SM64DSe.ImportExport
                         }
 
                         polyList.m_FaceLists.AddRange(triangulated);
+                        polyList.m_FaceLists.AddRange(unmodifiedFaceLists);
                     }
                 }
+            }
+        }
+
+        public int PolygonCount
+        {
+            get
+            {
+                int count = 0;
+                foreach (BoneDef bone in m_BoneTree)
+                {
+                    foreach (GeometryDef geometry in bone.m_Geometries.Values)
+                    {
+                        foreach (PolyListDef polyList in geometry.m_PolyLists.Values)
+                        {
+                            for (int fl = 0; fl < polyList.m_FaceLists.Count; fl++)
+                            {
+                                FaceListDef faceList = polyList.m_FaceLists[fl];
+                                count += faceList.m_Faces.Count;
+                            }
+                        }
+                    }
+                }
+                return count;
             }
         }
 

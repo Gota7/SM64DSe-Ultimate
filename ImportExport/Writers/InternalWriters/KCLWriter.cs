@@ -29,7 +29,7 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
             m_FaceSizeThreshold = faceSizeThreshold;
             m_MatColTypes = matColTypes;
 
-            m_Model.EnsureTriangulation();
+            m_Model.Triangulate();
         }
 
         public override void WriteModel(bool save = true)
