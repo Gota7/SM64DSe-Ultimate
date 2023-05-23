@@ -6,13 +6,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using OpenTK;
 using System.Windows.Forms;
-using System.IO;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 using SM64DSe.SM64DSFormats;
 
 namespace SM64DSe.ImportExport.Writers.InternalWriters
@@ -541,6 +537,7 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
                         }
                     }
                 }
+
                 float _tcscale = largesttc / (32767f / 16f);
                 if (_tcscale > 1f)
                 {
@@ -567,8 +564,11 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
                         {
                             if (!polyList.m_MaterialName.Equals(curmaterial))
                                 continue;
-                            foreach (ModelBase.FaceListDef faceList in polyList.m_FaceLists)
+                            foreach (ModelBase.FaceListDef faceListSrc in polyList.m_FaceLists)
                             {
+                                ModelBase.FaceListDef faceList = mat.m_TextureDefID != null ?
+                                    faceListSrc : removeTextureCoords(faceListSrc);
+
                                 if (ModelBase.PolyListType.TriangleStrip.Equals(faceList.m_Type))
                                 {
                                     dlpacker.AddCommand(0x40, (uint)VertexListPrimitiveTypes.TriangleStrip);// Begin Vertex List
@@ -778,12 +778,17 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
                         teximage_param |= 0x00080000;
                     }
 
+                    ModelBase.TexGenMode texGenMode;
                     if (mat.m_TextureScale.X > 0f && mat.m_TextureScale.Y > 0f)
                     {
-                        teximage_param |= 0x40000000;
+                        texGenMode = ModelBase.TexGenMode.Tex;
 
                         texscaleS = (uint)(int)(mat.m_TextureScale.X * 4096);
                         texscaleT = (uint)(int)(mat.m_TextureScale.Y * 4096);
+                    }
+                    else
+                    {
+                        texGenMode = mat.m_TexGenMode;
                     }
 
                     // 30-31 Texture Coordinates Transformation Mode (0..3, see below)
@@ -792,7 +797,7 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
                     // 1  TexCoord source
                     // 2  Normal source
                     // 3  Vertex source
-                    teximage_param |= (uint)(((byte)mat.m_TexGenMode) << 30);
+                    teximage_param |= (uint)(((byte)texGenMode) << 30);
                 }
 
                 // Cmd 29h POLYGON_ATTR - Set Polygon Attributes (W)
@@ -931,6 +936,25 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
             }
 
             if (save) { bmd.SaveChanges(); }
+        }
+
+        private ModelBase.FaceListDef removeTextureCoords(ModelBase.FaceListDef faceListSrc)
+        {
+            ModelBase.FaceListDef faceListDst = new ModelBase.FaceListDef(faceListSrc.m_Type);
+            foreach (ModelBase.FaceDef faceSrc in faceListSrc.m_Faces)
+            {
+                ModelBase.FaceDef faceDst = new ModelBase.FaceDef(faceSrc.m_NumVertices);
+                for (int i = 0; i < faceSrc.m_NumVertices; i++)
+                {
+                    ModelBase.VertexDef vtxSrc = faceSrc.m_Vertices[i];
+                    ModelBase.VertexDef vtxDst = new ModelBase.VertexDef(vtxSrc.m_Position, null, vtxSrc.m_Normal,
+                        vtxSrc.m_VertexColour, vtxSrc.m_VertexBoneIndex);
+                    faceDst.m_Vertices[i] = vtxDst;
+                }
+                faceListDst.m_Faces.Add(faceDst);
+            }
+
+            return faceListDst;
         }
 
         protected void TrianglesToStrips()

@@ -758,7 +758,7 @@ namespace SM64DSe.ImportExport.Loaders.ExternalLoaders
                     polyListDef.m_FaceLists.Add(faceListDef);
                 }
 
-                geometryDef.m_PolyLists.Add("PolyList-" + geometryDef.m_PolyLists.Count, polyListDef);
+                geometryDef.m_PolyLists.Add(polyListDef.m_ID, polyListDef);
             }
         }
 

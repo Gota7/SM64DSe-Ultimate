@@ -2458,8 +2458,8 @@ namespace SM64DSe
 
         private void btnEditTexAnim_Click(object sender, EventArgs e)
         {
-            new BetterTextureAnimationEditor(this).Show(this);
-            //new TextureAnimationForm(m_Level).Show(this);
+            if (Control.ModifierKeys == Keys.Shift) { new TextureAnimationForm(m_Level).Show(this); }
+            else { new BetterTextureAnimationEditor(this).Show(this); }
         }
 
         private void btnCLPS_Click(object sender, EventArgs e)

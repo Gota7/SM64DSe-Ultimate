@@ -17,10 +17,8 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -1319,5 +1317,64 @@ namespace SM64DSe
         public PointerReference(uint _ref, uint _ptr) { m_ReferenceAddr = _ref; m_PointerAddr = _ptr; }
         public uint m_ReferenceAddr; // where the pointer is stored
         public uint m_PointerAddr; // where the pointer points
+    }
+
+    public class GX3D
+    {
+        public static IDictionary<byte, int> GX_CMD_LENGTH = new Dictionary<byte, int>();
+
+        static GX3D()
+        {
+            // nop
+            GX_CMD_LENGTH.Add(0x00, 0);
+            // matrix commands
+            GX_CMD_LENGTH.Add(0x10, 4);
+            GX_CMD_LENGTH.Add(0x11, 0);
+            GX_CMD_LENGTH.Add(0x12, 4);
+            GX_CMD_LENGTH.Add(0x13, 4);
+            // matrix restore (used for animation)
+            GX_CMD_LENGTH.Add(0x14, 4);
+            // more matrix commands
+            GX_CMD_LENGTH.Add(0x15, 0);
+            GX_CMD_LENGTH.Add(0x16, 64);
+            GX_CMD_LENGTH.Add(0x17, 48);
+            GX_CMD_LENGTH.Add(0x18, 64);
+            GX_CMD_LENGTH.Add(0x19, 48);
+            GX_CMD_LENGTH.Add(0x1A, 36);
+            GX_CMD_LENGTH.Add(0x1B, 12);
+            GX_CMD_LENGTH.Add(0x1C, 12);
+            // set color
+            GX_CMD_LENGTH.Add(0x20, 4);
+            // normal
+            GX_CMD_LENGTH.Add(0x21, 4);
+            // texcoord
+            GX_CMD_LENGTH.Add(0x22, 4);
+            // define vertex
+            GX_CMD_LENGTH.Add(0x23, 8);
+            GX_CMD_LENGTH.Add(0x24, 4);
+            GX_CMD_LENGTH.Add(0x25, 4);
+            GX_CMD_LENGTH.Add(0x26, 4);
+            GX_CMD_LENGTH.Add(0x27, 4);
+            GX_CMD_LENGTH.Add(0x28, 4);
+            GX_CMD_LENGTH.Add(0x29, 4);
+            GX_CMD_LENGTH.Add(0x2A, 4);
+            GX_CMD_LENGTH.Add(0x2B, 4);
+            // lighting commands
+            GX_CMD_LENGTH.Add(0x30, 4);
+            GX_CMD_LENGTH.Add(0x31, 4);
+            GX_CMD_LENGTH.Add(0x32, 4);
+            GX_CMD_LENGTH.Add(0x33, 4);
+            GX_CMD_LENGTH.Add(0x34, 128);
+            // Begin vertex list
+            GX_CMD_LENGTH.Add(0x40, 4);
+            // End vertex list (dummy)
+            GX_CMD_LENGTH.Add(0x41, 0);
+            // misc.
+            GX_CMD_LENGTH.Add(0x50, 4);
+            GX_CMD_LENGTH.Add(0x60, 4);
+            GX_CMD_LENGTH.Add(0x70, 12);
+            GX_CMD_LENGTH.Add(0x71, 8);
+            GX_CMD_LENGTH.Add(0x72, 4);
+        }
     }
 }

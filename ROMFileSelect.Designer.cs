@@ -46,6 +46,7 @@
             this.tvFiles.Size = new System.Drawing.Size(392, 260);
             this.tvFiles.TabIndex = 0;
             this.tvFiles.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvFiles_AfterSelect);
+            this.tvFiles.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tvFiles_KeyUp);
             // 
             // btnOK
             // 
