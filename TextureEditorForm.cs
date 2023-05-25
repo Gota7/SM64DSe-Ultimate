@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
 using SM64DSe.SM64DSFormats;
-using SM64DSe.ImportExport.Writers.InternalWriters;
-using SM64DSe.ImportExport;
-using SM64DSe.ImportExport.Loaders.InternalLoaders;
+using OpenTK;
 
 namespace SM64DSe
 {
@@ -116,23 +110,42 @@ namespace SM64DSe
                     return;
                 string texName = lbxTextures.Items[lbxTextures.SelectedIndex].ToString();
                 Console.WriteLine(m_Model.m_Textures[texName].m_PaletteID);
+
                 if (rbTexAllInBMD.Checked && m_Model.m_Textures.ContainsKey(texName))
                 {
                     if (m_Model.m_Textures[texName].m_PaletteID >= 0 && m_Model.m_Textures[texName].m_PaletteID < lbxPalettes.Items.Count)
                     {
+                        lbxPalettes.Enabled = true;
                         lbxPalettes.SelectedIndex = (int)m_Model.m_Textures[texName].m_PaletteID;
                     }
+                    else if (m_Model.m_Textures[texName].m_PaletteID == 0xFFFFFFFF)
+                    {
+                        lbxPalettes.SelectedIndex = -1;
+                        lbxPalettes.Enabled = false;
+                        lblPalette.Text = "Palette: None";
+                    }
                 }
-                if (rbTexAllInBMD.Checked && lbxPalettes.SelectedIndex != -1)
+
+                if (rbTexAllInBMD.Checked)
                 {
-                    string palName = lbxPalettes.SelectedItem.ToString();
-                    NitroTexture currentTexture = NitroTexture.ReadFromBMD(m_Model, m_Model.m_TextureIDs[texName],
-                        m_Model.m_PaletteIDs[palName]);
+                    NitroTexture currentTexture = m_Model.m_Textures[texName];
+                    if (currentTexture.m_PaletteID == 0xFFFFFFFF)
+                    {
+                        RefreshImage(currentTexture);
+                        lblTexture.Text = "Texture: (ID " + currentTexture.m_TextureID + ")";
+                    }
+                    else if (lbxPalettes.SelectedIndex > -1)
+                    {
+                        string palName = lbxPalettes.SelectedItem.ToString();
+                        currentTexture = NitroTexture.ReadFromBMD(m_Model, m_Model.m_TextureIDs[texName],
+                            m_Model.m_PaletteIDs[palName]);
 
-                    RefreshImage(currentTexture);
+                        RefreshImage(currentTexture);
 
-                    lblTexture.Text = "Texture: (ID " + m_Model.m_TextureIDs[texName] + ")";
+                        lblTexture.Text = "Texture: (ID " + m_Model.m_TextureIDs[texName] + ")";
+                    }
                 }
+
                 if (rbTexAsRefInBTP.Checked)
                 {
                     txtBTPTextureName.Text = texName;
@@ -274,19 +287,24 @@ namespace SM64DSe
                 DialogResult result = ofd.ShowDialog();
                 if (result == DialogResult.Cancel) return;
 
+                bool hasPalette = lbxPalettes.SelectedIndex > -1;
+
                 string texName = lbxTextures.SelectedItem.ToString();
-                string palName = lbxPalettes.SelectedItem.ToString();
-                int texIndex = (int)m_Model.m_TextureIDs[texName];
-                int palIndex = (int)m_Model.m_PaletteIDs[palName];
+                string palName = hasPalette ? lbxPalettes.SelectedItem.ToString() : null;
+                uint texIndex = m_Model.m_TextureIDs[texName];
+                uint palIndex = hasPalette ? m_Model.m_PaletteIDs[palName] : 0xFFFFFFFF;
+                int srcTexType = m_Model.m_Textures[texName].m_TexType;
 
                 try
                 {
                     Bitmap bmp = new Bitmap(ofd.FileName);
 
+                    int dstTexType = BestTexTypeForBitmap(bmp, srcTexType, chkReplaceCompressTexture.Checked);
                     NitroTexture tex = NitroTexture.FromBitmapAndType(
-                        (uint)texIndex, texName, 
-                        (uint)palIndex, palName, 
-                        bmp, BestTexTypeForBitmap(bmp, chkCompressReplacedTextures.Checked));
+                        texIndex, texName, 
+                        palIndex, palName, 
+                        bmp, dstTexType
+                    );
 
                     // Update texture entry
                     uint curoffset = m_Model.m_Textures[texName].m_EntryOffset;
@@ -307,25 +325,40 @@ namespace SM64DSe
 
                     // Write new texture and texture palette data
 
+                    NitroTexture oldTex = m_Model.m_Textures[texName];
+
                     // Check whether we need to make room for additional data
-                    uint oldTexDataSize = (uint)m_Model.m_Textures[texName].m_RawTextureData.Length;
+                    uint oldTexDataSize = (uint)oldTex.m_RawTextureData.Length;
                     uint newTexDataSize = (uint)((tex.m_RawTextureData.Length + 3) & ~3);
-                    uint oldPalDataSize = (uint)m_Model.m_Textures[texName].m_PaletteDataLength;
+                    uint oldPalDataSize = (uint)oldTex.m_PaletteDataLength;
                     uint newPalDataSize = (uint)((tex.m_PaletteDataLength + 3) & ~3);
 
-                    uint texDataOffset = m_Model.m_File.Read32(m_Model.m_Textures[texName].m_EntryOffset + 0x04);
+                    uint texDataOffset = m_Model.m_File.Read32(oldTex.m_EntryOffset + 0x04);
                     // If necessary, make room for additional texture data
                     if (newTexDataSize > oldTexDataSize) m_Model.AddSpace(texDataOffset + oldTexDataSize, newTexDataSize - oldTexDataSize);
 
                     m_Model.m_File.WriteBlock(texDataOffset, tex.m_RawTextureData);
 
-                    uint palDataOffset = m_Model.m_File.Read32(m_Model.m_Textures[texName].m_PalEntryOffset + 0x04);
+                    uint palDataOffset = m_Model.m_File.Read32(oldTex.m_PalEntryOffset + 0x04);
                     // If necessary, make room for additional palette data
                     if (newPalDataSize > oldPalDataSize) m_Model.AddSpace(palDataOffset + oldPalDataSize, newPalDataSize - oldPalDataSize);
                     // Reload palette data offset
-                    palDataOffset = m_Model.m_File.Read32(m_Model.m_Textures[texName].m_PalEntryOffset + 0x04);
+                    palDataOffset = m_Model.m_File.Read32(oldTex.m_PalEntryOffset + 0x04);
 
                     if (tex.m_RawPaletteData != null) m_Model.m_File.WriteBlock(palDataOffset, tex.m_RawPaletteData);
+
+                    if (chkReplaceAdjustTexCoords.Checked)
+                    {
+                        // Tried just modifying the materials' texture scale but whilst the models displayed fine 
+                        // in the editor, they didn't display properly in the game. 
+                        // Instead we'll scale the texture co-ordinates (modify the GX command parameters) 
+                        // and update material settings as needed. Uses the same logic as when we read and write BMDs.
+
+                        if (oldTex.m_Width != tex.m_Width || oldTex.m_Height != tex.m_Height)
+                        {
+                            AdjustTextureCoordinates(oldTex, tex);
+                        }
+                    }
 
                     m_Model.m_File.SaveChanges();
 
@@ -342,8 +375,155 @@ namespace SM64DSe
             }
         }
 
-        private static int BestTexTypeForBitmap(Bitmap bmp, bool compress = true)
+        private void AdjustTextureCoordinates(NitroTexture oldTex, NitroTexture tex)
         {
+            List<byte> matIDs = new List<byte>();
+            for (uint i = 0; i < m_Model.m_NumMatChunks; i++)
+            {
+                uint matChunkOffset = m_Model.m_MatChunksOffset + (i * 48);
+                uint matTexID = m_Model.m_File.Read32(matChunkOffset + 0x04);
+                if (matTexID == oldTex.m_TextureID)
+                {
+                    matIDs.Add((byte)i);
+                }
+            }
+
+            HashSet<uint> updatedDLists = new HashSet<uint>();
+            for (uint chunkIdx = 0; chunkIdx < m_Model.m_NumModelChunks; chunkIdx++)
+            {
+                uint modelChunkOffset = m_Model.m_ModelChunksOffset + (chunkIdx * 64);
+                uint numMatGroups = m_Model.m_File.Read32(modelChunkOffset + 0x30);
+                if (numMatGroups > 0)
+                {
+                    uint matGroupIDsOffset = m_Model.m_File.Read32(modelChunkOffset + 0x34);
+                    uint polyIDsOffset = m_Model.m_File.Read32(modelChunkOffset + 0x38);
+                    for (uint matGrpIdx = 0; matGrpIdx < numMatGroups; matGrpIdx++)
+                    {
+                        byte matID = m_Model.m_File.Read8(matGroupIDsOffset + matGrpIdx);
+                        if (matIDs.Contains(matID))
+                        {
+                            uint matOffset = (uint)(m_Model.m_MatChunksOffset + (matID * 48));
+                            MatGroupTexCoordSettings mat = ReadMatGroupTexCoordSettings(matOffset);
+
+                            byte polyID = m_Model.m_File.Read8(polyIDsOffset + matGrpIdx);
+                            uint pchunkoffset = m_Model.m_File.Read32((uint)(m_Model.m_PolyChunksOffset + (polyID * 8) + 4));
+                            uint dloffset = m_Model.m_File.Read32(pchunkoffset + 0x0C);
+                            if (updatedDLists.Contains(dloffset)) { continue; }
+                            else { updatedDLists.Add(dloffset); }
+                            uint dlsize = m_Model.m_File.Read32(pchunkoffset + 0x08);
+
+                            Vector2 tcscale = new Vector2(tex.m_Width, tex.m_Height);
+
+                            float largesttc = ScaleTexCoords(mat, dloffset, dlsize, oldTex, tcscale, false);
+
+                            float _tcscale = largesttc / (32767f / 16f);
+                            if (_tcscale > 1f)
+                            {
+                                _tcscale = (float)Math.Ceiling(_tcscale * 4096f) / 4096f;
+                                mat.m_TexCoordScale = new Vector2(_tcscale, _tcscale);
+                                Vector2.Divide(ref tcscale, _tcscale, out tcscale);
+                                mat.m_TexParams |= 0x40000000;
+                            }
+
+                            ScaleTexCoords(mat, dloffset, dlsize, oldTex, tcscale, true);
+
+                            WriteMatGroupTexCoordSettings(matOffset, mat);
+                        }
+                    }
+                }
+            }
+        }
+
+        private float ScaleTexCoords(MatGroupTexCoordSettings mat, uint dloffset, uint dlsize,
+            NitroTexture oldTex, Vector2 tcscale, bool save)
+        {
+            Vector2 texsize = new Vector2(oldTex.m_Width, oldTex.m_Height);
+
+            float largesttc = 0f;
+
+            uint dlend = dloffset + dlsize;
+            for (uint pos = dloffset; pos < dlend;)
+            {
+                byte[] cmds = m_Model.m_File.ReadBlock(pos, 4);
+                pos += 4;
+
+                foreach (byte cmd in cmds)
+                {
+                    if (cmd == 0x22)
+                    {
+                        uint param = m_Model.m_File.Read32(pos);
+                        short s = (short)(param & 0xFFFF);
+                        short t = (short)(param >> 16);
+                        Vector2 texCoord = new Vector2(s / 16.0f, t / 16.0f);
+                        texCoord = Vector2.Add(texCoord, mat.m_TexCoordTrans);
+                        texCoord = Vector2.Multiply(texCoord, mat.m_TexCoordScale);
+
+                        texCoord = Vector2.Divide(texCoord, texsize);
+                        texCoord = Vector2.Multiply(texCoord, tcscale);
+
+                        if (Math.Abs(texCoord.X) > largesttc) largesttc = Math.Abs(texCoord.X);
+                        if (Math.Abs(texCoord.Y) > largesttc) largesttc = Math.Abs(texCoord.Y);
+
+                        if (save)
+                        {
+                            s = (short)(texCoord.X * 16);
+                            t = (short)(texCoord.Y * 16);
+                            param = ((uint)t << 16) | (ushort)s;
+                            m_Model.m_File.Write32(pos, param);
+                        }
+                    }
+                    pos += (uint)GX3D.GX_CMD_LENGTH[cmd];
+                }
+            }
+
+            return largesttc;
+        }
+
+        private struct MatGroupTexCoordSettings
+        {
+            public uint m_TexParams;
+            public Vector2 m_TexCoordScale;
+            public Vector2 m_TexCoordTrans;
+
+            public byte TexGenMode
+            {
+                get { return (byte)(m_TexParams >> 30); }
+            }
+        }
+
+        private MatGroupTexCoordSettings ReadMatGroupTexCoordSettings(uint matOffset)
+        {
+            MatGroupTexCoordSettings mat = new MatGroupTexCoordSettings();
+            mat.m_TexParams = m_Model.m_File.Read32(matOffset + 0x20);
+            if (mat.TexGenMode == 0)
+            {
+                mat.m_TexCoordScale = new Vector2(1.0f, 1.0f);
+                mat.m_TexCoordTrans = new Vector2(0.0f, 0.0f);
+            }
+            else
+            {
+                mat.m_TexCoordScale = new Vector2(m_Model.m_File.Read32(matOffset + 0x0C) / 4096f, m_Model.m_File.Read32(matOffset + 0x10) / 4096f);
+                mat.m_TexCoordTrans = new Vector2(m_Model.m_File.Read32(matOffset + 0x18) / 4096f, m_Model.m_File.Read32(matOffset + 0x1C) / 4096f);
+            }
+            return mat;
+        }
+
+        private void WriteMatGroupTexCoordSettings(uint matOffset, MatGroupTexCoordSettings mat)
+        {
+            m_Model.m_File.Write32(matOffset + 0x20, mat.m_TexParams);
+            m_Model.m_File.Write32(matOffset + 0x0C, (uint)(mat.m_TexCoordScale.X * 4096));
+            m_Model.m_File.Write32(matOffset + 0x10, (uint)(mat.m_TexCoordScale.Y * 4096));
+            m_Model.m_File.Write32(matOffset + 0x18, (uint)(mat.m_TexCoordTrans.X * 4096));
+            m_Model.m_File.Write32(matOffset + 0x1C, (uint)(mat.m_TexCoordTrans.Y * 4096));
+        }
+
+        private static int BestTexTypeForBitmap(Bitmap bmp, int srcTexType, bool compress = true)
+        {
+            if (srcTexType == 7)
+            {
+                return 7;
+            }
+
             bool alpha = NitroTexture.BitmapUsesTranslucency(bmp);
             int nColours = NitroTexture.CountColoursInBitmap(bmp);
 

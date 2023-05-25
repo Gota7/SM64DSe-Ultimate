@@ -1186,6 +1186,10 @@ namespace SM64DSe
                 Helper.TryParseFloat(txtModelMaterialTextureTranslationX.Text, out material.m_TextureTranslation.Y);
                 Helper.TryParseFloat(txtModelMaterialTextureTranslationY.Text, out material.m_TextureTranslation.Y);
                 material.m_TexGenMode = (ModelBase.TexGenMode)cmbModelMaterialTexGenMode.SelectedIndex;
+            } 
+            else
+            {
+                material.m_TextureDefID = null;
             }
 
             PopulateMaterialSettings(material);
