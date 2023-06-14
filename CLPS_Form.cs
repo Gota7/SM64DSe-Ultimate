@@ -254,7 +254,7 @@ namespace SM64DSe
             ushort other_clps_num = otherOVL.Read16(other_clps_addr + 0x06);
             uint other_clps_size = (uint)(8 + (other_clps_num * 8));
 
-            m_CLPS = new CLPS();
+            m_CLPS.Clear();
             for(int i = 0; i < other_clps_num; ++i)
             {
                 ulong flags   = otherOVL.Read32((uint)(other_clps_addr + 8 + 8 * i + 0));

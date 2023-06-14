@@ -259,8 +259,10 @@ namespace SM64DSe
                 // Model General Settings
                 txtModelGeneralTargetName.Text = m_BMDTargetName;
 
-                chkModelGeneralStripify.Checked = m_ModelImportationSettings.m_ExtraOptions.m_ConvertToTriangleStrips;
-                chkModelGeneralKeepVertexOrderDuringStripping.Checked = m_ModelImportationSettings.m_ExtraOptions.m_KeepVertexOrderDuringStripping;
+                chkModelGeneralTriangulate.Checked = m_ModelImportationSettings.m_ExtraOptions.m_Triangulate;
+                chkModelGeneralConvertTrianglesToStrips.Checked = m_ModelImportationSettings.m_ExtraOptions.m_ConvertTrianglesToStrips;
+                chkModelGeneralTriangleStripsKeepVertexOrder.Checked = m_ModelImportationSettings.m_ExtraOptions.m_TriangleStripsKeepVertexOrder;
+                chkModelGeneralConvertQuadsToStrips.Checked = m_ModelImportationSettings.m_ExtraOptions.m_ConvertQuadsToStrips;
                 chkModelGeneralAlwaysWriteFullVertexCmd23h.Checked = m_ModelImportationSettings.m_ExtraOptions.m_AlwaysWriteFullVertexCmd23h;
                 switch (m_ModelImportationSettings.m_ExtraOptions.m_TextureQualitySetting)
                 {
@@ -439,6 +441,9 @@ namespace SM64DSe
 
             UpdateBMDModelAndPreview();
 
+            lblMainStatus.Text = "Source: " + m_ModelSourceName;
+            lblModelPreviewPolygonCountValue.Text = m_ModelBase.PolygonCount + "/" + m_ImportedModel.PolygonCount;
+
             // KCL
             ResetCollisionMapState();
 
@@ -456,8 +461,6 @@ namespace SM64DSe
 
             // General
             UpdateEnabledStateMenuControls();
-
-            lblMainStatus.Text = "Source: " + m_ModelSourceName;
         }
 
         private void LoadCollisionMap()
@@ -1183,6 +1186,10 @@ namespace SM64DSe
                 Helper.TryParseFloat(txtModelMaterialTextureTranslationX.Text, out material.m_TextureTranslation.Y);
                 Helper.TryParseFloat(txtModelMaterialTextureTranslationY.Text, out material.m_TextureTranslation.Y);
                 material.m_TexGenMode = (ModelBase.TexGenMode)cmbModelMaterialTexGenMode.SelectedIndex;
+            } 
+            else
+            {
+                material.m_TextureDefID = null;
             }
 
             PopulateMaterialSettings(material);
@@ -2558,17 +2565,28 @@ namespace SM64DSe
             UpdateBMDModelAndPreview();
         }
 
-        private void chkModelGeneralStripify_CheckedChanged(object sender, EventArgs e)
+        private void chkModelGeneralTriangulate_CheckedChanged(object sender, EventArgs e)
         {
-            m_ModelImportationSettings.m_ExtraOptions.m_ConvertToTriangleStrips = 
-                chkModelGeneralStripify.Checked;
-            chkModelGeneralKeepVertexOrderDuringStripping.Enabled = chkModelGeneralStripify.Checked;
+            m_ModelImportationSettings.m_ExtraOptions.m_Triangulate = chkModelGeneralTriangulate.Checked;
         }
 
-        private void chkModelGeneralKeepVertexOrderDuringStripping_CheckedChanged(object sender, EventArgs e)
+        private void chkModelGeneralConvertTrianglesToStrips_CheckedChanged(object sender, EventArgs e)
         {
-            m_ModelImportationSettings.m_ExtraOptions.m_KeepVertexOrderDuringStripping = 
-                chkModelGeneralKeepVertexOrderDuringStripping.Checked;
+            m_ModelImportationSettings.m_ExtraOptions.m_ConvertTrianglesToStrips = 
+                chkModelGeneralConvertTrianglesToStrips.Checked;
+            chkModelGeneralTriangleStripsKeepVertexOrder.Enabled = chkModelGeneralConvertTrianglesToStrips.Checked;
+        }
+
+        private void chkModelGeneralTriangleStripsKeepVertexOrder_CheckedChanged(object sender, EventArgs e)
+        {
+            m_ModelImportationSettings.m_ExtraOptions.m_TriangleStripsKeepVertexOrder = 
+                chkModelGeneralTriangleStripsKeepVertexOrder.Checked;
+        }
+
+        private void chkModelGeneralConvertQuadsToStrips_CheckedChanged(object sender, EventArgs e)
+        {
+            m_ModelImportationSettings.m_ExtraOptions.m_ConvertQuadsToStrips =
+                chkModelGeneralConvertQuadsToStrips.Checked;
         }
 
         private void chkModelGeneralAlwaysWriteFullVertexCmd23h_CheckedChanged(object sender, EventArgs e)

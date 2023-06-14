@@ -6,13 +6,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using OpenTK;
 using System.Windows.Forms;
-using System.IO;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 using SM64DSe.SM64DSFormats;
 
 namespace SM64DSe.ImportExport.Writers.InternalWriters
@@ -309,9 +305,13 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
 
             m_OrderedBoneIDList = model.m_BoneTree.GetBoneIDList();
 
-            m_Model.EnsureTriangulation();
+            m_Model.SeparateTrianglesFromQuads();
+            if (m_ImportOptions.m_Triangulate) { m_Model.Triangulate(); }
+            else { m_Model.TriangulateFacesWithVertexCountAbove(4); }
 
-            if (m_ImportOptions.m_ConvertToTriangleStrips) { Stripify(); }
+            if (m_ImportOptions.m_ConvertTrianglesToStrips) { TrianglesToStrips(); }
+
+            if (m_ImportOptions.m_ConvertQuadsToStrips) { QuadsToStrips(); }
         }
 
         public override void WriteModel(bool save = true)
@@ -537,6 +537,7 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
                         }
                     }
                 }
+
                 float _tcscale = largesttc / (32767f / 16f);
                 if (_tcscale > 1f)
                 {
@@ -563,12 +564,22 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
                         {
                             if (!polyList.m_MaterialName.Equals(curmaterial))
                                 continue;
-                            foreach (ModelBase.FaceListDef faceList in polyList.m_FaceLists)
+                            foreach (ModelBase.FaceListDef faceListSrc in polyList.m_FaceLists)
                             {
-                                if (faceList.m_Type.Equals(ModelBase.PolyListType.TriangleStrip))
+                                ModelBase.FaceListDef faceList = mat.m_TextureDefID != null ?
+                                    faceListSrc : removeTextureCoords(faceListSrc);
+
+                                if (ModelBase.PolyListType.TriangleStrip.Equals(faceList.m_Type))
                                 {
                                     dlpacker.AddCommand(0x40, (uint)VertexListPrimitiveTypes.TriangleStrip);// Begin Vertex List
                                     AddTriangleStripToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix,
+                                                    ref lastvtx, ref lastnrm, faceList.m_Faces);
+                                    dlpacker.AddCommand(0x41);//End Vertex List
+                                }
+                                else if (ModelBase.PolyListType.QuadrilateralStrip.Equals(faceList.m_Type))
+                                {
+                                    dlpacker.AddCommand(0x40, (uint)VertexListPrimitiveTypes.QuadrilateralStrip);// Begin Vertex List
+                                    AddQuadrilateralStripToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix,
                                                     ref lastvtx, ref lastnrm, faceList.m_Faces);
                                     dlpacker.AddCommand(0x41);//End Vertex List
                                 }
@@ -619,8 +630,9 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
                                                     ref lastvtx, ref lastnrm, face);
                                                 break;
 
-                                            default: // whatever (import as triangle strip)
-                                                // todo
+                                            default: 
+                                                // Faces with > 4 vertices should have already been converted to triangles, 
+                                                // see ModelBase#TriangulateFacesWithVertexCountAbove
                                                 break;
                                         }
                                     }
@@ -766,12 +778,17 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
                         teximage_param |= 0x00080000;
                     }
 
+                    ModelBase.TexGenMode texGenMode;
                     if (mat.m_TextureScale.X > 0f && mat.m_TextureScale.Y > 0f)
                     {
-                        teximage_param |= 0x40000000;
+                        texGenMode = ModelBase.TexGenMode.Tex;
 
                         texscaleS = (uint)(int)(mat.m_TextureScale.X * 4096);
                         texscaleT = (uint)(int)(mat.m_TextureScale.Y * 4096);
+                    }
+                    else
+                    {
+                        texGenMode = mat.m_TexGenMode;
                     }
 
                     // 30-31 Texture Coordinates Transformation Mode (0..3, see below)
@@ -780,7 +797,7 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
                     // 1  TexCoord source
                     // 2  Normal source
                     // 3  Vertex source
-                    teximage_param |= (uint)(((byte)mat.m_TexGenMode) << 30);
+                    teximage_param |= (uint)(((byte)texGenMode) << 30);
                 }
 
                 // Cmd 29h POLYGON_ATTR - Set Polygon Attributes (W)
@@ -921,7 +938,26 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
             if (save) { bmd.SaveChanges(); }
         }
 
-        protected void Stripify()
+        private ModelBase.FaceListDef removeTextureCoords(ModelBase.FaceListDef faceListSrc)
+        {
+            ModelBase.FaceListDef faceListDst = new ModelBase.FaceListDef(faceListSrc.m_Type);
+            foreach (ModelBase.FaceDef faceSrc in faceListSrc.m_Faces)
+            {
+                ModelBase.FaceDef faceDst = new ModelBase.FaceDef(faceSrc.m_NumVertices);
+                for (int i = 0; i < faceSrc.m_NumVertices; i++)
+                {
+                    ModelBase.VertexDef vtxSrc = faceSrc.m_Vertices[i];
+                    ModelBase.VertexDef vtxDst = new ModelBase.VertexDef(vtxSrc.m_Position, null, vtxSrc.m_Normal,
+                        vtxSrc.m_VertexColour, vtxSrc.m_VertexBoneIndex);
+                    faceDst.m_Vertices[i] = vtxDst;
+                }
+                faceListDst.m_Faces.Add(faceDst);
+            }
+
+            return faceListDst;
+        }
+
+        protected void TrianglesToStrips()
         {
             foreach (ModelBase.BoneDef bone in m_Model.m_BoneTree)
             {
@@ -934,17 +970,26 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
                         for (int fl = 0; fl < polyList.m_FaceLists.Count; fl++)
                         {
                             ModelBase.FaceListDef faceList = polyList.m_FaceLists[fl];
-                            if (faceList.m_Type != ModelBase.PolyListType.QuadrilateralStrip &&
-                                faceList.m_Type != ModelBase.PolyListType.TriangleStrip)
+                            if (faceList.m_Type == ModelBase.PolyListType.Triangles)
                             {
+                                if (faceList.m_Faces.Count < 1)
+                                {
+                                    removeFLs.Add(fl);
+                                    continue;
+                                }
+
                                 try
                                 {
-                                    TriangleStripper tStripper = new TriangleStripper(faceList);
-                                    List<ModelBase.FaceListDef> tStrips = tStripper.Stripify(m_ImportOptions.m_KeepVertexOrderDuringStripping);
+                                    TrianglesToStripsConverter converter = new TrianglesToStripsConverter(faceList);
+                                    List<ModelBase.FaceListDef> tStrips = converter.Stripify(m_ImportOptions.m_TriangleStripsKeepVertexOrder);
                                     removeFLs.Add(fl);
                                     replacedWithTStrips.AddRange(tStrips);
                                 }
-                                catch (ArgumentException) { continue; }
+                                catch (ArgumentException e)
+                                {
+                                    Console.WriteLine("Error converting to triangle strip: " + e.Message);
+                                    continue;
+                                }
                             }
                         }
 
@@ -954,6 +999,53 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
                         }
 
                         polyList.m_FaceLists.AddRange(replacedWithTStrips);
+                    }
+                }
+            }
+        }
+
+        protected void QuadsToStrips()
+        {
+            foreach (ModelBase.BoneDef bone in m_Model.m_BoneTree)
+            {
+                foreach (ModelBase.GeometryDef geometry in bone.m_Geometries.Values)
+                {
+                    foreach (ModelBase.PolyListDef polyList in geometry.m_PolyLists.Values)
+                    {
+                        List<int> removeFLs = new List<int>();
+                        List<ModelBase.FaceListDef> replacedWithQStrips = new List<ModelBase.FaceListDef>();
+                        for (int fl = 0; fl < polyList.m_FaceLists.Count; fl++)
+                        {
+                            ModelBase.FaceListDef faceList = polyList.m_FaceLists[fl];
+                            if (faceList.m_Type == ModelBase.PolyListType.Polygons)
+                            {
+                                if (faceList.m_Faces.Count < 1)
+                                {
+                                    removeFLs.Add(fl);
+                                    continue;
+                                }
+
+                                try
+                                {
+                                    QuadsToStripsConverter converter = new QuadsToStripsConverter(faceList);
+                                    List<ModelBase.FaceListDef> qStrips = converter.Stripify();
+                                    removeFLs.Add(fl);
+                                    replacedWithQStrips.AddRange(qStrips);
+                                }
+                                catch (ArgumentException e)
+                                {
+                                    Console.WriteLine("Error converting to quad strip: " + e.Message);
+                                    continue;
+                                }
+                            }
+                        }
+
+                        for (int i = removeFLs.Count - 1; i >= 0; i--)
+                        {
+                            polyList.m_FaceLists.RemoveAt(removeFLs.ElementAt(i));
+                        }
+
+                        polyList.m_FaceLists.AddRange(replacedWithQStrips);
                     }
                 }
             }
@@ -981,6 +1073,44 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
             }
         }
 
+        private void AddTriangleToDisplayList(GXDisplayListPacker dlpacker, ref int lastColourARGB, ref Vector2 tcscale, ref int lastmatrix,
+            ref Vector4 lastvtx, ref Vector3 lastnrm, ModelBase.FaceDef face)
+        {
+            WriteVertexToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix, ref lastvtx,
+                ref lastnrm, face.m_Vertices[0]);
+
+            WriteVertexToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix, ref lastvtx,
+                    ref lastnrm, face.m_Vertices[1]);
+
+            WriteVertexToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix, ref lastvtx,
+                ref lastnrm, face.m_Vertices[2]);
+        }
+
+        private void AddQuadrilateralStripToDisplayList(GXDisplayListPacker dlpacker, ref int lastColourARGB, ref Vector2 tcscale,
+            ref int lastmatrix, ref Vector4 lastvtx, ref Vector3 lastnrm, List<ModelBase.FaceDef> faces)
+        {
+            if (faces.Count < 1) { return; }
+
+            ModelBase.FaceDef firstFace = faces[0];
+
+            WriteVertexToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix, ref lastvtx, 
+                ref lastnrm, firstFace.m_Vertices[0]);
+
+            WriteVertexToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix, ref lastvtx,
+                ref lastnrm, firstFace.m_Vertices[1]);
+
+            for (int i = 0; i < faces.Count; i++)
+            {
+                ModelBase.FaceDef face = faces[i];
+
+                WriteVertexToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix, ref lastvtx,
+                    ref lastnrm, face.m_Vertices[3]);
+
+                WriteVertexToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix, ref lastvtx,
+                    ref lastnrm, face.m_Vertices[2]);
+            }
+        }
+
         private void AddQuadrilateralToDisplayList(GXDisplayListPacker dlpacker, ref int lastColourARGB, ref Vector2 tcscale,
             ref int lastmatrix, ref Vector4 lastvtx, ref Vector3 lastnrm, ModelBase.FaceDef face)
         {
@@ -995,19 +1125,6 @@ namespace SM64DSe.ImportExport.Writers.InternalWriters
 
             WriteVertexToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix, ref lastvtx,
                 ref lastnrm, face.m_Vertices[3]);
-        }
-
-        private void AddTriangleToDisplayList(GXDisplayListPacker dlpacker, ref int lastColourARGB, ref Vector2 tcscale, ref int lastmatrix,
-            ref Vector4 lastvtx, ref Vector3 lastnrm, ModelBase.FaceDef face)
-        {
-            WriteVertexToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix, ref lastvtx,
-                ref lastnrm, face.m_Vertices[0]);
-
-            WriteVertexToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix, ref lastvtx,
-                    ref lastnrm, face.m_Vertices[1]);
-
-            WriteVertexToDisplayList(dlpacker, ref lastColourARGB, ref tcscale, ref lastmatrix, ref lastvtx,
-                ref lastnrm, face.m_Vertices[2]);
         }
 
         private void AddLineToDisplayList(GXDisplayListPacker dlpacker, ref int lastColourARGB, ref Vector2 tcscale, ref int lastmatrix,

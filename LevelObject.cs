@@ -1717,11 +1717,11 @@ namespace SM64DSe
         public class Def
         {
             public string m_MaterialName;
-            public List<float> m_ScaleValues;
-            public List<float> m_RotationValues;
-            public List<float> m_TranslationXValues;
-            public List<float> m_TranslationYValues;
-            public float m_DefaultScale;
+            public List<float> m_ScaleValues = new List<float>();
+            public List<float> m_RotationValues = new List<float>();
+            public List<float> m_TranslationXValues = new List<float>();
+            public List<float> m_TranslationYValues = new List<float>();
+            public float m_DefaultScale = 1;
 
             public int m_NumScaleValues { get { return (m_ScaleValues != null) ? m_ScaleValues.Count : 0; } }
             public int m_NumRotationValues { get { return (m_RotationValues != null) ? m_RotationValues.Count : 0; } }

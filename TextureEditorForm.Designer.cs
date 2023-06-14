@@ -80,11 +80,12 @@
             this.btnBTPRenameTexture = new System.Windows.Forms.Button();
             this.btnBTPRenamePalette = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.chkCompressReplacedTextures = new System.Windows.Forms.CheckBox();
-            //((System.ComponentModel.ISupportInitialize)(this.pbxTexture)).BeginInit();
+            this.chkReplaceCompressTexture = new System.Windows.Forms.CheckBox();
+            this.chkReplaceAdjustTexCoords = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxTexture)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            //((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -101,8 +102,8 @@
             // 
             // lbxTextures
             // 
-            this.lbxTextures.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbxTextures.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lbxTextures.FormattingEnabled = true;
             this.lbxTextures.Location = new System.Drawing.Point(6, 16);
             this.lbxTextures.Name = "lbxTextures";
@@ -112,9 +113,10 @@
             // 
             // pbxTexture
             // 
-            this.pbxTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbxTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbxTexture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbxTexture.Location = new System.Drawing.Point(416, 16);
             this.pbxTexture.Name = "pbxTexture";
             this.pbxTexture.Size = new System.Drawing.Size(234, 199);
@@ -214,8 +216,8 @@
             // 
             // lbxPalettes
             // 
-            this.lbxPalettes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbxPalettes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lbxPalettes.FormattingEnabled = true;
             this.lbxPalettes.Location = new System.Drawing.Point(211, 16);
             this.lbxPalettes.Name = "lbxPalettes";
@@ -388,8 +390,8 @@
             // 
             // lbxBTPMaterials
             // 
-            this.lbxBTPMaterials.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbxBTPMaterials.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lbxBTPMaterials.FormattingEnabled = true;
             this.lbxBTPMaterials.Location = new System.Drawing.Point(318, 35);
             this.lbxBTPMaterials.Name = "lbxBTPMaterials";
@@ -417,8 +419,8 @@
             // 
             // lbxBTPFrames
             // 
-            this.lbxBTPFrames.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbxBTPFrames.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lbxBTPFrames.FormattingEnabled = true;
             this.lbxBTPFrames.Location = new System.Drawing.Point(6, 35);
             this.lbxBTPFrames.Name = "lbxBTPFrames";
@@ -630,7 +632,8 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.chkCompressReplacedTextures);
+            this.splitContainer1.Panel1.Controls.Add(this.chkReplaceAdjustTexCoords);
+            this.splitContainer1.Panel1.Controls.Add(this.chkReplaceCompressTexture);
             this.splitContainer1.Panel1.Controls.Add(this.lblTexture);
             this.splitContainer1.Panel1.Controls.Add(this.btnBTPRenamePalette);
             this.splitContainer1.Panel1.Controls.Add(this.pbxTexture);
@@ -656,16 +659,27 @@
             this.splitContainer1.SplitterDistance = 271;
             this.splitContainer1.TabIndex = 25;
             // 
-            // chkCompressReplacedTextures
+            // chkReplaceCompressTexture
             // 
-            this.chkCompressReplacedTextures.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkCompressReplacedTextures.AutoSize = true;
-            this.chkCompressReplacedTextures.Location = new System.Drawing.Point(416, 244);
-            this.chkCompressReplacedTextures.Name = "chkCompressReplacedTextures";
-            this.chkCompressReplacedTextures.Size = new System.Drawing.Size(165, 17);
-            this.chkCompressReplacedTextures.TabIndex = 25;
-            this.chkCompressReplacedTextures.Text = "Compress Replaced Textures";
-            this.chkCompressReplacedTextures.UseVisualStyleBackColor = true;
+            this.chkReplaceCompressTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkReplaceCompressTexture.AutoSize = true;
+            this.chkReplaceCompressTexture.Location = new System.Drawing.Point(417, 219);
+            this.chkReplaceCompressTexture.Name = "chkReplaceCompressTexture";
+            this.chkReplaceCompressTexture.Size = new System.Drawing.Size(157, 17);
+            this.chkReplaceCompressTexture.TabIndex = 25;
+            this.chkReplaceCompressTexture.Text = "Replace: Compress Texture";
+            this.chkReplaceCompressTexture.UseVisualStyleBackColor = true;
+            // 
+            // chkReplaceAdjustTexCoords
+            // 
+            this.chkReplaceAdjustTexCoords.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkReplaceAdjustTexCoords.AutoSize = true;
+            this.chkReplaceAdjustTexCoords.Location = new System.Drawing.Point(417, 243);
+            this.chkReplaceAdjustTexCoords.Name = "chkReplaceAdjustTexCoords";
+            this.chkReplaceAdjustTexCoords.Size = new System.Drawing.Size(228, 17);
+            this.chkReplaceAdjustTexCoords.TabIndex = 26;
+            this.chkReplaceAdjustTexCoords.Text = "Replace: Adjust Tex-Coords if Tex Resized";
+            this.chkReplaceAdjustTexCoords.UseVisualStyleBackColor = true;
             // 
             // TextureEditorForm
             // 
@@ -677,8 +691,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "TextureEditorForm";
             this.Text = "Texture and BTP Editor";
-            this.Load += new System.EventHandler(TextureEditorForm_Load);
-            //((System.ComponentModel.ISupportInitialize)(this.pbxTexture)).EndInit();
+            this.Load += new System.EventHandler(this.TextureEditorForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pbxTexture)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -686,7 +700,7 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
-            //((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -746,6 +760,7 @@
         private System.Windows.Forms.Button btnBTPRenameTexture;
         private System.Windows.Forms.Button btnBTPRenamePalette;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.CheckBox chkCompressReplacedTextures;
+        private System.Windows.Forms.CheckBox chkReplaceCompressTexture;
+        private System.Windows.Forms.CheckBox chkReplaceAdjustTexCoords;
     }
 }

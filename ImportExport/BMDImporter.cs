@@ -30,19 +30,6 @@
  * 
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenTK;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-using System.Globalization;
-using OpenTK.Graphics.OpenGL;
-using System.Security.Cryptography;
-using System.Xml;
-using System.Text.RegularExpressions;
 using SM64DSe.ImportExport.Loaders;
 using SM64DSe.ImportExport.Writers.InternalWriters;
 using SM64DSe.ImportExport.Writers;
@@ -195,27 +182,35 @@ namespace SM64DSe.ImportExport
 
         public struct BMDExtraImportOptions
         {
-            public bool m_ConvertToTriangleStrips;
-            public bool m_KeepVertexOrderDuringStripping;
+            public bool m_Triangulate;
+            public bool m_ConvertTrianglesToStrips;
+            public bool m_TriangleStripsKeepVertexOrder;
+            public bool m_ConvertQuadsToStrips;
             public bool m_AlwaysWriteFullVertexCmd23h;
             public bool m_VerticallyFlipAllTextures;
             public TextureQualitySetting m_TextureQualitySetting;
 
-            public BMDExtraImportOptions(bool convertToTriangleStrips, 
-                                         bool keepVertexOrderDuringStripping,
-                                         bool alwaysWriteFullVertexCmd23h,
-                                         bool verticallyFlipAllTextures, 
-                                         TextureQualitySetting textureQualitySetting)
+            public BMDExtraImportOptions(
+                bool triangulate,
+                bool convertTrianglesToStrips, 
+                bool triangleStripsKeepVertexOrder,
+                bool convertQuadsToStrips,
+                bool alwaysWriteFullVertexCmd23h,
+                bool verticallyFlipAllTextures, 
+                TextureQualitySetting textureQualitySetting
+                )
             {
-                m_ConvertToTriangleStrips = convertToTriangleStrips;
-                m_KeepVertexOrderDuringStripping = keepVertexOrderDuringStripping;
+                m_Triangulate = triangulate;
+                m_ConvertTrianglesToStrips = convertTrianglesToStrips;
+                m_TriangleStripsKeepVertexOrder = triangleStripsKeepVertexOrder;
+                m_ConvertQuadsToStrips = convertQuadsToStrips;
                 m_AlwaysWriteFullVertexCmd23h = alwaysWriteFullVertexCmd23h;
                 m_VerticallyFlipAllTextures = verticallyFlipAllTextures;
                 m_TextureQualitySetting = textureQualitySetting;
             }
 
             public static BMDExtraImportOptions DEFAULT = 
-                new BMDExtraImportOptions(true, false, true, false, TextureQualitySetting.SmallestSize);
+                new BMDExtraImportOptions(false, true, false, true, true, false, TextureQualitySetting.SmallestSize);
 
             public enum TextureQualitySetting 
             {

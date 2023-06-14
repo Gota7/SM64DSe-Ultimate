@@ -508,13 +508,14 @@ namespace SM64DSe
             {
                 float startValue = Helper.ParseFloat(txtScaleGenerationStartValue.Text);
                 float endValue = Helper.ParseFloat(txtScaleGenerationEndValue.Text);
-                int amount = int.Parse(txtScaleGenerationAmount.Text);
-                float increment = (float)((endValue - startValue) / (float)amount);
+                int amount = Math.Max(int.Parse(txtScaleGenerationAmount.Text), 0);
+                float increment = (float)((endValue - startValue) / (float)(amount - 1));
 
-                for (int i = 0; i <= amount; i++)
+                int startIdx = lbxScaleValues.Items.Count;
+                for (int i = 0; i < amount; i++)
                 {
-                    AddScaleValue((startValue + ((float)(amount - i) * increment)), lbxArea.SelectedIndex,
-                        lbxTexAnim.SelectedIndex, lbxScaleValues.Items.Count);
+                    AddScaleValue((startValue + (i * increment)), lbxArea.SelectedIndex,
+                        lbxTexAnim.SelectedIndex, startIdx + i);
                 }
 
                 RefreshLbx();
@@ -530,13 +531,14 @@ namespace SM64DSe
             {
                 float startValue = Helper.ParseFloat(txtRotationGenerationStartValue.Text);
                 float endValue = Helper.ParseFloat(txtRotationGenerationEndValue.Text);
-                int amount = int.Parse(txtRotationGenerationAmount.Text);
-                float increment = (float)((endValue - startValue) / (float)amount);
+                int amount = Math.Max(int.Parse(txtRotationGenerationAmount.Text), 0);
+                float increment = (float)((endValue - startValue) / (float)(amount - 1));
 
-                for (int i = 0; i <= amount; i++)
+                int startIdx = lbxRotationValues.Items.Count;
+                for (int i = 0; i < amount; i++)
                 {
-                    AddRotationValue((startValue + ((float)(amount - i) * increment)), lbxArea.SelectedIndex,
-                        lbxTexAnim.SelectedIndex, lbxRotationValues.Items.Count);
+                    AddRotationValue((startValue + (i * increment)), lbxArea.SelectedIndex,
+                        lbxTexAnim.SelectedIndex, startIdx + i);
                 }
 
                 RefreshLbx();
@@ -552,13 +554,14 @@ namespace SM64DSe
             {
                 float startValue = Helper.ParseFloat(txtTranslationXGenerationStartValue.Text);
                 float endValue = Helper.ParseFloat(txtTranslationXGenerationEndValue.Text);
-                int amount = int.Parse(txtTranslationXGenerationAmount.Text);
-                float increment = (float)((endValue - startValue) / (float)amount);
+                int amount = Math.Max(int.Parse(txtTranslationXGenerationAmount.Text), 0);
+                float increment = (float)((endValue - startValue) / (float)(amount - 1));
 
-                for (int i = 0; i <= amount; i++)
+                int startIdx = lbxTranslationXValues.Items.Count;
+                for (int i = 0; i < amount; i++)
                 {
-                    AddTranslationXValue((startValue + ((float)(amount - i) * increment)), lbxArea.SelectedIndex,
-                        lbxTexAnim.SelectedIndex, lbxTranslationXValues.Items.Count);
+                    AddTranslationXValue((startValue + (i * increment)), lbxArea.SelectedIndex,
+                        lbxTexAnim.SelectedIndex, startIdx + i);
                 }
 
                 RefreshLbx();
@@ -574,13 +577,14 @@ namespace SM64DSe
             {
                 float startValue = Helper.ParseFloat(txtTranslationYGenerationStartValue.Text);
                 float endValue = Helper.ParseFloat(txtTranslationYGenerationEndValue.Text);
-                int amount = int.Parse(txtTranslationYGenerationAmount.Text);
-                float increment = (float)((endValue - startValue) / (float)amount);
+                int amount = Math.Max(int.Parse(txtTranslationYGenerationAmount.Text), 0);
+                float increment = (float)((endValue - startValue) / (float)(amount - 1));
 
-                for (int i = 0; i <= amount; i++)
+                int startIdx = lbxTranslationYValues.Items.Count;
+                for (int i = 0; i < amount; i++)
                 {
-                    AddTranslationYValue((startValue + ((float)(amount - i) * increment)), lbxArea.SelectedIndex,
-                        lbxTexAnim.SelectedIndex, lbxTranslationYValues.Items.Count);
+                    AddTranslationYValue((startValue + (i * increment)), lbxArea.SelectedIndex,
+                        lbxTexAnim.SelectedIndex, startIdx + i);
                 }
 
                 RefreshLbx();

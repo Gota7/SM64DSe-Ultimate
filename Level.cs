@@ -928,6 +928,11 @@ namespace SM64DSe
             }
         }
 
+        public void Clear()
+        {
+            m_Entries.Clear();
+        }
+
         public void Add(Entry entry)
         {
             m_Entries.Add(entry);
