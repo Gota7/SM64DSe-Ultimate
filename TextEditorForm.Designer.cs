@@ -36,10 +36,12 @@
             this.splitCHorizontal = new System.Windows.Forms.SplitContainer();
             this.tbxMsgPreview = new System.Windows.Forms.TextBox();
             this.chkCopy = new System.Windows.Forms.CheckBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.height_numeric = new System.Windows.Forms.NumericUpDown();
-            this.width_numeric = new System.Windows.Forms.NumericUpDown();
+            this.lblHeight = new System.Windows.Forms.Label();
+            this.lblWidth = new System.Windows.Forms.Label();
+            this.nudHeight = new System.Windows.Forms.NumericUpDown();
+            this.nudWidth = new System.Windows.Forms.NumericUpDown();
+            this.btnAddAbove = new System.Windows.Forms.Button();
+            this.btnAddBelow = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -64,6 +66,7 @@
             this.lblVer = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnLanguages = new System.Windows.Forms.ToolStripDropDownButton();
+            this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.btnHelp = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitCVertical)).BeginInit();
             this.splitCVertical.Panel1.SuspendLayout();
@@ -73,8 +76,8 @@
             this.splitCHorizontal.Panel1.SuspendLayout();
             this.splitCHorizontal.Panel2.SuspendLayout();
             this.splitCHorizontal.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.height_numeric)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.width_numeric)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,10 +146,12 @@
             // splitCHorizontal.Panel2
             // 
             this.splitCHorizontal.Panel2.Controls.Add(this.chkCopy);
-            this.splitCHorizontal.Panel2.Controls.Add(this.label6);
-            this.splitCHorizontal.Panel2.Controls.Add(this.label3);
-            this.splitCHorizontal.Panel2.Controls.Add(this.height_numeric);
-            this.splitCHorizontal.Panel2.Controls.Add(this.width_numeric);
+            this.splitCHorizontal.Panel2.Controls.Add(this.lblHeight);
+            this.splitCHorizontal.Panel2.Controls.Add(this.lblWidth);
+            this.splitCHorizontal.Panel2.Controls.Add(this.nudHeight);
+            this.splitCHorizontal.Panel2.Controls.Add(this.nudWidth);
+            this.splitCHorizontal.Panel2.Controls.Add(this.btnAddAbove);
+            this.splitCHorizontal.Panel2.Controls.Add(this.btnAddBelow);
             this.splitCHorizontal.Panel2.Controls.Add(this.label1);
             this.splitCHorizontal.Panel2.Controls.Add(this.txtEdit);
             this.splitCHorizontal.Panel2.Controls.Add(this.label5);
@@ -190,53 +195,75 @@
             this.chkCopy.UseVisualStyleBackColor = true;
             this.chkCopy.CheckedChanged += new System.EventHandler(this.chkCopy_CheckedChanged);
             // 
-            // label6
+            // btnAddAbove
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(126, 216);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(38, 13);
-            this.label6.TabIndex = 26;
-            this.label6.Text = "Height";
+            this.btnAddAbove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAddAbove.Location = new System.Drawing.Point(2, 180);
+            this.btnAddAbove.Name = "btnAddAbove";
+            this.btnAddAbove.Size = new System.Drawing.Size(75, 23);
+            this.btnAddAbove.TabIndex = 20;
+            this.btnAddAbove.Text = "Add above";
+            this.btnAddAbove.UseVisualStyleBackColor = true;
+            this.btnAddAbove.Click += new System.EventHandler(this.btnAddAbove_Click);
             // 
-            // label3
+            // btnAddBelow
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(126, 185);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 25;
-            this.label3.Text = "Width";
+            this.btnAddBelow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAddBelow.Location = new System.Drawing.Point(2, 211);
+            this.btnAddBelow.Name = "btnAddBelow";
+            this.btnAddBelow.Size = new System.Drawing.Size(75, 23);
+            this.btnAddBelow.TabIndex = 20;
+            this.btnAddBelow.Text = "Add below";
+            this.btnAddBelow.UseVisualStyleBackColor = true;
+            this.btnAddBelow.Click += new System.EventHandler(this.btnAddBelow_Click);
             // 
-            // height_numeric
+            // lblHeight
             // 
-            this.height_numeric.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.height_numeric.Location = new System.Drawing.Point(2, 213);
-            this.height_numeric.Maximum = new decimal(new int[] {
+            this.lblHeight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblHeight.AutoSize = true;
+            this.lblHeight.Location = new System.Drawing.Point(150, 216);
+            this.lblHeight.Name = "lblHeight";
+            this.lblHeight.Size = new System.Drawing.Size(38, 13);
+            this.lblHeight.TabIndex = 26;
+            this.lblHeight.Text = "Height";
+            // 
+            // lblWidth
+            // 
+            this.lblWidth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblWidth.AutoSize = true;
+            this.lblWidth.Location = new System.Drawing.Point(150, 185);
+            this.lblWidth.Name = "lblWidth";
+            this.lblWidth.Size = new System.Drawing.Size(35, 13);
+            this.lblWidth.TabIndex = 25;
+            this.lblWidth.Text = "Width";
+            // 
+            // nudHeight
+            // 
+            this.nudHeight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.nudHeight.Location = new System.Drawing.Point(90, 213);
+            this.nudHeight.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
-            this.height_numeric.Name = "height_numeric";
-            this.height_numeric.Size = new System.Drawing.Size(120, 20);
-            this.height_numeric.TabIndex = 24;
-            this.height_numeric.ValueChanged += new System.EventHandler(this.height_numeric_ValueChanged);
+            this.nudHeight.Name = "nudHeight";
+            this.nudHeight.Size = new System.Drawing.Size(60, 20);
+            this.nudHeight.TabIndex = 24;
+            this.nudHeight.ValueChanged += new System.EventHandler(this.nudHeight_ValueChanged);
             // 
-            // width_numeric
+            // nudWidth
             // 
-            this.width_numeric.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.width_numeric.Location = new System.Drawing.Point(2, 181);
-            this.width_numeric.Maximum = new decimal(new int[] {
+            this.nudWidth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.nudWidth.Location = new System.Drawing.Point(90, 181);
+            this.nudWidth.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
-            this.width_numeric.Name = "width_numeric";
-            this.width_numeric.Size = new System.Drawing.Size(120, 20);
-            this.width_numeric.TabIndex = 23;
-            this.width_numeric.ValueChanged += new System.EventHandler(this.width_numeric_ValueChanged);
+            this.nudWidth.Name = "nudWidth";
+            this.nudWidth.Size = new System.Drawing.Size(60, 20);
+            this.nudWidth.TabIndex = 23;
+            this.nudWidth.ValueChanged += new System.EventHandler(this.nudWidth_ValueChanged);
             // 
             // label1
             // 
@@ -423,6 +450,7 @@
             this.lblVer,
             this.toolStripSeparator2,
             this.btnLanguages,
+            this.btnDelete,
             this.btnHelp});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -483,6 +511,17 @@
             this.btnLanguages.Text = "Select a Language";
             this.btnLanguages.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.btnLanguages_DropDownItemClicked);
             // 
+            // btnDelete
+            // 
+            this.btnDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnDelete.Enabled = false;
+            this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(45, 22);
+            this.btnDelete.Text = "Delete selected";
+            this.btnDelete.ToolTipText = "Deletes the selected entry";
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
             // btnHelp
             // 
             this.btnHelp.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -515,8 +554,8 @@
             this.splitCHorizontal.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitCHorizontal)).EndInit();
             this.splitCHorizontal.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.height_numeric)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.width_numeric)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -551,14 +590,17 @@
         private System.Windows.Forms.ToolStripLabel lblVer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripDropDownButton btnLanguages;
+        private System.Windows.Forms.ToolStripButton btnDelete;
         private System.Windows.Forms.ToolStripButton btnHelp;
         private System.Windows.Forms.SplitContainer splitCHorizontal;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown height_numeric;
-        private System.Windows.Forms.NumericUpDown width_numeric;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown nudHeight;
+        private System.Windows.Forms.NumericUpDown nudWidth;
+        private System.Windows.Forms.Button btnAddAbove;
+        private System.Windows.Forms.Button btnAddBelow;
+        private System.Windows.Forms.Label lblHeight;
+        private System.Windows.Forms.Label lblWidth;
         private System.Windows.Forms.CheckBox chkCopy;
         private System.Windows.Forms.ToolStripButton btnImport;
     }

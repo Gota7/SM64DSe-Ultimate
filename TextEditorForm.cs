@@ -36,24 +36,48 @@ namespace SM64DSe
             InitializeComponent();
         }
 
-        bool copyMessage;
-        string[] m_MsgData;
-        int[] m_StringLengths;
-        string[] m_ShortVersions;
-        NitroFile file;
-        uint inf1size;
-        uint m_FileSize;
-        uint m_DAT1Start;// Address at which the string data is held
-        uint[] m_StringHeaderAddr;// The addresses of the string headers
-        uint[] m_StringHeaderData;// The offsets of the strings (relative to start of DAT1 section)
-        uint[] m_StringWidthAddr;
-        ushort[] m_StringWidth;
-        uint[] m_StringHeightAddr;
-        ushort[] m_StringHeight;
-        List<int> m_EditedEntries = new List<int>();// Holds indices of edited entries, needed because of how old and new strings are stored differently
+        public class Message
+        {
+            public string msgData;
+            public ushort width;
+            public ushort height;
+            public int index;
 
-        String[] langs = new String[0];
-        String[] langNames = new String[0];
+            const int limit = 45; // Length of preview text to be shown
+
+            public Message(string msgData, ushort width, ushort height, int index = 0)
+            {
+                this.msgData = msgData;
+                this.width = width;
+                this.height = height;
+                this.index = index;
+            }
+
+            public Message(ushort width, ushort height, int index = 0)
+                : this("", width, height, index)
+            {
+
+            }
+
+            public override string ToString()
+            {
+                string shortversion = msgData.Replace("\r\n", " ");
+                shortversion = (msgData.Length > limit) ? msgData.Substring(0, limit - 3) + "..." : msgData;
+                shortversion = string.Format("[{0:X4}] {1}", index, shortversion);
+                return shortversion;
+            }
+        }
+
+        List<Message> m_Messages;
+
+        NitroFile file;
+
+        int langIndex = -1;
+        bool copyMessage;
+        bool warned = false;
+
+        string[] langs = new string[0];
+        string[] langNames = new string[0];
 
         public static BiDictionaryOneToOne<byte, string> BASIC_EUR_US_CHARS = new BiDictionaryOneToOne<byte,string>();
         public static BiDictionaryOneToOne<byte, string> EXTENDED_ASCII_CHARS = new BiDictionaryOneToOne<byte,string>();
@@ -70,10 +94,6 @@ namespace SM64DSe
             LoadCharList("jap_chars.txt", JAP_CHARS, JAP_SIZES);
         }
 
-        int limit = 45;// Length of preview text to be shown
-        int selectedIndex;
-        int langIndex = -1;
-
         private void TextEditorForm_Load(object sender, EventArgs e)
         {
             NitroROM.Version theVersion = Program.m_ROM.m_Version;
@@ -81,26 +101,26 @@ namespace SM64DSe
             if (theVersion == NitroROM.Version.EUR)
             {
                 lblVer.Text = "EUR";
-                langs = new String[] { "English", "Français", "Deutsch", "Italiano", "Español" };
-                langNames = new String[] { "eng", "frn", "gmn", "itl", "spn" };
+                langs = new string[] { "English", "Français", "Deutsch", "Italiano", "Español" };
+                langNames = new string[] { "eng", "frn", "gmn", "itl", "spn" };
             }
             else if (theVersion == NitroROM.Version.JAP)
             {
                 lblVer.Text = "JAP";
-                langs = new String[] { "Japanese", "English" };
-                langNames = new String[] { "jpn", "nes" };
+                langs = new string[] { "Japanese", "English" };
+                langNames = new string[] { "jpn", "nes" };
             }
             else if (theVersion == NitroROM.Version.USA_v1)
             {
                 lblVer.Text = "USAv1";
-                langs = new String[] { "English", "Japanese" };
-                langNames = new String[] { "nes", "jpn" };
+                langs = new string[] { "English", "Japanese" };
+                langNames = new string[] { "nes", "jpn" };
             }
             else if (theVersion == NitroROM.Version.USA_v2)
             {
                 lblVer.Text = "USAv2";
-                langs = new String[] { "English", "Japanese" };
-                langNames = new String[] { "nes", "jpn" };
+                langs = new string[] { "English", "Japanese" };
+                langNames = new string[] { "nes", "jpn" };
             }
 
             for (int i = 0; i < langs.Length; i++)
@@ -111,39 +131,26 @@ namespace SM64DSe
             copyMessage = false;
         }
 
-        public void ReadStrings(String fileName)
+        public void ReadStrings(string fileName)
         {
             file = Program.m_ROM.GetFileFromName(fileName);
 
-            inf1size = file.Read32(0x24);
-            ushort numentries = file.Read16(0x28);
+            uint inf1size = file.Read32(0x24);
+            ushort numTextEntries = file.Read16(0x28);
 
-            m_MsgData = new string[numentries];
-            m_StringLengths = new int[numentries];
-            m_ShortVersions = new string[numentries];
-            m_FileSize = file.Read32(0x08);
-            m_StringHeaderAddr = new uint[numentries];
-            m_StringHeaderData = new uint[numentries];
-            m_StringWidthAddr = new uint[numentries];
-            m_StringWidth = new ushort[numentries];
-            m_StringHeightAddr = new uint[numentries];
-            m_StringHeight = new ushort[numentries];
-            m_DAT1Start = 0x20 + inf1size + 0x08;
+            m_Messages = new List<Message>(numTextEntries);
 
-            for (int i = 0; i < numentries; i++)
+            for (int i = 0; i < numTextEntries; i++)
             {
-                m_StringHeaderAddr[i] = (uint)(0x20 + 0x10 + (i * 8));
-                m_StringHeaderData[i] = file.Read32(m_StringHeaderAddr[i]);
-                m_StringWidthAddr[i] = (uint)(0x20 + 0x10 + (i * 8) + 0x4);
-                m_StringWidth[i] = file.Read16(m_StringWidthAddr[i]);
-                m_StringHeightAddr[i] = (uint)(0x20 + 0x10 + (i * 8) + 0x6);
-                m_StringHeight[i] = file.Read16(m_StringHeightAddr[i]);
+                uint widthAddr = (uint)(0x20 + 0x10 + (i * 8) + 0x4);
+                uint heightAddr = (uint)(0x20 + 0x10 + (i * 8) + 0x6);
+                m_Messages.Add(new Message(file.Read16(widthAddr), file.Read16(heightAddr), i));
             }
 
             lbxMsgList.Items.Clear();//Reset list of messages
             lbxMsgList.BeginUpdate();// Only draw when EndUpdate is called, much faster, expecially for Mono
 
-            for (int i = 0; i < m_MsgData.Length; i++)
+            for (int i = 0; i < numTextEntries; i++)
             {
                 uint straddr = file.Read32((uint)(0x30 + i * 8));
                 straddr += 0x20 + inf1size + 0x8;
@@ -211,30 +218,28 @@ namespace SM64DSe
                     {
                         int len = file.Read8(straddr);
                         thetext += "[\\r]";
-                        thetext += String.Format("{0:X2}", cur);
+                        thetext += string.Format("{0:X2}", cur);
                         for (int spec = 0; spec < len - 1; spec++)
                         {
-                            thetext += String.Format("{0:X2}", file.Read8((uint)(straddr + spec)));
+                            thetext += string.Format("{0:X2}", file.Read8((uint)(straddr + spec)));
                         }
                         length += (len - 1);// Already increased by 1 at start
                         straddr += (uint)(len - 1);
                     }
                 }
 
-                m_MsgData[i] = thetext;
-                m_StringLengths[i] = length;
-                m_ShortVersions[i] = ShortVersion(m_MsgData[i], i);
+                m_Messages[i].msgData = thetext;
 
-                lbxMsgList.Items.Add(m_ShortVersions[i]);
+                lbxMsgList.Items.Add(m_Messages[i]);
 
                 btnImport.Enabled = true; btnExport.Enabled = true;
             }
             lbxMsgList.EndUpdate();
         }
 
-        private List<byte> EncodeString(String msg)
+        private List<byte> EncodeString(string msg)
         {
-            String newMsg = msg.Replace("[\\r]", "\r");
+            string newMsg = msg.Replace("[\\r]", "\r");
             char[] newTextByte = newMsg.ToCharArray();
             List<byte> encodedString = new List<byte>();
 
@@ -281,11 +286,11 @@ namespace SM64DSe
                     {
                         //FE 05 03 00 06 - [R) glyph
                         //FE 07 01 00 00 00 XX - number of stars till you get XX
-                        String byte2 = "" + newTextByte[i + 2] + newTextByte[i + 3];
+                        string byte2 = "" + newTextByte[i + 2] + newTextByte[i + 3];
                         int len = int.Parse(byte2, System.Globalization.NumberStyles.HexNumber);
                         for (int j = 0; j < (len * 2); j += 2)
                         {
-                            String temp = "" + newTextByte[i + j] + newTextByte[i + j + 1];
+                            string temp = "" + newTextByte[i + j] + newTextByte[i + j + 1];
                             encodedString.Add((byte)int.Parse(temp, System.Globalization.NumberStyles.HexNumber));
                         }
                         i += (len * 2);
@@ -364,28 +369,31 @@ namespace SM64DSe
 
         private void lbxMsgList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lbxMsgList.SelectedIndex != -1)
-            {
-                string selectedText = lbxMsgList.Items[lbxMsgList.SelectedIndex].ToString();
-                selectedIndex = Int32.Parse(selectedText.Substring(1, 4), System.Globalization.NumberStyles.HexNumber);
+            btnDelete.Enabled = lbxMsgList.SelectedIndex != -1;
 
-                tbxMsgPreview.Text = m_MsgData[selectedIndex];
-                width_numeric.Value = m_StringWidth[selectedIndex];
-                height_numeric.Value = m_StringHeight[selectedIndex];
+            if (lbxMsgList.SelectedIndex == -1)
+                return;
 
-                if (copyMessage)
-                    txtEdit.Text = m_MsgData[selectedIndex];
-            }
+            Message selectedMessage = (Message)lbxMsgList.SelectedItem;
+
+            tbxMsgPreview.Text = selectedMessage.msgData;
+            nudWidth.Value = selectedMessage.width;
+            nudHeight.Value = selectedMessage.height;
+
+            if (copyMessage)
+                txtEdit.Text = selectedMessage.msgData;
         }
 
         private void btnUpdateString_Click(object sender, EventArgs e)
         {
-            if (lbxMsgList.SelectedIndex != -1)
-            {
-                UpdateEntries(txtEdit.Text, selectedIndex);
-                m_EditedEntries.Add(selectedIndex);
-                lbxMsgList.Items[lbxMsgList.SelectedIndex] = m_ShortVersions[selectedIndex];
-            }
+            if (lbxMsgList.SelectedIndex == -1)
+                return;
+
+            Message selectedMessage = (Message)lbxMsgList.SelectedItem;
+
+            selectedMessage.msgData = txtEdit.Text;
+
+            lbxMsgList.Items[lbxMsgList.SelectedIndex] = selectedMessage;
         }
 
         private void btnSaveAll_Click(object sender, EventArgs e)
@@ -393,87 +401,82 @@ namespace SM64DSe
             WriteData();
 
             int index = lbxMsgList.SelectedIndex;
-            ReadStrings("data/message/msg_data_" + langNames[langIndex] + ".bin");//Reload texts after saving
+            ReadStrings(file.m_Name); //Reload texts after saving
             lbxMsgList.SelectedIndex = index;
             Program.m_ROM.UpdateStrings();
         }
 
-        private void UpdateEntries(String msg, int index)
-        {
-            m_MsgData[index] = msg;
-            m_ShortVersions[index] = ShortVersion(msg, index);
-            int lengthDif = EncodeString(msg).Count - m_StringLengths[index];
-            m_StringLengths[index] += lengthDif;
-
-            //Make or remove room for the new string if needed (don't need to for last entry)
-            if (lengthDif > 0 && index != m_MsgData.Length - 1)
-            {
-                uint curStringStart = m_StringHeaderData[index] + m_DAT1Start;
-                uint nextStringStart = m_StringHeaderData[index + 1] + m_DAT1Start;
-                byte[] followingData = file.ReadBlock(nextStringStart, (uint)(file.m_Data.Length - nextStringStart));
-                for (int i = (int)curStringStart; i < (int)nextStringStart + lengthDif; i++)
-                {
-                    file.Write8((uint)i, 0);// Fill the gap with zeroes
-                }
-                file.WriteBlock((uint)(nextStringStart + lengthDif), followingData);
-            }
-            else if (lengthDif < 0 && index != m_MsgData.Length - 1)
-            {
-                // lengthDif is negative, -- +
-                uint nextStringStart = m_StringHeaderData[index + 1] + m_DAT1Start;
-                byte[] followingData = file.ReadBlock(nextStringStart, (uint)(file.m_Data.Length - nextStringStart));
-                file.WriteBlock((uint)(nextStringStart + lengthDif), followingData);
-                int oldSize = file.m_Data.Length;
-                Array.Resize(ref file.m_Data, oldSize + lengthDif);// Remove duplicate data at end of file
-            }
-
-            // Update pointers to string entry data
-            if (lengthDif != 0)
-            {
-                for (int i = index + 1; i < m_MsgData.Length; i++)
-                {
-                    if (lengthDif > 0)
-                        m_StringHeaderData[i] += (uint)lengthDif;
-                    else if (lengthDif < 0)
-                        m_StringHeaderData[i] = (uint)(m_StringHeaderData[i] + lengthDif);
-
-                    file.Write32(m_StringHeaderAddr[i], m_StringHeaderData[i]);
-                    file.Write16(m_StringWidthAddr[i], m_StringWidth[i]);
-                    file.Write16(m_StringHeightAddr[i], m_StringHeight[i]);
-                }
-            }
-            // Update total file size
-            file.Write32(0x08, (uint)(int)(file.Read32(0x08) + lengthDif));
-            // Update DAT1 size
-            file.Write32(m_DAT1Start - 0x04, (uint)(int)(file.Read32(m_DAT1Start - 0x04) + lengthDif));
-        }
-
-        private string ShortVersion(string msg, int index)
-        {
-            string shortversion = msg.Replace("\r\n", " ");
-            shortversion = (msg.Length > limit) ? msg.Substring(0, limit - 3) + "..." : msg;
-            shortversion = string.Format("[{0:X4}] {1}", index, shortversion);
-            return shortversion;
-        }
-
         private void WriteData()
         {
-            // Encode and write all edited string entries
-            foreach (int index in m_EditedEntries)
+            uint infSize = 0x10 + (((uint)m_Messages.Count + 3) * 8);
+            uint datSize = 0x8;
+
+            uint datHeaderOffset = 0x20 + infSize;
+            uint datStartOffset = datHeaderOffset + 0x8;
+
+            uint infOffset = 0x30;
+            uint datOffset = datStartOffset;
+
+            // it starts with 0xff
+            file.Write8(datOffset, 0xff);
+            datOffset++;
+            datSize++;
+
+            foreach (Message message in m_Messages)
             {
-                List<byte> entry = EncodeString(m_MsgData[index]);
-                file.WriteBlock(m_StringHeaderData[index] + m_DAT1Start, entry.ToArray<byte>());
+                List<byte> entry = EncodeString(message.msgData);
+                file.WriteBlock(datOffset, entry.ToArray<byte>());
+
+                file.Write32(infOffset + 0x00, datOffset - datStartOffset);
+                file.Write16(infOffset + 0x04, message.width);
+                file.Write16(infOffset + 0x08, message.height);
+
+                infOffset += 8;
+                datOffset += (uint)entry.Count;
+                datSize += (uint)entry.Count;
             }
 
-            for (int i = 0; i < file.Read16(0x28); i++)
+            for (int i = 0; i < 3; i++)
             {
-                file.Write32(m_StringHeaderAddr[i], m_StringHeaderData[i]);
-                file.Write16(m_StringWidthAddr[i], m_StringWidth[i]);
-                file.Write16(m_StringHeightAddr[i], m_StringHeight[i]);
+                file.Write32(infOffset + 0x00, 0);
+                file.Write32(infOffset + 0x04, 0);
+
+                infOffset += 8;
             }
 
-            // Compress file
-            //file.Compress();
+            uint align = 16 - (datOffset % 16);
+            if (align == 16)
+                align = 0;
+
+            uint totalSize = datOffset + align;
+            datSize += align;
+
+            for (uint i = 0; i < align; i++)
+            {
+                file.Write8(datOffset + i, 0xff);
+            }
+
+            file.Write32(0x00, 0x4d455347); // "MESG"
+            file.Write32(0x04, 0x626d6731); // "bmg1"
+            file.Write32(0x08, totalSize + 1);
+            file.Write32(0x0c, 2); // unknown, set value (2) in known files
+            // file.Write32(0x10, 0); // unknown, different value (1 or 3) in known files
+            file.Write32(0x14, 0); // unknown, set value (0) in known files
+            file.Write32(0x18, 0); // unknown, set value (0) in known files
+            file.Write32(0x1c, 0); // unknown, set value (0) in known files
+
+            file.Write32(0x20, 0x494e4631); // "INF1"
+            file.Write32(0x24, infSize);
+            file.Write16(0x28, (ushort)m_Messages.Count);
+            file.Write16(0x2a, 0x40); // unknown, set value (0x40) in known files
+            file.Write32(0x2c, 0); // unknown, set value (0) in known files
+
+            file.Write32(datHeaderOffset + 0x00, 0x44415431); // "DAT1"
+            file.Write32(datHeaderOffset + 0x04, datSize + 1);
+
+            // make it so the file is only as big as it needs to be
+            if (file.m_Data.Length - (int)totalSize > 0)
+                file.RemoveSpace(totalSize, (uint)file.m_Data.Length - totalSize);
 
             // Save changes
             file.SaveChanges();
@@ -530,7 +533,7 @@ namespace SM64DSe
             txtEdit.Text += "[\\r]FE05030006";
         }
 
-        void btnLanguages_DropDownItemClicked(object sender, System.Windows.Forms.ToolStripItemClickedEventArgs e)
+        void btnLanguages_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             langIndex = int.Parse(e.ClickedItem.Tag.ToString());
             ReadStrings("data/message/msg_data_" + langNames[int.Parse(e.ClickedItem.Tag.ToString())] + ".bin");
@@ -555,7 +558,8 @@ namespace SM64DSe
 
         private void ImportXML()
         {
-            OpenFileDialog ofd = new OpenFileDialog();
+            MessageBox.Show("Sorry, due to a rewrite of the text editor, this feature is currently unavailable.", "Feature unavailable");
+            /*OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "XML Document (.xml)|*.xml";//Filter by .xml
             DialogResult dlgeResult = ofd.ShowDialog();
             if (dlgeResult == DialogResult.Cancel)
@@ -578,7 +582,7 @@ namespace SM64DSe
                             case "Text":
                                 if (i < m_MsgData.Length)
                                 {
-                                    String temp = reader.ReadElementContentAsString();
+                                    string temp = reader.ReadElementContentAsString();
                                     temp = temp.Replace("\n", "\r\n");
                                     temp = temp.Replace("[\\r]", "\r");
                                     m_MsgData[i] = temp;
@@ -603,12 +607,13 @@ namespace SM64DSe
 
             file.SaveChanges();
 
-            ReadStrings("data/message/msg_data_" + langNames[langIndex] + ".bin");//Reload texts after saving
+            ReadStrings("data/message/msg_data_" + langNames[langIndex] + ".bin");//Reload texts after saving*/
         }
 
         private void ExportXML()
         {
-            SaveFileDialog saveXML = new SaveFileDialog();
+            MessageBox.Show("Sorry, due to a rewrite of the text editor, this feature is currently unavailable.", "Feature unavailable");
+            /*SaveFileDialog saveXML = new SaveFileDialog();
             saveXML.FileName = "SM64DS Texts";//Default name
             saveXML.DefaultExt = ".xml";//Default file extension
             saveXML.Filter = "XML Document (.xml)|*.xml";//Filter by .xml
@@ -636,7 +641,7 @@ namespace SM64DSe
                 }
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
-            }
+            }*/
         }
 
         private void btnExport_Click(object sender, EventArgs e)
@@ -646,55 +651,143 @@ namespace SM64DSe
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            if (langIndex < 0)
+            if (file == null)
                 return;
 
-            string searchString = txtSearch.Text;
-            if (searchString == null || searchString.Equals(""))
-            {
-                lbxMsgList.BeginUpdate();
-                lbxMsgList.Items.Clear();
-
-                lbxMsgList.Items.AddRange(m_ShortVersions);
-
-                lbxMsgList.EndUpdate();
-            }
-            else
-            {
-                lbxMsgList.BeginUpdate();
-                lbxMsgList.Items.Clear();
-
-                string searchStringLower = searchString.ToLowerInvariant();
-                List<int> matchingIndices = new List<int>();
-                for (int i = 0; i < m_MsgData.Length; i++)
-                {
-                    if (m_MsgData[i].ToLowerInvariant().Contains(searchStringLower))
-                        matchingIndices.Add(i);
-                }
-                foreach (int index in matchingIndices)
-                {
-                    lbxMsgList.Items.Add(m_ShortVersions[index]);
-                }
-                
-                lbxMsgList.EndUpdate();
-            }
+            RefreshListBox();
         }
 
-        private void width_numeric_ValueChanged(object sender, EventArgs e)
+        private void nudWidth_ValueChanged(object sender, EventArgs e)
         {
-            if (lbxMsgList.SelectedIndex != -1)
-                m_StringWidth[selectedIndex] = (ushort)width_numeric.Value;
+            if (lbxMsgList.SelectedIndex == -1)
+                return;
+
+            Message selectedMessage = (Message)lbxMsgList.SelectedItem;
+            selectedMessage.width = (ushort)nudWidth.Value;
         }
 
-        private void height_numeric_ValueChanged(object sender, EventArgs e)
+        private void nudHeight_ValueChanged(object sender, EventArgs e)
         {
-            if (lbxMsgList.SelectedIndex != -1)
-                m_StringHeight[selectedIndex] = (ushort)height_numeric.Value;
+            if (lbxMsgList.SelectedIndex == -1)
+                return;
+
+            Message selectedMessage = (Message)lbxMsgList.SelectedItem;
+            selectedMessage.height = (ushort)nudHeight.Value;
         }
 
         private void chkCopy_CheckedChanged(object sender, EventArgs e)
         {
             copyMessage = !copyMessage;
+        }
+
+        private void btnAddAbove_Click(object sender, EventArgs e)
+        {
+            if (lbxMsgList.SelectedIndex == -1)
+                return;
+
+            Message selectedMessage = (Message)lbxMsgList.SelectedItem;
+            int index = m_Messages.IndexOf(selectedMessage);
+
+            bool userSure = WarnUser(
+                $"Are you sure you want to add a text entry above 0x{Convert.ToString(index, 16)}?\n" +
+                $"Keep in mind that this changes the index of ALL entries that come after!",
+                "Text entry deletion confirmation");
+
+            if (!userSure)
+                return;
+
+            Message newMessage = new Message("New text message", 117, 6);
+            m_Messages.Insert(index, newMessage);
+
+            RefreshListBox();
+            SelectMessage(newMessage);
+        }
+
+        private void btnAddBelow_Click(object sender, EventArgs e)
+        {
+            if (lbxMsgList.SelectedIndex == -1)
+                return;
+
+            Message selectedMessage = (Message)lbxMsgList.SelectedItem;
+            int index = m_Messages.IndexOf(selectedMessage);
+
+            bool userSure = WarnUser(
+                $"Are you sure you want to add a text entry below 0x{Convert.ToString(index, 16)}?\n" +
+                $"Keep in mind that this changes the index of ALL entries that come after!",
+                "Text entry deletion confirmation");
+
+            if (!userSure)
+                return;
+
+            Message newMessage = new Message("New text message", 117, 6);
+            m_Messages.Insert(index + 1, newMessage);
+
+            RefreshListBox();
+            SelectMessage(newMessage);
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (lbxMsgList.SelectedIndex == -1)
+                return;
+
+            Message selectedMessage = (Message)lbxMsgList.SelectedItem;
+            int index = m_Messages.IndexOf(selectedMessage);
+
+            bool userSure = WarnUser(
+                $"Are you sure you want to delete text entry 0x{Convert.ToString(index, 16)}?\n" +
+                $"Keep in mind that this changes the index of ALL entries that come after!",
+                "Text entry deletion confirmation");
+
+            if (!userSure)
+                return;
+
+            m_Messages.Remove(selectedMessage);
+
+            RefreshListBox();
+        }
+
+        private bool WarnUser(string text, string caption)
+        {
+            if (!warned)
+            {
+                DialogResult dialogResult = MessageBox.Show(text, caption, MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.Yes)
+                    warned = true;
+            }
+
+            return warned;
+        }
+
+        private void RefreshListBox()
+        {
+            lbxMsgList.BeginUpdate();
+
+            for (int i = 0; i < m_Messages.Count; i++)
+                m_Messages[i].index = i;
+
+            string searchString = txtSearch.Text;
+
+            if (searchString == null || searchString.Equals(""))
+            {
+                lbxMsgList.Items.Clear();
+                lbxMsgList.Items.AddRange(m_Messages.ToArray());
+            }
+            else
+            {
+                string searchStringLower = searchString.ToLowerInvariant();
+
+                lbxMsgList.Items.Clear();
+                lbxMsgList.Items.AddRange(m_Messages.Where(m => m.msgData.ToLowerInvariant().Contains(searchStringLower)).ToArray());
+            }
+
+            lbxMsgList.EndUpdate();
+        }
+
+        private void SelectMessage(Message message)
+        {
+            lbxMsgList.SelectedIndex = lbxMsgList.Items.IndexOf(message);
         }
     }
 }
