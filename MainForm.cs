@@ -1291,12 +1291,25 @@ namespace SM64DSe
 		private void fileHeaderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog o = new SaveFileDialog();
+            o.FileName = "FileList.h";
             o.Filter = "C++ header(*.h;*.hpp)|*.h;*hpp";
             o.RestoreDirectory = true;
             if (o.ShowDialog(this) != DialogResult.OK)
                 return;
 
             FileHeaderGenerator.Generate(o.FileName);
+        }
+
+		private void soundHeaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog o = new SaveFileDialog();
+            o.FileName = "SoundList.h";
+            o.Filter = "C++ header(*.h;*.hpp)|*.h;*hpp";
+            o.RestoreDirectory = true;
+            if (o.ShowDialog(this) != DialogResult.OK)
+                return;
+
+            SoundHeaderGenerator.Generate(o.FileName);
         }
 	}
 }

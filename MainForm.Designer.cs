@@ -102,6 +102,7 @@
 			this.btnExtractOverlay = new System.Windows.Forms.Button();
 			this.btnDecompressOverlay = new System.Windows.Forms.Button();
 			this.fileHeaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.soundHeaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsToolBar.SuspendLayout();
 			this.ssStatusBar.SuspendLayout();
 			this.tbcMainFormTabControl.SuspendLayout();
@@ -305,7 +306,8 @@
 			// 
 			this.mnitASMHackingGeneration.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.platformEditorToolStripMenuItem,
-            this.fileHeaderToolStripMenuItem});
+            this.fileHeaderToolStripMenuItem,
+            this.soundHeaderToolStripMenuItem});
 			this.mnitASMHackingGeneration.Name = "mnitASMHackingGeneration";
 			this.mnitASMHackingGeneration.Size = new System.Drawing.Size(302, 22);
 			this.mnitASMHackingGeneration.Text = "Generation";
@@ -868,6 +870,13 @@
 			this.fileHeaderToolStripMenuItem.Text = "File Header";
 			this.fileHeaderToolStripMenuItem.Click += new System.EventHandler(this.fileHeaderToolStripMenuItem_Click);
 			// 
+			// soundHeaderToolStripMenuItem
+			// 
+			this.soundHeaderToolStripMenuItem.Name = "soundHeaderToolStripMenuItem";
+			this.soundHeaderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.soundHeaderToolStripMenuItem.Text = "Sound Header";
+			this.soundHeaderToolStripMenuItem.Click += new System.EventHandler(this.soundHeaderToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -981,5 +990,6 @@
         private System.Windows.Forms.ToolStripMenuItem particleTextureSPTEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem particleArchiveSPAEditorToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem fileHeaderToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem soundHeaderToolStripMenuItem;
 	}
 }
