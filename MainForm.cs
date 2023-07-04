@@ -1287,5 +1287,16 @@ namespace SM64DSe
                 btnOpenFile.Enabled = false;
             }
         }
+
+		private void fileHeaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog o = new SaveFileDialog();
+            o.Filter = "C++ header(*.h;*.hpp)|*.h;*hpp";
+            o.RestoreDirectory = true;
+            if (o.ShowDialog(this) != DialogResult.OK)
+                return;
+
+            FileHeaderGenerator.Generate(o.FileName);
+        }
 	}
 }

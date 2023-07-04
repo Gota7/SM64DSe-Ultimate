@@ -320,6 +320,7 @@
     <Compile Include="ParticleSysDefProperties.cs" />
     <Compile Include="Patcher\Arm9BinaryHandler.cs" />
     <Compile Include="Patcher\Arm9BinSection.cs" />
+    <Compile Include="Patcher\FileHeaderGenerator.cs" />
     <Compile Include="Patcher\PatchCompiler.cs" />
     <Compile Include="Patcher\PatchMaker.cs" />
     <Compile Include="SM64DSFormats\BetterTextureAnimationEditor.cs">

@@ -101,6 +101,7 @@
 			this.btnReplaceOverlay = new System.Windows.Forms.Button();
 			this.btnExtractOverlay = new System.Windows.Forms.Button();
 			this.btnDecompressOverlay = new System.Windows.Forms.Button();
+			this.fileHeaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsToolBar.SuspendLayout();
 			this.ssStatusBar.SuspendLayout();
 			this.tbcMainFormTabControl.SuspendLayout();
@@ -289,21 +290,22 @@
 			// mnitASMHackingCompilationCodeCompiler
 			// 
 			this.mnitASMHackingCompilationCodeCompiler.Name = "mnitASMHackingCompilationCodeCompiler";
-			this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(160, 22);
+			this.mnitASMHackingCompilationCodeCompiler.Size = new System.Drawing.Size(180, 22);
 			this.mnitASMHackingCompilationCodeCompiler.Text = "Code Compiler";
 			this.mnitASMHackingCompilationCodeCompiler.Click += new System.EventHandler(this.mnitASMHackingCompilationCodeCompiler_Click);
 			// 
 			// mnitASMHackingCompilationFixCodeOffsets
 			// 
 			this.mnitASMHackingCompilationFixCodeOffsets.Name = "mnitASMHackingCompilationFixCodeOffsets";
-			this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(160, 22);
+			this.mnitASMHackingCompilationFixCodeOffsets.Size = new System.Drawing.Size(180, 22);
 			this.mnitASMHackingCompilationFixCodeOffsets.Text = "Fix Code Offsets";
 			this.mnitASMHackingCompilationFixCodeOffsets.Click += new System.EventHandler(this.mnitASMHackingCompilationFixCodeOffsets_Click);
 			// 
 			// mnitASMHackingGeneration
 			// 
 			this.mnitASMHackingGeneration.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.platformEditorToolStripMenuItem});
+            this.platformEditorToolStripMenuItem,
+            this.fileHeaderToolStripMenuItem});
 			this.mnitASMHackingGeneration.Name = "mnitASMHackingGeneration";
 			this.mnitASMHackingGeneration.Size = new System.Drawing.Size(302, 22);
 			this.mnitASMHackingGeneration.Text = "Generation";
@@ -311,7 +313,7 @@
 			// platformEditorToolStripMenuItem
 			// 
 			this.platformEditorToolStripMenuItem.Name = "platformEditorToolStripMenuItem";
-			this.platformEditorToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+			this.platformEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.platformEditorToolStripMenuItem.Text = "Platform Editor";
 			this.platformEditorToolStripMenuItem.Click += new System.EventHandler(this.platformEditorToolStripMenuItem_Click);
 			// 
@@ -484,7 +486,7 @@
 			this.extractROMButton.Image = ((System.Drawing.Image)(resources.GetObject("extractROMButton.Image")));
 			this.extractROMButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.extractROMButton.Name = "extractROMButton";
-			this.extractROMButton.Size = new System.Drawing.Size(77, 22);
+			this.extractROMButton.Size = new System.Drawing.Size(77, 19);
 			this.extractROMButton.Text = "Extract ROM";
 			this.extractROMButton.ToolTipText = "Extract ROM.";
 			this.extractROMButton.Visible = false;
@@ -859,6 +861,13 @@
 			this.btnDecompressOverlay.Text = "Decompress Overlay";
 			this.btnDecompressOverlay.UseVisualStyleBackColor = true;
 			// 
+			// fileHeaderToolStripMenuItem
+			// 
+			this.fileHeaderToolStripMenuItem.Name = "fileHeaderToolStripMenuItem";
+			this.fileHeaderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.fileHeaderToolStripMenuItem.Text = "File Header";
+			this.fileHeaderToolStripMenuItem.Click += new System.EventHandler(this.fileHeaderToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -971,5 +980,6 @@
         private System.Windows.Forms.ToolStripButton extractROMButton;
         private System.Windows.Forms.ToolStripMenuItem particleTextureSPTEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem particleArchiveSPAEditorToolStripMenuItem;
-    }
+		private System.Windows.Forms.ToolStripMenuItem fileHeaderToolStripMenuItem;
+	}
 }
