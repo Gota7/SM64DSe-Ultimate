@@ -20,7 +20,8 @@ jobs:
         working-directory: .
         run: msbuild SM64DSe.csproj -p:Configuration=Release
 
-      - uses: vimtor/action-zip@v1
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: bin/release
-          dest: release.zip
+          files: bin/release.zip
