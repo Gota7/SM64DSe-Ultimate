@@ -1,4 +1,4 @@
-﻿/*
+/*
     Copyright 2012 Kuribo64
 
     This file is part of SM64DSe.
