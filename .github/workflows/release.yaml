@@ -2,8 +2,8 @@
 
 on:
   push:
-    branches:
-      - feature/gitub-action  
+    tags:
+      - '*'
 
 jobs:
   build:
