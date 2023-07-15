@@ -796,6 +796,11 @@
   <Target Name="AfterBuild" AfterTargets="Build" Condition="'$(Configuration)'=='Release'">
     <ZipDirectory SourceDirectory="bin\release" Overwrite="true" DestinationFile="$(MSBuildProjectDirectory)\bin\release.zip" />
   </Target>
+  <Target Name="AfterBuild" AfterTargets="Build" Condition="'$(Configuration)'=='Release'">
+    <ZipDirectory
+            SourceDirectory="bin\release"
+            DestinationFile="$(MSBuildProjectDirectory)\bin\release.zip" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
