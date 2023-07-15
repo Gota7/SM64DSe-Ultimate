@@ -130,7 +130,7 @@ namespace SM64DSe
 
                 xr.ReadToFollowing("description");
                 oinfo.m_Description = xr.ReadElementContentAsString();
-                
+
                 xr.ReadToFollowing("bankreq");
                 temp = xr.ReadElementContentAsString();
                 if (temp == "none")
