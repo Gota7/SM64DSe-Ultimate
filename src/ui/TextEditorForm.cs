@@ -343,7 +343,7 @@ namespace SM64DSe
         public static void LoadCharList(string txtName, BiDictionaryOneToOne<byte, string> charList,
             Dictionary<string, uint> sizeList)
         {
-            string filename = Path.Combine(Application.StartupPath, txtName);
+            string filename = Path.Combine(Application.StartupPath, "assets", txtName);
             string text = File.ReadAllText(filename);
 
             string[] lines = text.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
