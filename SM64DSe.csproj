@@ -131,18 +131,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormControls\BackgroundImageDataGridView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="FormControls\MenuButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="FormControls\ModelGLControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="FormControls\PaletteColourGrid.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\core\3DStuff.cs" />
     <Compile Include="src\core\BasicBigFloat.cs" />
@@ -318,6 +306,10 @@
     <Compile Include="src\ui\FormationForm.Designer.cs">
       <DependentUpon>FormationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\ui\FormControls\BackgroundImageDataGridView.cs" />
+    <Compile Include="src\ui\FormControls\MenuButton.cs" />
+    <Compile Include="src\ui\FormControls\ModelGLControl.cs" />
+    <Compile Include="src\ui\FormControls\PaletteColourGrid.cs" />
     <Compile Include="src\ui\GraphicEditor.cs">
       <SubType>Form</SubType>
     </Compile>
