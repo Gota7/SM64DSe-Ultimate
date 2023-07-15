@@ -791,6 +791,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props'))" />
   </Target>
+  <Target Name="AfterBuild" AfterTargets="Build" Condition="'$(Configuration)'=='Release'">
+    <ZipDirectory
+            SourceDirectory="bin\release"
+            DestinationFile="$(MSBuildProjectDirectory)\bin\release.zip" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
