@@ -652,6 +652,7 @@
     <None Include="assets\Images\btnY.png" />
     <None Include="assets\Images\build.png" />
     <None Include="assets\Images\Coins.png" />
+    <None Include="assets\Images\collapseButton.png" />
     <None Include="assets\Images\DPad.png" />
     <None Include="assets\Images\DS_Glyphs.png" />
     <None Include="assets\Images\Pause.png" />
@@ -668,6 +669,8 @@
     <None Include="assets\Images\Small\StarFull.png" />
     <None Include="assets\Images\StarEmpty.png" />
     <None Include="assets\Images\StarFull.png" />
+    <None Include="assets\Images\stepLeft.png" />
+    <None Include="assets\Images\stepRight.png" />
     <None Include="assets\Images\Stop.png" />
     <None Include="assets\kuppaLib.kpl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -690,9 +693,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\collapseButton.png" />
-    <None Include="Resources\stepLeft.png" />
-    <None Include="Resources\stepRight.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
