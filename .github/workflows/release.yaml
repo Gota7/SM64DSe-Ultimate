@@ -18,4 +18,9 @@ jobs:
 
       - name: MSBuild
         working-directory: .
-        run: msbuild SM64DSe.csproj
+        run: msbuild SM64DSe.csproj -p:Configuration=Release
+
+      - uses: vimtor/action-zip@v1
+        with:
+          files: bin/release
+          dest: release.zip
