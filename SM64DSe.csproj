@@ -131,55 +131,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="3DStuff.cs" />
-    <Compile Include="AdditionalPatchesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AdditionalPatchesForm.Designer.cs">
-      <DependentUpon>AdditionalPatchesForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AnimationEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AnimationEditorForm.Designer.cs">
-      <DependentUpon>AnimationEditorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BasicBigFloat.cs" />
-    <Compile Include="BiDictionaryOneToOne.cs" />
-    <Compile Include="BMD KLC Editor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BMD KLC Editor.Designer.cs">
-      <DependentUpon>BMD KLC Editor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CodeCompilerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CodeCompilerForm.designer.cs">
-      <DependentUpon>CodeCompilerForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CodeFixerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CodeFixerForm.designer.cs">
-      <DependentUpon>CodeFixerForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormationForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormationForm.Designer.cs">
-      <DependentUpon>FormationForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DataHelper.cs" />
-    <Compile Include="ExceptionMessageBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExceptionMessageBox.Designer.cs">
-      <DependentUpon>ExceptionMessageBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FileSystemEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="FormControls\BackgroundImageDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -189,451 +140,546 @@
     <Compile Include="FormControls\ModelGLControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GraphicEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GraphicEditor.Designer.cs">
-      <DependentUpon>GraphicEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ImportExport\BaseStripConverter.cs" />
-    <Compile Include="ImportExport\BMD_BCA_KCLExporter.cs" />
-    <Compile Include="ImportExport\BMDImporter.cs" />
-    <Compile Include="ImportExport\KCLImporter.cs" />
-    <Compile Include="ImportExport\LevelImportExport\LevelDataXML_Exporter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ImportExport\LevelImportExport\LevelDataXML_Importer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ImportExport\LevelImportExport\LevelExporterV1.cs" />
-    <Compile Include="ImportExport\LevelImportExport\LevelExporterV2.cs" />
-    <Compile Include="ImportExport\LevelImportExport\LevelImporterV1.cs" />
-    <Compile Include="ImportExport\LevelImportExport\LevelImporterV2.cs" />
-    <Compile Include="ImportExport\Loaders\AbstractModelLoader.cs" />
-    <Compile Include="ImportExport\Loaders\ExternalLoaders\collada_schema_1_4.cs" />
-    <Compile Include="ImportExport\Loaders\ExternalLoaders\DAELoader.cs" />
-    <Compile Include="ImportExport\Loaders\ExternalLoaders\NITROIntermediateCharacterAnimationLoader.cs" />
-    <Compile Include="ImportExport\Loaders\ExternalLoaders\NITROIntermediateModelDataLoader.cs" />
-    <Compile Include="ImportExport\Loaders\ExternalLoaders\OBJLoader.cs" />
-    <Compile Include="ImportExport\Loaders\InternalLoaders\BCALoader.cs" />
-    <Compile Include="ImportExport\Loaders\InternalLoaders\BMDLoader.cs" />
-    <Compile Include="ImportExport\Loaders\InternalLoaders\KCLLoader.cs" />
-    <Compile Include="ImportExport\ModelBase.cs" />
-    <Compile Include="ImportExport\QuadsToStripsConverter.cs" />
-    <Compile Include="ImportExport\TrianglesToStripsConverter.cs" />
-    <Compile Include="ImportExport\Writers\AbstractModelWriter.cs" />
-    <Compile Include="ImportExport\Writers\ExternalWriters\DAEWriter.cs" />
-    <Compile Include="ImportExport\Writers\ExternalWriters\OBJWriter.cs" />
-    <Compile Include="ImportExport\Writers\InternalWriters\BCAWriter.cs" />
-    <Compile Include="ImportExport\Writers\InternalWriters\BMDWriter.cs" />
-    <Compile Include="ImportExport\Writers\InternalWriters\KCLWriter.cs" />
-    <Compile Include="ImportImage4BPP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ImportImage4BPP.Designer.cs">
-      <DependentUpon>ImportImage4BPP.cs</DependentUpon>
-    </Compile>
-    <Compile Include="KCLCache.cs" />
-    <Compile Include="KuppaScriptEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="KuppaScriptEditor.Designer.cs">
-      <DependentUpon>KuppaScriptEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="KuppaScript\KuppaLib.cs" />
-    <Compile Include="KuppaScript\KuppaScript.cs" />
-    <Compile Include="KuppaScript\NumberInterpreter.cs" />
-    <Compile Include="LevelNameEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LevelNameEditorForm.Designer.cs">
-      <DependentUpon>LevelNameEditorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LevelDisplaySettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LevelDisplaySettingsForm.Designer.cs">
-      <DependentUpon>LevelDisplaySettingsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ParticleTextureForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ParticleTextureForm.Designer.cs">
-      <DependentUpon>ParticleTextureForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ModelAndCollisionMapEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ModelAndCollisionMapEditor.Designer.cs">
-      <DependentUpon>ModelAndCollisionMapEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormControls\PaletteColourGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Ndst\Banner.cs" />
-    <Compile Include="Ndst\ConversionInfo.cs" />
-    <Compile Include="Ndst\ExtractOptions.cs" />
-    <Compile Include="Ndst\Filesystem.cs" />
-    <Compile Include="Ndst\Fix20x12i.cs" />
-    <Compile Include="Ndst\Fix4x12i.cs" />
-    <Compile Include="Ndst\Formats\Bmd.cs" />
-    <Compile Include="Ndst\Formats\Enpg.cs" />
-    <Compile Include="Ndst\Formats\GenericFile.cs" />
-    <Compile Include="Ndst\Formats\IFormat.cs" />
-    <Compile Include="Ndst\Formats\Kcl.cs" />
-    <Compile Include="Ndst\Formats\LZ.cs" />
-    <Compile Include="Ndst\Formats\Narc.cs" />
-    <Compile Include="Ndst\Formats\Nsmbd.cs" />
-    <Compile Include="Ndst\Graphics\CIE.cs" />
-    <Compile Include="Ndst\Graphics\Graphic.cs" />
-    <Compile Include="Ndst\Graphics\GraphicExtractOption.cs" />
-    <Compile Include="Ndst\Graphics\Palette.cs" />
-    <Compile Include="Ndst\Graphics\RGB5.cs" />
-    <Compile Include="Ndst\Graphics\Screen.cs" />
-    <Compile Include="Ndst\Helper.cs" />
-    <Compile Include="Ndst\Models\Bone.cs" />
-    <Compile Include="Ndst\Models\Face.cs" />
-    <Compile Include="Ndst\Models\Formats\IModelFormat.cs" />
-    <Compile Include="Ndst\Models\Formats\Obj.cs" />
-    <Compile Include="Ndst\Models\Mat4.cs" />
-    <Compile Include="Ndst\Models\Mesh.cs" />
-    <Compile Include="Ndst\Models\Model.cs" />
-    <Compile Include="Ndst\Models\Node.cs" />
-    <Compile Include="Ndst\Models\Vec3.cs" />
-    <Compile Include="Ndst\Ninja.cs" />
-    <Compile Include="Ndst\Overlay.cs" />
-    <Compile Include="Ndst\ROM.cs" />
-    <Compile Include="NitroROM_Utils.cs" />
-    <Compile Include="OverlayEditor.cs">
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\core\3DStuff.cs" />
+    <Compile Include="src\core\BasicBigFloat.cs" />
+    <Compile Include="src\core\BiDictionaryOneToOne.cs" />
+    <Compile Include="src\core\Compression.cs" />
+    <Compile Include="src\core\DataHelper.cs" />
+    <Compile Include="src\core\formats\BCA.cs" />
+    <Compile Include="src\core\formats\BMD.cs" />
+    <Compile Include="src\core\formats\BMD.NitroTexture.cs" />
+    <Compile Include="src\core\formats\BTP.cs" />
+    <Compile Include="src\core\formats\Graphic.cs" />
+    <Compile Include="src\core\formats\KCL.cs" />
+    <Compile Include="src\core\formats\NeuQuant.cs" />
+    <Compile Include="src\core\formats\SBNK.cs" />
+    <Compile Include="src\core\formats\SDAT.cs" />
+    <Compile Include="src\core\formats\SWAR.cs" />
+    <Compile Include="src\core\Helper.cs" />
+    <Compile Include="src\core\ImportExport\BaseStripConverter.cs" />
+    <Compile Include="src\core\ImportExport\BMDImporter.cs" />
+    <Compile Include="src\core\ImportExport\BMD_BCA_KCLExporter.cs" />
+    <Compile Include="src\core\ImportExport\KCLImporter.cs" />
+    <Compile Include="src\core\ImportExport\LevelImportExport\LevelDataXML_Exporter.cs" />
+    <Compile Include="src\core\ImportExport\LevelImportExport\LevelDataXML_Importer.cs" />
+    <Compile Include="src\core\ImportExport\LevelImportExport\LevelExporterV1.cs" />
+    <Compile Include="src\core\ImportExport\LevelImportExport\LevelExporterV2.cs" />
+    <Compile Include="src\core\ImportExport\LevelImportExport\LevelImporterV1.cs" />
+    <Compile Include="src\core\ImportExport\LevelImportExport\LevelImporterV2.cs" />
+    <Compile Include="src\core\ImportExport\Loaders\AbstractModelLoader.cs" />
+    <Compile Include="src\core\ImportExport\Loaders\ExternalLoaders\collada_schema_1_4.cs" />
+    <Compile Include="src\core\ImportExport\Loaders\ExternalLoaders\DAELoader.cs" />
+    <Compile Include="src\core\ImportExport\Loaders\ExternalLoaders\NITROIntermediateCharacterAnimationLoader.cs" />
+    <Compile Include="src\core\ImportExport\Loaders\ExternalLoaders\NITROIntermediateModelDataLoader.cs" />
+    <Compile Include="src\core\ImportExport\Loaders\ExternalLoaders\OBJLoader.cs" />
+    <Compile Include="src\core\ImportExport\Loaders\InternalLoaders\BCALoader.cs" />
+    <Compile Include="src\core\ImportExport\Loaders\InternalLoaders\BMDLoader.cs" />
+    <Compile Include="src\core\ImportExport\Loaders\InternalLoaders\KCLLoader.cs" />
+    <Compile Include="src\core\ImportExport\ModelBase.cs" />
+    <Compile Include="src\core\ImportExport\QuadsToStripsConverter.cs" />
+    <Compile Include="src\core\ImportExport\TrianglesToStripsConverter.cs" />
+    <Compile Include="src\core\ImportExport\Writers\AbstractModelWriter.cs" />
+    <Compile Include="src\core\ImportExport\Writers\ExternalWriters\DAEWriter.cs" />
+    <Compile Include="src\core\ImportExport\Writers\ExternalWriters\OBJWriter.cs" />
+    <Compile Include="src\core\ImportExport\Writers\InternalWriters\BCAWriter.cs" />
+    <Compile Include="src\core\ImportExport\Writers\InternalWriters\BMDWriter.cs" />
+    <Compile Include="src\core\ImportExport\Writers\InternalWriters\KCLWriter.cs" />
+    <Compile Include="src\core\KCLCache.cs" />
+    <Compile Include="src\core\KuppaScript\KuppaLib.cs" />
+    <Compile Include="src\core\KuppaScript\KuppaScript.cs" />
+    <Compile Include="src\core\KuppaScript\NumberInterpreter.cs" />
+    <Compile Include="src\core\Level.cs" />
+    <Compile Include="src\core\LevelEditorForm.EditingHandler.cs" />
+    <Compile Include="src\core\LevelObject.cs" />
+    <Compile Include="src\core\ModelCache.cs" />
+    <Compile Include="src\core\NARC.cs" />
+    <Compile Include="src\core\NARCFile.cs" />
+    <Compile Include="src\core\Ndst\Banner.cs" />
+    <Compile Include="src\core\Ndst\ConversionInfo.cs" />
+    <Compile Include="src\core\Ndst\ExtractOptions.cs" />
+    <Compile Include="src\core\Ndst\Filesystem.cs" />
+    <Compile Include="src\core\Ndst\Fix20x12i.cs" />
+    <Compile Include="src\core\Ndst\Fix4x12i.cs" />
+    <Compile Include="src\core\Ndst\Formats\Bmd.cs" />
+    <Compile Include="src\core\Ndst\Formats\Enpg.cs" />
+    <Compile Include="src\core\Ndst\Formats\GenericFile.cs" />
+    <Compile Include="src\core\Ndst\Formats\IFormat.cs" />
+    <Compile Include="src\core\Ndst\Formats\Kcl.cs" />
+    <Compile Include="src\core\Ndst\Formats\LZ.cs" />
+    <Compile Include="src\core\Ndst\Formats\Narc.cs" />
+    <Compile Include="src\core\Ndst\Formats\Nsmbd.cs" />
+    <Compile Include="src\core\Ndst\Graphics\CIE.cs" />
+    <Compile Include="src\core\Ndst\Graphics\Graphic.cs" />
+    <Compile Include="src\core\Ndst\Graphics\GraphicExtractOption.cs" />
+    <Compile Include="src\core\Ndst\Graphics\Palette.cs" />
+    <Compile Include="src\core\Ndst\Graphics\RGB5.cs" />
+    <Compile Include="src\core\Ndst\Graphics\Screen.cs" />
+    <Compile Include="src\core\Ndst\Helper.cs" />
+    <Compile Include="src\core\Ndst\Models\Bone.cs" />
+    <Compile Include="src\core\Ndst\Models\Face.cs" />
+    <Compile Include="src\core\Ndst\Models\Formats\IModelFormat.cs" />
+    <Compile Include="src\core\Ndst\Models\Formats\Obj.cs" />
+    <Compile Include="src\core\Ndst\Models\Mat4.cs" />
+    <Compile Include="src\core\Ndst\Models\Mesh.cs" />
+    <Compile Include="src\core\Ndst\Models\Model.cs" />
+    <Compile Include="src\core\Ndst\Models\Node.cs" />
+    <Compile Include="src\core\Ndst\Models\Vec3.cs" />
+    <Compile Include="src\core\Ndst\Ninja.cs" />
+    <Compile Include="src\core\Ndst\Overlay.cs" />
+    <Compile Include="src\core\Ndst\ROM.cs" />
+    <Compile Include="src\core\NitroFile.cs" />
+    <Compile Include="src\core\NitroOverlay.cs" />
+    <Compile Include="src\core\NitroROM.cs" />
+    <Compile Include="src\core\NitroROM_patch.cs" />
+    <Compile Include="src\core\NitroROM_Utils.cs" />
+    <Compile Include="src\core\ObjectDatabase.cs" />
+    <Compile Include="src\core\ObjectProperties.cs" />
+    <Compile Include="src\core\ObjectRenderer.cs" />
+    <Compile Include="src\core\ObjInfoDump.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OverlayEditor.Designer.cs">
-      <DependentUpon>OverlayEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Particle.cs" />
-    <Compile Include="ParticleViewerForm.cs">
+    <Compile Include="src\core\ParameterField.cs" />
+    <Compile Include="src\core\Particle.cs" />
+    <Compile Include="src\core\ParticleSysDefProperties.cs" />
+    <Compile Include="src\core\Patcher\Arm9BinaryHandler.cs" />
+    <Compile Include="src\core\Patcher\Arm9BinSection.cs" />
+    <Compile Include="src\core\Patcher\FileHeaderGenerator.cs" />
+    <Compile Include="src\core\Patcher\PatchCompiler.cs" />
+    <Compile Include="src\core\Patcher\PatchMaker.cs" />
+    <Compile Include="src\core\Patcher\SoundHeaderGenerator.cs" />
+    <Compile Include="src\core\Program.cs" />
+    <Compile Include="src\core\PropertyBag.cs" />
+    <Compile Include="src\core\Strings.cs" />
+    <Compile Include="src\core\TriangleUtil.cs" />
+    <Compile Include="src\ui\AdditionalPatchesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ParticleViewerForm.Designer.cs">
-      <DependentUpon>ParticleViewerForm.cs</DependentUpon>
+    <Compile Include="src\ui\AdditionalPatchesForm.Designer.cs">
+      <DependentUpon>AdditionalPatchesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ParticleSysDefProperties.cs" />
-    <Compile Include="Patcher\Arm9BinaryHandler.cs" />
-    <Compile Include="Patcher\Arm9BinSection.cs" />
-    <Compile Include="Patcher\FileHeaderGenerator.cs" />
-    <Compile Include="Patcher\PatchCompiler.cs" />
-    <Compile Include="Patcher\PatchMaker.cs" />
-    <Compile Include="Patcher\SoundHeaderGenerator.cs" />
-    <Compile Include="SM64DSFormats\BetterTextureAnimationEditor.cs">
+    <Compile Include="src\ui\AnimationEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SM64DSFormats\BetterTextureAnimationEditor.Designer.cs">
-      <DependentUpon>BetterTextureAnimationEditor.cs</DependentUpon>
+    <Compile Include="src\ui\AnimationEditorForm.Designer.cs">
+      <DependentUpon>AnimationEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SM64DSFormats\BMD.cs" />
-    <Compile Include="CLPS_Form.cs">
+    <Compile Include="src\ui\animations\CreateNewLevelAnimationDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CLPS_Form.Designer.cs">
-      <DependentUpon>CLPS_Form.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Compression.cs" />
-    <Compile Include="SM64DSFormats\BCA.cs" />
-    <Compile Include="Helper.cs" />
-    <Compile Include="SM64DSFormats\BTP.cs" />
-    <Compile Include="SM64DSFormats\BMD.NitroTexture.cs" />
-    <Compile Include="SM64DSFormats\CreateNewLevelAnimationDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SM64DSFormats\CreateNewLevelAnimationDialog.Designer.cs">
+    <Compile Include="src\ui\animations\CreateNewLevelAnimationDialog.Designer.cs">
       <DependentUpon>CreateNewLevelAnimationDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="SM64DSFormats\DL Editor.cs">
+    <Compile Include="src\ui\BMD KLC Editor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SM64DSFormats\DL Editor.Designer.cs">
+    <Compile Include="src\ui\BMD KLC Editor.Designer.cs">
+      <DependentUpon>BMD KLC Editor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\CLPS_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\CLPS_Form.Designer.cs">
+      <DependentUpon>CLPS_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\CodeCompilerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\CodeCompilerForm.designer.cs">
+      <DependentUpon>CodeCompilerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\CodeFixerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\CodeFixerForm.designer.cs">
+      <DependentUpon>CodeFixerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\dls\DL Editor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\dls\DL Editor.Designer.cs">
       <DependentUpon>DL Editor.cs</DependentUpon>
     </Compile>
-    <Compile Include="SM64DSFormats\Graphic.cs" />
-    <Compile Include="SM64DSFormats\KCL.cs" />
-    <Compile Include="KCLEditorForm.cs">
+    <Compile Include="src\ui\ExceptionMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="KCLEditorForm.Designer.cs">
+    <Compile Include="src\ui\ExceptionMessageBox.Designer.cs">
+      <DependentUpon>ExceptionMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\FileSystemEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\FormationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\FormationForm.Designer.cs">
+      <DependentUpon>FormationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\GraphicEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\GraphicEditor.Designer.cs">
+      <DependentUpon>GraphicEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\ImportImage4BPP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\ImportImage4BPP.Designer.cs">
+      <DependentUpon>ImportImage4BPP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\KCLEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\KCLEditorForm.Designer.cs">
       <DependentUpon>KCLEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LevelObject.cs" />
-    <Compile Include="LevelSettingsForm.cs">
+    <Compile Include="src\ui\KuppaScriptEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LevelSettingsForm.Designer.cs">
-      <DependentUpon>LevelSettingsForm.cs</DependentUpon>
+    <Compile Include="src\ui\KuppaScriptEditor.Designer.cs">
+      <DependentUpon>KuppaScriptEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="MinimapEditor.cs">
+    <Compile Include="src\ui\LevelDisplaySettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MinimapEditor.Designer.cs">
-      <DependentUpon>MinimapEditor.cs</DependentUpon>
+    <Compile Include="src\ui\LevelDisplaySettingsForm.Designer.cs">
+      <DependentUpon>LevelDisplaySettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModelCache.cs" />
-    <Compile Include="NARC.cs" />
-    <Compile Include="NARCFile.cs" />
-    <Compile Include="NitroFile.cs" />
-    <Compile Include="ObjectDatabase.cs" />
-    <Compile Include="ObjectListForm.cs">
+    <Compile Include="src\ui\LevelEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ObjectListForm.Designer.cs">
-      <DependentUpon>ObjectListForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ObjectProperties.cs" />
-    <Compile Include="ObjectRenderer.cs" />
-    <Compile Include="ModelImporter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ModelImporter.Designer.cs">
-      <DependentUpon>ModelImporter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="OffsetAllObjectCoordsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OffsetAllObjectCoordsForm.Designer.cs">
-      <DependentUpon>OffsetAllObjectCoordsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ProgressDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ProgressDialog.Designer.cs">
-      <DependentUpon>ProgressDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LevelEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LevelEditorForm.Designer.cs">
+    <Compile Include="src\ui\LevelEditorForm.Designer.cs">
       <DependentUpon>LevelEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="src\ui\LevelNameEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="src\ui\LevelNameEditorForm.Designer.cs">
+      <DependentUpon>LevelNameEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\LevelSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\LevelSettingsForm.Designer.cs">
+      <DependentUpon>LevelSettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NitroOverlay.cs" />
-    <Compile Include="NitroROM.cs" />
-    <Compile Include="NitroROM_patch.cs" />
-    <Compile Include="ObjInfoDump.cs">
+    <Compile Include="src\ui\MinimapEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ROMFileSelect.cs">
+    <Compile Include="src\ui\MinimapEditor.Designer.cs">
+      <DependentUpon>MinimapEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\ModelAndCollisionMapEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ROMFileSelect.Designer.cs">
-      <DependentUpon>ROMFileSelect.cs</DependentUpon>
+    <Compile Include="src\ui\ModelAndCollisionMapEditor.Designer.cs">
+      <DependentUpon>ModelAndCollisionMapEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="SDATInfoEditor.cs">
+    <Compile Include="src\ui\ModelImporter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SDATInfoEditor.Designer.cs">
-      <DependentUpon>SDATInfoEditor.cs</DependentUpon>
+    <Compile Include="src\ui\ModelImporter.Designer.cs">
+      <DependentUpon>ModelImporter.cs</DependentUpon>
     </Compile>
-    <Compile Include="Level.cs" />
-    <Compile Include="SM64DSFormats\NeuQuant.cs" />
-    <Compile Include="SM64DSFormats\SBNK.cs" />
-    <Compile Include="SM64DSFormats\SDAT.cs" />
-    <Compile Include="SM64DSFormats\SWAR.cs" />
-    <Compile Include="SoundViewForm.cs">
+    <Compile Include="src\ui\ObjectListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SoundViewForm.designer.cs">
-      <DependentUpon>SoundViewForm.cs</DependentUpon>
+    <Compile Include="src\ui\ObjectListForm.Designer.cs">
+      <DependentUpon>ObjectListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Templates\CommonTemplate.cs" />
-    <Compile Include="Templates\PlatformTemplateForm.cs">
+    <Compile Include="src\ui\OffsetAllObjectCoordsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Templates\PlatformTemplateForm.designer.cs">
-      <DependentUpon>PlatformTemplateForm.cs</DependentUpon>
+    <Compile Include="src\ui\OffsetAllObjectCoordsForm.Designer.cs">
+      <DependentUpon>OffsetAllObjectCoordsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TextDialog.cs">
+    <Compile Include="src\ui\OverlayEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TextDialogue.cs">
+    <Compile Include="src\ui\OverlayEditor.Designer.cs">
+      <DependentUpon>OverlayEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\ParticleEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TextDialogue.designer.cs">
-      <DependentUpon>TextDialogue.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ParticleEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ParticleEditorForm.Designer.cs">
+    <Compile Include="src\ui\ParticleEditorForm.Designer.cs">
       <DependentUpon>ParticleEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TextureEditorForm.cs">
+    <Compile Include="src\ui\ParticleTextureForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TextureEditorForm.Designer.cs">
+    <Compile Include="src\ui\ParticleTextureForm.Designer.cs">
+      <DependentUpon>ParticleTextureForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\ParticleViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\ParticleViewerForm.Designer.cs">
+      <DependentUpon>ParticleViewerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\ProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\ProgressDialog.Designer.cs">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\ROMFileSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\ROMFileSelect.Designer.cs">
+      <DependentUpon>ROMFileSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\SDATInfoEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\SDATInfoEditor.Designer.cs">
+      <DependentUpon>SDATInfoEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\SoundViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\SoundViewForm.designer.cs">
+      <DependentUpon>SoundViewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\TextDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\TextDialogue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\TextDialogue.designer.cs">
+      <DependentUpon>TextDialogue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\TextEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\TextEditorForm.Designer.cs">
+      <DependentUpon>TextEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\TextureAnimationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\TextureAnimationForm.Designer.cs">
+      <DependentUpon>TextureAnimationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\TextureEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\TextureEditorForm.Designer.cs">
       <DependentUpon>TextureEditorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UshortEditorForm.cs">
+    <Compile Include="src\ui\textures\BetterTextureAnimationEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UshortEditorForm.Designer.cs">
+    <Compile Include="src\ui\textures\BetterTextureAnimationEditor.Designer.cs">
+      <DependentUpon>BetterTextureAnimationEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\UshortEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\UshortEditorForm.Designer.cs">
       <DependentUpon>UshortEditorForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AdditionalPatchesForm.resx">
-      <DependentUpon>AdditionalPatchesForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AnimationEditorForm.resx">
-      <DependentUpon>AnimationEditorForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BMD KLC Editor.resx">
-      <DependentUpon>BMD KLC Editor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CLPS_Form.resx">
-      <DependentUpon>CLPS_Form.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CodeCompilerForm.resx">
-      <DependentUpon>CodeCompilerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CodeFixerForm.resx">
-      <DependentUpon>CodeFixerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormationForm.resx">
-      <DependentUpon>FormationForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExceptionMessageBox.resx">
-      <DependentUpon>ExceptionMessageBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GraphicEditor.resx">
-      <DependentUpon>GraphicEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ImportImage4BPP.resx">
-      <DependentUpon>ImportImage4BPP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="KCLEditorForm.resx">
-      <DependentUpon>KCLEditorForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="KuppaScriptEditor.resx">
-      <DependentUpon>KuppaScriptEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LevelNameEditorForm.resx">
-      <DependentUpon>LevelNameEditorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LevelDisplaySettingsForm.resx">
-      <DependentUpon>LevelDisplaySettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LevelEditorForm.resx">
-      <DependentUpon>LevelEditorForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ParticleTextureForm.resx">
-      <DependentUpon>ParticleTextureForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LevelSettingsForm.resx">
-      <DependentUpon>LevelSettingsForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MinimapEditor.resx">
-      <DependentUpon>MinimapEditor.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModelAndCollisionMapEditor.resx">
-      <DependentUpon>ModelAndCollisionMapEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModelImporter.resx">
-      <DependentUpon>ModelImporter.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ObjectListForm.resx">
-      <DependentUpon>ObjectListForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OffsetAllObjectCoordsForm.resx">
-      <DependentUpon>OffsetAllObjectCoordsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OverlayEditor.resx">
-      <DependentUpon>OverlayEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ParticleViewerForm.resx">
-      <DependentUpon>ParticleViewerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProgressDialog.resx">
-      <DependentUpon>ProgressDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <Compile Include="src\utils\Templates\CommonTemplate.cs" />
+    <Compile Include="src\utils\Templates\PlatformTemplateForm.cs" />
+    <Compile Include="src\utils\Templates\PlatformTemplateForm.designer.cs">
+      <DependentUpon>PlatformTemplateForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ROMFileSelect.resx">
+    <EmbeddedResource Include="src\ui\AdditionalPatchesForm.resx">
+      <DependentUpon>AdditionalPatchesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\AnimationEditorForm.resx">
+      <DependentUpon>AnimationEditorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\animations\CreateNewLevelAnimationDialog.resx">
+      <DependentUpon>CreateNewLevelAnimationDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\BMD KLC Editor.resx">
+      <DependentUpon>BMD KLC Editor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\CLPS_Form.resx">
+      <DependentUpon>CLPS_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\CodeCompilerForm.resx">
+      <DependentUpon>CodeCompilerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\CodeFixerForm.resx">
+      <DependentUpon>CodeFixerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\dls\DL Editor.resx">
+      <DependentUpon>DL Editor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\ExceptionMessageBox.resx">
+      <DependentUpon>ExceptionMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\FormationForm.resx">
+      <DependentUpon>FormationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\GraphicEditor.resx">
+      <DependentUpon>GraphicEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\ImportImage4BPP.resx">
+      <DependentUpon>ImportImage4BPP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\KCLEditorForm.resx">
+      <DependentUpon>KCLEditorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\KuppaScriptEditor.resx">
+      <DependentUpon>KuppaScriptEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\LevelDisplaySettingsForm.resx">
+      <DependentUpon>LevelDisplaySettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\LevelEditorForm.resx">
+      <DependentUpon>LevelEditorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\LevelNameEditorForm.resx">
+      <DependentUpon>LevelNameEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\LevelSettingsForm.resx">
+      <DependentUpon>LevelSettingsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\MinimapEditor.resx">
+      <DependentUpon>MinimapEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\ModelAndCollisionMapEditor.resx">
+      <DependentUpon>ModelAndCollisionMapEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\ModelImporter.resx">
+      <DependentUpon>ModelImporter.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\ObjectListForm.resx">
+      <DependentUpon>ObjectListForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\OffsetAllObjectCoordsForm.resx">
+      <DependentUpon>OffsetAllObjectCoordsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\OverlayEditor.resx">
+      <DependentUpon>OverlayEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\ParticleEditorForm.resx">
+      <DependentUpon>ParticleEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\ParticleTextureForm.resx">
+      <DependentUpon>ParticleTextureForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\ParticleViewerForm.resx">
+      <DependentUpon>ParticleViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\ProgressDialog.resx">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\ROMFileSelect.resx">
       <DependentUpon>ROMFileSelect.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SDATInfoEditor.resx">
+    <EmbeddedResource Include="src\ui\SDATInfoEditor.resx">
       <DependentUpon>SDATInfoEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SettingsForm.resx">
+    <EmbeddedResource Include="src\ui\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SM64DSFormats\BetterTextureAnimationEditor.resx">
-      <DependentUpon>BetterTextureAnimationEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SM64DSFormats\CreateNewLevelAnimationDialog.resx">
-      <DependentUpon>CreateNewLevelAnimationDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SM64DSFormats\DL Editor.resx">
-      <DependentUpon>DL Editor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SoundViewForm.resx">
+    <EmbeddedResource Include="src\ui\SoundViewForm.resx">
       <DependentUpon>SoundViewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Templates\PlatformTemplateForm.resx">
-      <DependentUpon>PlatformTemplateForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TextEditorForm.resx">
+    <EmbeddedResource Include="src\ui\TextEditorForm.resx">
       <DependentUpon>TextEditorForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="TextureAnimationForm.resx">
+    <EmbeddedResource Include="src\ui\TextureAnimationForm.resx">
       <DependentUpon>TextureAnimationForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\TextureEditorForm.resx">
+      <DependentUpon>TextureEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\textures\BetterTextureAnimationEditor.resx">
+      <DependentUpon>BetterTextureAnimationEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\UshortEditorForm.resx">
+      <DependentUpon>UshortEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ParticleEditorForm.resx">
-      <DependentUpon>ParticleEditorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TextureEditorForm.resx">
-      <DependentUpon>TextureEditorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UshortEditorForm.resx">
-      <DependentUpon>UshortEditorForm.cs</DependentUpon>
+    <EmbeddedResource Include="src\utils\Templates\PlatformTemplateForm.resx">
+      <DependentUpon>PlatformTemplateForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="dynamic_library_loader.bin" />
-    <None Include="kuppaLib.kpl">
+    <None Include="assets\dynamic_library_loader.bin" />
+    <None Include="assets\Images\1zm1hxc.png" />
+    <None Include="assets\Images\ae17ki.png" />
+    <None Include="assets\Images\btnA.png" />
+    <None Include="assets\Images\btnB.png" />
+    <None Include="assets\Images\btnL.png" />
+    <None Include="assets\Images\btnR.png" />
+    <None Include="assets\Images\btnX.png" />
+    <None Include="assets\Images\btnY.png" />
+    <None Include="assets\Images\build.png" />
+    <None Include="assets\Images\Coins.png" />
+    <None Include="assets\Images\DPad.png" />
+    <None Include="assets\Images\DS_Glyphs.png" />
+    <None Include="assets\Images\Pause.png" />
+    <None Include="assets\Images\Play.png" />
+    <None Include="assets\Images\Small\btnA.png" />
+    <None Include="assets\Images\Small\btnB.png" />
+    <None Include="assets\Images\Small\btnL.png" />
+    <None Include="assets\Images\Small\btnR.png" />
+    <None Include="assets\Images\Small\btnX.png" />
+    <None Include="assets\Images\Small\btnY.png" />
+    <None Include="assets\Images\Small\Coins.png" />
+    <None Include="assets\Images\Small\DPad.png" />
+    <None Include="assets\Images\Small\StarEmpty.png" />
+    <None Include="assets\Images\Small\StarFull.png" />
+    <None Include="assets\Images\StarEmpty.png" />
+    <None Include="assets\Images\StarFull.png" />
+    <None Include="assets\Images\Stop.png" />
+    <None Include="assets\kuppaLib.kpl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="level_ovl_init_EUR.000.bin" />
-    <None Include="level_ovl_init_EUR.001.bin" />
+    <None Include="assets\level_ovl_init_EUR.000.bin" />
+    <None Include="assets\level_ovl_init_EUR.001.bin" />
+    <None Include="assets\level_ovl_init_JAP.bin" />
+    <None Include="assets\level_ovl_init_USAv1.bin" />
+    <None Include="assets\level_ovl_init_USAv2.bin" />
+    <None Include="assets\obj_list.txt" />
+    <None Include="assets\static_overlay_loader.bin" />
     <None Include="level_ovl_init_EUR.bin" />
-    <None Include="level_ovl_init_JAP.bin" />
-    <None Include="level_ovl_init_USAv1.bin" />
-    <None Include="level_ovl_init_USAv2.bin" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -644,77 +690,45 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PropertyBag.cs" />
-    <Compile Include="SettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SettingsForm.Designer.cs">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Strings.cs" />
-    <Compile Include="TextEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TextEditorForm.Designer.cs">
-      <DependentUpon>TextEditorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TextureAnimationForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TextureAnimationForm.Designer.cs">
-      <DependentUpon>TextureAnimationForm.cs</DependentUpon>
-    </Compile>
-    <None Include="static_overlay_loader.bin" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="obj_list.txt" />
+    <None Include="Resources\collapseButton.png" />
+    <None Include="Resources\stepLeft.png" />
+    <None Include="Resources\stepRight.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
+    <Content Include="assets\external-tools\Ndst.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\external-tools\ninja.exe" />
+    <Content Include="assets\Images\DummyTex.png" />
+    <Content Include="assets\Images\KuppaScript.ico" />
     <Content Include="Documentation\bca_format.txt" />
     <Content Include="Documentation\bmd_format.txt" />
     <Content Include="Documentation\btp_format.txt" />
     <Content Include="Documentation\kcl_format.txt" />
     <Content Include="Documentation\SM64DS Level Format Doc v2.1x.txt" />
     <Content Include="Documentation\SM64DS Text Editing.txt" />
-    <None Include="Resources\collapseButton.png" />
-    <None Include="Resources\stepLeft.png" />
-    <None Include="Resources\stepRight.png" />
-    <None Include="Images\build.png" />
-    <Content Include="Ndst.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\DummyTex.png" />
-    <Content Include="Templates\Enemy.cpp" />
-    <Content Include="Templates\Enemy.h" />
-    <Content Include="Templates\Platform.cpp" />
-    <Content Include="Templates\Platform.h" />
-    <None Include="Images\Stop.png" />
-    <None Include="Images\Play.png" />
-    <None Include="Images\Pause.png" />
-    <None Include="Images\Small\StarFull.png" />
-    <None Include="Images\Small\StarEmpty.png" />
-    <None Include="Images\Small\DPad.png" />
-    <None Include="Images\Small\Coins.png" />
-    <None Include="Images\Small\btnY.png" />
-    <None Include="Images\Small\btnX.png" />
-    <None Include="Images\Small\btnR.png" />
-    <None Include="Images\Small\btnL.png" />
-    <None Include="Images\Small\btnB.png" />
-    <None Include="Images\Small\btnA.png" />
-    <None Include="Images\StarFull.png" />
-    <None Include="Images\StarEmpty.png" />
-    <None Include="Images\DS_Glyphs.png" />
-    <None Include="Images\DPad.png" />
-    <None Include="Images\Coins.png" />
-    <None Include="Images\btnY.png" />
-    <None Include="Images\btnX.png" />
-    <None Include="Images\btnR.png" />
-    <None Include="Images\btnL.png" />
-    <None Include="Images\btnB.png" />
-    <None Include="Images\btnA.png" />
-    <None Include="Images\ae17ki.png" />
-    <None Include="Images\1zm1hxc.png" />
+    <Content Include="src\utils\Templates\Enemy.cpp" />
+    <Content Include="src\utils\Templates\Enemy.h" />
+    <Content Include="src\utils\Templates\Platform.cpp" />
+    <Content Include="src\utils\Templates\Platform.h" />
+    <Content Include="src\ui\AdditionalPatchesForm.resources" />
+    <Content Include="src\ui\AnimationEditorForm.resources" />
+    <Content Include="src\ui\CLPS_Form.resources" />
+    <Content Include="src\ui\KCLEditorForm.resources" />
+    <Content Include="src\ui\LevelEditorForm.resources" />
+    <Content Include="src\ui\LevelSettingsForm.resources" />
+    <Content Include="src\ui\MainForm.resources" />
+    <Content Include="src\ui\MinimapEditor.resources" />
+    <Content Include="src\ui\ModelImporter.resources" />
+    <Content Include="src\ui\ObjectListForm.resources" />
+    <Content Include="src\ui\ProgressDialog.resources" />
+    <Content Include="src\ui\ROMFileSelect.resources" />
+    <Content Include="src\ui\SettingsForm.resources" />
+    <Content Include="src\ui\TempHaxForm.resources" />
+    <Content Include="src\ui\TextEditorForm.resources" />
+    <Content Include="src\ui\TextureAnimationForm.resources" />
+    <Content Include="src\ui\TextureEditorForm.resources" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -748,7 +762,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="src\utils" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
