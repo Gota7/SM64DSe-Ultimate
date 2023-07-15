@@ -81,7 +81,7 @@ namespace SM64DSe
             FileStream fs = null; XmlReader xr = null;
             try 
             { 
-                fs = File.OpenRead("objectdb.xml"); 
+                fs = File.OpenRead("assets/objectdb.xml"); 
                 xr = XmlReader.Create(fs);
 
                 xr.ReadToFollowing("database");
