@@ -55,6 +55,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
+    <OutputType>WinExe</OutputType>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
@@ -66,19 +67,19 @@
     </Reference>
     <Reference Include="QuickGraph, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\QuickGraph.dll</HintPath>
+      <HintPath>assets\DLLs\QuickGraph.dll</HintPath>
     </Reference>
     <Reference Include="QuickGraph.Data, Version=3.6.61114.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\QuickGraph.Data.dll</HintPath>
+      <HintPath>assets\DLLs\QuickGraph.Data.dll</HintPath>
     </Reference>
     <Reference Include="QuickGraph.Graphviz, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\QuickGraph.Graphviz.dll</HintPath>
+      <HintPath>assets\DLLs\QuickGraph.Graphviz.dll</HintPath>
     </Reference>
     <Reference Include="QuickGraph.Serialization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\QuickGraph.Serialization.dll</HintPath>
+      <HintPath>assets\DLLs\QuickGraph.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
@@ -115,19 +116,19 @@
     <Reference Include="System.Threading.Thread" />
     <Reference Include="Xceed.Wpf.AvalonDock, Version=2.0.2000.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <HintPath>assets\DLLs\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
     <Reference Include="NAudio">
-      <HintPath>bin\Release\NAudio.dll</HintPath>
+      <HintPath>assets\DLLs\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.Compatibility">
-      <HintPath>bin\Release\OpenTK.Compatibility.dll</HintPath>
+      <HintPath>assets\DLLs\OpenTK.Compatibility.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK">
-      <HintPath>bin\Release\OpenTK.dll</HintPath>
+      <HintPath>assets\DLLs\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl">
-      <HintPath>bin\Release\OpenTK.GLControl.dll</HintPath>
+      <HintPath>assets\DLLs\OpenTK.GLControl.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -672,7 +673,9 @@
     <None Include="assets\level_ovl_init_JAP.bin" />
     <None Include="assets\level_ovl_init_USAv1.bin" />
     <None Include="assets\level_ovl_init_USAv2.bin" />
-    <None Include="assets\obj_list.txt" />
+    <None Include="assets\obj_list.txt" >
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="assets\static_overlay_loader.bin" />
     <None Include="level_ovl_init_EUR.bin" />
     <None Include="packages.config" />
@@ -688,12 +691,36 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
+    <Content Include="assets\basic_eur_us_chars.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\DLLs\NAudio.dll" />
+    <Content Include="assets\DLLs\OpenTK.Compatibility.dll" />
+    <Content Include="assets\DLLs\OpenTK.dll" />
+    <Content Include="assets\DLLs\OpenTK.GLControl.dll" />
+    <Content Include="assets\DLLs\QuickGraph.Data.dll" />
+    <Content Include="assets\DLLs\QuickGraph.dll" />
+    <Content Include="assets\DLLs\QuickGraph.Graphviz.dll" />
+    <Content Include="assets\DLLs\QuickGraph.Serialization.dll" />
+    <Content Include="assets\DLLs\Xceed.Wpf.AvalonDock.dll" />
+    <Content Include="assets\extended_ascii.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\external-tools\Ndst.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\external-tools\ninja.exe" />
     <Content Include="assets\Images\DummyTex.png" />
     <Content Include="assets\Images\KuppaScript.ico" />
+    <Content Include="assets\jap_chars.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\Levels.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\objectdb.xml" >
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Documentation\bca_format.txt" />
     <Content Include="Documentation\bmd_format.txt" />
     <Content Include="Documentation\btp_format.txt" />

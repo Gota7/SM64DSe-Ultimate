@@ -104,8 +104,9 @@ namespace SM64DSe.Templates
             string fakeInternalName =
                 new Regex("([a-z])([A-Z])").Replace(codeName, "$1_$2").ToUpper();
             if (overrideCaps) { fakeInternalName = codeName; }
-            using (FileStream objList = new FileStream("obj_list.txt", FileMode.Open),
-                              objData = new FileStream("objectdb.xml", FileMode.Open))
+            
+            using (FileStream objList = new FileStream(Path.Combine(Application.StartupPath, "assets", "obj_list.txt"), FileMode.Open),
+                              objData = new FileStream(Path.Combine(Application.StartupPath, "assets", "objectdb.xml"), FileMode.Open))
             {
                 StreamReader objListR = new StreamReader(objList),
                              objDataR = new StreamReader(objData);

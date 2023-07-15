@@ -29,7 +29,7 @@ namespace SM64DSe
         {
             List<string> levelNames = new List<string>();
 
-            using (XmlReader reader = XmlReader.Create(Path.Combine(Application.StartupPath, "Levels.xml")))
+            using (XmlReader reader = XmlReader.Create(Path.Combine(Application.StartupPath, "assets", "Levels.xml")))
             {
                 reader.MoveToContent();
 
