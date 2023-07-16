@@ -207,9 +207,7 @@ namespace SM64DSe.Patcher
             }
             catch (Exception ex)
             {
-                new ExceptionMessageBox("An error occurred while reading newcode.sym", ex).ShowDialog();
-
-                return null;
+                throw new Exception("An error occurred while reading newcode.sym,\n" + ex);
             }
             finally
             {
@@ -220,117 +218,100 @@ namespace SM64DSe.Patcher
             if (initFuncOffset == 0)
             {
                 if (cleanFuncOffset == 0)
-                    MessageBox.Show("Generating DL failed: init and cleanup functions missing");
+                    throw new Exception("Generating DL failed: init and cleanup functions missing");
                 else
-                    MessageBox.Show("Generating DL failed: init function missing");    
+                    throw new Exception("Generating DL failed: init function missing");    
             }
             else
-                MessageBox.Show("Generating DL failed: cleanup function missing");
-
-            return null;   
+                throw new Exception("Generating DL failed: cleanup function missing");
         }
 
         public byte[] makeDynamicLibrary()
         {
-            try
-            {
-                const uint baseAddress = 0x02400000;
+            const uint baseAddress = 0x02400000;
 
-                string make = "(make CODEADDR=0x" + baseAddress.ToString("X8")
-                     + " && make CODEADDR=0x" + (baseAddress + 4).ToString("X8")
-                     + " TARGET=newcode1)";
+            string make = "(make CODEADDR=0x" + baseAddress.ToString("X8")
+                    + " && make CODEADDR=0x" + (baseAddress + 4).ToString("X8")
+                    + " TARGET=newcode1)";
 
-                if (PatchCompiler.runProcess(make, romdir.FullName) != 0)
-                    return null;
-
-                byte[] code0 = File.ReadAllBytes(romdir.FullName + "/newcode.bin");
-                byte[] code1 = File.ReadAllBytes(romdir.FullName + "/newcode1.bin");
-
-                if (code0.Length != code1.Length)
-                {
-                    MessageBox.Show("Generating DL failed: code lengths don't match");
-
-                    return null;
-                }
-
-                MemoryStream outputStream = new MemoryStream();
-                BinaryWriter output = new BinaryWriter(outputStream);
-                List<ushort> relocations = new List<ushort>();
-
-                output.Write((ulong)0);
-                output.Write((ulong)0);
-
-                uint alignedCodeSize = (uint)code0.Length & ~3U;
-                for (ushort i = 0; i < alignedCodeSize; i += 4)
-                {
-                    uint word0 = BitConverter.ToUInt32(code0, i);
-                    uint word1 = BitConverter.ToUInt32(code1, i);
-
-                    if (word0 == word1)
-                    {
-                        output.Write(word0);
-                    }
-                    else if (word0 + 4 == word1) // word0 and word1 are pointers
-                    {
-                        output.Write(word0 - baseAddress + 0x10);
-
-                        relocations.Add(i);
-                    }
-                    else if (word0 == word1 + 1 && word0 >> 24 == word1 >> 24) // word0 and word1 are branches
-                    {
-                        uint destAddr = getDestOfBranch((int)word0, baseAddress + i);
-
-                        output.Write((destAddr >> 2) | (word0 & 0xff000000));
-
-                        relocations.Add(i);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Generating DL failed: code files don't match for an unknown reason\nnewcode.bin offset: 0x"
-                             + i.ToString("X4") + "\nmismatching words: 0x"
-                             + word0.ToString("X8") + " and 0x" + word1.ToString("X8"));
-
-                        return null;
-                    }
-                }
-
-                for (uint i = alignedCodeSize; i < code0.Length; ++i)
-                    output.Write(code0[i]);
-
-                alignStream(output.BaseStream, 4);
-
-                var relocationOffset = output.BaseStream.Position;
-                var addresses = getInitAndCleanup();
-                if (addresses == null) return null;
-
-                uint initFuncOffset  = (((uint, uint))addresses).Item1 - baseAddress + 0x10;
-                uint cleanFuncOffset = (((uint, uint))addresses).Item2 - baseAddress + 0x10;
-
-                output.Seek(0, SeekOrigin.Begin);
-
-                output.Write((ushort)relocations.Count);
-                output.Write((ushort)relocationOffset);
-                output.Write((ushort)initFuncOffset);
-                output.Write((ushort)cleanFuncOffset);
-
-                output.Seek(0, SeekOrigin.End);
-                
-                foreach (ushort relocation in relocations)
-                    output.Write((ushort)(relocation + 0x10));
-
-                return outputStream.ToArray();
-            }
-            catch (Exception ex)
-            {
-                new ExceptionMessageBox("Generating DL failed:", ex).ShowDialog();
-
+            if (PatchCompiler.runProcess(make, romdir.FullName) != 0)
                 return null;
+
+            byte[] code0 = File.ReadAllBytes(romdir.FullName + "/newcode.bin");
+            byte[] code1 = File.ReadAllBytes(romdir.FullName + "/newcode1.bin");
+
+            if (code0.Length != code1.Length)
+                throw new Exception("Generating DL failed: code lengths don't match");
+
+            MemoryStream outputStream = new MemoryStream();
+            BinaryWriter output = new BinaryWriter(outputStream);
+            List<ushort> relocations = new List<ushort>();
+
+            output.Write((ulong)0);
+            output.Write((ulong)0);
+
+            uint alignedCodeSize = (uint)code0.Length & ~3U;
+            for (ushort i = 0; i < alignedCodeSize; i += 4)
+            {
+                uint word0 = BitConverter.ToUInt32(code0, i);
+                uint word1 = BitConverter.ToUInt32(code1, i);
+
+                if (word0 == word1)
+                {
+                    output.Write(word0);
+                }
+                else if (word0 + 4 == word1) // word0 and word1 are pointers
+                {
+                    output.Write(word0 - baseAddress + 0x10);
+
+                    relocations.Add(i);
+                }
+                else if (word0 == word1 + 1 && word0 >> 24 == word1 >> 24) // word0 and word1 are branches
+                {
+                    uint destAddr = getDestOfBranch((int)word0, baseAddress + i);
+
+                    output.Write((destAddr >> 2) | (word0 & 0xff000000));
+
+                    relocations.Add(i);
+                }
+                else
+                {
+                    throw new Exception("Generating DL failed: code files don't match for an unknown reason\nnewcode.bin offset: 0x"
+                            + i.ToString("X4") + "\nmismatching words: 0x"
+                            + word0.ToString("X8") + " and 0x" + word1.ToString("X8"));
+                }
             }
+
+            for (uint i = alignedCodeSize; i < code0.Length; ++i)
+                output.Write(code0[i]);
+
+            alignStream(output.BaseStream, 4);
+
+            var relocationOffset = output.BaseStream.Position;
+            var addresses = getInitAndCleanup();
+            if (addresses == null) return null;
+
+            uint initFuncOffset  = (((uint, uint))addresses).Item1 - baseAddress + 0x10;
+            uint cleanFuncOffset = (((uint, uint))addresses).Item2 - baseAddress + 0x10;
+
+            output.Seek(0, SeekOrigin.Begin);
+
+            output.Write((ushort)relocations.Count);
+            output.Write((ushort)relocationOffset);
+            output.Write((ushort)initFuncOffset);
+            output.Write((ushort)cleanFuncOffset);
+
+            output.Seek(0, SeekOrigin.End);
+                
+            foreach (ushort relocation in relocations)
+                output.Write((ushort)(relocation + 0x10));
+
+            return outputStream.ToArray();
         }
 
         public byte[] generatePatch()
         {
-            Console.Out.WriteLine(String.Format("New code address: {0:X8}", m_CodeAddr));
+            Console.Out.WriteLine(string.Format("New code address: {0:X8}", m_CodeAddr));
 
             FileInfo f = new FileInfo(romdir.FullName + "/newcode.bin");
             if (!f.Exists) return null;
@@ -483,5 +464,14 @@ namespace SM64DSe.Patcher
             handler.restoreFromBackup();
         }
 
+        public void modifyMakefileSources(string sources)
+		{
+            string[] lines = File.ReadAllLines(romdir.FullName + "\\Makefile");
+
+            for (int i = 0; i < lines.Length; i++) if (lines[i].StartsWith("SOURCES  := "))
+                    lines[i] = "SOURCES  := " + sources;
+
+            File.WriteAllLines(romdir.FullName + "\\Makefile", lines);
+        }
     }
 }

@@ -652,6 +652,8 @@ namespace SM64DSe
                 newMainInfo.m_WeirdAxis = m_WeirdAxis;
                 newMainInfo.m_HorzIf3D = m_HorzIf3D;
 
+                newMainInfo.m_SelfDestruct = m_SelfDestruct;
+
                 newMainInfo.m_Rate = m_Rate;
                 newMainInfo.m_StartHorzDist = m_StartHorzDist;
                 newMainInfo.m_Dir = new Vector3(m_Dir.X, m_Dir.Y, m_Dir.Z); // copy value

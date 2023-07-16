@@ -504,6 +504,69 @@ namespace SM64DSe {
             }
         }
 
+        private void AddFileEntriesAndCorrectIDs(string path, List<string> filenames, List<string> fullNames, byte[] data)
+        {
+            string dirname = path.TrimEnd('/');
+
+            uint dirID = GetDirIDFromName(dirname) - 0xf000u;
+            int whereToInsert = Array.FindLastIndex(m_FileEntries, x => x.FullName.StartsWith(path)) + 1;
+            if (whereToInsert == 0)
+                whereToInsert = m_FileEntries.Length;
+
+            Array.Resize(ref m_FileEntries, m_FileEntries.Length + fullNames.Count);
+            for (int i = m_FileEntries.Length - fullNames.Count - 1; i >= whereToInsert; --i)
+            {
+                FileEntry file = m_FileEntries[i];
+                file.ID += (ushort)fullNames.Count;
+                m_FileEntries[i + fullNames.Count] = file;
+            }
+
+            //make sure valid ov0FileIDs are unique; GetFirstOv0Space relies on it
+            for (int i = whereToInsert; i < whereToInsert + fullNames.Count; ++i)
+            {
+                FileEntry file = m_FileEntries[i];
+                file.InternalID = 0xffff;
+                m_FileEntries[i] = file;
+            }
+            for (int i = 0; i < fullNames.Count; ++i)
+            {
+                FileEntry file;
+                file.ID = (ushort)(whereToInsert + i);
+                file.InternalID = (ushort)GetFirstOv0Space();
+                file.Name = filenames[i];
+                file.FullName = path + filenames[i];
+                file.ParentID = (ushort)(dirID + 0xf000);
+                file.Data = data;
+                file.Offset = 0xffffffff;
+                file.Size = (uint)file.Data.Length;
+                m_FileEntries[whereToInsert + i] = file;
+            }
+        }
+
+        public void AddFile(string path, string filename, byte[] filedata, TreeNode root)
+        {
+            if (path.StartsWith("ARCHIVE"))
+                throw new Exception("Manipulation of archives not supported.");
+
+            try
+            {
+                if (filename.Length >= 128)
+                    throw new InvalidDataException("File name \"" + filename + "\" is too long.\n" +
+                        "Make it less than 128 letters long.");
+            }
+            catch (Exception e)
+            {
+                throw new Exception("File cannot be added:\n" + e.Message);
+            }
+
+            AddFileEntriesAndCorrectIDs(path, new List<string>(new string[] { filename }), new List<string>(new string[] { filename }), filedata);
+            TreeNode node = ROMFileSelect.GetFileOrDir(path.TrimEnd('/'), root);
+            TreeNode newNode = node.Nodes.Add(filename, filename);
+            newNode.Tag = path + filename;
+            newNode.EnsureVisible();
+            newNode.TreeView.SelectedNode = newNode;
+        }
+
         public void FixCRC16() {
             int num1 = !this.m_CanRW ? 1 : 0;
             if (num1 != 0)

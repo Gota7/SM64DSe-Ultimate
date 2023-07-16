@@ -35,7 +35,16 @@ namespace SM64DSe
 
             byte[] ret = null;
             if (btnDynamicLibrary.Checked)
-                ret = pm.makeDynamicLibrary();
+			{
+                try
+				{
+                    ret = pm.makeDynamicLibrary();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Generating DL failed:", ex.Message);
+                }
+            }
             else if (btnOverlay.Checked) {
                 pm.compilePatch();
                 pm.makeOverlay(uint.Parse(txtOverlayId.Text));
