@@ -324,6 +324,12 @@
     <Compile Include="Patcher\PatchCompiler.cs" />
     <Compile Include="Patcher\PatchMaker.cs" />
     <Compile Include="Patcher\SoundHeaderGenerator.cs" />
+    <Compile Include="PatchViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PatchViewerForm.Designer.cs">
+      <DependentUpon>PatchViewerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SM64DSFormats\BetterTextureAnimationEditor.cs">
       <SubType>Form</SubType>
     </Compile>
