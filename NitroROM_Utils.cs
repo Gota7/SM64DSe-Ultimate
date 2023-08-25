@@ -52,6 +52,8 @@ namespace SM64DSe {
             //////////
             // ARM7 //
             //////////
+            Helper.AlignWriter(newBinWriter, 0x200); // align arm7 offset to 512-byte boundary
+
             oldPos = (int)newBinWriter.BaseStream.Position;
             newBinWriter.BaseStream.Position = 0x30;
             newBinWriter.Write(oldPos); // ARM7 offset
