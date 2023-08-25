@@ -556,10 +556,8 @@ namespace SM64DSe
 
         public static void AlignWriter(BinaryWriter binWriter, uint multiple)
         {
-            if ((binWriter.BaseStream.Position & 3) != 0x00)
-            {
+            if ((binWriter.BaseStream.Position % multiple) != 0)
                 binWriter.Write(new byte[(multiple - binWriter.BaseStream.Position % multiple) % multiple]);
-            }
         }
 
         public static void WritePosAndRestore(BinaryWriter binWriter, uint address, uint adder)
