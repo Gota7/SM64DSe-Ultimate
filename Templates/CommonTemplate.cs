@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -104,25 +104,10 @@ namespace SM64DSe.Templates
             string fakeInternalName =
                 new Regex("([a-z])([A-Z])").Replace(codeName, "$1_$2").ToUpper();
             if (overrideCaps) { fakeInternalName = codeName; }
-            using (FileStream objList = new FileStream("obj_list.txt", FileMode.Open),
-                              objData = new FileStream("objectdb.xml", FileMode.Open))
+            using (FileStream objData = new FileStream("assets/objectdb.xml", FileMode.Open))
             {
-                StreamReader objListR = new StreamReader(objList),
-                             objDataR = new StreamReader(objData);
-                StreamWriter objListW = new StreamWriter(objList),
-                             objDataW = new StreamWriter(objData);
-
-                List<string> objListLines = new List<string>();
-                while (!objListR.EndOfStream) { objListLines.Add(objListR.ReadLine()); }
-
-                while (objectID >= objListLines.Count)
-                    objListLines.Add("");
-                objListLines[objectID] = string.Format(
-                    "0x{0:x} == {1} (0x{2:x})", objectID, fakeInternalName, actorID);
-
-                objList.SetLength(0);
-                objListLines.ForEach(x => objListW.WriteLine(x));
-                objListW.Flush();
+                StreamReader objDataR = new StreamReader(objData);
+                StreamWriter objDataW = new StreamWriter(objData);
 
                 List<string> objDataLines = new List<string>();
                 while (!objDataR.EndOfStream) { objDataLines.Add(objDataR.ReadLine()); }
