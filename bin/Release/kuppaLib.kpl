@@ -1,0 +1,186 @@
+﻿//Credits go to Josh65536 for the instruction shortcuts below.
+Camera:
+
+	//Set camera look-at position. [X, Y, Z] (In FXU).
+	0 - SetCamTarget [2, 2, 2]
+	
+	//Set camera position. [X, Y, Z] (In FXU).
+	1 - SetCamPos [2, 2, 2]
+	
+	//Set camera target and position. [XTarget, YTarget, ZTarget, XPos, YPos, ZPos] (In FXU).
+	2 - SetCamTarget&Pos [2, 2, 2, 2, 2, 2]
+	
+	//Set camera FOV modifier. [FOV Modifier].
+	3 - SetCamFOV [2]
+	
+	//Adjust camera FOV modifier. [Target FOV Modifier, Speed].
+	4 - AdjustCamFOV [2, 2]
+	
+	//Adjust screen size from full size to target values (Uses MINFRAME and MAXFRAME for gradient). [Screen Left, Screen Bottom, Screen Right, Screen Top].
+	5 - AdjustCamScreenSize [1, 1, 1, 1]
+
+	//Weird cubic interpolation? [Pointer???, Pointer??].
+	6 - Unk_CubicInterpolation [4h, 4h]
+	
+	/* Hardcoded Instructions?
+	7 - Unk[]
+	8 - Unk[]
+	9 - Unk[]
+	10 - Unk[]
+	11 - Unk[]
+	12 - Unk[]	
+	*/
+	
+	//Set stored Fix12. [New Value] (In Q12).
+	13 - SetStoredFix12 [4h]
+	
+	//Adjust stored Fix12. [Target Value (In Q12), Speed].
+	14 - AdjustStoredFix12 [4h, 4]
+	
+	//Adjust camera target via exponential decay. [XTarget, YTarget, ZTarget, ApproachX, ApproachY, ApproachZ].
+	15 - AdjustCamTargetDec [2, 2, 2, 2, 2, 2]
+	
+	//Adjust camera position via exponential decay. [XPos, YPos, ZPos, ApproachX, ApproachY, ApproachZ].
+	16 - AdjustCamPosDec [2, 2, 2, 2, 2, 2]
+	
+	//Set stored angle toward pause view position, set stored shorts to 0.
+	17 - ResetCamToPause []
+	
+	//Adjust camera look-at position to offset from owner via exponential decay. [XTarget, YTarget, ZTarget, ApproachFactor*256].
+	18 - SetCamTargetRelativeDec [2, 2, 2, 1]
+	
+	//Adjust camera look at position to offset from owner rotated by owner’s facing angle via exponential decay. [XTarget, YTarget, ZTarget, ApproachFactor*256].
+	19 - AdjustCamByOwnerAngleDec [2, 2, 2, 1]
+	
+	//Adjust camera position and angles relative to owner position via exponential decay. [TargetDistance (In FXU), ApproachFactor*256, TargetVerticalAngle, 1 / Approach factor of vertical angle (Set to 0 to not change vertical angle), Target horizontal angle (Set to -1 to use CAMERA->targetAngle), 1 / Approach factor of horizontal angle (Set to 0 to not change horizontal angle)].
+	20 - CamPosAngleRelativeDec [2, 1, 2h, 1, 2h, 1]
+	
+	//Spin camera look at position around camera position (Sets stored vector to look-at position on first frame). [VerticalAngularSpeed, HorizontalAngularSpeed].
+	21 - SpinCamTarget [2, 2]
+	
+	//Spin camera position around owner position. [DistanceSpeed, VerticalAngularSpeed, HorizontalAngularSpeed].
+	22 - SpinCamAroundOwnerPos [4, 2, 2]
+	
+	//Adjust FOV modifier via exponential decay. [TargetFOVModifier, 1/ApproachFactor].
+	23 - AdjustCamFOVDec [2, 1]
+	
+	//Adjust camera FOV if new value is > the old value. [NewFOVModifier, FOVSpeedTowards0, FOVOscillationAngularSpeed].
+	24 - AdjustCamFOVIfBigger [2, 2, 2]
+	
+	//No operation.
+	25 - NopCam []
+	
+	//Approach a distance of 800 fxu (approach factor = 1/20), 33.75° above the player (approach factor = 1/16), with the horizontal angle being the stored angle (approach factor = 1/8).
+	26 - CamApproachPlayerFromTop []
+	
+	//Set camera look at position and camera position to rotated offset from owner. [XTarget, YTarget, ZTarget, XPos, YPos, ZPos] (In FXU).
+	27 - SetCamTarget&PosRotatedFromOwner [2, 2, 2, 2, 2, 2]
+	
+	/* Hardcoded Instructions?
+	28 - Unk[]
+	29 - Unk[]
+	30 - Unk[]
+	31 - Unk[]
+	32 - Unk[]
+	33 - Unk[]
+	34 - Unk[]
+	35 - Unk[]
+	36 - Unk[]
+	37 - Unk[]
+	38 - Unk[]
+	*/
+
+Instruction:
+
+	/* Player instructions.
+	0 - Mario
+	1 - Luigi
+	2 - Wario
+	3 - Yoshi
+	*/
+	
+	//Camera Instructions
+	//4 - Reserved for camera instructions!
+	
+	//Wifi Related.
+	5 - Wifi []
+	
+	//Change cutscence script. [AddressOfNewCutsceneScript].
+	6 - ChangeScript [4h]
+	
+	//Change music. [NewMusicID].
+	7 - ChangeMusic [4]
+	
+	//Play sound from SSAR 1 (Player voices). [SoundID].
+	8 - PlaySoundSSAR1 [4]
+	
+	//Play sound from SSAR 2 (System). [SoundID].
+	9 - PlaySoundSSAR2 [4]
+	
+	//Display Message. [MessageID].
+	10 - DisplayMessage [2h]
+	
+	//Change Level. [NewLevelID, EntranceID, StarID, CutsceneAddress (0 if none)].
+	11 - ChangeLevel [1h, 1, 1, 4h]
+	
+	//Fade to white.
+	12 - FadeToWhite []
+	
+	//Fade from white.
+	13 - FadeFromWhite []
+	
+	//Fade to black.
+	14 - FadeToBlack []
+	
+	//Fade from white, but broken.
+	15 - FadeFromWhiteBroken []
+	
+	//Fade to black, then fade from black.
+	16 - FadeToBlack&Back []
+	
+	//Store 0 at 0x02110AEC
+	17 - STZ []
+
+Player:
+
+	//Set position and angle Y and motion angle Y. [XPos, YPos, ZPos, YAngle].
+	0 - SetPlayerPos&AngleY [2, 2, 2, 2h]
+	
+	//Send input to move the player to target position. [XPos, YPos, ZPos, InputMagnitude].
+	1 - SendPlayerInput [2, 2, 2, 2]
+	
+	//Orr player flags with 0x24000000.
+	2 - OrrPlayerFlags []
+	
+	//Make player lie down.
+	3 - MakePlayerLieDown []
+	
+	//Player character voice. [SoundID].
+	4 - PlayPlayerVoice [4]
+	
+	//Play sound from SSAR0. [SoundID].
+	5 - PlayerPlaySoundSSAR0 [4]
+	
+	//Play sound from SSAR3. [SoundID].
+	6 - PlayerPlaySoundSSAR3 [4]
+	
+	//Press and hold buttons. [Buttons].
+	7 - PlayerHoldButtons [2i]
+	
+	//Drop the player with a speed of 32 fxu and give him wings for 408 frames.
+	8 - GivePlayerWings&Drop []
+	
+	//Hurt the player with an imaginary source 80 fxu away. If the player is Luigi, spawn ouch stars as well. [DirectionOfSource].
+	9 - HurtPlayer [2h]
+	
+	//Weird Cap Animation. [State?]
+	10 - AnimatePlayerCap [1h]
+	
+	//Turn player via exponential decay. [NewAngle].
+	11 - TurnPlayerDec [2h]
+	
+	//Make the player move forward at a certain speed (Does not change animation).
+	12 - MovePlayerForward []
+	
+	//Kill the player.
+	13 - KillPlayer []
