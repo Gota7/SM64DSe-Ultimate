@@ -35,7 +35,7 @@ namespace SM64DSe
     {
         //public static int NUM_OBJ_TYPES = 326;
         public static int NUM_OBJ_TYPES = 65536;
-        public static string[] k_Layers = { "(all stars)", "(star 1)", "(star 2)", "(star 3)", "(star 4)", "(star 5)", "(star 6)", "(star 7)" };
+        public static string[] k_Layers = { "(all acts)", "(act 1)", "(act 2)", "(act 3)", "(act 4)", "(act 5)", "(act 6)", "(act 7)" };
 
         public LevelObject(INitroROMBlock data, int layer)
         {
@@ -444,25 +444,27 @@ namespace SM64DSe
             m_ParameterFields = new ParameterField[]
             {
                 new ListField("Parameter 4",0,9,new object[]{
-                    0, "Spawns on ground standing.",
-                    1, "Swimming or ? Switch Palace entrance",
-                    2, "Mario has Wingcap, other characters Spin in with Star wipe.",
-                    3, "Spin in with Circle wipe.",
-                    4, "Fall in, Star Wipe.",
-                    5, "Fall in, Star Wipe. (Duplicate?)",
-                    6, "Fall in, No Wipe.",
-                    7, "Fall in, No Wipe. (Duplicate?)",
-                    8, "Like jumping out of a pit/pipe, but lets you save.",
-                    9, "Like jumping out of a pit/pipe, but lets you save. (Duplicate?)",
-                    10, "Spin in, No Wipe.",
-                    11, "Acts like painting, makes sound, lets you save.",
-                    12, "Acts like painting, makes sound, lets you save. (Duplicate?)",
-                    13, "Jumps with fist in air, like coming out of a pipe.",
-                    14, "Spawns on ground standing (Castle Door Entrance).",
-                    15, "Fall in with Mario Wipe."
-                }) {Name = "EntranceMode" },
-                new DefaultField("Parameter 4",9,4){ Name = "ViewId", DislpayInHex = false },
-                new DefaultField("Parameter 4",13,3){ Name = "Area" },
+                    0, "Spawns on ground standing",
+                    1, "Swimming, like The Secret Aquarium entrance",
+                    2, "Mario has Feather, other characters Spin in with Star wipe, like ? Switch Palace entrance",
+                    3, "Spin in with Circle wipe",
+                    4, "Fall in, Star Wipe",
+                    5, "Fall in, Star Wipe (Duplicate?)",
+                    6, "Fall in, No Wipe",
+                    7, "Fall in, No Wipe (Duplicate?)",
+                    8, "Like jumping out of a pit/pipe, but lets you save",
+                    9, "Like jumping out of a pit/pipe, but lets you save (Duplicate?)",
+                    10, "Spin in, No Wipe",
+                    11, "Acts like painting, makes sound, lets you save",
+                    12, "Acts like painting, makes sound, lets you save (Duplicate?)",
+                    13, "Jumps with fist in air, like coming out of a pipe",
+                    14, "Spawns on ground standing (Castle Door Entrance)",
+                    15, "Fall in with Mario Wipe"
+                }) {Name = "Entrance Mode:" },
+                new DefaultField("Parameter 4",9,4){ Name = "View Id:", DislpayInHex = false },
+                new DefaultField("Parameter 4",13,3){ Name = "Area:" },
+                //new FloatConvertField("Parameter 2",0,16,0x1000,22.5f){ Name = "X-Rotation:"},
+                //new FloatConvertField("Parameter 3",0,16,0x1000,22.5f){ Name = "Z-Rotation:"}
             };
             m_Properties = new PropertyTable(); 
             GenerateProperties();
@@ -591,12 +593,12 @@ namespace SM64DSe
             m_Properties = new PropertyTable();
             m_ParameterFields = new ParameterField[]
             {
-                new ListField("Destination level",8,8,ComboBoxInfoFromStrings(Strings.LevelNames().ToArray())){Name = "Destination level"},
-                new DefaultField("Destination entrance",8,8){ Name = "Destination entrance", Description = "The Entrance you spawn at in the level", DislpayInHex = false },
-                new FloatConvertField("Parameter 1",0,16,0x1000,22.5f){ Name = "X Rotation"},
-                new DefaultField("Parameter 2",4,4){ Name = "width", Description = "The width of the exits trigger area", DislpayInHex = false },
-                new DefaultField("Parameter 2",0,4){ Name = "height", Description = "The height of the exits trigger area", DislpayInHex = false },
-                new DefaultField("Parameter 2",8,8){ Name = "returnEntrance", Description = "The Entrance you spawn at, if you die or collect a star/key, 255 means you spawn at the default Entrance in Peachs Castle", DislpayInHex = false }
+                new ListField("Destination level",8,8,ComboBoxInfoFromStrings(Strings.LevelNames().ToArray())){Name = "Destination level:"},
+                new DefaultField("Destination entrance",8,8){ Name = "Destination entrance:", Description = "The Entrance you spawn at in the level", DislpayInHex = false },
+                new FloatConvertField("Parameter 1",0,16,0x1000,22.5f){ Name = "X-Rotation:"},
+                new DefaultField("Parameter 2",4,4){ Name = "width:", Description = "The width of the exits trigger area", DislpayInHex = false },
+                new DefaultField("Parameter 2",0,4){ Name = "height:", Description = "The height of the exits trigger area", DislpayInHex = false },
+                new DefaultField("Parameter 2",8,8){ Name = "returnEntrance:", Description = "The Entrance you spawn at, if you die or collect a star/key, 255 means you spawn at the default Entrance in Peachs Castle", DislpayInHex = false }
             };
             GenerateProperties();
         }
@@ -713,10 +715,10 @@ namespace SM64DSe
             m_ParameterFields = new ParameterField[]
             {
                 new ListField("Door type",8,8, ComboBoxInfoFromStrings(Strings.DoorTypes)){Name = "DoorType"},
-                new DefaultField("Inside area",13,3){Name = "Inside area", Description = "The area that gets loaded, if you enter from the front side"},
-                new DefaultField("Outside area",13,3){Name = "Outside area", Description = "The area that gets loaded, if you enter from the back side"},
-                new DefaultField("Plane width",12,4){Name = "Plane width", Description = "The width of the plane (only for Virtual doors)", DislpayInHex = false},
-                new DefaultField("Plane height",12,4){Name = "Plane height", Description = "The height of the plane (only for Virtual doors)", DislpayInHex = false}
+                new DefaultField("Inside area",13,3){Name = "Inside area:", Description = "The area that gets loaded, if you enter from the front side"},
+                new DefaultField("Outside area",13,3){Name = "Outside area:", Description = "The area that gets loaded, if you enter from the back side"},
+                new DefaultField("Plane width",12,4){Name = "Plane width:", Description = "The width of the plane (only for Virtual doors)", DislpayInHex = false},
+                new DefaultField("Plane height",12,4){Name = "Plane height:", Description = "The height of the plane (only for Virtual doors)", DislpayInHex = false}
             };
             m_Properties = new PropertyTable(); 
             GenerateProperties();
@@ -746,7 +748,6 @@ namespace SM64DSe
             m_Properties.Properties.Add(new PropertySpec("Inside area", typeof(int), "Specific", "The ID of the 'inside' area.", InAreaID));
             m_Properties.Properties.Add(new PropertySpec("Plane width", typeof(int), "Specific", "For virtual doors, the width of the door plane.", PlaneSizeX, "", typeof(Size16TypeConverter)));
             m_Properties.Properties.Add(new PropertySpec("Plane height", typeof(int), "Specific", "For virtual doors, the height of the door plane.", PlaneSizeY, "", typeof(Size16TypeConverter)));
-
             m_Properties["Star"] = m_Layer;
             m_Properties["X position"] = Position.X;
             m_Properties["Y position"] = Position.Y;
@@ -897,9 +898,9 @@ namespace SM64DSe
             {
                 //new DefaultField("Start Node",0,16){Name = "startNode", Description = "The index of the first node in this Path", DislpayInHex = false},
                 //new DefaultField("Length",8,8){Name = "pathLength", Description = "How many nodes are in this Path", DislpayInHex = false},
-                new DefaultField("Parameter 3",8,8){Name = "1. Parameter"},
-                new DefaultField("Parameter 4",8,8){Name = "2. Parameter", Description = "1 to 3 are different speeds for wind/quicksand/water/conveyorBelt paths?"},
-                new DefaultField("Parameter 5",8,8){Name = "3. Parameter", Description = "FF means path is closed, everything else is Unkown"}
+                new DefaultField("Parameter 3",8,8){Name = "1. Parameter:"},
+                new DefaultField("Parameter 4",8,8){Name = "2. Parameter:", Description = "1 to 3 are different speeds for wind/quicksand/water/conveyorBelt paths?"},
+                new DefaultField("Parameter 5",8,8){Name = "3. Parameter:", Description = "FF means path is closed, everything else is Unkown"}
             };
             m_Properties = new PropertyTable();
             GenerateProperties();
@@ -987,13 +988,13 @@ namespace SM64DSe
                     0,"Outside cylinder",
                     1,"Inside cylinder",
                     2,"Normal camera",
-                    3,"Point for MultiFocus camera",
-                    4,"RotationOnly camera",
+                    3,"Point for multi-focus camera",
+                    4,"Rotation only camera",
                     5,"Spiraling stairs?",
-                    6,"PathFollowing camera",
-                    7,"PauseCamera CenterPoint"
-                }) {Name = "ViewMode" },
-                new DefaultField("Parameter 1",0,8) {Name = "View Parameter"}
+                    6,"Path-following camera",
+                    7,"Pause camera center point"
+                }) {Name = "ViewMode:" },
+                new DefaultField("Parameter 1",0,8) {Name = "View Parameter:"}
             };
             m_Properties = new PropertyTable(); 
             GenerateProperties();
@@ -1081,7 +1082,7 @@ namespace SM64DSe
             m_KCLName = InitializeKCL();
             m_ParameterFields = new ParameterField[]
             {
-                new DefaultField("Parameter 2",4,8){Name = "Destination", DislpayInHex = false},
+                new DefaultField("Parameter 2",4,8){Name = "Destination:", DislpayInHex = false},
                 new DefaultField("Parameter 1",0,16)
             };
             m_Properties = new PropertyTable();
@@ -1366,34 +1367,34 @@ namespace SM64DSe
             Parameters[3] = data.Read8(3);
 
             object[] cameraModes = new object[]{
-                0, "Zoom in when the player thrusts the star in the air.",
-                1, "Rotate to face FF07 view and zoom out.",
-                2, "Stand Still.",
-                3, "Spin around.",
-                4, "Stand Still. Used for castle and 100 coin stars.",
-                5, "Zooms in, then spins around crazily.",
-                6, "Freeze Game.",
-                7, "Freeze Game.",
-                8, "Freeze Game.",
-                9, "Player collects star, but wipe freezes game.",
-                10, "0, but without zooming.",
-                11, "Freezes Game.",
+                0, "Zoom in when the player thrusts the star in the air",
+                1, "Rotate to face FF07 view and zoom out",
+                2, "Stand Still",
+                3, "Spin around",
+                4, "Stand Still. Used for castle and 100 coin stars",
+                5, "Zooms in, then spins around crazily",
+                6, "Freeze Game",
+                7, "Freeze Game",
+                8, "Freeze Game",
+                9, "Player collects star, but wipe freezes game",
+                10, "0, but without zooming",
+                11, "Freezes Game",
                 12, "Cuts to FF07 camera???",
-                13, "Same as 10. (DUPLICATE?)",
-                14, "Same as 10. (DUPLICATE?)",
-                15, "Same as 10. (DUPLICATE?)"
+                //13, "Same as 10. (DUPLICATE?)",
+                //14, "Same as 10. (DUPLICATE?)",
+                //15, "Same as 10. (DUPLICATE?)"
             };
 
             m_ParameterFields = new ParameterField[]
             {
-                new ListField("Parameter 1", 12, 4, cameraModes) {Name = "100coins" },
-                new ListField("Parameter 1", 8, 4, cameraModes) {Name = "1. Star" },
-                new ListField("Parameter 2", 12, 4, cameraModes) {Name = "2. Star" },
-                new ListField("Parameter 2", 8, 4, cameraModes) {Name = "3. Star" },
-                new ListField("Parameter 3", 12, 4, cameraModes) {Name = "4. Star" },
-                new ListField("Parameter 3", 8, 4, cameraModes) {Name = "5. Star" },
-                new ListField("Parameter 4", 12, 4, cameraModes) {Name = "6. Star" },
-                new ListField("Parameter 4", 8, 4, cameraModes) {Name = "7. Star" }
+                new ListField("Parameter 1", 12, 4, cameraModes) {Name = "100 coins:" },
+                new ListField("Parameter 1", 8, 4, cameraModes) {Name = "1. Star:" },
+                new ListField("Parameter 2", 12, 4, cameraModes) {Name = "2. Star:" },
+                new ListField("Parameter 2", 8, 4, cameraModes) {Name = "3. Star:" },
+                new ListField("Parameter 3", 12, 4, cameraModes) {Name = "4. Star:" },
+                new ListField("Parameter 3", 8, 4, cameraModes) {Name = "5. Star:" },
+                new ListField("Parameter 4", 12, 4, cameraModes) {Name = "6. Star:" },
+                new ListField("Parameter 4", 8, 4, cameraModes) {Name = "7. Star:" }
             };
             m_Properties = new PropertyTable();
             GenerateProperties();
@@ -1464,7 +1465,7 @@ namespace SM64DSe
 
             m_ParameterFields = new ParameterField[]
             {
-                new DefaultField("Tile ID",0,16){Name = "Tile ID", DislpayInHex = false}
+                new DefaultField("Tile ID",0,16){Name = "Tile ID:", DislpayInHex = false}
             };
 
             m_Properties = new PropertyTable();
@@ -1770,32 +1771,494 @@ namespace SM64DSe
             }
             ParameterField[] fields = new ParameterField[] { };
             switch(objectID) {
+                case 0: //Player Object
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",0,8,new object[]{
+                            0, "0 - Spawns on ground standing",
+                            1, "1 - Swimming, like The Secret Aquarium entrance",
+                            2, "2 - Mario has Feather, other characters spin in with Star wipe, like ? Switch Palace entrance",
+                            3, "3 - Spin in",
+                            4, "4 - Fall in",
+                            //5, "5 - Fall in, Star Wipe (Duplicate?)",
+                            //6, "6 - Fall in",
+                            //7, "7 - Fall in, No Wipe (Duplicate?)",
+                            //8, "8 - Like jumping out of a pit/pipe, but lets you save",
+                            //9, "9 - Like jumping out of a pit/pipe (Duplicate?)",
+                            //10, "A - Spin in",
+                            11, "B - Like jumping out of a painting",
+                            //12, "C - Acts like painting, makes sound, lets you save (Duplicate?)",
+                            13, "D - Jumps with fist in air, like coming out of a pipe"
+                            //14, "E - Spawns on ground standing (Castle Door Entrance)",
+                            //15, "F - Fall in"
+                            //16, "10 - Like jumping out of a painting (Duplicate?)",
+                            //17, "11 - Jumps with fist in air, like jumping out of a pit/pipe (Duplicate?)",
+                            //18, "12 - Spawns on ground standing (Duplicate?)"
+                        }) {Name = "Entrance Mode:" },
+                        new ListField("Parameter 1",9,1,new object[]{
+                            0,"0",
+                            1,"1",
+                            2,"2",
+                            3,"3"
+                        }){ Name = "Player ID:" },
+                        new ListField("Parameter 1",14,2,new object[]{
+                            0,"0 - Mario with cap (Normal), Mario (Castle Grounds)",
+                            1,"1 - Luigi with cap (Normal), Luigi (Castle Grounds)",
+                            2,"2 - Wario with cap (Normal), Wario (Castle Grounds)",
+                            3,"3 - Yoshi with cap (Normal), Yoshi (Castle Grounds)"
+                        }){ Name = "Real Character ID:" },
+                        new ListField("Parameter 1",11,2,new object[]{
+                            0,"0 - Mario cap",
+                            1,"1 - Luigi cap",
+                            2,"2 - Wario cap",
+                            3,"3 - Yoshi (cap, but can't be lost)"
+                        }){ Name = "Cap ID:" }
+                    };
+                case 4: //Huge Ice Block Lift
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 5: //GB Up-down Log
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 2", 0, 16) { Name = "Movement Delay:" }
+                    };
+                case 6: //GB Path-controlled Lift
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 7: //Up-down Lift
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Starts at bottom left (No sound)",
+                            2,"2 - Starts at bottom left (Plays sound)",
+                            7,"7 - Starts at top right (No sound)"
+                        }){ Name = "Start Position:" },
+                        new FloatConvertField("Parameter 2",0,16,0x1000,22.5f){ Name = "X-Rotation:"},
+                        new FloatConvertField("Parameter 3",0,16,0x1000,22.5f){ Name = "Z-Rotation:"}
+                    };
+                case 8: //UtM Up-down Lift
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 0, 16) { Name = "Movement Delay:" }
+                    };
+                case 9: //Path-controlled Lift
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",2,2,new object[]{
+                            0,"0 - No",
+                            1,"1 - Yes"
+                        }){ Name = "Show Bullets:" },
+                        new ListField("Parameter 1",4,2,new object[]{
+                            0,"0 - Reverses",
+                            1,"1 - Fall down"
+                        }){ Name = "At End of Path:" },
+                        new ListField("Parameter 1",6,2,new object[]{
+                            0,"0 - Restarts automatically",
+                            1,"1 - Activated by player",
+                            2,"2 - Activated by player, disappears if not stood on"
+                        }){ Name = "Type:" },
+                        new ListField("Parameter 3",0,16,new object[]{
+                            0,"0 - No",
+                            1,"1 - Yes"
+                        }){ Name = "Rotate on X-axis:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" },
+                    };
+                case 13: //Rolling Iron Ball
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",8,8,new object[]{
+                            1,"1 - Does not follow Path (Set Path ID to FF)",
+                            32,"20 - Follows Path",
+                            64,"40 - Follows Path, but moves at a fast, constant speed, even if on a flat surface"
+                        }){ Name = "Type:" },
+                        new DefaultField("Parameter 1", 0, 8) { Name = "Path ID:" }
+                    };
+                case 14: //Rolling Rock
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",0,8,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" },
+                        new ListField("Parameter 1",8,8,new object[]{
+                            0,"0 - Many, rolling, without a star, if the player isn't close",
+                            1,"1 - Many, rolling, with a star, if the player isn't close",
+                            2,"2 - One, rolling, without a star, no regard to distance",
+                            3,"3 - One, rolling, with a star, no regard to distance",
+                            4,"4 - One, still, with a star"
+                        }){ Name = "Type:" }
+                    };
+                case 15: //Goomba
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",8,4,new object[]{
+                            1,"1 - Silver-Star",
+                            2,"2 - Cap",
+                            15,"F - Nothing"
+                        }){ Name = "Spawns:" },
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 - On respawn",
+                            1,"1 - Only if the character is unlocked",
+                            2,"2 - Always",
+                            15,"F - Always, but should be used if no cap is chosen"
+                        }){ Name = "Show Cap:" },
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - For Mario",
+                            1,"1 - For Luigi",
+                            2,"2 - For Wario",
+                            15,"F - None"
+                        }){ Name = "Cap ID:" }
+                    };
+                case 16: //Tiny Goomba
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",8,4,new object[]{
+                            1,"1 - Silver-Star",
+                            15,"F - Nothing"
+                        }){ Name = "Spawns:" },
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 - On respawn",
+                            1,"1 - Only if the character is unlocked",
+                            2,"2 - Always",
+                            15,"F - Always, but should be used if no cap is chosen"
+                        }){ Name = "Show Cap:" },
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - For Mario",
+                            1,"1 - For Luigi",
+                            2,"2 - For Wario",
+                            15,"F - None"
+                        }){ Name = "Cap ID:" }
+                    };
+                case 17: //Huge Goomba
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",8,4,new object[]{
+                            1,"1 - Silver-Star",
+                            15,"F - Nothing"
+                        }){ Name = "Spawns:" },
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 - Never (Recommended)",
+                            1,"1 - Only if the character is unlocked",
+                            2,"2 - Always",
+                            15,"F - Always, but should be used if no cap is chosen"
+                        }){ Name = "Show Cap:" },
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - For Mario",
+                            1,"1 - For Luigi",
+                            2,"2 - For Wario",
+                            15,"F - None"
+                        }){ Name = "Cap ID:" }
+                    };
+                case 19: //Bob-omb
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Walks back and forth, starting direction is random",
+                            1,"1 - Walks in place, doesn't attack",
+                            2,"2 - Walks back and forth, starting direction is forward",
+                            5,"5 - Walks in circles"
+                        }){ Name = "Type:" }
+                    };
+                case 20: //Bob-omb Budy
+                    return new ParameterField[] {
+                        new ListField("Parameter 2",12,4,new object[]{
+                            1,"1 - Removes Cannon Hatches (Uses hardcoded Text ID)",
+                            3,"3 - Shows Red Coin locations (Uses hardcoded Text ID)",
+                            15,"F - Normal (Uses Parameter 1 Text ID)"
+                        }){ Name = "Type:" },
+                        new DefaultField("Parameter 1", 0, 16) { Name = "Text ID:" }
+                    };
+                case 21: //Koopa Troopa
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Green",
+                            1,"1 - Red (Unused)"
+                        }){ Name = "Type:" }
+                    };
+                case 22: //Small Koopa Troopa
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Green",
+                            1,"1 - Red (Unused)"
+                        }){ Name = "Type:" }
+                    };
+                case 23: //Brick Block
+                    return new ParameterField[] {
+                        new ListField("Parameter 2",14,2,new object[]{
+                            0,"0 - Normal",
+                            1,"1 - Plays jingle when broken"
+                        }){ Name = "Type:" }
+                    };
+                case 24: //Big Brick Block
+                    return new ParameterField[] {
+                        new ListField("Parameter 2",12,4,new object[]{
+                            0,"0 - Normal",
+                            1,"1 - Plays jingle when broken"
+                        }){ Name = "Type:" }
+                    };
+                case 25: //Switch Activated Brick Block
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 12, 4) { Name = "M ID:" }
+                    };
+                case 26: //Power Flower
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Like spawned from a !/? Block",
+                            65535,"FFFF - Still; only appears when the player is Luigi"
+                        }){ Name = "Type:" }
+                    };
+                case 29: //Cannon Hatch
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            1,"1 - Takes priority over other Cannon Hatches",
+                            15,"15 - Doesn't take priority over other Cannon Hatches"
+                        }){ Name = "Priority:" }
+                    };
                 case 30: //? Block
                     return new ParameterField[] {
                         new ListField("Parameter 1",8,8,new object[]{
-                            0,"Coin",
-                            1,"Power Star",
-                            2,"1 Up Mushroom",
-                            3,"Greenshell",
-                            4,"Super Mushroom",
-                            5,"Feather(Mario), Power Flower(Other)",
-                            6,"Power Flower",
-                            7,"Lit Bob-omb(Mario), PowerFlower(Other)"
-                        }){ Name = "Content" },
-                        new DefaultField("Parameter 1",0,8){ Name = "Parameter" }
+                            0,"0 - Coin",
+                            1,"1 - Power Star",
+                            2,"2 - 1 Up Mushroom",
+                            3,"3 - Greenshell",
+                            4,"4 - Super Mushroom",
+                            5,"5 - Feather (Mario), Power Flower (Other)",
+                            6,"6 - Power Flower",
+                            7,"7 - Lit Bob-omb (Mario), PowerFlower (Other)",
+                            9,"9 - Nothing"
+                        }){ Name = "Content:" },
+                        new DefaultField("Parameter 1",0,8){ Name = "Coins/Star:" }
+                    };
+                case 31: //! Block
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",8,8,new object[]{
+                            0,"0 - Coin",
+                            1,"1 - Power Star",
+                            2,"2 - 1 Up Mushroom",
+                            3,"3 - Greenshell",
+                            4,"4 - Super Mushroom",
+                            5,"5 - Feather (Mario), Power Flower (Other)",
+                            6,"6 - Power Flower",
+                            7,"7 - Lit Bob-omb (Mario), PowerFlower (Other)",
+                            9,"9 - Nothing"
+                        }){ Name = "Content:" },
+                        new DefaultField("Parameter 1",0,8){ Name = "Coins/Star:" }
+                    };
+                case 37: //Yellow Coin
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Appears temporarily (Used for coins spawned by enemies)",
+                            1,"1 - Appears permanently until collected and stays still (Normal)",
+                            2,"2 - Appears temporarily, bounces, slides if on a slide CLPS",
+                            3,"3 - Appears temporarily, bounces back and forth, then away",
+                            4,"4 - Stays stil, plays sfx and disappears after a while",
+                            5,"5 - Bounces away when close, ricochets off walls, dissapears after a bit",
+                            6,"6 - Plays sfx and disappears immediately after bouncing a bit",
+                            7,"7 - Like Type 1, but has a smaller hitbox (used for Red Coins in Ice Blocks)",
+                            15,"F - Like Type 1 (Duplicate?)"
+                        }){ Name = "Type:" }
+                    };
+                case 38: //Red Coin
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",8,4,new object[]{
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" },
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Appears temporarily, acts like a Yellow Coin when touched (Used for coins spawned by enemies)",
+                            1,"1 - Appears permanently until collected and stays still (Normal)",
+                            2,"2 - Appears temporarily, bounces, slides if on a slide CLPS",
+                            3,"3 - Appears temporarily, bounces back and forth, then away",
+                            4,"4 - Stays stil, plays sfx and disappears after a while",
+                            5,"5 - Bounces away when close, ricochets off walls, dissapears after a bit",
+                            6,"6 - Plays sfx and disappears immediately after bouncing a bit",
+                            7,"7 - Like Type 1, but has a smaller hitbox (used for Red Coins in Ice Blocks)",
+                            15,"F - Like Type 1 (Duplicate?)"
+                        }){ Name = "Type:" }
+                    };
+                case 39: //Blue Coin
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Appears temporarily, acts like a Yellow Coin when touched (Used for coins spawned by enemies)",
+                            1,"1 - Like spawned from a Blue Coin Switch (Normal)",
+                            2,"2 - Appears temporarily, bounces, slides if on a slide CLPS",
+                            3,"3 - Appears temporarily, bounces back and forth, then away",
+                            4,"4 - Stays stil, plays sfx and disappears after a while",
+                            5,"5 - Bounces away when close, ricochets off walls, dissapears after a bit",
+                            6,"6 - Plays sfx and disappears immediately after bouncing a bit",
+                            7,"7 - Like Type 1, but has a smaller hitbox (used for Red Coins in Ice Blocks)",
+                            15,"F - Like Type 1 (Duplicate?)"
+                        }){ Name = "Type:" },
+                        new DefaultField("Parameter 1",8,4){ Name = "M ID:" }
+
+                    };
+                case 40: //Bowser
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Dark World Behaviour Patterns",
+                            1,"1 - Fire Sea Behaviour Patterns",
+                            2,"2 - Sky Behaviour Patterns (Can only be used in Bowser in the Sky - Fight)"
+                        }){ Name = "Type:" },
+                    };
+                case 41: //Tree
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",8,4,new object[]{
+                            0,"0 - Bubbly",
+                            1,"1 - Spiky",
+                            2,"2 - Snowy",
+                            3,"3 - Palm",
+                            7,"7 - Bubbly (Castle Grounds)"
+                        }){ Name = "Type:" }
                     };
                 case 42: //Painting
                     return new ParameterField[] {
                         new ListField("Parameter 1",0,3,new object[]{
-                            0,"Normal",
-                            1,"Always wobbling",
-                            2,"Never wobbling",
-                            3,"Mirrored"
-                        }){ Name = "Painting Mode" },
-                        new ListField("Parameter 1",3,5,LevelObject.ComboBoxInfoFromStrings(Strings.PaintingNames)){ Name = "Picture" },
-                        new DefaultField("Parameter 1",12,4){ Name = "Width" },
-                        new DefaultField("Parameter 1",8,4){ Name = "Height" },
-                        new FloatConvertField("Parameter 2",0,16,0x1000,22.5f){ Name = "X Rotation"}
+                            0,"0 - Normal",
+                            1,"1 - Always wobbling",
+                            2,"2 - Never wobbling",
+                            3,"3 - Mirrored"
+                        }){ Name = "Painting Mode:" },
+                        new ListField("Parameter 1",3,5,LevelObject.ComboBoxInfoFromStrings(Strings.PaintingNames)){ Name = "Picture:" },
+                        new DefaultField("Parameter 1",12,4){ Name = "Width:" },
+                        new DefaultField("Parameter 1",8,4){ Name = "Height:" },
+                        new FloatConvertField("Parameter 2",0,16,0x1000,22.5f){ Name = "X-Rotation:"},
+                        new FloatConvertField("Parameter 3",0,16,0x1000,22.5f){ Name = "Z-Rotation:"}
+                    };
+                case 43: //! Switch
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",14,2,new object[]{
+                            0,"0 - Presses permanantly",
+                            1,"1 - Can be pressed repeatedly (Unused and glitchy)",
+                            2,"2 - Uses timer"
+                        }){ Name = "Type:" },
+                        new DefaultField("Parameter 1", 0, 8) { Name = "Time Limit:" },
+                        new DefaultField("Parameter 1", 9, 4) { Name = "M ID:" }
+                    };
+                case 44: //Star Switch
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" },
+                         new DefaultField("Parameter 1", 0, 8) { Name = "Time limit:" }
+                    };
+                case 45: //Switch-Activated Shutter
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",15,1,new object[]{
+                            0,"0 - Left (No sound)",
+                            1,"1 - Right (Makes sound)"
+                        }){ Name = "Opening Direction:" },
+                        new DefaultField("Parameter 1", 10, 5) { Name = "M ID:" }
+                    };
+                case 46: //HMC Switch-Activated Shutter
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",15,1,new object[]{
+                            0,"0 - Left (No sound)",
+                            1,"1 - Right (Makes sound)"
+                        }){ Name = "Opening Direction:" },
+                        new DefaultField("Parameter 1", 10, 5) { Name = "M ID:" } //Top times I suffered uneccesarily
+                    };
+                case 48: //Unchained Chomp
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 - VS Mode 1. Star",
+                            1,"1 - VS Mode 2. Star",
+                            2,"2 - VS Mode 3. Star",
+                            3,"3 - VS Mode 4. Star",
+                            4,"4 - VS Mode 5. Star",
+                            15,"F - Normal (Silver Star)"
+                        }){ Name = "Type:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 49: //1-Up Mushroom
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Like spawned from block (Springs out, trundles around slowly and eventually disappears)",
+                            1,"1 - Trundles around, trying to avoid player. Ricochets if it hits a wall, disappearing shortly",
+                            2,"2 - Still, until approached; then it moves forward very quickly, ricocheting off walls, but never disappears",
+                            3,"3 - Still",
+                            4,"4 - Still, until approached; then does a big jump. It sparkles, but never disappears",
+                            5,"5 - Spawns when all Mushrooms of the chosen Count Parameter with Type set to 6 or B are triggered. Acts ike Type 2. Only the first Mushroom with Type 5 will spawn",
+                            6,"6 - Invisible tag for Mushrooms of Type 5. If you have too many triggers, it won't work",
+                            7,"7 - Spawns when all Mushrooms of the chosen Count Parameter with Type set to 8 or C are triggered. Mushroom flies towards the player, going through all obstacles. Only the first Mushroom with Type 7 will spawn",
+                            8,"8 - Invisible tag for Mushrooms of Type 7. If you have too many triggers, it won't work",
+                            9,"9 - Spawns when the 2 Yellow Coins that spawn on either side of it are collected. Acts like Type 1 (Unused?)",
+                            10,"A - Like Type 1, but jumps up when spawned",
+                            11,"B - Invisible tag for Mushrooms of Type 5. Appears and acts like a Yellow Coin. If you have too many triggers, it won't work",
+                            12,"C - Invisible tag for Mushrooms of Type 7. Appears and acts like a Yellow Coin. If you have too many triggers, it won't work",
+                            13,"D - Still, unless on a slide surface, where it will move forward very quickly, ricocheting off walls, but never disappears"
+                        }){ Name = "Type:" },
+                        new DefaultField("Parameter 1", 8, 4) { Name = "Amount Needed:" }
+                    };
+                case 50: //Cannon
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Shoots water bombs",
+                            1,"1 - Idle, doesn't shoot",
+                            2,"2 - Player can shoot out of"
+                        }){ Name = "Type:" },
+                        new FloatConvertField("Parameter 3",0,16,0x1000,22.5f){ Name = "Default Y-Rotation:"}
+                    };
+                case 53: //Bird
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 12, 4) { Name = "Number of birds to spawn:" }
+                    };
+                case 54: //Fish
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 12, 4) { Name = "Number of fish to spawn:" }
+                    };
+                case 55: //Butterflies
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",8,8,new object[]{
+                            0,"0 - Spawn 1 (Unused)",
+                            31,"1F - Spawn 3, one turns into 1UP",
+                            33,"21 - Spawn 3, 2 turn into cannonballs when touched, the other a 1UP",
+                            47,"2F - Spawn 1, turns into cannonball",
+                            117,"75 - Spawn 5"
+                        }){ Name = "Type:" }
+                    };
+                case 56: //King Bob-omb
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" }
+                    };
+                case 57: //Mr. Blizzard
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 - Follows path",
+                            1,"1 - Still, hidden in the ground (Set Path ID to FF)",
+                            2,"2 - Still, hidden in the ground, wears character's cap if it's lost (Set Path ID to FF)",
+                        }){ Name = "Type:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 60: //Star Camera
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" }
                     };
                 case 61: //Power Star
                     return new ParameterField[] {
@@ -1808,17 +2271,30 @@ namespace SM64DSe
                             5,"5. Star",
                             6,"6. Star",
                             7,"7. Star"
-                        }){ Name = "Star" },
+                        }){ Name = "Star:" },
                         new ListField("Parameter 1",8,4,new object[]{
-                            0,"Normal",
-                            1,"Jumping around",
-                            2,"100-Coin Star",
-                            3,"VS-Star",
-                            4,"Just spawned?",
-                            5,"Incollectable when already collected?",
-                            6,"Silver-Star Star",
-                            7,"Minimap only"
-                        }){ Name = "Type" }
+                            0,"0 - Normal",
+                            1,"1 - Bounces around, will respawn at its spawn point if it falls off of the map (Unused)",
+                            2,"2 - Like spawned from a Power Star Create object or when another object spawns a Power Star. Match with a Star Marker object, else it will not spawn (Unused)",
+                            3,"3 - VS Mode Power Star, must be placed inside a Star Marker of type 1 in order to function",
+                            //4,"4 - (Unused) Like type 2 (Duplicate?)",
+                            5,"5 - Can't be collected (Unused)",
+                            6,"6 - Star Sphere, can be spawned by collecting 5 Silver Stars",
+                            7,"7 - Minimap only"
+                        }){ Name = "Type:" }
+                    };
+                case 62: //Silver Star
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",8,4,new object[]{
+                            0,"0 - Normal",
+                            1,"1 - Bounces around, will respawn at its spawn point if it falls off of the map",
+                            2,"2 - Infinitely rises upward (Unused)",
+                            3,"3 - Like a VS Mode Power Star, must be placed inside a Star Marker of Type 1 in order to function",
+                            //4,"4 - (Unused) Like Type 2 (Duplicate?)",
+                            5,"5 - Can't be collected (Unused)",
+                            6,"6 - Star Sphere, can be spawned by collecting 5 Silver Stars (Unused) (Not recommended)",
+                            7,"7 - Minimap only (Unused)"
+                        }){ Name = "Type:" }
                     };
                 case 63: //Star Marker
                     return new ParameterField[] {
@@ -1831,42 +2307,821 @@ namespace SM64DSe
                             5,"5. Star",
                             6,"6. Star",
                             7,"7. Star"
-                        }){ Name = "Star" },
+                        }){ Name = "Star:" },
                         new ListField("Parameter 1",8,4,new object[]{
-                            0,"Red Coin Shadow Star",
-                            1,"VS-Star Container",
-                            2,"Default StarSpawner",
-                            4,"StarSphere(No Function?)",
-                            6,"SwitchStar",
-                            10,"Same as 2?"
-                        }){ Name = "Type" }
+                            0,"0 - Red Coin Shadow Star",
+                            1,"1 - Empty, breaks on contact. Used in VS mode",
+                            2,"2 - Default Star Spawner",
+                            4,"4 - Star Sphere (No function?)",
+                            6,"6 - Switch Star Star Sphere"
+                            //10,"Same as 2?"
+                        }){ Name = "Type:" }
                     };
-                case 15: //Goomba
+                case 65: //Whomp King
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" }
+                    };
+                case 67: //Boo
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Normal",
+                            1,"1 - A singleton version of Type 3",
+                            2,"2 - Slightly erratic chasing movement, triggers the 'Ghosts don't die' text, otherwise normal",
+                            3,"3 - 5 Boos spawn like in Act 2 of BBH at the merry-go-round. Requires specifics in order to function properly",
+                            4,"4 - Appears translucent, flies away when approached, like in the corridor leading to the Courtyard. Contains a Red Coin until Star 1 is collected in Level ID 29 (Hub areas), where it will then contain a Yellow Coin. Once 15 Power Stars are collected, it will instead be bigger, containing nothing (Hardcoded to only spawn once 3 Power Stars are collected)",
+                            5,"5 - Slightly bigger, contains Big Boo's Haunt cage (Hardcoded to only spawn once 15 Power Stars are collected)",
+                            6,"6 - Normal (Duplicate?)",
+                            7,"7 - Spawns three Type 1 Boos (Hardcoded to only spawn once 15 Power Stars are collected)",
+                            8,"8 - Doesn't chase or turn transparent, but moves in a circle, otherwise normal",
+                            9,"9 - Normal (Duplicate?)",
+                            10,"A - Contains a Yellow Coin (Hardcoded to only spawn once 3 Power Stars are collected, and will contain a Red Coin if placed in Level ID 29 (Hub areas), until Star ID 1 is collected there)",
+                            11,"B - Like Type 4, it contains a Yellow Coin, but unlike that, it can exist in areas other than Level ID 29 (Hub areas), until 15 stars are collected (Hardcoded to contain a Red Coin in Level ID 29 (Hub areas) once 3 Power Stars are collected)",
+                        }){ Name = "Type:" },
+                        new ListField("Parameter 1",0,4,new object[]{
+                            0,"0 - On respawn",
+                            1,"1 - Only if the character is unlocked",
+                            2,"2 - Always",
+                            15,"F - Always, but should be used if no cap is chosen"
+                        }){ Name = "Show Cap:" },
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 - For Mario",
+                            1,"1 - For Luigi",
+                            2,"2 - For Wario",
+                            15,"F - None"
+                        }){ Name = "Cap ID:" }
+                    };
+                case 68: //Big Boo
                     return new ParameterField[] {
                         new ListField("Parameter 1",4,4,new object[]{
-                            0,"Never",
-                            1,"Only if Player is unlocked",
-                            2,"Always",
-                            15,"Never"
-                        }){ Name = "Show Cap" },
-                        new ListField("Parameter 1",8,4,new object[]{
-                            0,"Nothing",
-                            1,"Silver-Star",
-                            2,"Nothing",
-                            15,"Nothing"
-                        }){ Name = "Spawns" },
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star",
+                            15,"F - None"
+                        }){ Name = "Star:" },
+                        new ListField("Parameter 1",8,8,new object[]{
+                            0,"0 - Normal (Like at the balcony in Big Boo's Haunt)",
+                            1,"1 - Spawns when all Boos of Type 1 are defeated (Like in Act 2 of Big Boo's Haunt at the merry-go-round)",
+                            2,"2 - Spawns when all Type 2 Boos are defeated (Like in Act 1 of Big Boo's Haunt)",
+                            3,"3 - King Boo, spawns when the LUIGI object is activated",
+                            4,"4 - Stays still, doesn't turn transparent, cannot be defeated or stomped but can be pushed around by walking into it"
+                        }){ Name = "Type:" }
+                    };
+                case 69: //Big Boo Icon
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" }
+                    };
+                case 70: //BBH Stairs
+                    return new ParameterField[] {
                         new ListField("Parameter 1",12,4,new object[]{
-                            0,"For Mario",
-                            1,"For Luigi",
-                            2,"For Wario",
+                            0,"None",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Set Down Act ID:" }
+                    };
+                case 75: //Wall Sign
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 0, 16) { Name = "Text ID:" }
+                    };
+                case 76: //Sign Post
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 0, 16) { Name = "Text ID:" }
+                    };
+                case 80: //Toad
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 0, 16) { Name = "Text ID:" },
+                        new ListField("Parameter 2",4,4,new object[]{
+                            1,"1 - Wears the player's lost cap",
+                            15,"F - Normal"
+                        }){ Name = "Type:" },
+                        new ListField("Parameter 2",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star",
                             15,"None"
-                        }){ Name = "Wears Cap" }
+                        }){ Name = "Star:" }
+                    };
+                case 83: //BitS-F Falling Platform
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Platform Number:" }
+                    };
+                case 84: //Shell
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Green",
+                            1,"1 - Red (Unused)"
+                        }){ Name = "Type:" },
+                        new ListField("Parameter 1",8,4,new object[]{
+                            0,"0 - Out of water",
+                            1,"1 - Underwater"
+                        }){ Name = "Where:" }
+                    };
+                case 85: //Sushi
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 101: //SSL-P Rectangular Block Lift
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Start Elavation:" }
+                    };
+                case 105: //DDD Pole Lift
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 108: //RRR Tricky Triangles Object
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 11, 5) { Name = "M ID:" }
+                    };
+                case 114: //RR Y Axis Rotating Lift (I dumbed down this parameter to make it a bit easier to use in the editor. Not sure how I would implement overflow, so this could probably be improved -Floralz)
+                    return new ParameterField[] {
+                        new FloatConvertField("Parameter 3",0,16,0x1000,2f){ Name = "Rotation Speed:"}
+                    };
+                case 122: //WDW Rotating Floating (Same story as the object above)
+                    return new ParameterField[] {
+                        new FloatConvertField("Parameter 3",0,16,0x1000,2f){ Name = "Rotation Speed:"}
+                    };
+                case 125: //Water Diamond
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 8, 8) { Name = "I ID:" }
+                    };
+                case 126: //WDW Switch-activated Wooden Platform
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 11, 5) { Name = "M ID:" }
+                    };
+                case 127: //WDW Wooden Lift
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Lift",
+                            1,"1 - Static object"
+                        }){ Name = "Type:" }
+                    };
+                case 129: //WDW Water
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 8, 8) { Name = "I ID:" }
+                    };
+                case 140: //LLL Float-on-lava Plank
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 2", 0, 16) { Name = "Movement Delay:" }
+                    };
+                case 141: //LLL Fall Down Block
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star",
+                            15,"None"
+                        }){ Name = "Star:" }
+                    };
+                case 145: //Manta Ray
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",0,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 146: //Scuttlebug
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Normal",
+                            1,"1 - Springs up when the player is near, respawns"
+                        }){ Name = "Type:" }
+                    };
+                case 148: //Lakitu
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",15,1,new object[]{
+                            0,"0 - Normal chase radius",
+                            1,"1 - Larger chase radius"
+                        }){ Name = "Chase Radius:" }
+                    };
+                case 151: //Big Mr. I
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" }
+                    };
+                case 153: //Amp
+                    return new ParameterField[] {
+                         new DefaultField("Parameter 1", 12, 4) { Name = "Diameter (*10):" }
+                    };
+                case 154: //Ukiki Cage
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" }
+                    };
+                case 156: //Ukiki
+                    return new ParameterField[] {
+                         new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 157: //Peng
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",15,1,new object[]{
+                            0,"0 - Real",
+                            1,"1 - Fake"
+                        }){ Name = "Type:" }
+                    };
+                case 158: //Mother Penguin
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" }
+                    };
+                case 171: //Coffin
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            1,"1 - Still",
+                            15,"F - Raises up when jumped on",
+                        }){ Name = "Type:" }
+                    };
+                case 175: //BitDW Switch-controlled Stairs
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 11, 5) { Name = "M ID:" }
+                    };
+                case 179: //JRB Down Ship
+                case 180: //JRB Ship
+                    return new ParameterField[] {
+                        new FloatConvertField("Parameter 2",0,16,0x1000,22.5f){ Name = "X-Rotation:"},
+                        new FloatConvertField("Parameter 3",0,16,0x1000,22.5f){ Name = "Z-Rotation:"}
+                    };
+                case 189: //Fly Guy
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Normal",
+                            1,"1 - Spits fire"
+                        }){ Name = "Type:" }
+                    };
+                case 200: //WF Tower Breakable Wall
+                    return new ParameterField[] {
+                        new ListField("Parameter 2",14,2,new object[]{
+                            0,"0 - Normal",
+                            1,"1 - Plays jingle when broken"
+                        }){ Name = "Type:" }
+                    };
+                case 202: //WF Breakable Wall
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" }
+                    };
+                case 206: //WF Lift 01
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",12,4,new object[]{
+                            1,"1 - Move in and out",
+                            2,"2 - Move up and down",
+                            15,"F - No movement"
+                        }){ Name = "Movement:" }
+                    };
+                case 214: //BitFS Metal Net Lift with Pole
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",0,16,new object[]{
+                            65281,"01 - Spawns where placed, sinks down, then rises to where it was placed, etc.",
+                            65535,"FF - Spawns at lowest point, rises above placement position, then sinks back down, etc."
+                        }){ Name = "Character:" }
+                    };
+                case 216: //BitFS Moving Metal Grate Platform
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",7,1,new object[]{
+                            0,"0 - BitS Arrow Platform",
+                            1,"1 - BitFS Metal Grate Platform"
+                        }){ Name = "Type:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 224: //BitS Switch-controlled Stairs
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 11, 5) { Name = "M ID:" }
+                    };
+                case 225: //BitS Sliding Back-&-Forth Lift 1
+                    return new ParameterField[] {
+                        new FloatConvertField("Parameter 2",0,16,0x1000,22.5f){ Name = "Movement-Rotation:"}
+                    };
+                case 226: //BitS Sliding Back-&-Forth Lift 2
+                    return new ParameterField[] {
+                        new FloatConvertField("Parameter 2",0,16,0x1000,22.5f){ Name = "Movement-Rotation:"}
+                    };
+                case 229: //CCM Ski Lift
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 235: //BitS Moving Arrow PLatform
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 - BitFS Metal Grate Platform",
+                            1,"1 - BitS Arrow Platform"
+                        }){ Name = "Character:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 237: //Rabbit
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",0,4,new object[]{
+                            0,"0 - Mario",
+                            1,"1 - Luigi",
+                            2,"2 - Wario",
+                            3,"3 - Yoshi"
+                        }){ Name = "Character:" },
+                        new DefaultField("Parameter 1", 4, 4) { Name = "Key ID:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 241: //Big Bully
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" },
+                        new ListField("Parameter 1",4,4,new object[]{
+                            1,"1 - 3 Bullies that spawn a Big Bully upon defeat",
+                            15,"F - Big Bully"
+                        }){ Name = "Type:" }
+                    };
+                case 242: //Tox Box
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - First Tox Box movement path (SSL)",
+                            1,"1 - Second Tox Box movement path (SSL)",
+                            2,"2 - Third Tox Box movement path (SSL)",
+                            3,"3 - Use Path"
+                        }){ Name = "Type:" },
+                        new DefaultField("Parameter 1", 0, 8) { Name = "Path ID:" }
+                    };
+                case 243: //Pole
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",7,1,new object[]{
+                            0,"0 - No",
+                            1,"1 - Yes"
+                        }){ Name = "Can Handstand:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Height (*100 hex):" }
+                    };
+                case 246: //LLL Metal Net Lift
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 - When touched",
+                            1,"1 - From level start"
+                        }){ Name = "Start Moving:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 248: //Mole. I've greatly simplified these parameters as only certain combinations actually function, and others are duplicates
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",0,16,new object[]{
+                            0,"0 - Goes in and out of the same hole",
+                            1,"1 - Spawns when a Monty Mole of Type Parameter 101 goes into it's hole",
+                            257,"101 - Goes in and out of different holes. If no Monty Mole of Type Parameter 1 exists, a crash will occur when this one goes into it's hole"
+                        }){ Name = "Type Parameter:" }
+                    };
+                case 252: //Klepto
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",0,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star",
+                            15,"None"
+                        }){ Name = "Star:" },
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 - Steals the player's Cap, and hold it until it is regained by any means",
+                            1,"1 - Holds a Power Star",
+                            2,"2 - Holds a Silver Star"
+                        }){ Name = "Type:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 254: //Cap
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",0,4,new object[]{
+                            0,"0 - Disabled until cap respawns here, gravity is always applied",
+                            1,"1 - Character needs to be unlocked",
+                            2,"2 - Character doesn't need to be unlocked"
+                        }){ Name = "Spawn Condition:" },
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 - Mario",
+                            1,"1 - Luigi",
+                            2,"2 - Wario"
+                        }){ Name = "Cap:" },
+                        new ListField("Parameter 1",8,4,new object[]{
+                            0,"0 - Normal",
+                            1,"1 - Held animation in ending cutscene"
+                        }){ Name = "Type:" },
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Gravity is applied",
+                            4,"4 - No gravity (Float in air)",
+                        }){ Name = "Gravity:" }
+                    };
+                case 255: //Bowser Puzzle Piece
+                    return new ParameterField[] {
+                         new DefaultField("Parameter 1", 8, 8) { Name = "Piece Number:" }
+                    };
+                case 257: //Dorrie
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",8,8,new object[]{
+                            0,"0 - Normal",
+                            1,"1 - Wears big Wario Cap"
+                        }){ Name = "Type:" }
+                    };
+                case 261: //Unagi the Eel
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",0,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star",
+                            15,"None"
+                        }){ Name = "Star:" },
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 - Stays still until the player gets close (Hardcoded to only spawn in Act 1)",
+                            1,"1 - Holds a power star at the end of its tail. Stays still until the player gets close (Hardcoded to spawn in Acts 2+ until Act 2 is completed, where it will then only spawn in Act 2)",
+                            2,"2 - Moves even if the player doesn't get close (Hardcoded to only spawn in Acts 3+ once Act 2 is completed)"
+                        }){ Name = "Type:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" },
+                        new FloatConvertField("Parameter 2",0,16,0x1000,22.5f){ Name = "X-Rotation:"},
+                        new FloatConvertField("Parameter 3",0,16,0x1000,22.5f){ Name = "Z-Rotation:"}
+                    };
+                case 266: //Flamethrower
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",0,16,new object[]{
+                            0,"0 - Blue (Unused)",
+                            65535,"FFFF - Red"
+                        }){ Name = "Color:" }
+                    };
+                case 276: //RR Flying Carpet
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",2,2,new object[]{
+                            0,"0 - No",
+                            1,"1 - Yes"
+                        }){ Name = "Show Bullets:" },
+                        new ListField("Parameter 1",4,2,new object[]{
+                            0,"0 - Reverses",
+                            1,"1 - Fall down"
+                        }){ Name = "At End of Path:" },
+                        new ListField("Parameter 1",6,2,new object[]{
+                            0,"0 - Restarts automatically",
+                            1,"1 - Activated by player",
+                            2,"2 - Activated by player, disappears if not stood on"
+                        }){ Name = "Type:" },
+                        new ListField("Parameter 3",0,16,new object[]{
+                            0,"0 - No",
+                            1,"1 - Yes"
+                        }){ Name = "Rotate on X-axis:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" },
+                    };
+                case 277: //Key
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",13,3,new object[]{
+                            0,"0 - Bowser 1 Key",
+                            1,"1 - Bowser 2 Key",
+                            2,"2 - Mario Key",
+                            3,"3 - Luigi Key",
+                            4,"4 - Wario Key",
+                            5,"5 - Castle Entrance Key (Unused)",
+                            6,"6 - White Door Key (Unused)",
+                            7,"7 - Last Star (Unused)"
+                        }){ Name = "Type:" }
+                    };
+                case 278: //Last Star
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",13,3,new object[]{
+                            0,"0 - Bowser 1 Key",
+                            1,"1 - Bowser 2 Key",
+                            2,"2 - Mario Key",
+                            3,"3 - Luigi Key",
+                            4,"4 - Wario Key",
+                            5,"5 - Castle Entrance Key",
+                            6,"6 - White Door Key",
+                            7,"7 - Last Star"
+                        }){ Name = "Type:" }
+                    };
+                case 279: //Eyerok
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",0,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" }
+                    };
+                case 280: //Wiggler
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" }
+                    };
+                case 281: //Koopa the Quick
+                    return new ParameterField[] {
+                        new ListField("Parameter 2",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" },
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Path ID:" }
+                    };
+                case 284: //Black Brick Block
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star",
+                            15, "None"
+                        }){ Name = "Star:" },
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 - 3 Yellow Coin",
+                            1,"1 - Power Star (Needs matching Star Marker)",
+                            15,"F - None"
+                        }){ Name = "Contents:" },
+                        new ListField("Parameter 2",12,4,new object[]{
+                            0,"0 - Normal",
+                            1,"1 - Plays jingle when broken"
+                        }){ Name = "Type:" }
+                    };
+                case 290: //Chill Bully
+                    return new ParameterField[] {
+                         new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" }
+                    };
+                case 292: //Treasure Chest
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star",
+                            15, "None"
+                        }){ Name = "Final Chest Star:" },
+                         new DefaultField("Parameter 1", 8, 8) { Name = "Chest Number:" }
+                    };
+                case 295: //CG Metal Net
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Doesn't disappear (Unused?)",
+                            1,"1 - Disappears once 150 Power Stars are collected",
+                            15,"F - Disappears once the Castle Grounds water is drained"
+                        }){ Name = "Type:" }
+                    };
+                case 299: //Grindel
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",15,1,new object[]{
+                            0,"0 - Goes up, pauses when at ceiling, smashes down",
+                            1,"1 - Hops back and forth in a line"
+                        }){ Name = "Type:" }
+                    };
+                case 302: //Super Mushroom
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 -  Like spawned from block (Springs out, trundles around slowly and eventually disappears)",
+                            1,"1 - Trundles around, trying to avoid player. Ricochets if it hits a wall, disappearing shortly",
+                            2,"2 - Still, until approached; then it moves forward very quickly, ricocheting off walls, but never disappears",
+                            3,"3 - Still",
+                            4,"4 - Still, until approached; then does a big jump. It sparkles, but never disappears",
+                            5,"5 - Spawns when all Mushrooms of the chosen Count Parameter with Type set to 6 or B are triggered. Acts ike Type 2. Only the first Mushroom with Type 5 will spawn",
+                            6,"6 - Invisible tag for Mushrooms of Type 5. If you have too many triggers, it won't work",
+                            7,"7 - Spawns when all Mushrooms of the chosen Count Parameter with Type set to 8 or C are triggered. Mushroom flies towards the player, going through all obstacles. Only the first Mushroom with Type 7 will spawn",
+                            8,"8 - Invisible tag for Mushrooms of Type 7. If you have too many triggers, it won't work",
+                            9,"9 - Spawns when the 2 Yellow Coins that spawn on either side of it are collected. Acts like Type 1 (Unused?)",
+                            10,"A - Like Type 1, but jumps up when spawned",
+                            11,"B - Invisible tag for Mushrooms of Type 5. Appears and acts like a Yellow Coin. If you have too many triggers, it won't work",
+                            12,"C - Invisible tag for Mushrooms of Type 7. Appears and acts like a Yellow Coin. If you have too many triggers, it won't work",
+                            13,"D - Still, unless on a slide surface, where it will move forward very quickly, ricocheting off walls, but never disappears"
+                        }){ Name = "Type:" },
+                        new DefaultField("Parameter 1", 8, 4) { Name = "Amount Needed:" }
+                    };
+                case 304: //Invisible Secret
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star"
+                        }){ Name = "Star:" }
+                    };
+                case 305: //Blue Coin Switch
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 0, 8) { Name = "Time Limit:" },
+                        new DefaultField("Parameter 1", 12, 4) { Name = "Blue Coin M ID:" }
+                    };
+                case 308: //Power Star Create
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",8,8,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star",
+                        }){ Name = "Star:" }
+                    };
+                case 312: //Giant Fire Piranha Plant
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star",
+                            15, "None"
+                        }){ Name = "Star:" }
+                    };
+                case 315: //Enemy Switch Tag
+                    return new ParameterField[] {
+                       new ListField("Parameter 1",10,1,new object[]{
+                            0,"Doesn't stay active",
+                            1,"Stay active"
+                        }){ Name = "Active Status:" },
+                        new DefaultField("Parameter 1", 11, 5) { Name = "Event ID:" },
+                        new DefaultField("Parameter 2", 0, 16) { Name = "Radius:" },
+                        new DefaultField("Parameter 3", 0, 16) { Name = "Delay:" }
+                    };
+                case 316: //Enemy Spawner
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 3", 11, 5) { Name = "Event ID:" }
+                    };
+                case 317: //Jet Stream
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",0,4,new object[]{
+                            0,"100 Coins",
+                            1,"1. Star",
+                            2,"2. Star",
+                            3,"3. Star",
+                            4,"4. Star",
+                            5,"5. Star",
+                            6,"6. Star",
+                            7,"7. Star",
+                            15,"None"
+                        }){ Name = "Star:" },
+                        new ListField("Parameter 1",12,4,new object[]{
+                            1,"1 - Doesn't spawn rings",
+                            15,"F - Spawns rings"
+                        }){ Name = "Type:" }
+                    };
+                case 320: //SSL Tornado
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 8, 8) { Name = "Chase Radius:" }
+                    };
+                case 323: //Ambient Sound Effects
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - King Boo Laugh",
+                            1,"1 - Birds 1",
+                            2,"2 - Birds 2",
+                            3,"3 - Birds 3 (Different birds)",
+                            4,"4 - Birds 4 (Birds with very quiet waterfall)",
+                            5,"5 - Birds 5 (Birds with loud waterfall)",
+                            6,"6 - Whirlpool",
+                            7,"7 - Waterfall 1",
+                            8,"8 - Waterfall 2",
+                            9,"9 - Waterfall 3"
+                        }){ Name = "Sound:" }
+                    };
+                case 324: //MUGEN
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0,F - Endless Stairs",
+                            1,"1 - Updates JRB/DDD sound specifics for when you're in the cave/submarine area"
+                        }){ Name = "Type:" }
+                    };
+                case 325: //Sound
+                    return new ParameterField[] {
+                        new ListField("Parameter 1",12,4,new object[]{
+                            0,"0 - Secret Found",
+                            1,"1 - Small Secret Found",
+                            2,"2 - Star Appears",
+                            3,"3 - Star Dropped",
+                            4,"4 - Get Star",
+                            5,"5 - First Cap Collected",
+                            //6,"6 - Star Appear (Duplicate?)"
+                        }){ Name = "Sound:" }
+                    };
+                case 511: //Minimap Change
+                    return new ParameterField[] {
+                        new DefaultField("Parameter 1", 12, 4) { Name = "Minimap to Load:" }
                     };
                 default:
                     return new ParameterField[] {
-                        new DefaultField("Parameter 1", 0, 16) {Name = "1. Parameter" },
-                        new DefaultField("Parameter 2", 0, 16) {Name = "2. Parameter" },
-                        new DefaultField("Parameter 3", 0, 16) {Name = "3. Parameter" }
+                        new DefaultField("Parameter 1", 0, 16) {Name = "1. Parameter:" },
+                        new DefaultField("Parameter 2", 0, 16) {Name = "2. Parameter:" },
+                        new DefaultField("Parameter 3", 0, 16) {Name = "3. Parameter:" }
                     };
             }
         }
@@ -1962,6 +3217,7 @@ namespace SM64DSe
         private List<ushort> m_valueList;
         private ComboBox m_comboBox;
         private Label m_label;
+        public static int width;
         public ListField(string pgFieldName, int offset, int length, object[] comboBoxInfos)
             : base(pgFieldName, offset, length)
         {
@@ -1979,13 +3235,12 @@ namespace SM64DSe
         public override void setValue(object value)
         {
             ushort newValue = Convert.ToUInt16(value);
-
             int index = m_valueList.IndexOf(newValue);
 
             if (index==-1)
             {
                 m_valueList.Add(newValue);
-                m_comboBox.Items.Add(newValue + " (unknown)");
+                m_comboBox.Items.Add(newValue + " - (Unknown)");
                 m_comboBox.SelectedIndex = m_comboBox.Items.Count-1;
             } else
             {
@@ -2013,20 +3268,29 @@ namespace SM64DSe
                             m_comboBox.Items.Add(m_comboBoxInfos[i]);
                         } else
                         {
-                            m_comboBox.Items.Add("unknown");
+                            m_comboBox.Items.Add("Unknown");
                         }
                         needsName = false;
                     }
                 }
                 if (needsName)
                 {
-                    m_comboBox.Items.Add("unknown");
+                    m_comboBox.Items.Add("Unknown");
                 }
-                m_comboBox.DropDownWidth = 300;
                 m_comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
                 m_comboBox.SelectedIndexChanged += new EventHandler(editorForm.ValueChanged);
+                SetComboBoxDropDownWidth(m_comboBox);
             }
             return m_comboBox;
+        }
+
+        private void SetComboBoxDropDownWidth(ComboBox comboBox)
+        {
+            var width = (from object obj in comboBox.Items
+                         select TextRenderer.MeasureText(comboBox.GetItemText(obj), comboBox.Font).Width)
+                .Prepend(0)
+                .Max();
+            comboBox.DropDownWidth = width + SystemInformation.VerticalScrollBarWidth;
         }
     }
 

@@ -32,7 +32,7 @@ namespace SM64DSe
 
             Program.m_ROM.BeginRW();
           
-            Stream fs = File.Create("objinfo.php");
+            Stream fs = File.Create("assets/objinfo.php");
             StreamWriter wr = new StreamWriter(fs);
            
             wr.Write("<?php\n$objinfo = array\n(\n");
