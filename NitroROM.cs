@@ -825,7 +825,7 @@ namespace SM64DSe
             BiDictionaryOneToOne<byte, string> BASIC_EUR_US_CHARS = new BiDictionaryOneToOne<byte, string>();
             Dictionary<string, uint> BASIC_EUR_US_SIZES = new Dictionary<string, uint>();
 
-            TextEditorForm.LoadCharList("basic_eur_us_chars.txt", BASIC_EUR_US_CHARS, BASIC_EUR_US_SIZES);
+            TextEditorForm.LoadCharList("assets/basic_eur_us_chars.txt", BASIC_EUR_US_CHARS, BASIC_EUR_US_SIZES);
 
             // Most of this is copied from TextEditorForm.ReadStrings()!
 

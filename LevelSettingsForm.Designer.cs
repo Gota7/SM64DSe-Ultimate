@@ -141,7 +141,7 @@
             this.lblGeneralMinimumNumberOfAreas.Name = "lblGeneralMinimumNumberOfAreas";
             this.lblGeneralMinimumNumberOfAreas.Size = new System.Drawing.Size(110, 13);
             this.lblGeneralMinimumNumberOfAreas.TabIndex = 4;
-            this.lblGeneralMinimumNumberOfAreas.Text = "Minimum No. of Areas";
+            this.lblGeneralMinimumNumberOfAreas.Text = "Minimum No. of Areas:";
             // 
             // txtActSelectorID
             // 
@@ -451,7 +451,7 @@
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(92, 13);
             this.label13.TabIndex = 3;
-            this.label13.Text = "Byte 03: SSEQ ID";
+            this.label13.Text = "Byte 03 - SSEQ ID:";
             // 
             // label12
             // 
@@ -460,7 +460,7 @@
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(92, 13);
             this.label12.TabIndex = 2;
-            this.label12.Text = "Byte 02: SBNK ID";
+            this.label12.Text = "Byte 02 - SBNK ID:";
             // 
             // label11
             // 
@@ -469,7 +469,7 @@
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(92, 13);
             this.label11.TabIndex = 1;
-            this.label11.Text = "Byte 01: Group ID";
+            this.label11.Text = "Byte 01 - Group ID:";
             // 
             // groupBox4
             // 

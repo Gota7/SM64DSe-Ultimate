@@ -45,9 +45,9 @@ namespace SM64DSe
 			this.box_rotation = new System.Windows.Forms.GroupBox();
 			this.btnToogleCollapseRotation = new System.Windows.Forms.PictureBox();
 			this.val_rotY = new System.Windows.Forms.NumericUpDown();
-			this.val_rotX = new System.Windows.Forms.NumericUpDown();
+			//this.val_rotX = new System.Windows.Forms.NumericUpDown();
 			this.lbl_rotY = new System.Windows.Forms.Label();
-			this.lbl_rotX = new System.Windows.Forms.Label();
+			//this.lbl_rotX = new System.Windows.Forms.Label();
 			this.box_parameters = new System.Windows.Forms.GroupBox();
 			this.btnToogleCollapseParameters = new System.Windows.Forms.PictureBox();
 			this.box_fogSettings = new System.Windows.Forms.GroupBox();
@@ -178,7 +178,7 @@ namespace SM64DSe
 			this.box_rotation.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.btnToogleCollapseRotation)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.val_rotY)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.val_rotX)).BeginInit();
+			//((System.ComponentModel.ISupportInitialize)(this.val_rotX)).BeginInit();
 			this.box_parameters.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.btnToogleCollapseParameters)).BeginInit();
 			this.box_fogSettings.SuspendLayout();
@@ -328,7 +328,7 @@ namespace SM64DSe
             0,
             0,
             65536});
-			this.val_posZ.Location = new System.Drawing.Point(248, 22);
+			this.val_posZ.Location = new System.Drawing.Point(256, 22);
 			this.val_posZ.Margin = new System.Windows.Forms.Padding(1, 4, 4, 4);
 			this.val_posZ.Maximum = new decimal(new int[] {
             32,
@@ -431,9 +431,9 @@ namespace SM64DSe
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.box_rotation.Controls.Add(this.btnToogleCollapseRotation);
 			this.box_rotation.Controls.Add(this.val_rotY);
-			this.box_rotation.Controls.Add(this.val_rotX);
+			//this.box_rotation.Controls.Add(this.val_rotX);
 			this.box_rotation.Controls.Add(this.lbl_rotY);
-			this.box_rotation.Controls.Add(this.lbl_rotX);
+			//this.box_rotation.Controls.Add(this.lbl_rotX);
 			this.box_rotation.Cursor = System.Windows.Forms.Cursors.Default;
 			this.box_rotation.Location = new System.Drawing.Point(4, 124);
 			this.box_rotation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -466,7 +466,7 @@ namespace SM64DSe
             0,
             0,
             65536});
-			this.val_rotY.Location = new System.Drawing.Point(145, 22);
+			this.val_rotY.Location = new System.Drawing.Point(35, 22);
 			this.val_rotY.Margin = new System.Windows.Forms.Padding(1, 4, 4, 4);
 			this.val_rotY.Maximum = new decimal(new int[] {
             2025,
@@ -486,31 +486,31 @@ namespace SM64DSe
 			// 
 			// val_rotX
 			// 
-			this.val_rotX.Cursor = System.Windows.Forms.Cursors.Default;
-			this.val_rotX.DecimalPlaces = 1;
-			this.val_rotX.Enabled = false;
-			this.val_rotX.Increment = new decimal(new int[] {
-            225,
-            0,
-            0,
-            65536});
-			this.val_rotX.Location = new System.Drawing.Point(35, 22);
-			this.val_rotX.Margin = new System.Windows.Forms.Padding(1, 4, 4, 4);
-			this.val_rotX.Maximum = new decimal(new int[] {
-            3375,
-            0,
-            0,
-            65536});
-			this.val_rotX.Name = "val_rotX";
-			this.val_rotX.Size = new System.Drawing.Size(77, 22);
-			this.val_rotX.TabIndex = 7;
-			this.val_rotX.Tag = "";
-			this.val_rotX.ValueChanged += new System.EventHandler(this.ValueChanged);
+			//this.val_rotX.Cursor = System.Windows.Forms.Cursors.Default;
+			//this.val_rotX.DecimalPlaces = 1;
+			//this.val_rotX.Enabled = false;
+			//this.val_rotX.Increment = new decimal(new int[] {
+   //         225,
+   //         0,
+   //         0,
+   //         65536});
+			//this.val_rotX.Location = new System.Drawing.Point(35, 22);
+			//this.val_rotX.Margin = new System.Windows.Forms.Padding(1, 4, 4, 4);
+			//this.val_rotX.Maximum = new decimal(new int[] {
+   //         3375,
+   //         0,
+   //         0,
+   //         65536});
+			//this.val_rotX.Name = "val_rotX";
+			//this.val_rotX.Size = new System.Drawing.Size(77, 22);
+			//this.val_rotX.TabIndex = 7;
+			//this.val_rotX.Tag = "";
+			//this.val_rotX.ValueChanged += new System.EventHandler(this.ValueChanged);
 			// 
 			// lbl_rotY
 			// 
 			this.lbl_rotY.AutoSize = true;
-			this.lbl_rotY.Location = new System.Drawing.Point(120, 25);
+			this.lbl_rotY.Location = new System.Drawing.Point(9, 25);
 			this.lbl_rotY.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.lbl_rotY.Name = "lbl_rotY";
 			this.lbl_rotY.Size = new System.Drawing.Size(21, 17);
@@ -519,13 +519,13 @@ namespace SM64DSe
 			// 
 			// lbl_rotX
 			// 
-			this.lbl_rotX.AutoSize = true;
-			this.lbl_rotX.Location = new System.Drawing.Point(9, 25);
-			this.lbl_rotX.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.lbl_rotX.Name = "lbl_rotX";
-			this.lbl_rotX.Size = new System.Drawing.Size(21, 17);
-			this.lbl_rotX.TabIndex = 2;
-			this.lbl_rotX.Text = "X:";
+			//this.lbl_rotX.AutoSize = true;
+			//this.lbl_rotX.Location = new System.Drawing.Point(9, 25);
+			//this.lbl_rotX.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			//this.lbl_rotX.Name = "lbl_rotX";
+			//this.lbl_rotX.Size = new System.Drawing.Size(21, 17);
+			//this.lbl_rotX.TabIndex = 2;
+			//this.lbl_rotX.Text = "X:";
 			// 
 			// box_parameters
 			// 
@@ -826,7 +826,7 @@ namespace SM64DSe
 			this.lbl_objectId.Name = "lbl_objectId";
 			this.lbl_objectId.Size = new System.Drawing.Size(38, 17);
 			this.lbl_objectId.TabIndex = 4;
-			this.lbl_objectId.Text = "Area";
+			this.lbl_objectId.Text = "Area:";
 			// 
 			// lbl_star
 			// 
@@ -836,7 +836,7 @@ namespace SM64DSe
 			this.lbl_star.Name = "lbl_star";
 			this.lbl_star.Size = new System.Drawing.Size(58, 17);
 			this.lbl_star.TabIndex = 3;
-			this.lbl_star.Text = "Star/Act";
+			this.lbl_star.Text = "Star/Act:";
 			// 
 			// val_area
 			// 
@@ -860,7 +860,7 @@ namespace SM64DSe
 			this.lbl_area.Name = "lbl_area";
 			this.lbl_area.Size = new System.Drawing.Size(85, 17);
 			this.lbl_area.TabIndex = 2;
-			this.lbl_area.Text = "Object Type";
+			this.lbl_area.Text = "Object Type:";
 			// 
 			// btnDuplicate
 			// 
@@ -932,7 +932,7 @@ namespace SM64DSe
 			this.btnImportModel.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnImportModel.Name = "btnImportModel";
 			this.btnImportModel.Size = new System.Drawing.Size(140, 24);
-			this.btnImportModel.Text = "Import level model";
+			this.btnImportModel.Text = "Import Level Model";
 			this.btnImportModel.ToolTipText = "Replace the 3D model with one from a .obj file";
 			this.btnImportModel.Click += new System.EventHandler(this.btnImportModel_Click);
 			// 
@@ -942,7 +942,7 @@ namespace SM64DSe
 			this.btnExportLevelModel.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnExportLevelModel.Name = "btnExportLevelModel";
 			this.btnExportLevelModel.Size = new System.Drawing.Size(138, 24);
-			this.btnExportLevelModel.Text = "Export level model";
+			this.btnExportLevelModel.Text = "Export Level Model";
 			this.btnExportLevelModel.Click += new System.EventHandler(this.btnExportLevelModel_Click);
 			// 
 			// btnAddObject
@@ -953,7 +953,7 @@ namespace SM64DSe
 			this.btnAddObject.Name = "btnAddObject";
 			this.btnAddObject.Size = new System.Drawing.Size(87, 24);
 			this.btnAddObject.Tag = "1,1";
-			this.btnAddObject.Text = "Add object";
+			this.btnAddObject.Text = "Add Object";
 			this.btnAddObject.ToolTipText = "Add an enemy, item or whatever";
 			this.btnAddObject.Click += new System.EventHandler(this.btnAddObject_Click);
 			// 
@@ -970,7 +970,7 @@ namespace SM64DSe
 			this.btnAddWarp.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnAddWarp.Name = "btnAddWarp";
 			this.btnAddWarp.Size = new System.Drawing.Size(88, 24);
-			this.btnAddWarp.Text = "Add warp";
+			this.btnAddWarp.Text = "Add Warp";
 			this.btnAddWarp.ToolTipText = "Add an entrance, exit, door, teleport or whatever";
 			// 
 			// btnAddEntrance
@@ -1002,7 +1002,7 @@ namespace SM64DSe
 			this.btnAddTpSrc.Name = "btnAddTpSrc";
 			this.btnAddTpSrc.Size = new System.Drawing.Size(225, 26);
 			this.btnAddTpSrc.Tag = "6";
-			this.btnAddTpSrc.Text = "Teleport source";
+			this.btnAddTpSrc.Text = "Teleport Source";
 			this.btnAddTpSrc.Click += new System.EventHandler(this.btnAddWhatever_Click);
 			// 
 			// btnAddTpDst
@@ -1010,7 +1010,7 @@ namespace SM64DSe
 			this.btnAddTpDst.Name = "btnAddTpDst";
 			this.btnAddTpDst.Size = new System.Drawing.Size(225, 26);
 			this.btnAddTpDst.Tag = "7";
-			this.btnAddTpDst.Text = "Teleport destination";
+			this.btnAddTpDst.Text = "Teleport Destination";
 			this.btnAddTpDst.Click += new System.EventHandler(this.btnAddWhatever_Click);
 			// 
 			// btnAddView
@@ -1021,7 +1021,7 @@ namespace SM64DSe
 			this.btnAddView.Name = "btnAddView";
 			this.btnAddView.Size = new System.Drawing.Size(75, 24);
 			this.btnAddView.Tag = "4";
-			this.btnAddView.Text = "Add view";
+			this.btnAddView.Text = "Add View";
 			this.btnAddView.ToolTipText = "Add a view (camera anchor)";
 			this.btnAddView.Click += new System.EventHandler(this.btnAddWhatever_Click);
 			// 
@@ -1032,7 +1032,7 @@ namespace SM64DSe
 			this.btnRemoveSel.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnRemoveSel.Name = "btnRemoveSel";
 			this.btnRemoveSel.Size = new System.Drawing.Size(113, 24);
-			this.btnRemoveSel.Text = "Remove object";
+			this.btnRemoveSel.Text = "Remove Object";
 			this.btnRemoveSel.ToolTipText = "Remove an object.";
 			this.btnRemoveSel.Click += new System.EventHandler(this.btnRemoveSel_Click);
 			// 
@@ -1042,7 +1042,7 @@ namespace SM64DSe
 			this.btnRemoveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnRemoveAll.Name = "btnRemoveAll";
 			this.btnRemoveAll.Size = new System.Drawing.Size(87, 24);
-			this.btnRemoveAll.Text = "Remove all";
+			this.btnRemoveAll.Text = "Remove All";
 			this.btnRemoveAll.Click += new System.EventHandler(this.btnRemoveAll_Click);
 			// 
 			// btnReplaceObjModel
@@ -1051,7 +1051,7 @@ namespace SM64DSe
 			this.btnReplaceObjModel.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnReplaceObjModel.Name = "btnReplaceObjModel";
 			this.btnReplaceObjModel.Size = new System.Drawing.Size(113, 24);
-			this.btnReplaceObjModel.Text = "Replace model";
+			this.btnReplaceObjModel.Text = "Replace Model";
 			this.btnReplaceObjModel.Click += new System.EventHandler(this.btnReplaceObjModel_Click);
 			// 
 			// btnExportObjectModel
@@ -1060,7 +1060,7 @@ namespace SM64DSe
 			this.btnExportObjectModel.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnExportObjectModel.Name = "btnExportObjectModel";
 			this.btnExportObjectModel.Size = new System.Drawing.Size(103, 24);
-			this.btnExportObjectModel.Text = "Export model";
+			this.btnExportObjectModel.Text = "Export Model";
 			this.btnExportObjectModel.Click += new System.EventHandler(this.btnExportObjectModel_Click);
 			// 
 			// btnAddPath
@@ -1139,7 +1139,7 @@ namespace SM64DSe
 			this.btnOffsetAllCoords.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnOffsetAllCoords.Name = "btnOffsetAllCoords";
 			this.btnOffsetAllCoords.Size = new System.Drawing.Size(132, 24);
-			this.btnOffsetAllCoords.Text = "Offset All Co-ords";
+			this.btnOffsetAllCoords.Text = "Offset All Coords";
 			this.btnOffsetAllCoords.Click += new System.EventHandler(this.btnOffsetAllCoords_Click_1);
 			// 
 			// btnAddPathNode
@@ -1477,7 +1477,7 @@ namespace SM64DSe
 			this.btnLevelSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnLevelSettings.Name = "btnLevelSettings";
 			this.btnLevelSettings.Size = new System.Drawing.Size(102, 24);
-			this.btnLevelSettings.Text = "Level settings";
+			this.btnLevelSettings.Text = "Level Settings";
 			this.btnLevelSettings.ToolTipText = "Change the sky, the object banks and all that.";
 			this.btnLevelSettings.Click += new System.EventHandler(this.btnLevelSettings_Click);
 			// 
@@ -1498,7 +1498,7 @@ namespace SM64DSe
 			this.btnEditTexAnim.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnEditTexAnim.Name = "btnEditTexAnim";
 			this.btnEditTexAnim.Size = new System.Drawing.Size(132, 24);
-			this.btnEditTexAnim.Text = "Texture animation";
+			this.btnEditTexAnim.Text = "Texture Animation";
 			this.btnEditTexAnim.Click += new System.EventHandler(this.btnEditTexAnim_Click);
 			// 
 			// btnCLPS
@@ -1602,7 +1602,7 @@ namespace SM64DSe
 			// 
 			this.toolStripLabel1.Name = "toolStripLabel1";
 			this.toolStripLabel1.Size = new System.Drawing.Size(61, 24);
-			this.toolStripLabel1.Text = "For star:";
+			this.toolStripLabel1.Text = "Act:";
 			// 
 			// btnStar1
 			// 
@@ -1690,7 +1690,7 @@ namespace SM64DSe
 			this.btnStarAll.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnStarAll.Name = "btnStarAll";
 			this.btnStarAll.Size = new System.Drawing.Size(65, 24);
-			this.btnStarAll.Text = "All stars";
+			this.btnStarAll.Text = "All Acts";
 			this.btnStarAll.ToolTipText = "Common objects";
 			this.btnStarAll.Click += new System.EventHandler(this.btnStarAll_Click);
 			this.btnStarAll.DoubleClick += new System.EventHandler(this.btnStarAll_DoubleClick);
@@ -1791,7 +1791,7 @@ namespace SM64DSe
 			this.box_rotation.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.btnToogleCollapseRotation)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.val_rotY)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.val_rotX)).EndInit();
+			//((System.ComponentModel.ISupportInitialize)(this.val_rotX)).EndInit();
 			this.box_parameters.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.btnToogleCollapseParameters)).EndInit();
 			this.box_fogSettings.ResumeLayout(false);
@@ -1905,9 +1905,9 @@ namespace SM64DSe
         private System.Windows.Forms.Button btnPasteCoordinates;
         private System.Windows.Forms.GroupBox box_parameters;
         private System.Windows.Forms.GroupBox box_rotation;
-        private System.Windows.Forms.NumericUpDown val_rotX;
+        //private System.Windows.Forms.NumericUpDown val_rotX;
         private System.Windows.Forms.Label lbl_rotY;
-        private System.Windows.Forms.Label lbl_rotX;
+        //private System.Windows.Forms.Label lbl_rotX;
         private System.Windows.Forms.GroupBox box_position;
         private System.Windows.Forms.NumericUpDown val_posZ;
         private System.Windows.Forms.NumericUpDown val_posY;

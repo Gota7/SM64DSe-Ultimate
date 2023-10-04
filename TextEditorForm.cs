@@ -89,9 +89,9 @@ namespace SM64DSe
 
         static TextEditorForm()
         {
-            LoadCharList("extended_ascii.txt", EXTENDED_ASCII_CHARS, EXTENDED_ASCII_SIZES);
-            LoadCharList("basic_eur_us_chars.txt", BASIC_EUR_US_CHARS, BASIC_EUR_US_SIZES);
-            LoadCharList("jap_chars.txt", JAP_CHARS, JAP_SIZES);
+            LoadCharList("assets/extended_ascii.txt", EXTENDED_ASCII_CHARS, EXTENDED_ASCII_SIZES);
+            LoadCharList("assets/basic_eur_us_chars.txt", BASIC_EUR_US_CHARS, BASIC_EUR_US_SIZES);
+            LoadCharList("assets/jap_chars.txt", JAP_CHARS, JAP_SIZES);
         }
 
         private void TextEditorForm_Load(object sender, EventArgs e)
@@ -682,7 +682,7 @@ namespace SM64DSe
 
         private void btnAddAbove_Click(object sender, EventArgs e)
         {
-            if (lbxMsgList.SelectedIndex == -1)
+            if (lbxMsgList.SelectedIndex < 0)
                 return;
 
             Message selectedMessage = (Message)lbxMsgList.SelectedItem;
@@ -705,7 +705,7 @@ namespace SM64DSe
 
         private void btnAddBelow_Click(object sender, EventArgs e)
         {
-            if (lbxMsgList.SelectedIndex == -1)
+            if (lbxMsgList.SelectedIndex < 0)
                 return;
 
             Message selectedMessage = (Message)lbxMsgList.SelectedItem;
@@ -728,7 +728,7 @@ namespace SM64DSe
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (lbxMsgList.SelectedIndex == -1)
+            if (lbxMsgList.SelectedIndex < 0)
                 return;
 
             Message selectedMessage = (Message)lbxMsgList.SelectedItem;
