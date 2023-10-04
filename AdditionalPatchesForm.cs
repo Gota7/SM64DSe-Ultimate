@@ -670,7 +670,7 @@ namespace SM64DSe
             settings.IndentChars = "  ";
             settings.NewLineChars = "\r\n";
             settings.NewLineHandling = NewLineHandling.Replace;
-            using (XmlWriter writer = XmlWriter.Create(Path.Combine(Application.StartupPath, "AdditionalPatches.xml"), settings))
+            using (XmlWriter writer = XmlWriter.Create(Path.Combine(Application.StartupPath, "assets/AdditionalPatches.xml"), settings))
             {
                 writer.WriteStartDocument();
                 writer.WriteComment(Program.AppTitle + " " + Program.AppVersion + " " + Program.AppDate);
@@ -771,7 +771,7 @@ namespace SM64DSe
             bool decompressAllOverlays = false;
 
             // Create an XML reader for this file.
-            using (XmlReader reader = XmlReader.Create(Path.Combine(Application.StartupPath, "AdditionalPatches.xml")))
+            using (XmlReader reader = XmlReader.Create(Path.Combine(Application.StartupPath, "assets/AdditionalPatches.xml")))
             {
                 reader.MoveToContent();
 
