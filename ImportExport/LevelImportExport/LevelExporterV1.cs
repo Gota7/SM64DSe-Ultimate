@@ -11,7 +11,7 @@ namespace SM64DSe.ImportExport.LevelImportExport
     {
         protected virtual string VERSION { get { return "1"; } }
 
-        public virtual void ExportLevelDataToXML(Level level, string fileName = "level.xml")
+        public virtual void ExportLevelDataToXML(Level level, string fileName = "assets/level.xml")
         {
             string exportPath = Path.GetDirectoryName(fileName);
 
@@ -431,8 +431,8 @@ namespace SM64DSe.ImportExport.LevelImportExport
 
             writer.WriteElementString("YRotation", Helper.ToString(obj.YRotation));
 
-            writer.WriteElementString("DestinationLevel", obj.LevelID.ToString());
-            writer.WriteElementString("EntranceID", obj.EntranceID.ToString());
+            writer.WriteElementString("DestinationLevel", obj.Parameters[0].ToString());
+            writer.WriteElementString("EntranceID", obj.Parameters[1].ToString());
 
             writer.WriteStartElement("Parameters");
 

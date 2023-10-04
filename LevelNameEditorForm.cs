@@ -62,7 +62,7 @@ namespace SM64DSe
             settings.IndentChars = "\t";
             settings.NewLineChars = "\r\n";
             settings.NewLineHandling = NewLineHandling.Replace;
-            using (XmlWriter writer = XmlWriter.Create(Path.Combine(Application.StartupPath, "Levels.xml"), settings))
+            using (XmlWriter writer = XmlWriter.Create(Path.Combine(Application.StartupPath, "assets/Levels.xml"), settings))
             {
                 writer.WriteStartDocument();
                 writer.WriteComment("SM64DS Editor Infinity");

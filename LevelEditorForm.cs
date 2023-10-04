@@ -117,7 +117,7 @@ namespace SM64DSe
             defaultToolTip.SetToolTip(this.val_posY, "The objects Y-Position");
             defaultToolTip.SetToolTip(this.val_posZ, "The objects Z-Position");
 
-            defaultToolTip.SetToolTip(this.val_rotX, "The objects X-Rotation");
+            //defaultToolTip.SetToolTip(this.val_rotX, "The objects X-Rotation");
             defaultToolTip.SetToolTip(this.val_rotY, "The objects Y-Rotation");
 
             defaultToolTip.SetToolTip(this.val_r, "The Fogs red Color Value");
@@ -3163,7 +3163,7 @@ namespace SM64DSe
                     box_parameters.Controls.Add(btnDrop);
                     nextFieldSnapX = Helper.snapControlHorizontally(btnDrop, nextFieldSnapX);
                     nextFieldSnapY = Helper.snapControlVertically(btnDrop, nextFieldSnapY, 2);
-                    if ((m_SelectedObject is SimpleObject) || (m_SelectedObject is StandardObject) || (m_SelectedObject is PathObject))
+                    if (!(m_SelectedObject is ExitObject) || !(m_SelectedObject is DoorObject) || !(m_SelectedObject is PathPointObject) || !(m_SelectedObject is FogObject))
                     {
                         box_parameters.Controls.Add(btnOpenRawEditor);                 
                         Helper.snapControlVertically(btnOpenRawEditor, snapBak, 2);

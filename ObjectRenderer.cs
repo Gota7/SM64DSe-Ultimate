@@ -34,7 +34,7 @@ namespace SM64DSe
 
             switch (obj.ID)
             {
-                case 0: ret = new PlayerRenderer(.008f,"wait.bca"); break;
+                case 0: ret = new CloneRenderer(((obj.Parameters[0] >> 0) & 0x3), ((obj.Parameters[0] >> 8) & 0x1F), .008f); break;
                 case 1: ret = new NormalBMDRenderer("data/special_obj/ewb_ice/ewb_ice_a.bmd", 0.008f); break;
                 case 2: ret = new NormalBMDRenderer("data/special_obj/ewb_ice/ewb_ice_b.bmd", 0.008f); break;
                 case 3: ret = new NormalBMDRenderer("data/special_obj/ewb_ice/ewb_ice_c.bmd", 0.008f); break;
@@ -44,19 +44,19 @@ namespace SM64DSe
                 case 7: ret = new NormalBMDRenderer("data/normal_obj/obj_updnlift/obj_updnlift.bmd", 0.008f); break;
                 case 8: ret = new NormalBMDRenderer("data/special_obj/hs_updown_lift/hs_updown_lift.bmd", 0.008f); break;
                 case 9: ret = new NormalBMDRenderer("data/normal_obj/obj_pathlift/obj_pathlift.bmd", 0.008f); break;
-                case 10: ret = new ChainedWanWanRenderer(); break;
-                // 11 -- CAMERA_TAG -- non-graphical
+                case 10: ret = new WanWanRenderer(6); break;
+                    // 11 -- CAMERA_TAG -- non-graphical
                 case 12: ret = new NormalBMDRenderer("data/normal_obj/obj_seesaw/obj_seesaw.bmd", 0.008f); break;
                 case 13: ret = new NormalBMDRenderer("data/enemy/iron_ball/iron_ball.bmd", 0.008f); break;
                 case 14: ret = new NormalBMDRenderer("data/special_obj/cv_goro_rock/cv_goro_rock.bmd", 0.008f); break;
-                case 15: ret = new NormalBMDRenderer("data/enemy/kuribo/kuribo_model.bmd", 0.008f); break;
-                case 16: ret = new NormalBMDRenderer("data/enemy/kuribo/kuribo_model.bmd", 0.002f); break;
+                case 15: ret = new CapEnemyRenderer("data/enemy/kuribo/kuribo_model.bmd", (obj.Parameters[0] >> 4) & 0xF, (obj.Parameters[0] >> 0) & 0xF, 13f, 1f); break;
+                case 16: ret = new NormalBMDRenderer("data/enemy/kuribo/kuribo_model.bmd", 0.004f); break;
                 case 17: ret = new NormalBMDRenderer("data/enemy/kuribo/kuribo_model.bmd", 0.016f); break;
                 case 18: ret = new GoombossRender(); break;
                 case 19: ret = new NormalBMDRenderer("data/enemy/bombhei/bombhei.bmd", 0.008f); break;
                 case 20: ret = new NormalBMDRenderer("data/enemy/bombhei/red_bombhei.bmd", 0.008f); break;
                 case 21: ret = new NormalBMDRenderer("data/enemy/nokonoko/nokonoko" + ((obj.Parameters[0] & 1) != 0 ? "_red" : "") + ".bmd", 0.008f); break;
-                case 22: ret = new NormalBMDRenderer("data/enemy/nokonoko/shell_" + ((obj.Parameters[0] & 1) != 0 ? "red" : "green") + ".bmd", 0.008f); break;
+                case 22: ret = new NormalBMDRenderer("data/enemy/nokonoko/nokonoko" + ((obj.Parameters[0] & 1) != 0 ? "_red" : "") + ".bmd", 0.004f); break;
                 case 23: ret = new NormalBMDRenderer("data/normal_obj/obj_block/broken_block_l.bmd", 0.008f); break;
                 case 24: ret = new NormalBMDRenderer("data/normal_obj/obj_block/broken_block_l.bmd", 0.012f); break;
                 case 25: ret = new NormalBMDRenderer("data/normal_obj/obj_block/broken_block_l.bmd", 0.008f); break;
@@ -82,33 +82,33 @@ namespace SM64DSe
                 case 45: ret = new NormalBMDRenderer("data/special_obj/b_ana_shutter/b_ana_shutter.bmd", 0.008f); break;
                 case 46: ret = new NormalBMDRenderer("data/special_obj/cv_shutter/cv_shutter.bmd", 0.008f); break;
                 case 47: ret = new NormalBMDRenderer("data/special_obj/cv_news_lift/cv_news_lift.bmd", 0.008f); break;
-                case 48: ret = new LooseWanWanRenderer(); break;
+                case 48: ret = new WanWanRenderer((obj.Parameters[0] >> 8) & 0xF); ; break;
                 case 49: ret = new NormalBMDRenderer("data/normal_obj/oneup_kinoko/oneup_kinoko.bmd", 0.008f); break;
                 case 50: ret = new NormalBMDRenderer("data/normal_obj/obj_cannon/houdai.bmd", 0.008f); break;
                 case 51: ret = new NormalBMDRenderer("data/special_obj/b_wan_shutter/b_wan_shutter.bmd", 0.008f); break;
                 case 52: ret = new NormalBMDRenderer("data/enemy/water_bomb/water_bomb.bmd", 0.008f); break;
-                //case 53: ret = new NormalBMDRenderer("data/normal_obj/birds/birds.bmd", 0.008f); break;
-                case 54: ret = new FishRenderer((obj.Parameters[0] & 0xF)); break;
+                case 53: ret = new FishRenderer((obj.Parameters[0] & 0xF), "data/normal_obj/bird/bird.bmd"); break;
+                case 54: ret = new FishRenderer((obj.Parameters[0] & 0xF), "data/normal_obj/fish/fish.bmd"); break;
                 case 55: ret = new ButterflyRenderer(); break;
                 case 56: ret = new NormalBMDRenderer("data/enemy/bombking/bomb_king.bmd", 0.008f); break;
-                case 57: ret = new NormalBMDRenderer("data/enemy/snowman/snowman_model.bmd", 0.008f); break;
+                case 57: ret = new SnowmanRenderer((obj.Parameters[0] >> 8) & 0xF); break;
                 case 58: ret = new NormalBMDRenderer("data/enemy/piano/piano.bmd", 0.008f); break;
                 case 59: ret = new NormalBMDRenderer("data/enemy/pakkun/pakkun_model.bmd", 0.008f); break;
-                    // 60 STAR CAMERA
+                case 60: ret = new ColorCubeRenderer(Color.FromArgb(255, 255, 255), Color.FromArgb(64, 64, 64), obj.SupportsRotation()); break;
                 case 61: ret = new StarRenderer(obj); break;
                 case 62: ret = new NormalBMDRenderer("data/normal_obj/star/obj_star_silver.bmd", 0.008f); break;
                 case 63: ret = new StarRenderer(obj); break;
                 case 64: ret = new NormalBMDRenderer("data/enemy/battan/battan.bmd", 0.008f); break;
                 case 65: ret = new NormalBMDRenderer("data/enemy/battan_king/battan_king.bmd", 0.008f); break;
                 case 66: ret = new NormalBMDRenderer("data/enemy/dosune/dosune.bmd", 0.008f); break;
-                case 67: ret = new NormalBMDRenderer("data/enemy/teresa/teresa.bmd", 0.008f); break;
-                case 68: ret = new NormalBMDRenderer("data/enemy/boss_teresa/boss_teresa.bmd", 0.008f); break;
+                case 67: ret = new CapEnemyRenderer("data/enemy/teresa/teresa.bmd", 0, (obj.Parameters[0] >> 8) & 0xF, 12f, 1f); break;
+                case 68: ret = new BigBooRenderer((obj.Parameters[0] >> 0) & 0xF); break;
                     // 69 ICON TERESA
-                //case 70: ret = new NormalBMDRenderer("data/special_obj/th_kaidan/th_kaidan.bmd", 0.008f); break;
+                case 70: ret = new StairRenderer(); break;
                 case 71: ret = new NormalBMDRenderer("data/special_obj/th_hondana/th_hondana.bmd", 0.008f); break;
                 case 72: ret = new NormalBMDRenderer("data/special_obj/th_mery_go/th_mery_go.bmd", 0.008f); break;
                 case 73: ret = new NormalBMDRenderer("data/special_obj/th_trap/th_trap.bmd", 0.008f); break;
-                // 74 -- PL_CLOSET -- non-graphical
+                    // 74 -- PL_CLOSET -- non-graphical
                 case 75: ret = new NormalBMDRenderer("data/normal_obj/obj_kanban/obj_kanban.bmd", 0.008f); break;
                 case 76: ret = new NormalBMDRenderer("data/normal_obj/obj_tatefuda/obj_tatefuda.bmd", 0.008f); break;
                 case 77: ret = new NormalBMDRenderer("data/normal_obj/obj_ice_board/obj_ice_board.bmd", 0.008f); break;
@@ -138,7 +138,7 @@ namespace SM64DSe
                 case 101: ret = new NormalBMDRenderer("data/special_obj/dp_brock/dp_brock.bmd", 0.008f); break;
                 case 102: ret = new NormalBMDRenderer("data/special_obj/dp_lift/dp_lift.bmd", 0.008f); break;
                 case 103: ret = new NormalBMDRenderer("data/special_obj/dl_pyramid/dl_pyramid.bmd", 0.008f); break;
-                // 104 -- DL_PYRAMID_DUMMY -- non-graphical
+                    // 104 -- DL_PYRAMID_DUMMY -- non-graphical
                 case 105: ret = new NormalBMDRenderer("data/special_obj/wl_pole_lift/wl_pole_lift.bmd", 0.008f); break;
                 case 106: ret = new NormalBMDRenderer("data/special_obj/wl_submarine/wl_submarine.bmd", 0.008f); break;
                 case 107: ret = new NormalBMDRenderer("data/special_obj/wl_kupa_shutter/wl_kupa_shutter.bmd", 0.008f); break;
@@ -188,8 +188,8 @@ namespace SM64DSe
                 case 152: ret = new NormalBMDRenderer("data/enemy/batta_block/batta_block.bmd", 0.008f); break;
                 case 153: ret = new DoubleRenderer("data/enemy/birikyu/birikyu.bmd", "data/enemy/birikyu/birikyu_elec.bmd", 0.008f); break;
                 case 154: ret = new NormalBMDRenderer("data/special_obj/hm_basket/hm_basket.bmd", 0.008f); break;
-                case 155: ret = new NormalBMDRenderer("data/enemy/monkey/monkey.bmd", 0.008f); break;
-                    // 156 UKIKI (STAR)
+                case 155: ret = new UkikiThiefRenderer(); break;
+                case 156: ret = new NormalBMDRenderer("data/enemy/monkey/monkey.bmd", 0.008f); break;
                 case 157: ret = new NormalBMDRenderer("data/enemy/penguin/penguin_child.bmd", 0.002f); break;
                 case 158: ret = new NormalBMDRenderer("data/enemy/penguin/penguin.bmd", 0.008f); break;
                 case 159: ret = new NormalBMDRenderer("data/enemy/penguin/penguin.bmd", 0.008f); break;
@@ -204,7 +204,7 @@ namespace SM64DSe
                 case 168: ret = new NormalBMDRenderer("data/special_obj/c2_hari_long/c2_hari_long.bmd", 0.008f); break;
                 case 169: ret = new NormalBMDRenderer("data/special_obj/c2_huriko/c2_huriko.bmd", 0.008f); break;
                 case 170: ret = new NormalBMDRenderer("data/enemy/menbo/menbo.bmd", 0.008f); break;
-                //case 171: ret = new NormalBMDRenderer("data/special_obj/casket/casket.bmd", 0.008f); break; BIG BOO'S HAUNT COFFIN, off-centre
+                case 171: ret = new CoffinRenderer(); break;
                 case 172: ret = new NormalBMDRenderer("data/enemy/hyuhyu/hyuhyu.bmd", 0.008f); break;
                 case 173: ret = new NormalBMDRenderer("data/special_obj/b_si_so/b_si_so.bmd", 0.008f); break;
                 case 174: ret = new NormalBMDRenderer("data/special_obj/km1_shiso/km1_shiso.bmd", 0.008f); break;
@@ -212,8 +212,8 @@ namespace SM64DSe
                 case 176: ret = new NormalBMDRenderer("data/special_obj/km1_ukishima/km1_ukishima.bmd", 0.008f); break;
                 case 177: ret = new KurumajikuRenderer("km1"); break;
                 case 178: ret = new NormalBMDRenderer("data/special_obj/km1_deru/km1_deru.bmd", 0.008f); break;
-                //case 179: ret = new NormalBMDRenderer("data/special_obj/ki_fune/ki_fune_down_a.bmd", 0.008f); break;
-                case 180: ret = new NormalBMDRenderer("data/special_obj/ki_fune/ki_fune_up.bmd", 0.008f); break;
+                case 179: ret = new XZRotateRenderer("data/special_obj/ki_fune/ki_fune_down_a.bmd", obj.Parameters[1], obj.Parameters[2]); break;
+                case 180: ret = new XZRotateRenderer("data/special_obj/ki_fune/ki_fune_up.bmd", obj.Parameters[1], obj.Parameters[2]); break;
                 case 181: ret = new DoubleRenderer("data/special_obj/ki_hasira/ki_hasira_dai.bmd", 
                     "data/special_obj/ki_hasira/ki_hasira.bmd", Vector3.Zero, new Vector3(0f, 12.5f, 0f), 0.008f); break;
                 case 182: ret = new NormalBMDRenderer("data/special_obj/ki_hasira/ki_hasira_dai.bmd", 0.008f); break;
@@ -250,7 +250,7 @@ namespace SM64DSe
                 case 213: ret = new NormalBMDRenderer("data/special_obj/km2_gura/km2_gura.bmd", 0.008f); break;
                 case 214: ret = new NormalBMDRenderer("data/special_obj/km2_ami_bou/km2_ami_bou.bmd", 0.008f); break;
                 case 215: ret = new NormalBMDRenderer("data/special_obj/km2_yokoshiso/km2_yokoshiso.bmd", 0.008f); break;
-                case 216: ret = new NormalBMDRenderer("data/special_obj/km2_susumu/km2_susumu.bmd", 0.008f); break;
+                case 216: ret = new LiftRenderer((obj.Parameters[0] >> 8) & 0xF); break;
                 case 217: ret = new NormalBMDRenderer("data/special_obj/km2_ukishima/km2_ukishima.bmd", 0.008f); break;
                 case 218: ret = new NormalBMDRenderer("data/special_obj/km2_rift02/km2_rift02.bmd", 0.008f); break;
                 case 219: ret = new NormalBMDRenderer("data/special_obj/km2_rift01/km2_rift01.bmd", 0.008f); break;
@@ -264,15 +264,15 @@ namespace SM64DSe
                 case 227: ret = new NormalBMDRenderer("data/special_obj/km3_kaitendai/km3_kaitendai.bmd", 0.008f); break;
                 case 228: ret = new NormalBMDRenderer("data/special_obj/c0_switch/c0_switch.bmd", 0.008f); break;
                 case 229: ret = new NormalBMDRenderer("data/special_obj/sm_lift/sm_lift.bmd", 0.008f); break;
-                // case 230: ret = new NormalBMDRenderer("data/special_obj/fl_log/fl_log.bmd", 0.008f); break; // WRONG
+                    // 230
                 case 231: ret = new NormalBMDRenderer("data/special_obj/th_lift/th_lift.bmd", 0.008f); break;
                 case 232: ret = new NormalBMDRenderer("data/special_obj/cv_ud_lift/cv_ud_lift.bmd", 0.008f); break;
                 case 233: ret = new NormalBMDRenderer("data/special_obj/rc_rift02/rc_rift02.bmd", 0.008f); break;
                 case 234: ret = new NormalBMDRenderer("data/enemy/bakubaku/bakubaku.bmd", 0.008f); break;
-                case 235: ret = new NormalBMDRenderer("data/special_obj/km3_rift/km3_rift.bmd", 0.008f); break;
+                case 235: ret = new LiftRenderer((obj.Parameters[0] >> 8) & 0xF); break;
                 case 236: ret = new NormalBMDRenderer("data/enemy/koopa_bomb/koopa_bomb.bmd", 0.008f); break;
                 case 237: ret = new NormalBMDRenderer("data/enemy/mip/mip.bmd", 0.008f); break;
-                    // 238 RABBIT KEY
+                case 238: ret = new NormalBMDRenderer("data/normal_obj/mip_key/mip_key.bmd", 0.008f); break;
                 case 239: ret = new NormalBMDRenderer("data/enemy/owl/owl.bmd", 0.008f); break;
                 case 240: ret = new NormalBMDRenderer("data/enemy/donketu/donketu.bmd", 0.008f); break;
                 case 241: ret = new NormalBMDRenderer("data/enemy/donketu/boss_donketu.bmd", 0.008f); break;
@@ -286,27 +286,28 @@ namespace SM64DSe
                 case 249: ret = new NormalBMDRenderer("data/enemy/choropu/rock.bmd", 0.008f); break;
                 case 250: ret = new NormalBMDRenderer("data/enemy/basabasa/basabasa.bmd", 0.008f); break;
                 case 251: ret = new NormalBMDRenderer("data/enemy/popoi/popoi.bmd", 0.008f); break;
-                case 252: ret = new NormalBMDRenderer("data/enemy/jango/jango.bmd", 0.008f); break;
+                case 252: ret = new KleptoRenderer((obj.Parameters[0] >> 8) & 0xF); break;
                 case 253: ret = new PokeyRenderer(); break;
-                    // 254 MARIO CAP
+                case 254: ret = new CapRenderer((obj.Parameters[0] >> 8) & 0xF); break;
                 case 255: ret = new FlPuzzleRenderer(obj.Parameters[0] & 0xFF); break;
-                // 256 -- FL_COIN -- non-graphical
-                case 257: ret = new NormalBMDRenderer("data/enemy/dossy/dossy.bmd", 0.008f); break;
+                    // 256 -- FL_COIN -- non-graphical
+                case 257: ret = new DorrieRenderer((obj.Parameters[0]) & 0xFF); break;
                     // 258 DOSSY CAP
                 case 259: ret = new NormalBMDRenderer("data/enemy/huwahuwa/huwahuwa_model.bmd", 0.008f); break;
                 case 260: ret = new NormalBMDRenderer("data/special_obj/ki_slide_box/ki_slide_box.bmd", 0.008f); break;
-                case 261: ret = new NormalBMDRenderer("data/enemy/moray/moray.bmd", 0.008f); break;
+                case 261: ret = new XZRotateRenderer("data/enemy/moray/moray.bmd", obj.Parameters[1], obj.Parameters[2]); break;
                 case 262: ret = new NormalBMDRenderer("data/normal_obj/obj_kumo/obj_kumo.bmd", 0.008f); break;
                 case 263: ret = new NormalBMDRenderer("data/normal_obj/obj_shell/obj_shell.bmd", 0.008f); break;
-                // 264-265
-                case 266: ret = new FlameThrowerRenderer(obj.Parameters[1]); break;
-                    // 264-272
+                case 264: ret = new ColorCubeRenderer(Color.FromArgb(255, 50, 0), Color.FromArgb(200, 127, 25, 0), obj.SupportsRotation()); break;
+                case 265: ret = new ColorCubeRenderer(Color.FromArgb(0, 225, 255), Color.FromArgb(200, 0, 112, 127), obj.SupportsRotation()); break;
+                case 266: ret = new FlameThrowerRenderer(obj.Parameters[0], obj.Parameters[1]); break;
+                    // 267-272
                 case 273: ret = new C1TrapRenderer(); break;
                 case 274: ret = new NormalBMDRenderer("data/special_obj/c1_hikari/c1_hikari.bmd", 0.008f); break;
                 case 275: ret = new NormalBMDRenderer("data/special_obj/c1_peach/c1_peach.bmd", 0.008f); break;
                 case 276: ret = new NormalBMDRenderer("data/special_obj/rc_carpet/rc_carpet.bmd", 0.008f); break;
-                // case 277: ret = new NormalBMDRenderer("data/normal_obj/koopa_key/koopa_key.bmd", 0.016f); break;
-                    // 278
+                case 277: ret = new KeyRenderer(obj.Parameters[0] & 0xF); break;
+                case 278: ret = new KeyRenderer(obj.Parameters[0] & 0xF); break;
                 case 279: ret = new NormalBMDRenderer("data/enemy/iwante/iwante_dummy.bmd", 0.008f); break; // TODO: Show as hands?
                 case 280: ret = new WigglerRenderer(); break;
                 case 281: ret = new NormalBMDRenderer("data/enemy/nokonoko/nokonoko.bmd", 0.01f); break;
@@ -314,7 +315,10 @@ namespace SM64DSe
                 case 283: ret = new NormalBMDRenderer("data/special_obj/t_basket/t_basket.bmd", 0.008f); break;
                 case 284: ret = new NormalBMDRenderer("data/normal_obj/obj_block/broken_block_ll.bmd", 0.008f); break;
                 case 285: ret = new NormalBMDRenderer("data/normal_obj/obj_block/ice_block_ll.bmd", 0.008f); break;
-                    // 286-289
+                    // 286
+                case 287: ret = new KillerBookRenderer(0.008f); break;
+                case 288: ret = new NormalBMDRenderer("data/enemy/book/nom_book.bmd", 0.008f); break;
+                    // 289
                 case 290: ret = new NormalBMDRenderer("data/enemy/donketu/ice_donketu.bmd", 0.008f); break;
                 case 291: ret = new NormalBMDRenderer("data/enemy/king_ice_donketu/king_ice_donketu_model.bmd", 0.008f); break;
                 case 292: ret = new NormalBMDRenderer("data/normal_obj/t_box/t_box.bmd", 0.008f); break;
@@ -329,24 +333,29 @@ namespace SM64DSe
                 case 301: ret = new NormalBMDRenderer("data/enemy/horuhei/horuhei.bmd", 0.008f); break;
                 case 302: ret = new NormalBMDRenderer("data/normal_obj/scale_up_kinoko/scale_up_kinoko.bmd", 0.008f); break;
                 case 303: ret = new NormalBMDRenderer("data/special_obj/c0_water/c0_water.bmd", 0.008f); break;
-                // 304 -- SECRET_COIN -- non-graphical
+                case 304: ret = new ColorCubeRenderer(Color.FromArgb(127, 0, 255), Color.FromArgb(32, 0, 64), obj.SupportsRotation()); break;
                 case 305: ret = new NormalBMDRenderer("data/normal_obj/b_coin_switch/b_coin_switch.bmd", 0.008f); break;
-                    // 306-310
+                    // 306-307
+                case 308: ret = new ColorCubeRenderer(Color.FromArgb(255, 180, 0), Color.FromArgb(64, 45, 0), obj.SupportsRotation()); break;
+                    // 309-310
                 case 311: ret = new NormalBMDRenderer("data/normal_obj/w_ring/w_ring.bmd", 0.016f); break;
                 case 312: ret = new NormalBMDRenderer("data/enemy/pakkun/pakkun_model.bmd", 0.016f); break;
                 case 313: ret = new NormalBMDRenderer("data/enemy/pakkun/pakkun_model.bmd", 0.004f); break;
                 case 314: ret = new NormalBMDRenderer("data/enemy/pakkun/pakkun_model.bmd", 0.008f); break;
-                    // 315-317
+                    // 315-316
+                case 317: ret = new ColorCubeRenderer(Color.FromArgb(180, 255, 255), Color.FromArgb(45, 64, 64), obj.SupportsRotation()); break;
                 case 318: ret = new NormalBMDRenderer("data/normal_obj/water_tatumaki/water_tatumaki.bmd", 0.008f); break;
                     // 319
                 case 320: ret = new NormalBMDRenderer("data/enemy/sand_tornado/sand_tornado.bmd", 0.008f); break;
-				// 321-325
+				    // 321
 				case 322: ret = new LuigiRenderer(0.008f); break;
-
-				default: ret = new ColorCubeRenderer(Color.FromArgb(0, 0, 255), Color.FromArgb(0,0,64), obj.SupportsRotation()); break;
+                case 323: ret = new ColorCubeRenderer(Color.FromArgb(0, 255, 255), Color.FromArgb(0, 64, 64), obj.SupportsRotation()); break;
+                // 324-325\
+                case 511: ret = new ColorCubeRenderer(Color.FromArgb(255, 180, 180), Color.FromArgb(64, 45, 45), obj.SupportsRotation()); break;
+                default: ret = new ColorCubeRenderer(Color.FromArgb(0, 0, 255), Color.FromArgb(0,0,64), obj.SupportsRotation()); break;
             }
 
-            //Make custom objects override everything because they are that cool.
+            //Make custom objects override everything because they are that cool. So true!!!
             if (ObjectDatabase.m_ObjectInfo[obj.ID].m_IsCustomModelPath != null) {
                 ret = new NormalBMDRenderer(ObjectDatabase.m_ObjectInfo[obj.ID].m_IsCustomModelPath, 0.008f);
             }
@@ -1055,7 +1064,66 @@ namespace SM64DSe
 		protected int[] m_DisplayListsHead;
     }
 
-	class LuigiRenderer : PlayerRenderer
+    class ObjectAnimRenderer : ObjectRenderer
+    {
+        public ObjectAnimRenderer() { }
+        public ObjectAnimRenderer(float scale, string animation)
+        {
+            m_Animation = new BCA(Program.m_ROM.GetFileFromName("" + animation));
+            Construct(scale);
+        }
+
+        public override void Release()
+        {
+            ModelCache.RemoveModel(m_Model);
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            int dl = 0;
+            switch (mode)
+            {
+                case RenderMode.Opaque: dl = m_DisplayLists[0]; break;
+                case RenderMode.Translucent: dl = m_DisplayLists[1]; break;
+                case RenderMode.Picking: dl = m_DisplayLists[2]; break;
+            }
+
+            return dl != 0;
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            GL.Scale(m_Scale);
+            switch (mode)
+            {
+                case RenderMode.Opaque: GL.CallList(m_DisplayLists[0]); break;
+                case RenderMode.Translucent: GL.CallList(m_DisplayLists[1]); break;
+                case RenderMode.Picking: GL.CallList(m_DisplayLists[2]); break;
+            }
+        }
+
+        public virtual void Construct(float scale)
+        {
+            m_Model = ModelCache.GetModel("");
+
+
+            m_DisplayLists = ModelCache.GetDisplayLists(m_Model, m_Animation, 0);
+
+            m_Scale = new Vector3(scale, scale, scale);
+            m_Filename = "";
+        }
+
+        public override void UpdateRenderer()
+        {
+            ModelCache.RemoveModel(m_Model);
+        }
+
+        protected BMD m_Model;
+        protected BCA m_Animation;
+        protected int[] m_DisplayLists;
+    }
+
+    class LuigiRenderer : PlayerRenderer
 	{
 		public LuigiRenderer(){ }
 		public LuigiRenderer(float scale):
@@ -1080,7 +1148,26 @@ namespace SM64DSe
 	}
 
 
-	class PaintingRenderer : ObjectRenderer
+    class KillerBookRenderer : ObjectAnimRenderer
+    {
+        public KillerBookRenderer() { }
+        public KillerBookRenderer(float scale) :
+            base(scale, "data/enemy/book/book_attack.bca")
+        {
+        }
+
+        public override void Construct(float scale)
+        {
+            m_Model = ModelCache.GetModel("data/enemy/book/book.bmd");
+
+            m_DisplayLists = ModelCache.GetDisplayLists(m_Model, m_Animation, 9);
+
+            m_Scale = new Vector3(scale, scale, scale);
+            m_Filename = "data/enemy/book/book.bmd";
+        }
+    }
+
+    class PaintingRenderer : ObjectRenderer
     {
         private float m_XScale, m_YScale, m_XRotation;
 
@@ -1163,6 +1250,50 @@ namespace SM64DSe
             if (treetype > 7) treetype = 7;
             string filename = "data/normal_obj/tree/" + treenames[treetype] + "_tree.bmd";
             Construct(filename, 0.008f);
+        }
+    }
+    class LiftRenderer : NormalBMDRenderer
+    {
+        public LiftRenderer(int liftType)
+        {
+            string filename = "data/special_obj/" + ((liftType != 0) ? "km2_susumu/km2_susumu" : "km3_rift/km3_rift") + ".bmd";
+            Construct(filename, 0.008f);
+        }
+    }
+
+    class CapRenderer : NormalBMDRenderer
+    {
+        public CapRenderer(int captype)
+        {
+            string[] capnames = { "mario", "luigi", "wario" };
+            if (captype > 2) captype = 2;
+            string filename = "data/normal_obj/obj_mario_cap/" + capnames[captype] + "_cap.bmd";
+            Construct(filename, 0.008f);
+        }
+    }
+
+    class CloneRenderer : PlayerRenderer
+    {       
+        public CloneRenderer(int characterID, int entranceMode, float scale) :
+            base(scale, (characterID != 2) ? "wait.bca" : "W_wait.bca")
+        {
+            string[] characterNames = { "mario", "luigi", "wario", "yoshi" };
+            if (characterID > 3) characterID = 3;
+
+            string[] animNames = { (characterID != 2) ? "wait" : "W_wait", "swim", "fly_pose", "roll_jump", "land", "land", "land", "land", "jmped", "jmped", "roll_jump", "return_star", "return_star", "jmped", (characterID != 2) ? "wait" : "W_wait", "land", "return_star", "jmped", (characterID != 2) ? "wait" : "W_wait" };
+            if (entranceMode > 18) entranceMode = 18;
+
+            m_Head = ModelCache.GetModel("data/player/" + characterNames[characterID] + ((characterID != 3) ? "_head_cap.bmd" : "_head.bmd"));
+            m_Model = ModelCache.GetModel("data/player/" + characterNames[characterID] + "_model.bmd");
+            m_Animation = new BCA(Program.m_ROM.GetFileFromName("data/player/" + animNames[entranceMode] + ".bca"));
+
+            m_DisplayLists = ModelCache.GetDisplayLists(m_Model, m_Animation, 0);
+            m_DisplayListsHead = ModelCache.GetDisplayLists(m_Head);
+
+
+            m_HeadTransform = m_Animation.GetAllMatricesForFrame(m_Model.m_ModelChunks, 0)[15];
+            m_Scale = new Vector3(scale, scale, scale);
+            m_Filename = "data/player/mario_model.bmd";
         }
     }
 
@@ -1310,6 +1441,386 @@ namespace SM64DSe
         }
     }
 
+    class StairRenderer : ObjectRenderer
+    {
+        private NormalBMDRenderer m_StepRenderer;
+
+        public StairRenderer()
+        {
+            m_StepRenderer = new NormalBMDRenderer("data/special_obj/th_kaidan/th_kaidan.bmd", 1f);
+            this.m_Filename = m_StepRenderer.m_Filename;
+        }
+
+        public override void Release()
+        {
+            m_StepRenderer.Release();
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            return m_StepRenderer.GottaRender(mode);
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            GL.Scale(0.008f, 0.008f, 0.008f);
+            GL.Translate(0f, 0f, -50f);
+            m_StepRenderer.Render(mode);
+            GL.Translate(0f, -25f, 25f);
+            m_StepRenderer.Render(mode);
+            GL.Translate(0f, -25f, 25f);
+            m_StepRenderer.Render(mode);
+        }
+    }
+    class CoffinRenderer : ObjectRenderer
+    {
+        private NormalBMDRenderer m_CoffinRenderer;
+
+        public CoffinRenderer()
+        {
+            m_CoffinRenderer = new NormalBMDRenderer("data/special_obj/casket/casket.bmd", 1f);
+            this.m_Filename = m_CoffinRenderer.m_Filename;
+        }
+
+        public override void Release()
+        {
+            m_CoffinRenderer.Release();
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            return m_CoffinRenderer.GottaRender(mode);
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            GL.Scale(0.008f, 0.008f, 0.008f);
+            GL.Translate(0f, 0f, 25f);
+            m_CoffinRenderer.Render(mode);
+        }
+    }
+
+    class BigBooRenderer : ObjectRenderer
+    {
+        private NormalBMDRenderer m_BigBooRenderer;
+
+        public BigBooRenderer(int type)
+        {
+            m_BigBooRenderer = new NormalBMDRenderer("data/enemy/" + ((type != 3) ? "teresa/teresa" : "boss_teresa/boss_teresa") + ".bmd", (type != 3) ? 3f : 1f);
+            this.m_Filename = m_BigBooRenderer.m_Filename;
+        }
+
+        public override void Release()
+        {
+            m_BigBooRenderer.Release();
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            return m_BigBooRenderer.GottaRender(mode);
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            GL.Scale(0.008f, 0.008f, 0.008f);
+            m_BigBooRenderer.Render(mode);
+        }
+    }
+
+    //This is probably coded very hackily, sorry lol
+    class CapEnemyRenderer : ObjectRenderer
+    {
+        private NormalBMDRenderer m_CapRenderer, m_BodyRenderer, m_starRenderer;
+
+        private bool wearCap;
+        private bool haveStar;
+        private float offset;
+        private float scale;
+        public CapEnemyRenderer(string model, int content, int captype, float capOffset, float objScale)
+        {
+            offset = capOffset;
+            scale = objScale;
+
+            if (captype != 15 && content == 2)
+            {
+                wearCap = true;
+            }
+
+            if (content == 1)
+            {
+                haveStar = true;
+            }
+
+            string[] capnames = { "mario", "luigi", "wario" };
+            if (captype > 15) captype = 15;
+
+            m_BodyRenderer = new NormalBMDRenderer(model, 1f);
+
+            if (wearCap)
+            {
+                m_CapRenderer = new NormalBMDRenderer("data/normal_obj/obj_mario_cap/" + capnames[captype] + "_cap.bmd", 1f);
+            }
+
+            if (haveStar)
+            {
+                m_starRenderer = new NormalBMDRenderer("data/normal_obj/star/obj_star_silver.bmd", 1f);
+            }
+        }
+
+        public override void Release()
+        {
+            m_BodyRenderer.Release();
+
+            if (wearCap)
+            {
+                m_CapRenderer.Release();
+            }
+
+            if (haveStar)
+            {
+                m_starRenderer.Release();
+            }
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            return m_BodyRenderer.GottaRender(mode);
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            if (haveStar)
+            {
+                GL.Scale(.008f, .008f, .008f);
+                GL.Translate(0f, 38f * scale, 0f);
+                m_starRenderer.Render(mode);
+                GL.Translate(0f, -38f * scale, 0f);
+                GL.Scale(125f, 125f, 125f);
+            }
+
+            GL.Scale(.008f * scale, .008f * scale, .008f * scale);
+            m_BodyRenderer.Render(mode);
+
+            if (wearCap)
+            {
+                GL.Scale(1/scale, 1/scale, 1/scale);
+                GL.Translate(0f, offset, 0f);
+                m_CapRenderer.Render(mode);
+            }
+        }
+    }
+    class SnowmanRenderer : ObjectRenderer
+    {
+        private NormalBMDRenderer m_CapRenderer, m_BodyRenderer;
+
+        private bool wearCap;
+        public SnowmanRenderer(int capStatus)
+        {
+
+            if (capStatus == 2)
+            {
+                wearCap = true;
+            }
+
+            m_BodyRenderer = new NormalBMDRenderer("data/enemy/snowman/snowman_model.bmd", 1f);
+
+            if (wearCap)
+            {
+                m_CapRenderer = new NormalBMDRenderer("data/normal_obj/obj_mario_cap/mario_cap.bmd", 1f);
+            }
+        }
+
+        public override void Release()
+        {
+            m_BodyRenderer.Release();
+
+            if (wearCap)
+            {
+                m_CapRenderer.Release();
+            }
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            return m_BodyRenderer.GottaRender(mode);
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            GL.Scale(0.008f, 0.008f, 0.008f);
+            m_BodyRenderer.Render(mode);
+
+            if (wearCap)
+            {
+                GL.Translate(0f, 27.6f, 0f);
+                m_CapRenderer.Render(mode);
+            }
+        }
+    }
+    class UkikiThiefRenderer : ObjectRenderer
+    {
+        private NormalBMDRenderer m_CapRenderer, m_BodyRenderer;
+
+        public UkikiThiefRenderer()
+        {
+            m_BodyRenderer = new NormalBMDRenderer("data/enemy/monkey/monkey.bmd", 1f);
+            m_CapRenderer = new NormalBMDRenderer("data/normal_obj/obj_mario_cap/mario_cap.bmd", 1f);
+        }
+
+        public override void Release()
+        {
+            m_BodyRenderer.Release();
+            m_CapRenderer.Release();
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            return m_BodyRenderer.GottaRender(mode);
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            GL.Scale(0.008f, 0.008f, 0.008f);
+            m_BodyRenderer.Render(mode);
+
+            GL.Translate(0f, 10.5f, 0f);
+            m_CapRenderer.Render(mode);
+        }
+    }
+
+    class DorrieRenderer : ObjectRenderer
+    {
+        private NormalBMDRenderer m_CapRenderer, m_BodyRenderer;
+
+        private bool wearCap;
+        public DorrieRenderer(int capStatus)
+        {
+            if (capStatus == 1)
+            {
+                wearCap = true;
+            }
+
+            m_BodyRenderer = new NormalBMDRenderer("data/enemy/dossy/dossy.bmd", 1f);
+
+            if (wearCap)
+            {
+                m_CapRenderer = new NormalBMDRenderer("data/normal_obj/obj_mario_cap/wario_cap.bmd", 1f);
+            }
+        }
+
+        public override void Release()
+        {
+            m_BodyRenderer.Release();
+
+            if (wearCap)
+            {
+                m_CapRenderer.Release();
+            }
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            return m_BodyRenderer.GottaRender(mode);
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            GL.Scale(0.008f, 0.008f, 0.008f);
+            m_BodyRenderer.Render(mode);
+
+            if (wearCap)
+            {
+                GL.Scale(3f, 3f, 3f);
+                GL.Translate(0f, 26f, 18.75f);      
+                m_CapRenderer.Render(mode);
+            }
+        }
+    }
+
+    class KeyRenderer : ObjectRenderer
+    {
+        private NormalBMDRenderer m_KeyRenderer, m_CapRenderer;
+        private bool wearCap;
+        public KeyRenderer(int keytype)
+        {
+            string[] keynames = { "koopa_key/koopa_key", "koopa_key/koopa_key", "player_key/mario_key", "player_key/luigi_key", "player_key/wario_key", "mip_key/mip_key", "mip_key/mip_key", "star/obj_star" };
+            if (keytype > 7) keytype = 7;
+
+            if (keytype < 5 && keytype > 1)
+            { 
+                wearCap = true;
+            }
+                
+
+            m_KeyRenderer = new NormalBMDRenderer("data/normal_obj/" + keynames[keytype] + ".bmd", 1f);
+
+            string[] capnames = { "mario", "luigi", "wario" };
+
+            if (wearCap)
+            {
+                m_CapRenderer = new NormalBMDRenderer("data/normal_obj/obj_mario_cap/" + capnames[keytype - 2] + "_cap.bmd", 1f);
+            }
+        }
+
+        public override void Release()
+        {
+            m_KeyRenderer.Release();
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            return m_KeyRenderer.GottaRender(mode);
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            GL.Scale(0.016f, 0.016f, 0.016f);
+            m_KeyRenderer.Render(mode);
+
+            if (wearCap)
+            {
+                GL.Scale(.33f, .33f, .33f);
+                GL.Translate(0f, 11.5f, 0f);
+                m_CapRenderer.Render(mode);
+            }
+        }
+    }
+
+    class XZRotateRenderer : ObjectRenderer
+    {
+        private NormalBMDRenderer m_ModelRenderer;
+
+        float rotX;
+        float rotZ;
+
+        public XZRotateRenderer(string model, ushort param2, ushort param3)
+        {
+            m_ModelRenderer = new NormalBMDRenderer(model, 1f);
+            this.m_Filename = m_ModelRenderer.m_Filename;
+
+            this.rotX = param2;
+            this.rotZ = param3;
+        }
+
+        public override void Release()
+        {
+            m_ModelRenderer.Release();
+        }
+
+        public override bool GottaRender(RenderMode mode)
+        {
+            return m_ModelRenderer.GottaRender(mode);
+        }
+
+        public override void Render(RenderMode mode)
+        {
+            GL.Scale(0.008f, 0.008f, 0.008f);
+            GL.Rotate(rotX / 65535 * 360, Vector3d.UnitX);
+            GL.Rotate(rotZ / 65535 * 360, Vector3d.UnitZ);
+            m_ModelRenderer.Render(mode);
+        }
+    }
+
     class WigglerRenderer : ObjectRenderer
     {
         private NormalBMDRenderer m_HeadRenderer;
@@ -1353,14 +1864,15 @@ namespace SM64DSe
         }
     }
 
-    class LooseWanWanRenderer : ObjectRenderer
+    class WanWanRenderer : ObjectRenderer
     {
-        private NormalBMDRenderer m_BodyRenderer, m_ChainRenderer;
+        private NormalBMDRenderer m_BodyRenderer, m_ChainRenderer, m_EndRenderer;
 
-        public LooseWanWanRenderer()
+        public WanWanRenderer(int starType)
         {
             m_BodyRenderer = new NormalBMDRenderer("data/enemy/wanwan/wanwan.bmd", 1f);
             m_ChainRenderer = new NormalBMDRenderer("data/enemy/wanwan/chain.bmd", 1f);
+            m_EndRenderer = new NormalBMDRenderer("data/normal_obj/" + ((starType != 6) ? ((starType != 15) ? "star/obj_star" : "star/obj_star_silver") : "obj_pile/pile") + ".bmd", 1f);
             this.m_Filename = m_BodyRenderer.m_Filename + ";" + m_ChainRenderer.m_Filename;
         }
 
@@ -1368,17 +1880,19 @@ namespace SM64DSe
         {
             m_BodyRenderer.Release();
             m_ChainRenderer.Release();
+            m_EndRenderer.Release();
         }
 
         public override bool GottaRender(RenderMode mode)
         {
-            return m_BodyRenderer.GottaRender(mode) || m_ChainRenderer.GottaRender(mode);
+            return m_BodyRenderer.GottaRender(mode) || m_ChainRenderer.GottaRender(mode) || m_EndRenderer.GottaRender(mode);
         }
 
         public override void Render(RenderMode mode)
         {
             GL.PushMatrix();
             GL.Scale(0.008f, 0.008f, 0.008f);
+            m_EndRenderer.Render(mode);
             for (int i = 0; i < 6; i++)
             {
                 GL.Translate(0f, 3.25f, 10f);
@@ -1387,38 +1901,62 @@ namespace SM64DSe
 
             GL.Translate(0f, 3.25f, 40f);
             m_BodyRenderer.Render(mode);
+
             GL.PopMatrix();
         }
     }
-
-    class ChainedWanWanRenderer : LooseWanWanRenderer
+    class KleptoRenderer : ObjectRenderer
     {
-        private NormalBMDRenderer m_PoleRenderer;
-
-        public ChainedWanWanRenderer()
+        private NormalBMDRenderer m_BodyRenderer, m_CapRenderer, m_StarRenderer;
+        private bool starHeld;
+        public KleptoRenderer(int heldType)
         {
-            m_PoleRenderer = new NormalBMDRenderer("data/normal_obj/obj_pile/pile.bmd", 0.008f);
-            this.m_Filename = base.m_Filename + ";" + m_PoleRenderer.m_Filename;
+            m_BodyRenderer = new NormalBMDRenderer("data/enemy/jango/jango.bmd", 1f);
+            if (heldType == 0)
+            {
+                m_CapRenderer = new NormalBMDRenderer("data/normal_obj/obj_mario_cap/mario_cap.bmd", 1f);
+                starHeld = false;
+            }
+            else
+            {
+                m_StarRenderer = new NormalBMDRenderer("data/normal_obj/" + ((heldType != 2) ? "star/obj_star" : "star/obj_star_silver") + ".bmd", 1f);
+                starHeld = !starHeld;
+            }
         }
 
         public override void Release()
         {
-            base.Release();
-            m_PoleRenderer.Release();
+            m_BodyRenderer.Release();
+            if (starHeld == true)
+            {
+                m_StarRenderer.Release();
+            }
+            else
+            {
+                m_CapRenderer.Release();
+            }
         }
 
         public override bool GottaRender(RenderMode mode)
         {
-            return base.GottaRender(mode) || m_PoleRenderer.GottaRender(mode);
+            return m_BodyRenderer.GottaRender(mode);
         }
 
         public override void Render(RenderMode mode)
         {
             GL.PushMatrix();
-            m_PoleRenderer.Render(mode);
+            GL.Scale(0.008f, 0.008f, 0.008f);
+            m_BodyRenderer.Render(mode);
+            if (starHeld == true)
+            {
+                m_StarRenderer.Render(mode);
+            }
+            else
+            {
+                GL.Rotate(45f, Vector3d.UnitX);
+                m_CapRenderer.Render(mode);
+            }
             GL.PopMatrix();
-
-            base.Render(mode);
         }
     }
 
@@ -1652,9 +2190,9 @@ namespace SM64DSe
 
     class FishRenderer : NormalBMDRenderer
     {
-        int m_count;
-        public FishRenderer(int count)
-            : base("data/normal_obj/fish/fish.bmd", 1f)
+        private int m_count;
+        public FishRenderer(int count, string file)
+            : base(file, 1f)
         {
             m_count = count;
         }
@@ -1677,8 +2215,10 @@ namespace SM64DSe
     class FlameThrowerRenderer : ObjectRenderer
     {
         private float m_XRotation;
-        public FlameThrowerRenderer(ushort param2)
+        ushort color;
+        public FlameThrowerRenderer(ushort param1, ushort param2)
         {
+            color = param1;
             m_XRotation = 360.0f / 65536.0f * (float)param2;
         }
 
@@ -1697,7 +2237,14 @@ namespace SM64DSe
             if (mode != RenderMode.Picking)
             {
                 GL.BindTexture(TextureTarget.Texture2D, 0);
-                GL.Color4(Color.FromArgb(200,127,0,0));
+                if (color == 0)
+                {
+                    GL.Color4(Color.FromArgb(200, 0, 112, 127));
+                }
+                else
+                {
+                    GL.Color4(Color.FromArgb(200, 127, 25, 0));
+                }
                 GL.Disable(EnableCap.Lighting);
             }
             GL.PushMatrix();
@@ -1734,7 +2281,14 @@ namespace SM64DSe
             if (mode != RenderMode.Picking)
             {
                 GL.LineWidth(2.0f);
-                GL.Color4(Color.FromArgb(255,0,0));
+                if (color == 0)
+                {
+                    GL.Color4(Color.FromArgb(0, 225, 255));
+                }
+                else
+                {
+                    GL.Color4(Color.FromArgb(255, 50, 0));
+                }
 
                 GL.Begin(PrimitiveType.LineStrip);
                 GL.Vertex3(s2, s2, length);

@@ -112,6 +112,7 @@
             this.txtPatchName.Name = "txtPatchName";
             this.txtPatchName.Size = new System.Drawing.Size(351, 20);
             this.txtPatchName.TabIndex = 4;
+
             // 
             // label2
             // 

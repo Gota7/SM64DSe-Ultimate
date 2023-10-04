@@ -270,7 +270,7 @@ namespace SM64DSe
 
                     try
                     {
-                        File.WriteAllText("objectdb.xml", e.Result);
+                        File.WriteAllText("assets/objectdb.xml", e.Result);
                     }
                     catch
                     {

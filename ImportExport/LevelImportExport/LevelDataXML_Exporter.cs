@@ -28,7 +28,7 @@ namespace SM64DSe.ImportExport.LevelImportExport
             }
         }
 
-        public static void ExportLevelDataToXML(Level level, string fileName = "level.xml")
+        public static void ExportLevelDataToXML(Level level, string fileName = "assets/level.xml")
         {
             ExportLevelDataToXML(level, fileName, CURRENT_VERSION);
         }

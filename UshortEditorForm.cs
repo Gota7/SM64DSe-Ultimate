@@ -20,6 +20,7 @@ namespace SM64DSe
         RawUshortEdit m_parameter3Ctrl;
         RawUshortEdit m_parameter4Ctrl;
         RawUshortEdit m_parameter5Ctrl;
+        RawUshortEdit m_parameter6Ctrl;
         Label m_NothingCtrl;
 
         public RawEditorForm(LevelEditorForm levelEditor)
@@ -46,12 +47,17 @@ namespace SM64DSe
             //parameter 4
             m_parameter4Ctrl = new RawUshortEdit(0, valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
             m_parameter4Ctrl.MouseDown += DeselectOthers;
-            m_parameter4Ctrl.Tag = "Parameter 2";
+            m_parameter4Ctrl.Tag = "Parameter 4";
 
             //parameter 5
             m_parameter5Ctrl = new RawUshortEdit(0, valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
             m_parameter5Ctrl.MouseDown += DeselectOthers;
-            m_parameter5Ctrl.Tag = "Parameter 3";
+            m_parameter5Ctrl.Tag = "Parameter 5";
+
+            //parameter 6
+            m_parameter6Ctrl = new RawUshortEdit(0, valueInput, m_displayInBinary) { ValueChanged = SendValueToLevelForm };
+            m_parameter6Ctrl.MouseDown += DeselectOthers;
+            m_parameter6Ctrl.Tag = "Parameter 5";
 
             //Noting
             m_NothingCtrl = new Label() { Text = "No Raw Editing available for this Object", Width = 300 };
@@ -120,6 +126,82 @@ namespace SM64DSe
                 panControls.Controls.Add(m_parameter5Ctrl);
                 nextSnapY = Helper.snapControlVertically(m_parameter5Ctrl, nextSnapY) + 7;
                 m_parameter5Ctrl.SetValue(obj.Parameters[4]);
+            }
+            else if (obj is TpSrcObject)
+            {
+                //Parameter 1
+                panControls.Controls.Add(m_parameter1Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter1Ctrl, nextSnapY) + 7;
+                m_parameter1Ctrl.SetValue(obj.Parameters[0]);
+                //Parameter 2
+                panControls.Controls.Add(m_parameter2Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter2Ctrl, nextSnapY) + 7;
+                m_parameter2Ctrl.SetValue(obj.Parameters[1]);
+            }
+            else if (obj is TpDstObject)
+            {
+                //Parameter 1
+                panControls.Controls.Add(m_parameter1Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter1Ctrl, nextSnapY) + 7;
+                m_parameter1Ctrl.SetValue(obj.Parameters[0]);
+            }
+            else if (obj is MinimapTileIDObject)
+            {
+                //Parameter 1
+                panControls.Controls.Add(m_parameter1Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter1Ctrl, nextSnapY) + 7;
+                m_parameter1Ctrl.SetValue(obj.Parameters[0]);
+            }
+            else if (obj is MinimapScaleObject)
+            {
+                //Parameter 1
+                panControls.Controls.Add(m_parameter1Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter1Ctrl, nextSnapY) + 7;
+                m_parameter1Ctrl.SetValue(obj.Parameters[0]);
+            }
+            else if (obj is ViewObject)
+            {
+                //Parameter 1
+                panControls.Controls.Add(m_parameter1Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter1Ctrl, nextSnapY) + 7;
+                m_parameter1Ctrl.SetValue(obj.Parameters[0]);
+            }
+            else if (obj is Type14Object)
+            {
+                //Parameter 1
+                panControls.Controls.Add(m_parameter1Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter1Ctrl, nextSnapY) + 7;
+                m_parameter1Ctrl.SetValue(obj.Parameters[0]);
+
+                //Parameter 2
+                panControls.Controls.Add(m_parameter2Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter2Ctrl, nextSnapY) + 7;
+                m_parameter2Ctrl.SetValue(obj.Parameters[1]);
+
+                //Parameter 3
+                panControls.Controls.Add(m_parameter3Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter3Ctrl, nextSnapY) + 7;
+                m_parameter3Ctrl.SetValue(obj.Parameters[2]);
+
+                //Parameter 4
+                panControls.Controls.Add(m_parameter4Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter4Ctrl, nextSnapY) + 7;
+                m_parameter4Ctrl.SetValue(obj.Parameters[3]);
+            }
+            else if (obj is EntranceObject)
+            {
+                //Parameter 1
+                panControls.Controls.Add(m_parameter2Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter2Ctrl, nextSnapY) + 7;
+                m_parameter2Ctrl.SetValue(obj.Parameters[1]);
+                //Parameter 1
+                panControls.Controls.Add(m_parameter3Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter3Ctrl, nextSnapY) + 7;
+                m_parameter3Ctrl.SetValue(obj.Parameters[2]);
+                //Parameter 1
+                panControls.Controls.Add(m_parameter4Ctrl);
+                nextSnapY = Helper.snapControlVertically(m_parameter4Ctrl, nextSnapY) + 7;
+                m_parameter4Ctrl.SetValue(obj.Parameters[3]);
             }
             else
             {
