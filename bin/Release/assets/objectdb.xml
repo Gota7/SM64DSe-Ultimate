@@ -1323,7 +1323,7 @@ S - [S]tar ID
 		<name>Silver Star</name>
 		<internalname>SILVER_STAR</internalname>
 		<actorid>179</actorid>
-		<description>When 5 Silver Stars are collected, a Power Star will spawn in a Star Sphere. If one or more Silver Stars are dropped, the caged star will disappear until they are collected again. If more than 5 Silver Stars are collected, the  6th will float above the player's head and the game will shortly crash
+		<description>When 5 Silver Stars are collected, a Power Star will spawn in a Star Sphere. If one or more Silver Stars are dropped, the caged star will disappear until they are collected again. If more than 5 Silver Stars are collected, the  6th will float above the player's head, and the game will shortly crash if a Star Sphere exists.
 
 Parameter 1:
 XXTS where:

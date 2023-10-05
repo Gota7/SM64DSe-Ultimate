@@ -1541,7 +1541,7 @@ namespace SM64DSe
             offset = capOffset;
             scale = objScale;
 
-            if (captype != 15 && content == 2)
+            if (captype < 3)
             {
                 wearCap = true;
             }
