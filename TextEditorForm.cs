@@ -429,7 +429,7 @@ namespace SM64DSe
 
                 file.Write32(infOffset + 0x00, datOffset - datStartOffset);
                 file.Write16(infOffset + 0x04, message.width);
-                file.Write16(infOffset + 0x08, message.height);
+                file.Write16(infOffset + 0x06, message.height);
 
                 infOffset += 8;
                 datOffset += (uint)entry.Count;
