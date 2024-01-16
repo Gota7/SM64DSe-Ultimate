@@ -360,6 +360,7 @@
     <Compile Include="SM64DSFormats\DL Editor.Designer.cs">
       <DependentUpon>DL Editor.cs</DependentUpon>
     </Compile>
+    <Compile Include="SM64DSFormats\DynamicLibraryManager.cs" />
     <Compile Include="SM64DSFormats\Graphic.cs" />
     <Compile Include="SM64DSFormats\KCL.cs" />
     <Compile Include="KCLEditorForm.cs">

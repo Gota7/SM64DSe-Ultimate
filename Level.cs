@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using SM64DSe.SM64DSFormats;
 
 namespace SM64DSe
 {
@@ -37,7 +38,6 @@ namespace SM64DSe
         public int m_NumAreas;
         public Dictionary<uint, LevelObject> m_LevelObjects;
         public List<LevelTexAnim> m_TexAnims;
-        public List<ushort> m_DynLibIDs;
         public CLPS m_CLPS;
 
         public ushort[] m_MinimapFileIDs;
@@ -48,6 +48,13 @@ namespace SM64DSe
         private int m_PathID = 0;
         private int m_PathNodeID = 0;
         private int m_MinimapTileIDNum = 0;
+
+        private DynamicLibraryManager _dynamicLibraryManager;
+
+        public DynamicLibraryManager GetDynamicLibraryManager()
+        {
+            return this._dynamicLibraryManager;
+        }
 
         public Level() { }
 
@@ -77,14 +84,10 @@ namespace SM64DSe
             for (int i = 0; i < 8; ++i)
                 m_TexAnims.Add(new LevelTexAnim(m_Overlay, i, m_NumAreas, m_LevelSettings.LevelFormatVersion));
 
-            m_DynLibIDs = new List<ushort>();
+            _dynamicLibraryManager = new DynamicLibraryManager(overlay); 
             if (DoesLevelUseDynamicLibs())
             {
-                uint dlDataOffset = m_Overlay.Read32(0x30);
-                uint numDLs = m_Overlay.Read16(dlDataOffset);
-                m_DynLibIDs = new List<ushort>((int)numDLs);
-                for (uint i = 0; i < numDLs; ++i)
-                    m_DynLibIDs.Add(m_Overlay.Read16(dlDataOffset + 2 * i + 2));
+                _dynamicLibraryManager.LoadCurrent();
             }
 
             ReadObjectTable(m_Overlay, m_Overlay.ReadPointer(0x64), 0);
@@ -253,6 +256,8 @@ namespace SM64DSe
         {
             m_ObjAvailable.Clear();
 
+            bool dlSupport = DoesLevelSupportDynamicLibs();
+
             for (int i = 0; i < LevelObject.NUM_OBJ_TYPES; i++)
             {
                 ObjectDatabase.ObjectInfo objinfo = ObjectDatabase.m_ObjectInfo[i];
@@ -266,6 +271,13 @@ namespace SM64DSe
                 else if (objinfo.m_BankRequirement == 2)
                 {
                     available = false;
+                }
+
+                // If the object depends on a dynamic library we should set the item not available
+                // if the rom does not support DL
+                if (objinfo.m_DynamicLibraryRequirement != null)
+                {
+                    available = dlSupport;
                 }
 
                 m_ObjAvailable.Add((ushort)i, available);
@@ -668,12 +680,16 @@ namespace SM64DSe
             LevelTexAnim.SaveAll(binWriter, m_TexAnims, areaTableOffset, (uint)m_NumAreas);
             if (DoesLevelSupportDynamicLibs())
             {
+                ushort[] m_DynLibIDs = _dynamicLibraryManager.GetCurrentLibrariesFileIds();
                 while (stream.Position % 2 != 0) {
                     binWriter.Write((byte)0);
                 }
                 Helper.WritePosAndRestore(binWriter, 0x30, 0);
-                binWriter.Write((ushort)m_DynLibIDs.Count);
-                m_DynLibIDs.ForEach(x => binWriter.Write((ushort)x));
+                binWriter.Write((ushort)m_DynLibIDs.Length);
+                foreach (var x in m_DynLibIDs)
+                {
+                    binWriter.Write(x);
+                }
                 Helper.AlignWriter(binWriter, 4);
             }
 
@@ -717,13 +733,18 @@ namespace SM64DSe
             SaveMiscObjs(binWriter);
             SaveRegularObjs(binWriter, out areaTableOffset);
             LevelTexAnim.SaveAll(binWriter, m_TexAnims, areaTableOffset, (uint)m_NumAreas);
-            if (DoesLevelSupportDynamicLibs()) {
+            if (DoesLevelSupportDynamicLibs())
+            {
+                ushort[] m_DynLibIDs = _dynamicLibraryManager.GetCurrentLibrariesFileIds();
                 while (stream.Position % 2 != 0) {
                     binWriter.Write((byte)0);
                 }
                 Helper.WritePosAndRestore(binWriter, 0x30, 0);
-                binWriter.Write((ushort)m_DynLibIDs.Count);
-                m_DynLibIDs.ForEach(x => binWriter.Write((ushort)x));
+                binWriter.Write((ushort)m_DynLibIDs.Length);
+                foreach (var x in m_DynLibIDs)
+                {
+                    binWriter.Write(x);
+                }
                 Helper.AlignWriter(binWriter, 4);
             }
 

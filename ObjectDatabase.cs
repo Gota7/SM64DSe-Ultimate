@@ -55,6 +55,8 @@ namespace SM64DSe
             public string m_Description;
 
             public int m_BankRequirement;
+            public string m_DynamicLibraryRequirement;
+            
             public int m_NumBank, m_BankSetting;
 
             public string m_IsCustomModelPath;
@@ -128,7 +130,7 @@ namespace SM64DSe
 
                 xr.ReadToFollowing("description");
                 oinfo.m_Description = xr.ReadElementContentAsString();
-
+                
                 xr.ReadToFollowing("bankreq");
                 temp = xr.ReadElementContentAsString();
                 if (temp == "none")
@@ -142,6 +144,17 @@ namespace SM64DSe
                         oinfo.m_BankSetting = int.Parse(temp.Substring(temp.IndexOf('=') + 1));
                     }
                     catch { oinfo.m_BankRequirement = 2; }
+                }
+                
+                xr.ReadToFollowing("dlreq");
+                temp = xr.ReadElementContentAsString();
+                if (temp != null && temp != "none")
+                {
+                    if (oinfo.m_InternalName.StartsWith("@CUSTOM%"))
+                    {
+                        temp = temp.Substring(8);
+                    }
+                    oinfo.m_DynamicLibraryRequirement = temp;
                 }
 
                 List<ObjectInfo.ParamInfo> paramlist = new List<ObjectInfo.ParamInfo>();
