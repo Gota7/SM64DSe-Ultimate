@@ -54,6 +54,9 @@ namespace SM64DSe
 
         private void lbxObjectList_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (lbxObjectList.SelectedIndex == -1)
+                return;
+            
             ObjectID = (ushort)m_ObjectIndexIDMap[lbxObjectList.SelectedIndex];
 
             ObjectDatabase.ObjectInfo objinfo = ObjectDatabase.m_ObjectInfo[ObjectID];
