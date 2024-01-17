@@ -2128,6 +2128,31 @@ namespace SM64DSe
             if (objlist.ObjectID >= LevelObject.NUM_OBJ_TYPES && objlist.ObjectID != 0x1FF) return;
 
             m_ObjectBeingPlaced = objlist.ObjectID;
+            
+            ObjectDatabase.ObjectInfo objinfo = ObjectDatabase.m_ObjectInfo[m_ObjectBeingPlaced];
+            
+            // The obejcts can have dependencies on dynamic libraires, let's check that
+            if (objinfo.m_DynamicLibraryRequirement != null)
+            {
+                // First get all the libraries currently being used
+                string[] currentLibraries = m_Level.GetDynamicLibraryManager().GetCurrentLibrariesFilenames();
+                
+                if (!currentLibraries.Contains(objinfo.m_DynamicLibraryRequirement))
+                {
+                    if (MessageBox.Show($"The object {objinfo.m_Name} depends on a Dynamic Library ({objinfo.m_DynamicLibraryRequirement})\n Do you want to add it to the level ?", "Remove",
+                            MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        Console.WriteLine($"Adding dynamic library {objinfo.m_DynamicLibraryRequirement} to the level {m_Level.m_LevelID}");
+                        m_Level.GetDynamicLibraryManager().Add(objinfo.m_DynamicLibraryRequirement);
+                    }
+                    else
+                    {
+                        // Cannot allow to add it if no DL added
+                        return;
+                    }
+                }
+            }
+            
             string placementMsg = "Click anywhere in the level to place your new object ({0} - {1}). Hold Shift while clicking to place multiple objects. Hit Escape to abort.";
             slStatusLabel.Text = (objlist.ObjectID < LevelObject.NUM_OBJ_TYPES) ? 
                 string.Format(placementMsg, objlist.ObjectID, ObjectDatabase.m_ObjectInfo[objlist.ObjectID].m_Name) : 
@@ -3279,8 +3304,7 @@ namespace SM64DSe
                 return;
 
             //Show DL editor.
-            new DL_Editor(this).ShowDialog(this);
-
+            new DL_Editor(m_Level.GetDynamicLibraryManager()).ShowDialog(this);
         }
 
         private void duplicateButton_Click(object sender, EventArgs e) {

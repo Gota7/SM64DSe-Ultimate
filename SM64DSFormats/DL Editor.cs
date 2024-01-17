@@ -13,67 +13,55 @@ namespace SM64DSe.SM64DSFormats
     public partial class DL_Editor : Form
     {
 
-        LevelEditorForm lf;
-        NitroOverlay no;
-        uint tableAddr;
+        private DynamicLibraryManager _dynamicLibraryManager;
 
-        public DL_Editor(LevelEditorForm lf)
+        public DL_Editor(DynamicLibraryManager dynamicLibraryManager)
         {
+            this._dynamicLibraryManager = dynamicLibraryManager;
             InitializeComponent();
-
-            this.availableTree.Nodes.Clear();
+            
+            // Load file list to ui
+            availableTree.Nodes.Clear();
             ROMFileSelect.LoadFileList(this.availableTree);
-            this.lf = lf;
-            no = new NitroOverlay(Program.m_ROM, (uint)(103 + lf.m_LevelID));
-            tableAddr = no.Read32(0x30);
+            
+            UpdateCurrent();
+        }
 
-            uint count = no.Read16(tableAddr);
-            for (uint i = 0; i < count; i++) {
-
-                currentTree.Nodes.Add(Program.m_ROM.GetFileNameFromID(Program.m_ROM.GetFileIDFromInternalID(no.Read16(i*2 + tableAddr + 2))));
-
+        private void UpdateCurrent()
+        {
+            // Clear current
+            currentTree.Nodes.Clear();
+            
+            // From the DynamicLibraryManager load the current libraries in the 
+            foreach (var currentLibrary in _dynamicLibraryManager.GetCurrentLibrariesFilenames())
+            {
+                currentTree.Nodes.Add(currentLibrary);
             }
-
         }
 
 
         private void btnRemove_ButtonClick(object sender, EventArgs e)
-        {
-
+        { 
             if (currentTree.SelectedNode != null) {
-                currentTree.SelectedNode.Remove();
+                _dynamicLibraryManager.Remove(currentTree.SelectedNode.Text);
+                UpdateCurrent();
             }
-
         }
 
         private void btnAdd_ButtonClick(object sender, EventArgs e)
         {
-
-            if (availableTree.SelectedNode != null) {
-
-                currentTree.Nodes.Add(Program.m_ROM.GetFileNameFromID(Program.m_ROM.GetFileIDFromName(availableTree.SelectedNode.Tag.ToString())));
-
+            // Ensure a node is properly selected
+            if (availableTree.SelectedNode != null)
+            {
+                ushort fileId = Program.m_ROM.GetFileIDFromName(availableTree.SelectedNode.Tag.ToString());
+                string filename = Program.m_ROM.GetFileNameFromID(fileId);
+                
+                // Add it to the dynamic library manager
+                _dynamicLibraryManager.Add(filename);
+                UpdateCurrent();
             }
 
         }
 
-        private void btnSave_ButtonClick(object sender, EventArgs e)
-        {
-
-            MemoryStream src = new MemoryStream(no.m_Data);
-            BinaryReader br = new BinaryReader(src);
-            byte[] oldData = br.ReadBytes((int)tableAddr);
-
-            MemoryStream o = new MemoryStream();
-            BinaryWriter bw = new BinaryWriter(o);
-            bw.Write(oldData);
-            bw.Write((UInt16)currentTree.Nodes.Count);
-            foreach (TreeNode n in currentTree.Nodes) {
-                bw.Write(Program.m_ROM.GetFileEntries()[Program.m_ROM.GetFileIDFromName(n.Text)].InternalID);
-            }
-            no.m_Data = o.ToArray();
-            no.SaveChanges();
-
-        }
     }
 }

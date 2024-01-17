@@ -23,7 +23,8 @@ namespace SM64DSe.ImportExport.LevelImportExport
             level.m_CLPS.m_Entries.Clear();
             level.RemoveAllObjects();
             level.m_TexAnims.Clear();
-            level.m_DynLibIDs.Clear();
+            
+            level.GetDynamicLibraryManager().Clear();
 
             ImportXML(level, fileName);
 

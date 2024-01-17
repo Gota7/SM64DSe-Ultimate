@@ -54,6 +54,7 @@ R: [R]eal Character ID
 (Source: Splatty, Floralz)
 </description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='1'>
@@ -69,6 +70,7 @@ R: [R]eal Character ID
 * /data/ARCHIVE/arc1.narc/data/normal_obj/obj_pathlift
 ** obj_pathlift.bmd</description>
 		<bankreq>1=5</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='2'>
@@ -78,6 +80,7 @@ R: [R]eal Character ID
 		<actorid>171</actorid>
 		<description>A layer of ice platforms that Chief Chilly destroys after 2nd hit.</description>
 		<bankreq>1=5</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='3'>
@@ -93,6 +96,7 @@ R: [R]eal Character ID
 *** ewb_ice_c.bmd
 *** ewb_ice_c.kcl</description>
 		<bankreq>1=5</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='4'>
@@ -107,6 +111,7 @@ XXPP where:
 
 P: [P]ath ID</description>
 		<bankreq>7=49</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='5'>
@@ -124,6 +129,7 @@ D: [D]elay before moving up and down (when level is first loaded)
 
 (Source: Sparsite)</description>
 		<bankreq>7=45</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='6'>
@@ -136,6 +142,7 @@ XXPP where:
 
 P - [P]ath ID</description>
 		<bankreq>7=45</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='7'>
@@ -168,6 +175,7 @@ R: Z-[r]otation for the platform
 
 (Source: Floralz, Splatty)</description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='8'>
@@ -182,6 +190,7 @@ DDDD where:
 
 D: [D]elay, where the higher the value the earlier it starts</description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='9'>
@@ -231,6 +240,7 @@ R: Initial Z-[r]otation
 /data/ARCHIVE/arc1.narc/data/normal_obj/obj_pathlift
 * obj_pathlift.bmd</description>
 		<bankreq>6=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='10'>
@@ -240,6 +250,7 @@ R: Initial Z-[r]otation
 		<actorid>219</actorid>
 		<description>A Chomp chained to a ground-poundable wood pole. When freed, runs into [object=0033] then disappears. Requires bank 4 to be set to 3, because this actor spawns the wooden pole.</description>
 		<bankreq>7=7</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='11'>
@@ -249,6 +260,7 @@ R: Initial Z-[r]otation
 		<actorid>333</actorid>
 		<description></description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='12'>
@@ -258,6 +270,7 @@ R: Initial Z-[r]otation
 		<actorid>28</actorid>
 		<description>A large, wooden seesaw platform found in The Secret Under The Moat.</description>
 		<bankreq>5=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='13'>
@@ -280,6 +293,7 @@ T: [T]ype
 
 (Source: Floralz, et al)</description>
 		<bankreq>6=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='14'>
@@ -306,6 +320,7 @@ Set Star ID to F if you do not want a star to spawn when breaking the rock, eg. 
 
 (Floralz, et al)</description>
 		<bankreq>7=14</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='15'>
@@ -341,6 +356,7 @@ F - None
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='16'>
@@ -374,6 +390,7 @@ F - None
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='17'>
@@ -407,6 +424,7 @@ F - None
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='18'>
@@ -421,6 +439,7 @@ F - None
 * 4=1 (contains Key)
 * 7=46</description>
 		<bankreq>1=6</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='19'>
@@ -445,6 +464,7 @@ T: [T]ype
 
 (Source: Hiccup)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='20'>
@@ -475,6 +495,7 @@ T: [T]ype. If set to 1-3, ignores Parameter 1
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='21'>
@@ -495,6 +516,7 @@ C: [C]olor
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>0=1</bankreq>
+		<dlreq>none</dlreq>
 		<param n='0'>
 			<name>Color</name>
 			<offset>0</offset>
@@ -523,6 +545,7 @@ C: Color
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>0=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='23'>
@@ -546,6 +569,7 @@ T: [T]ype
 ===VS Mode Practice Behaviours==
 * On destruction with Param2 as 1 or Above: Plays empty sound</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='24'>
@@ -565,6 +589,7 @@ T: [T]ype
 
 (Source: Splatty, Floralz)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='25'>
@@ -579,6 +604,7 @@ XXXXXXXXXXXX MMMM where:
 
 M: [M]atch this with the M id of its corresponding trigger object</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='26'>
@@ -603,6 +629,7 @@ FFFF - Still. Only appears when the player is Luigi, but collecting a Luigi cap 
 * Luigi: No music change
 * Wario: Freezes/Crashes</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='27'>
@@ -616,6 +643,7 @@ FFFF - Still. Only appears when the player is Luigi, but collecting a Luigi cap 
 ===VS Mode Practice Behaviours==
 * When pressed: Malfunctions/Freezes/Crashes</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='28'>
@@ -629,6 +657,7 @@ FFFF - Still. Only appears when the player is Luigi, but collecting a Luigi cap 
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='29'>
@@ -645,6 +674,7 @@ T: [T]ype
 01 - Takes priority over other Cannon Hatches (unless they all have the same parameter, in that case it is based on which Cannon Hatches was placed last)
 FF - Doesn't take priority over other Cannon Hatches</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='30'>
@@ -672,6 +702,7 @@ CC: Contents
 
 (Source: Hiccup)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='31'>
@@ -701,6 +732,7 @@ CC: Contents
 
 (Source: Hiccup)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='32'>
@@ -710,6 +742,7 @@ CC: Contents
 		<actorid>22</actorid>
 		<description>Yellow ! Box used in multiplayer mode. Spawns a feather any player can use to fly.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 		<param n='0'>
 			<name>!</name>
 			<offset>0</offset>
@@ -745,6 +778,7 @@ CC: Contents
 
 This object is unused in the game, but is present in the general purpose test map, and fully functional. Character must be unlocked or the level contain a corresponding hat through Object 254.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='34'>
@@ -756,6 +790,7 @@ This object is unused in the game, but is present in the general purpose test ma
 
 This object is unused in the game, but is present in the general purpose test map, and fully functional. Character must be unlocked or the level contain a corresponding hat through Object 254.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='35'>
@@ -767,6 +802,7 @@ This object is unused in the game, but is present in the general purpose test ma
 
 This object is unused in the game, but is present in the general purpose test map, and fully functional. Character must be unlocked or the level contain a corresponding hat through Object 254.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='36'>
@@ -776,6 +812,7 @@ This object is unused in the game, but is present in the general purpose test ma
 		<actorid>27</actorid>
 		<description>Small wooden pole that can be groundpounded to obtain coins.</description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='37'>
@@ -804,6 +841,7 @@ F - Like Type 1 (Duplicate?)
 
 (Source: Splatty, Floralz)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='38'>
@@ -834,6 +872,7 @@ F - Like Type 1 (Duplicate?)
 
 (Source: Splatty, Floralz)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='39'>
@@ -868,6 +907,7 @@ F - Like Type 1 (Duplicate?)
 *** coin_blue_poly32.bmd
 *** coin_blue_poly4.bmd</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='40'>
@@ -886,6 +926,7 @@ T: [T]ype
 1 - Fire Sea Behaviour Patterns
 2 - Sky Behaviour Patterns (Can only be used in Sky - Fight)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='41'>
@@ -913,6 +954,7 @@ T: [T]ype
 /data/ARCHIVE/arc1.narc/data/normal_obj/tree
 * castle_tree.bmd</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 		<param n='0'>
 			<name>Type</name>
 			<offset>4</offset>
@@ -977,6 +1019,7 @@ RRRR where:
 
 R: Z-[R]otation</description>
 		<bankreq>2=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='43'>
@@ -999,6 +1042,7 @@ T: [T]ype
 
 (Source: Fiachra, Hiccup, Splatty, Floralz)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='44'>
@@ -1019,6 +1063,7 @@ S: [S]tar ID
 ===VS Mode Practice Behaviours==
 * On use: Malfunctions</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='45'>
@@ -1037,6 +1082,7 @@ O: [O]pening direction
 0 - Left
 1 - Right</description>
 		<bankreq>7=7</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='46'>
@@ -1055,6 +1101,7 @@ O: [O]pening direction
 0 - Left
 1 - Right</description>
 		<bankreq>7=14</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='47'>
@@ -1064,6 +1111,7 @@ O: [O]pening direction
 		<actorid>68</actorid>
 		<description>Platform in Hazy Maze Cave. Walking onto the arrows makes the platform move in their direction.</description>
 		<bankreq>7=14</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='48'>
@@ -1079,6 +1127,7 @@ XSPP where:
 S: [S]tar ID for VS Mode. Set to F in normal mode levels in it appears in (i.e. Bob-omb Battlefield).
 P - [P]ath ID</description>
 		<bankreq>6=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='49'>
@@ -1113,6 +1162,7 @@ D - Still, unless on a slide surface, where it will move forward very quickly, r
 ** /data/ARCHIVE/arc1.narc/data/normal_obj/oneup_kinoko
 *** oneup_kinoko.bmd</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='50'>
@@ -1138,6 +1188,7 @@ R: Default Y-[r]otation (Cannon limitations are 90 degrees left and right of thi
 
 (Source: Sparsite)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='51'>
@@ -1147,6 +1198,7 @@ R: Default Y-[r]otation (Cannon limitations are 90 degrees left and right of thi
 		<actorid>41</actorid>
 		<description>The fence [object=000A] runs into when freed. In Bob-Omb Battlefield, it is used to prevent access to the 7th star. However, Vanish Luigi can go through it.</description>
 		<bankreq>7=7</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='52'>
@@ -1161,6 +1213,7 @@ R: Default Y-[r]otation (Cannon limitations are 90 degrees left and right of thi
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='53'>
@@ -1175,6 +1228,7 @@ XXXN
 
 N: [N]umber of birds to spawn</description>
 		<bankreq>7=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='54'>
@@ -1189,6 +1243,7 @@ XXXN
 
 N: [N]umber fish to spawn</description>
 		<bankreq>6=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='55'>
@@ -1208,6 +1263,7 @@ T: [T]ype
 1F - Spawn 3, one turns into 1UP
 2F - Turns into cannonball</description>
 		<bankreq>6=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='56'>
@@ -1229,6 +1285,7 @@ Notes:
 
 Important: Using King Bob-Omb requires that the level contains a Bob-Omb object (can be hidden under level), otherwise during behaviour 1, after throwing a couple of Bob-Ombs, all subsequent Bob-Ombs will have totally corrupted textures. Reason for this is unknown.</description>
 		<bankreq>2=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='57'>
@@ -1251,6 +1308,7 @@ P: [P]ath ID
 		
 (Source: Floralz)</description>
 		<bankreq>2=5</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='58'>
@@ -1260,6 +1318,7 @@ P: [P]ath ID
 		<actorid>249</actorid>
 		<description>Chomps at the player as long as it is in range.</description>
 		<bankreq>0=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='59'>
@@ -1275,6 +1334,7 @@ Sleeps most of the time, but if a player comes too close, wakes up and starts ch
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='60'>
@@ -1289,6 +1349,7 @@ XXXS where:
 
 S: [S]tar ID</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 			<object id='61'>
@@ -1316,6 +1377,7 @@ S - [S]tar ID
 
 (Source: Hiccup, Floralz)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='62'>
@@ -1348,6 +1410,7 @@ S: (Unused) [S]tar ID parameter
 ===VS Mode Practice Behaviours==
 * On load: Malfunctions/Freezes/Crashes</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='63'>
@@ -1372,6 +1435,7 @@ T: [T]ype
 
 S: [S]tar ID</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='64'>
@@ -1381,6 +1445,7 @@ S: [S]tar ID</description>
 		<actorid>164</actorid>
 		<description>Walks in a straight path, then turns around and walks the other way. When it finds a player, it moves faster.</description>
 		<bankreq>2=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='65'>
@@ -1398,6 +1463,7 @@ S: [S]tar ID
 
 There should be a corresponding Star Marker with Parameters 2 followed by Star ID, eg. 21 for Star 1.</description>
 		<bankreq>2=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='66'>
@@ -1407,6 +1473,7 @@ There should be a corresponding Star Marker with Parameters 2 followed by Star I
 		<actorid>161</actorid>
 		<description>An angry stone that smashes the ground, then returns to it's initial position. Can be smashed to bits by Mega Players.</description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='67'>
@@ -1448,6 +1515,7 @@ B - Like Type 4, it contains a Yellow coin, but unlike that, it can exist in are
 
 (Source: Floralz, Splatty)</description>
 		<bankreq>0=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='68'>
@@ -1472,6 +1540,7 @@ T: [T]ype
 		
 (Source: Floralz, et al)</description>
 		<bankreq>0=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='69'>
@@ -1486,6 +1555,7 @@ SSXX where:
 
 S: [S]tar ID</description>
 		<bankreq>0=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='70'>
@@ -1503,6 +1573,7 @@ A: [A]ct ID for them to be set down
 	
 (Source: Floralz)</description>
 		<bankreq>0=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='71'>
@@ -1512,6 +1583,7 @@ A: [A]ct ID for them to be set down
 		<actorid>158</actorid>
 		<description>When you hit the books in the right order it will move to the left. If you get the order wrong, it will shoot a book at you and reset the books.</description>
 		<bankreq>0=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='72'>
@@ -1521,6 +1593,7 @@ A: [A]ct ID for them to be set down
 		<actorid>159</actorid>
 		<description>Big Boo's Merry-Go-Round. Rotating platform. Also plays its own music when the player is close enough to it.</description>
 		<bankreq>0=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='73'>
@@ -1530,6 +1603,7 @@ A: [A]ct ID for them to be set down
 		<actorid>160</actorid>
 		<description>Flipping platform in Big Boo's Haunt.</description>
 		<bankreq>0=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='74'>
@@ -1539,6 +1613,7 @@ A: [A]ct ID for them to be set down
 		<actorid>182</actorid>
 		<description>An long invisible object that triggers the &quot;Continue with adventure / Save and play mini-games&quot; message when you go up to it and press A. Used in front of the actual cupboard.</description>
 		<bankreq>7=51</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='75'>
@@ -1562,6 +1637,7 @@ Always Uses FFFF?
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='76'>
@@ -1585,6 +1661,7 @@ T - [T]ext ID
 ===VS Mode Practice Behaviours==
 * On reading: Malfunction/Crash/Freeze</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='77'>
@@ -1594,6 +1671,7 @@ T - [T]ext ID
 		<actorid>295</actorid>
 		<description>Used in Cool, Cool Mountain. A square sheet of ice only Wario can break by ground pounding (or a giant player, but that is unused behaviour). Visible from both sides.</description>
 		<bankreq>7=11</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='78'>
@@ -1603,6 +1681,7 @@ T - [T]ext ID
 		<actorid>296</actorid>
 		<description>Wavy pieces of seaweed. Seen in water levels like Jolly Roger Bay and Dire Dire Docks.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='79'>
@@ -1612,6 +1691,7 @@ T - [T]ext ID
 		<actorid>297</actorid>
 		<description>The Healing Heart heals your life, to fullife/power.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='80'>
@@ -1637,6 +1717,7 @@ S: [S]tar ID to spawn. Use FF for no star.
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='81'>
@@ -1654,6 +1735,7 @@ This might be because she was never intended to talk, but was given this behavio
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='82'>
@@ -1666,6 +1748,7 @@ This might be because she was never intended to talk, but was given this behavio
 Parameter 1:
 Uses FFFF</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='83'>
@@ -1680,6 +1763,7 @@ XXNN where:
 
 N: Platform [n]umber, where the platforms will fall in ascending order</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='84'>
@@ -1700,6 +1784,7 @@ C: [C]olor
 0 - Green
 1 - Red (Unused)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='85'>
@@ -1714,6 +1799,7 @@ XXPP where:
 
 P: [P]ath ID</description>
 		<bankreq>4=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='86'>
@@ -1723,6 +1809,7 @@ P: [P]ath ID</description>
 		<actorid>108</actorid>
 		<description>A large, yellow, rotating block found in Tick Tock Clock.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='87'>
@@ -1732,6 +1819,7 @@ P: [P]ath ID</description>
 		<actorid>109</actorid>
 		<description>Unused triangular version of CT_MECHA01 from Tick Tock Clock.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='88'>
@@ -1741,6 +1829,7 @@ P: [P]ath ID</description>
 		<actorid>110</actorid>
 		<description>A large pendulum found in Tick Tock Clock that swings back and forth.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='89'>
@@ -1752,6 +1841,7 @@ P: [P]ath ID</description>
 
 A large conveyor belt found in Tick Tock Clock.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='90'>
@@ -1761,6 +1851,7 @@ A large conveyor belt found in Tick Tock Clock.</description>
 		<actorid>112</actorid>
 		<description>A smaller version of the Large conveyor belt found in Tick Tock Clock.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='91'>
@@ -1770,6 +1861,7 @@ A large conveyor belt found in Tick Tock Clock.</description>
 		<actorid>113</actorid>
 		<description>A rectangular box that shoots out and trys to push the player out of its way found in Tick Tock Clock.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='92'>
@@ -1779,6 +1871,7 @@ A large conveyor belt found in Tick Tock Clock.</description>
 		<actorid>114</actorid>
 		<description>A rotating gear found in Tick Tock Clock.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='93'>
@@ -1788,6 +1881,7 @@ A large conveyor belt found in Tick Tock Clock.</description>
 		<actorid>115</actorid>
 		<description>Unused rotating triangular platform from Tick Tock clock. Shaped like a segment of a hexagon, rotates about Y (up) axis and has a raised bump at the centre (inner point of triangle). Uses the same shadow as CT_MECHA06.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='94'>
@@ -1797,6 +1891,7 @@ A large conveyor belt found in Tick Tock Clock.</description>
 		<actorid>116</actorid>
 		<description>Unused cube-shaped platform from Tick Tock Clock. Moves up and down continuously. No shadow. Shares same behaviour as CT_MECHA08B.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='95'>
@@ -1806,6 +1901,7 @@ A large conveyor belt found in Tick Tock Clock.</description>
 		<actorid>117</actorid>
 		<description>Unused cube-shaped platform from Tick Tock Clock. Moves up and down continuously. Shares same behaviour as CT_MECHA08A.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='96'>
@@ -1815,6 +1911,7 @@ A large conveyor belt found in Tick Tock Clock.</description>
 		<actorid>118</actorid>
 		<description>A yellow, rectangular platform that moves up and down found in Tick Tock Clock.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='97'>
@@ -1824,6 +1921,7 @@ A large conveyor belt found in Tick Tock Clock.</description>
 		<actorid>119</actorid>
 		<description>Large rotating clock hand found in Tick Tock Clock.</description>
 		<bankreq>7=28</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='98'>
@@ -1833,6 +1931,7 @@ A large conveyor belt found in Tick Tock Clock.</description>
 		<actorid>120</actorid>
 		<description>Dark green platforms that rotate randomly back and forth found in Tick Tock Clock.</description>
 		<bankreq>7=28</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='99'>
@@ -1842,6 +1941,7 @@ A large conveyor belt found in Tick Tock Clock.</description>
 		<actorid>121</actorid>
 		<description>A large rotating gear found in Tick Tock Clock.</description>
 		<bankreq>7=28</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='100'>
@@ -1851,6 +1951,7 @@ A large conveyor belt found in Tick Tock Clock.</description>
 		<actorid>122</actorid>
 		<description>A small rotating gear found in Tick Tock Clock.</description>
 		<bankreq>7=28</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='101'>
@@ -1865,6 +1966,7 @@ XXLL where:
 
 L: How [l]ow the block should start relative to its origin when spawned (for different up/down timings)</description>
 		<bankreq>7=18</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='102'>
@@ -1874,6 +1976,7 @@ L: How [l]ow the block should start relative to its origin when spawned (for dif
 		<actorid>88</actorid>
 		<description>Caged platform that appears in Shifting Sand Land - pyramid.</description>
 		<bankreq>7=18</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='103'>
@@ -1883,6 +1986,7 @@ L: How [l]ow the block should start relative to its origin when spawned (for dif
 		<actorid>85</actorid>
 		<description>Explodes when each of the four triggers (DL_PYRAMID_DUMMY) are touched by the player.</description>
 		<bankreq>7=17</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='104'>
@@ -1892,6 +1996,7 @@ L: How [l]ow the block should start relative to its origin when spawned (for dif
 		<actorid>86</actorid>
 		<description>When all 4 are triggered, make the tip of the pyramid (DL_PYRAMID) explode.</description>
 		<bankreq>7=17</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='105'>
@@ -1906,6 +2011,7 @@ XXPP where:
 
 P: [P]ath ID</description>
 		<bankreq>7=19</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='106'>
@@ -1915,6 +2021,7 @@ P: [P]ath ID</description>
 		<actorid>90</actorid>
 		<description>A submarine of Bowsers found in Dire Dire Docks. Disappears permanently after DDD Star 1 is completed.</description>
 		<bankreq>7=19</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='107'>
@@ -1924,6 +2031,7 @@ P: [P]ath ID</description>
 		<actorid>91</actorid>
 		<description>A large shutter with Bowser's face on it. Doesn't spawn if DDD Star 1 is completed.</description>
 		<bankreq>7=19</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='108'>
@@ -1941,6 +2049,7 @@ M: [M]atch this with the M id of its corresponding trigger object
 
 (Source: Floralz)</description>
 		<bankreq>7=29</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='109'>
@@ -1950,6 +2059,7 @@ M: [M]atch this with the M id of its corresponding trigger object
 		<actorid>124</actorid>
 		<description></description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='110'>
@@ -1959,6 +2069,7 @@ M: [M]atch this with the M id of its corresponding trigger object
 		<actorid>125</actorid>
 		<description></description>
 		<bankreq>7=29</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='111'>
@@ -1968,6 +2079,7 @@ M: [M]atch this with the M id of its corresponding trigger object
 		<actorid>126</actorid>
 		<description>Platform that begins to fall after the player walks on it, from Rainbow Ride. It disappears when it hits the ground.</description>
 		<bankreq>7=29</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='112'>
@@ -1977,6 +2089,7 @@ M: [M]atch this with the M id of its corresponding trigger object
 		<actorid>127</actorid>
 		<description>Swinging pendulum-like platform from Rainbow Ride.</description>
 		<bankreq>7=29</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='113'>
@@ -1986,6 +2099,7 @@ M: [M]atch this with the M id of its corresponding trigger object
 		<actorid>128</actorid>
 		<description>Seesaw platform from Rainbow Ride.</description>
 		<bankreq>5=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='114'>
@@ -2005,6 +2119,7 @@ R: [R]otation speed. Vanilla uses 0 for counter-clockwise and FEC9 for clockwise
 
 (Source: Fiachra, Floralz)</description>
 		<bankreq>7=29</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='115'>
@@ -2014,6 +2129,7 @@ R: [R]otation speed. Vanilla uses 0 for counter-clockwise and FEC9 for clockwise
 		<actorid>132</actorid>
 		<description>Clockwise spinning platform with 'arms' from Rainbow Ride.</description>
 		<bankreq>7=29</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='116'>
@@ -2023,6 +2139,7 @@ R: [R]otation speed. Vanilla uses 0 for counter-clockwise and FEC9 for clockwise
 		<actorid>92</actorid>
 		<description></description>
 		<bankreq>7=20</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='117'>
@@ -2032,6 +2149,7 @@ R: [R]otation speed. Vanilla uses 0 for counter-clockwise and FEC9 for clockwise
 		<actorid>102</actorid>
 		<description>Moves when the player walks on it.</description>
 		<bankreq>7=23</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='118'>
@@ -2043,6 +2161,7 @@ R: [R]otation speed. Vanilla uses 0 for counter-clockwise and FEC9 for clockwise
 
 Uses FFFF</description>
 		<bankreq>7=26</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='119'>
@@ -2054,6 +2173,7 @@ Uses FFFF</description>
 
 Uses FFFF</description>
 		<bankreq>7=26</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='120'>
@@ -2065,6 +2185,7 @@ Uses FFFF</description>
 
 Uses FFFF</description>
 		<bankreq>7=25</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='121'>
@@ -2076,6 +2197,7 @@ Uses FFFF</description>
 
 Uses FFFF</description>
 		<bankreq>7=25</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='122'>
@@ -2093,6 +2215,7 @@ R: [R]otation speed. Vanilla uses 0 for counter-clockwise and FEC9 for clockwise
 
 (Source: Fiachra, Floralz)</description>
 		<bankreq>7=22</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='123'>
@@ -2102,6 +2225,7 @@ R: [R]otation speed. Vanilla uses 0 for counter-clockwise and FEC9 for clockwise
 		<actorid>95</actorid>
 		<description>A square wood platform which floats on water. Proportions are 0.5x?x0.5 points.</description>
 		<bankreq>7=22</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='124'>
@@ -2111,6 +2235,7 @@ R: [R]otation speed. Vanilla uses 0 for counter-clockwise and FEC9 for clockwise
 		<actorid>96</actorid>
 		<description>It moves when you stand on it.</description>
 		<bankreq>7=22</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='125'>
@@ -2125,6 +2250,7 @@ XXII where:
 
 I: Match this with the I of the water.</description>
 		<bankreq>7=22</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='126'>
@@ -2142,6 +2268,7 @@ M: [M]atch this with the M id of its corresponding trigger object
 
 (Source: Floralz)</description>
 		<bankreq>7=22</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='127'>
@@ -2158,6 +2285,7 @@ T: [T]ype
 0 - Lift
 1 - Static object</description>
 		<bankreq>7=22</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='128'>
@@ -2167,6 +2295,7 @@ T: [T]ype
 		<actorid>100</actorid>
 		<description>A rectangular wood platform which floats on water.</description>
 		<bankreq>7=22</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='129'>
@@ -2181,6 +2310,7 @@ XXII where:
 
 I: Match this with the I of the Water Diamond</description>
 		<bankreq>7=22</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='130'>
@@ -2190,6 +2320,7 @@ I: Match this with the I of the Water Diamond</description>
 		<actorid>70</actorid>
 		<description>A log in Lethal Lava Land that the player can roll by running on.</description>
 		<bankreq>7=15</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='131'>
@@ -2199,6 +2330,7 @@ I: Match this with the I of the Water Diamond</description>
 		<actorid>71</actorid>
 		<description>The rotating ring around the volcano in Lethal Lava Land. It stops and shoots lava out of the centre every so often.</description>
 		<bankreq>7=15</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='132'>
@@ -2208,6 +2340,7 @@ I: Match this with the I of the Water Diamond</description>
 		<actorid>72</actorid>
 		<description>A platform that can tilt based on where the player is standing on it.</description>
 		<bankreq>0=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='133'>
@@ -2219,6 +2352,7 @@ I: Match this with the I of the Water Diamond</description>
 
 The name seems to be an interesting reference to London bridge.</description>
 		<bankreq>7=15</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='134'>
@@ -2228,6 +2362,7 @@ The name seems to be an interesting reference to London bridge.</description>
 		<actorid>74</actorid>
 		<description></description>
 		<bankreq>7=15</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='135'>
@@ -2237,6 +2372,7 @@ The name seems to be an interesting reference to London bridge.</description>
 		<actorid>75</actorid>
 		<description></description>
 		<bankreq>7=15</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='136'>
@@ -2246,6 +2382,7 @@ The name seems to be an interesting reference to London bridge.</description>
 		<actorid>76</actorid>
 		<description></description>
 		<bankreq>7=15</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='137'>
@@ -2255,6 +2392,7 @@ The name seems to be an interesting reference to London bridge.</description>
 		<actorid>77</actorid>
 		<description></description>
 		<bankreq>7=15</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='138'>
@@ -2264,6 +2402,7 @@ The name seems to be an interesting reference to London bridge.</description>
 		<actorid>80</actorid>
 		<description></description>
 		<bankreq>7=15</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='139'>
@@ -2273,6 +2412,7 @@ The name seems to be an interesting reference to London bridge.</description>
 		<actorid>81</actorid>
 		<description></description>
 		<bankreq>0=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='140'>
@@ -2291,6 +2431,7 @@ DDDD where:
 D: [D]elay before bobbing up and down
 </description>
 		<bankreq>7=15</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='141'>
@@ -2305,6 +2446,7 @@ XXXS where:
 
 S: [S]tar ID</description>
 		<bankreq>7=15</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='142'>
@@ -2317,6 +2459,7 @@ S: [S]tar ID</description>
 Parameter 1:
 Uses FFFF</description>
 		<bankreq>7=16</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='143'>
@@ -2326,6 +2469,7 @@ Uses FFFF</description>
 		<actorid>196</actorid>
 		<description>Adds a 'popping lava bubbles' effect to each plane with either LETHAL LAVA or LETHAL ICE collision applied.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='144'>
@@ -2335,6 +2479,7 @@ Uses FFFF</description>
 		<actorid>197</actorid>
 		<description></description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='145'>
@@ -2354,6 +2499,7 @@ P: [P]ath ID to follow
 		
 (Source: Floralz)</description>
 		<bankreq>4=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='146'>
@@ -2370,6 +2516,7 @@ T: [T]ype
 0 - Normal
 1 - Spawner; a bug springs out a from XYZ placement when you get near. If you defeat it, a replacement will spawn. Only the first one will release coins when defeated</description>
 		<bankreq>1=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='147'>
@@ -2383,6 +2530,7 @@ T: [T]ype
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>2=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='148'>
@@ -2406,6 +2554,7 @@ T: [T]ype
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>2=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='149'>
@@ -2415,6 +2564,7 @@ T: [T]ype
 		<actorid>261</actorid>
 		<description>Disguised as a coin, this enemy appears to be harmless. When approached, it turns into a purse, then hops away. When hit, it releases many coins.</description>
 		<bankreq>2=5</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='150'>
@@ -2424,6 +2574,7 @@ T: [T]ype
 		<actorid>262</actorid>
 		<description>Stays in one place, constantly looking at the player. Every 5 seconds or so, it fires a plasma ball at the player. It can be defeated by running circles around it. Releases a blue coin when killed.</description>
 		<bankreq>1=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='151'>
@@ -2438,6 +2589,7 @@ XXXS where:
 
 S: [S]tar ID</description>
 		<bankreq>1=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='152'>
@@ -2447,6 +2599,7 @@ S: [S]tar ID</description>
 		<actorid>193</actorid>
 		<description>When grabbed or eaten, makes the player do a triple jump while diving. If watched closely while idle, the block will hop up and down. If grabbed underwater, the player can carry it like a Koopa Shell.</description>
 		<bankreq>2=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='153'>
@@ -2461,6 +2614,7 @@ XXXD where:
 
 D: ([D]iameter of Amp's path) * 10</description>
 		<bankreq>1=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='154'>
@@ -2478,6 +2632,7 @@ S: [S]tar ID
 		
 (Source: Floralz)</description>
 		<bankreq>7=23</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='155'>
@@ -2487,6 +2642,7 @@ S: [S]tar ID
 		<actorid>267</actorid>
 		<description>Steals the player's hat, making them more vulnerable to enemies.</description>
 		<bankreq>7=23</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='156'>
@@ -2504,6 +2660,7 @@ P: [P]ath ID to follow
 
 (Source: Floralz)</description>
 		<bankreq>7=23</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='157'>
@@ -2520,6 +2677,7 @@ T: [T]ype
 0 - Real
 1 - Fake</description>
 		<bankreq>1=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='158'>
@@ -2531,6 +2689,7 @@ T: [T]ype
 
 Param 1: Star ID</description>
 		<bankreq>7=11</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='159'>
@@ -2540,6 +2699,7 @@ Param 1: Star ID</description>
 		<actorid>258</actorid>
 		<description>Walks back and forth across the bridge on the snowman.</description>
 		<bankreq>7=20</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='160'>
@@ -2549,6 +2709,7 @@ Param 1: Star ID</description>
 		<actorid>259</actorid>
 		<description>The one that races you in Cool, Cool Mountain - slider. Uses Path ID.</description>
 		<bankreq>7=12</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='161'>
@@ -2562,6 +2723,7 @@ Param 1: Star ID</description>
 
 When it sees a player, it constantly looks at them. Occasionally, it will puff up twice as large, then it will spew a fireball that follows the player.</description>
 		<bankreq>1=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='162'>
@@ -2571,6 +2733,7 @@ When it sees a player, it constantly looks at them. Occasionally, it will puff u
 		<actorid>272</actorid>
 		<description></description>
 		<bankreq>1=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='163'>
@@ -2580,6 +2743,7 @@ When it sees a player, it constantly looks at them. Occasionally, it will puff u
 		<actorid>273</actorid>
 		<description></description>
 		<bankreq>1=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='164'>
@@ -2589,6 +2753,7 @@ When it sees a player, it constantly looks at them. Occasionally, it will puff u
 		<actorid>274</actorid>
 		<description></description>
 		<bankreq>1=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='165'>
@@ -2598,6 +2763,7 @@ When it sees a player, it constantly looks at them. Occasionally, it will puff u
 		<actorid>275</actorid>
 		<description></description>
 		<bankreq>7=20</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='166'>
@@ -2607,6 +2773,7 @@ When it sees a player, it constantly looks at them. Occasionally, it will puff u
 		<actorid>227</actorid>
 		<description>Fish that appears in Dire, Dire Docks. It swims around and deals 1 piece of health when touched.</description>
 		<bankreq>4=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='167'>
@@ -2616,6 +2783,7 @@ When it sees a player, it constantly looks at them. Occasionally, it will puff u
 		<actorid>292</actorid>
 		<description></description>
 		<bankreq>7=6</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='168'>
@@ -2625,6 +2793,7 @@ When it sees a player, it constantly looks at them. Occasionally, it will puff u
 		<actorid>293</actorid>
 		<description></description>
 		<bankreq>7=6</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='169'>
@@ -2634,6 +2803,7 @@ When it sees a player, it constantly looks at them. Occasionally, it will puff u
 		<actorid>294</actorid>
 		<description></description>
 		<bankreq>7=6</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='170'>
@@ -2643,6 +2813,7 @@ When it sees a player, it constantly looks at them. Occasionally, it will puff u
 		<actorid>230</actorid>
 		<description>Enemies that slide on top of the water in Wet Dry World. If a Skeeter is stuck between the water and a floating platform, it dies.</description>
 		<bankreq>4=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='171'>
@@ -2659,6 +2830,7 @@ T: [T]ype
 0 - Raise up when jumped on
 1 - Do not move</description>
 		<bankreq>1=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='172'>
@@ -2668,6 +2840,7 @@ T: [T]ype
 		<actorid>231</actorid>
 		<description>An enemy that resembles a cloud with a face. It floats in one spot, trying to blow the player's hat away, and even the player itself.</description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='173'>
@@ -2677,6 +2850,7 @@ T: [T]ype
 		<actorid>39</actorid>
 		<description></description>
 		<bankreq>5=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='174'>
@@ -2686,6 +2860,7 @@ T: [T]ype
 		<actorid>133</actorid>
 		<description></description>
 		<bankreq>5=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='175'>
@@ -2701,6 +2876,7 @@ M: [M]atch this with the M id of its corresponding trigger object
 		
 (Source: Floralz)</description>
 		<bankreq>7=36</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='176'>
@@ -2711,6 +2887,7 @@ M: [M]atch this with the M id of its corresponding trigger object
 		<description>Follows a hardcoded square-shaped path, starting movement in the direction they are facing. Nintendo places them 0.6 z and y points apart on metal tracks.
 (Source: Hiccup)</description>
 		<bankreq>7=36</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='177'>
@@ -2720,6 +2897,7 @@ M: [M]atch this with the M id of its corresponding trigger object
 		<actorid>137</actorid>
 		<description></description>
 		<bankreq>7=36</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='178'>
@@ -2729,6 +2907,7 @@ M: [M]atch this with the M id of its corresponding trigger object
 		<actorid>138</actorid>
 		<description></description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='179'>
@@ -2751,6 +2930,7 @@ R: Z-[r]otation
 (Source: Floralz)
 		</description>
 		<bankreq>7=9</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='180'>
@@ -2772,6 +2952,7 @@ R: Z-[r]otation
 
 (Source: Floralz)</description>
 		<bankreq>7=9</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='181'>
@@ -2781,6 +2962,7 @@ R: Z-[r]otation
 		<actorid>58</actorid>
 		<description>Pillar of rock that falls over on Player from JRB.</description>
 		<bankreq>7=9</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='182'>
@@ -2790,6 +2972,7 @@ R: Z-[r]otation
 		<actorid>59</actorid>
 		<description>A rock triangle only solid on top.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='183'>
@@ -2799,6 +2982,7 @@ R: Z-[r]otation
 		<actorid>60</actorid>
 		<description></description>
 		<bankreq>7=9</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='184'>
@@ -2808,6 +2992,7 @@ R: Z-[r]otation
 		<actorid>61</actorid>
 		<description>A piece of rock used as decoration in Jolly Rodger Bay. Lit.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='185'>
@@ -2817,6 +3002,7 @@ R: Z-[r]otation
 		<actorid>62</actorid>
 		<description></description>
 		<bankreq>7=10</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='186'>
@@ -2844,6 +3030,7 @@ X rotation: 270.000 (if this has a non 0 value and a warp pipe is within 300 fxu
 Height: 0 
 Width: 0</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='187'>
@@ -2857,6 +3044,7 @@ Width: 0</description>
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='188'>
@@ -2870,6 +3058,7 @@ Width: 0</description>
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='189'>
@@ -2886,6 +3075,7 @@ T: [T]ype
 0 - Normal
 1 - Spits fire in addition to swooping at you</description>
 		<bankreq>1=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='190'>
@@ -2895,6 +3085,7 @@ T: [T]ype
 		<actorid>222</actorid>
 		<description>When launched from a Bullet Bill Box (KILLER_DAI) home in on a player and follow them. It can be defeated with a well-timed attack.</description>
 		<bankreq>2=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='191'>
@@ -2904,6 +3095,7 @@ T: [T]ype
 		<actorid>301</actorid>
 		<description>Orange balls placed around the arena in Bowser in the Dark World - Battle.</description>
 		<bankreq>7=37</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='192'>
@@ -2913,6 +3105,7 @@ T: [T]ype
 		<actorid>302</actorid>
 		<description>A smiling, dimly lit silver star used for decoration in the Tall Tall Mountain Slider</description>
 		<bankreq>7=24</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='193'>
@@ -2922,6 +3115,7 @@ T: [T]ype
 		<actorid>303</actorid>
 		<description>A smiling golden star decoration used in the Tall Tall Mountain Slider.</description>
 		<bankreq>7=24</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='194'>
@@ -2931,6 +3125,7 @@ T: [T]ype
 		<actorid>304</actorid>
 		<description>A smiling, blushing, orange face used for decoration in the Tall Tall Mountain Slider.</description>
 		<bankreq>7=24</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='195'>
@@ -2940,6 +3135,7 @@ T: [T]ype
 		<actorid>305</actorid>
 		<description>A smiling, blushing, blue face thats used for decoration in the Tall Tall Mountain Slider.</description>
 		<bankreq>7=24</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='196'>
@@ -2949,6 +3145,7 @@ T: [T]ype
 		<actorid>42</actorid>
 		<description></description>
 		<bankreq>7=8</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='197'>
@@ -2958,6 +3155,7 @@ T: [T]ype
 		<actorid>43</actorid>
 		<description>Fires Bullet Bills if the player is in range and in plain sight.</description>
 		<bankreq>2=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='198'>
@@ -2967,6 +3165,7 @@ T: [T]ype
 		<actorid>44</actorid>
 		<description>If kicked, it will fall flat, ignoring all collision. If it is bumped into by a giant player it falls down on its back.</description>
 		<bankreq>7=8</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='199'>
@@ -2976,6 +3175,7 @@ T: [T]ype
 		<actorid>45</actorid>
 		<description>Falling bridge blocks from Whomp's Fortress.</description>
 		<bankreq>7=8</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='200'>
@@ -2995,6 +3195,7 @@ T: [T]ype
 		
 (Source: Splatty, Floralz)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='201'>
@@ -3006,6 +3207,7 @@ T: [T]ype
 
 Note: The collision map for this object should be scaled by 8 - reason unknown.</description>
 		<bankreq>2=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='202'>
@@ -3020,6 +3222,7 @@ XXXS where:
 
 S: [S]tar ID</description>
 		<bankreq>2=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='203'>
@@ -3029,6 +3232,7 @@ S: [S]tar ID</description>
 		<actorid>49</actorid>
 		<description>Large tower from Whomp's Fortress.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='204'>
@@ -3038,6 +3242,7 @@ S: [S]tar ID</description>
 		<actorid>50</actorid>
 		<description>Floating rotating island from Whomp's Fortress.</description>
 		<bankreq>7=8</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='205'>
@@ -3047,6 +3252,7 @@ S: [S]tar ID</description>
 		<actorid>51</actorid>
 		<description></description>
 		<bankreq>7=8</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='206'>
@@ -3064,6 +3270,7 @@ T: Movement
 2 - Move up and down
 F - No movement</description>
 		<bankreq>7=8</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='207'>
@@ -3073,6 +3280,7 @@ F - No movement</description>
 		<actorid>54</actorid>
 		<description>Chunk of wall (small) that move in and out in Whomp's Fortress. Rotation does not work correctly, direction of movement cannot be changed.</description>
 		<bankreq>7=8</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='208'>
@@ -3082,6 +3290,7 @@ F - No movement</description>
 		<actorid>53</actorid>
 		<description>Chunk of wall (large) that move in and out in Whomp's Fortress. Rotation does not work correctly, direction of movement cannot be changed.</description>
 		<bankreq>7=8</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='209'>
@@ -3091,6 +3300,7 @@ F - No movement</description>
 		<actorid>55</actorid>
 		<description>Platforms that move in and out from Whomp's Fortress. Can be rotated.</description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='210'>
@@ -3100,6 +3310,7 @@ F - No movement</description>
 		<actorid>66</actorid>
 		<description></description>
 		<bankreq>0=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='211'>
@@ -3109,6 +3320,7 @@ F - No movement</description>
 		<actorid>139</actorid>
 		<description></description>
 		<bankreq>7=38</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='212'>
@@ -3118,6 +3330,7 @@ F - No movement</description>
 		<actorid>140</actorid>
 		<description>It is only solid from the top.</description>
 		<bankreq>7=38</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='213'>
@@ -3127,6 +3340,7 @@ F - No movement</description>
 		<actorid>141</actorid>
 		<description></description>
 		<bankreq>7=38</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='214'>
@@ -3144,6 +3358,7 @@ FF - Spawns where placed, sinks down, then rises to where it was placed, etc.
 
 (Source: Floralz)</description>
 		<bankreq>7=38</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='215'>
@@ -3153,6 +3368,7 @@ FF - Spawns where placed, sinks down, then rises to where it was placed, etc.
 		<actorid>143</actorid>
 		<description></description>
 		<bankreq>5=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='216'>
@@ -3172,6 +3388,7 @@ P - [P]ath ID
 
 (Source: skawo, Floralz)</description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='217'>
@@ -3181,6 +3398,7 @@ P - [P]ath ID
 		<actorid>145</actorid>
 		<description></description>
 		<bankreq>7=38</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='218'>
@@ -3190,6 +3408,7 @@ P - [P]ath ID
 		<actorid>146</actorid>
 		<description>Rectangular platform that moves along its longer side.</description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='219'>
@@ -3199,6 +3418,7 @@ P - [P]ath ID
 		<actorid>147</actorid>
 		<description></description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='220'>
@@ -3208,6 +3428,7 @@ P - [P]ath ID
 		<actorid>148</actorid>
 		<description></description>
 		<bankreq>7=38</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='221'>
@@ -3217,6 +3438,7 @@ P - [P]ath ID
 		<actorid>149</actorid>
 		<description></description>
 		<bankreq>5=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='222'>
@@ -3226,6 +3448,7 @@ P - [P]ath ID
 		<actorid>150</actorid>
 		<description></description>
 		<bankreq>5=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='223'>
@@ -3235,6 +3458,7 @@ P - [P]ath ID
 		<actorid>152</actorid>
 		<description></description>
 		<bankreq>7=40</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='224'>
@@ -3250,6 +3474,7 @@ M: [M]atch this with the M id of its corresponding trigger object
 		
 (Source: Floralz)</description>
 		<bankreq>7=40</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='225'>
@@ -3265,6 +3490,7 @@ RRRR where:
 
 R: Movement X-[r]otation</description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='226'>
@@ -3280,6 +3506,7 @@ RRRR where:
 
 R: Movement X-[r]otation</description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='227'>
@@ -3289,6 +3516,7 @@ R: Movement X-[r]otation</description>
 		<actorid>156</actorid>
 		<description></description>
 		<bankreq>7=40</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='228'>
@@ -3298,6 +3526,7 @@ R: Movement X-[r]otation</description>
 		<actorid>34</actorid>
 		<description>When two of them have been groundpounded, the water level in the castle's moat is lowered, making the 'Secret under the Moat' level accessible.</description>
 		<bankreq>7=5</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='229'>
@@ -3310,6 +3539,7 @@ where:
 
 P: [P]ath ID</description>
 		<bankreq>7=11</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='230'>
@@ -3323,6 +3553,7 @@ P: [P]ath ID</description>
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='231'>
@@ -3332,6 +3563,7 @@ P: [P]ath ID</description>
 		<actorid>32</actorid>
 		<description>A wire lift that moves down when stood on.</description>
 		<bankreq>5=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='232'>
@@ -3341,6 +3573,7 @@ P: [P]ath ID</description>
 		<actorid>33</actorid>
 		<description></description>
 		<bankreq>5=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='233'>
@@ -3350,6 +3583,7 @@ P: [P]ath ID</description>
 		<actorid>131</actorid>
 		<description></description>
 		<bankreq>5=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='234'>
@@ -3359,6 +3593,7 @@ P: [P]ath ID</description>
 		<actorid>228</actorid>
 		<description>Also known as Boss Bass.</description>
 		<bankreq>7=25</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='235'>
@@ -3378,6 +3613,7 @@ P - [P]ath ID
 
 (Source: skawo, Floralz)</description>
 		<bankreq>4=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='236'>
@@ -3390,6 +3626,7 @@ P - [P]ath ID
 ==Other Requirements==
 * Must be in Bowser fight map</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='237'>
@@ -3417,6 +3654,7 @@ P - [P]ath ID. Appears to start on the last node of the path.
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='238'>
@@ -3428,6 +3666,7 @@ P - [P]ath ID. Appears to start on the last node of the path.
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='239'>
@@ -3437,6 +3676,7 @@ P - [P]ath ID. Appears to start on the last node of the path.
 		<actorid>234</actorid>
 		<description>Appears when the player climbs into his tree. While holding B, the player can fly around holding him. Nintendo places him 0.2 y points higher than the tree.</description>
 		<bankreq>5=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='240'>
@@ -3446,6 +3686,7 @@ P - [P]ath ID. Appears to start on the last node of the path.
 		<actorid>215</actorid>
 		<description>Tries to push the player into the lava. When killed, throws a coin at the player.</description>
 		<bankreq>0=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='241'>
@@ -3464,6 +3705,7 @@ T: [T]ype
 
 S: [S]tar ID. Requires matching Star Marker for the star to spawn</description>
 		<bankreq>0=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='242'>
@@ -3484,6 +3726,7 @@ T: [T]ype
 2 - Third Tox Box movement path (SSL)
 3 - Use Path</description>
 		<bankreq>4=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='243'>
@@ -3502,6 +3745,7 @@ W: [W]hether the player can perform a handstand at the top
 
 H: ([H]eight of the pole * 100) (in hex)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='244'>
@@ -3518,6 +3762,7 @@ Figure out parameters.
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='245'>
@@ -3531,6 +3776,7 @@ Figure out parameters.
 ===VS Mode Practice Behaviours==
 * On use: no sound effect</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='246'>
@@ -3552,6 +3798,7 @@ P: [P]ath ID
 
 (Source: Floralz, et al)</description>
 		<bankreq>0=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='247'>
@@ -3561,6 +3808,7 @@ P: [P]ath ID
 		<actorid>236</actorid>
 		<description>A type of Shy Guy that shoots bullets out of its mouth.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='248'>
@@ -3584,6 +3832,7 @@ O: [O]n Spawn
 
 (Source: Floralz)</description>
 		<bankreq>2=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='249'>
@@ -3593,6 +3842,7 @@ O: [O]n Spawn
 		<actorid>311</actorid>
 		<description>A rock which Monty Mole throws at the player.</description>
 		<bankreq>2=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='250'>
@@ -3602,6 +3852,7 @@ O: [O]n Spawn
 		<actorid>237</actorid>
 		<description>Bats in Hazy Maze Cave. They swoop down and try to hurt the player.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='251'>
@@ -3615,6 +3866,7 @@ O: [O]n Spawn
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>2=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='252'>
@@ -3643,6 +3895,7 @@ P: [P]ath ID
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>0=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='253'>
@@ -3652,6 +3905,7 @@ P: [P]ath ID
 		<actorid>240</actorid>
 		<description>A cactus-like enemy that tries to slide into the player.</description>
 		<bankreq>5=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='254'>
@@ -3689,6 +3943,7 @@ G: [G]ravity
 * Name is prefixed with OBJ because/despite...
 * Name is MARIO_CAP despite it being used for other player's caps. Maybe leftover from earlier version or N64 or not.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='255'>
@@ -3718,6 +3973,7 @@ Note that the pieces should be placed in this fashion:
 (Source: Floralz)
 </description>
 		<bankreq>0=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='256'>
@@ -3727,6 +3983,7 @@ Note that the pieces should be placed in this fashion:
 		<actorid>79</actorid>
 		<description>Required for the puzzle pieces to appear.</description>
 		<bankreq>0=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='257'>
@@ -3744,6 +4001,7 @@ T: [T]ype
 01 - Wears a big Wario cap
 </description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='258'>
@@ -3753,6 +4011,7 @@ T: [T]ype
 		<actorid>169</actorid>
 		<description>Most likely the Wario Cap that Dorrie wears, considering this object is named DOSSY_CAP, and Dorrie is DOSSY.</description>
 		<bankreq>0=4</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='259'>
@@ -3762,6 +4021,7 @@ T: [T]ype
 		<actorid>312</actorid>
 		<description>A flower-like enemy in Snowman's Land and Cool Cool Mountain. It tries to float into the player, and it can also float on water.</description>
 		<bankreq>2=5</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='260'>
@@ -3771,6 +4031,7 @@ T: [T]ype
 		<actorid>313</actorid>
 		<description>Box that slides on the Jolly Roger Bay ship (when it is afloat). Players can walk on it, but get hurt if they touch it on any side.</description>
 		<bankreq>7=9</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='261'>
@@ -3807,6 +4068,7 @@ R: Z-[r]otation
 
 (Source: Floralz)</description>
 		<bankreq>7=9</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='262'>
@@ -3816,6 +4078,7 @@ R: Z-[r]otation
 		<actorid>314</actorid>
 		<description></description>
 		<bankreq>7=32</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='263'>
@@ -3825,6 +4088,7 @@ R: Z-[r]otation
 		<actorid>315</actorid>
 		<description>A clam. It opens when the player gets close, but closes after 5 seconds. It can hurt the player while it is closed.</description>
 		<bankreq>0=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='264'>
@@ -3834,6 +4098,7 @@ R: Z-[r]otation
 		<actorid>316</actorid>
 		<description>Basically a torch.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='265'>
@@ -3843,6 +4108,7 @@ R: Z-[r]otation
 		<actorid>317</actorid>
 		<description>A blue flame. Seen in the basement.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='266'>
@@ -3863,6 +4129,7 @@ RRRR where:
 
 R: Z-[R]otation</description>
 		<bankreq>5=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='267'>
@@ -3877,6 +4144,7 @@ XXXXXXXXXXXX MMMM where:
 
 M: [M]atch this with M of KINOKO_TAG - you cannot match it with more than one</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='268'>
@@ -3891,6 +4159,7 @@ XXXXXXXXXXXX MMMM where:
 
 M: [M]atch this with M of KINOKO_CREATE_TAG - you cannot match it with more than one, but you can have more than one KINOKO_TAG in the same place</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='269'>
@@ -3904,6 +4173,7 @@ M: [M]atch this with M of KINOKO_CREATE_TAG - you cannot match it with more than
 ===VS Mode Practice Behaviours==
 * On use: does not function</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='270'>
@@ -3916,6 +4186,7 @@ M: [M]atch this with M of KINOKO_CREATE_TAG - you cannot match it with more than
 Parameter 1:
 7F</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='271'>
@@ -3925,6 +4196,7 @@ Parameter 1:
 		<actorid>323</actorid>
 		<description>Spawns a Green Shell if its location is the same as that of a Brick Block or Big Brick Block when the block is destroyed.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='272'>
@@ -3938,6 +4210,7 @@ Parameter 1:
 ===VS Mode Practice Behaviours==
 * On load: Malfunction/Freeze/Crash</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='273'>
@@ -3947,6 +4220,7 @@ Parameter 1:
 		<actorid>36</actorid>
 		<description></description>
 		<bankreq>7=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='274'>
@@ -3956,6 +4230,7 @@ Parameter 1:
 		<actorid>37</actorid>
 		<description>Warps to [31] ? Switch if you look at the top of it with the highest zoom level and 14 stars.</description>
 		<bankreq>7=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='275'>
@@ -3965,6 +4240,7 @@ Parameter 1:
 		<actorid>38</actorid>
 		<description></description>
 		<bankreq>7=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='276'>
@@ -4007,6 +4283,7 @@ R: [R]otate around X axis
 
 (Source: Splatty)</description>
 		<bankreq>7=29</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='277'>
@@ -4033,6 +4310,7 @@ T: [T]ype
 (Source: Floralz)
 </description>
 		<bankreq>4=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='278'>
@@ -4058,6 +4336,7 @@ T: [T]ype
 
 (Source: Floralz)</description>
 		<bankreq>4=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='279'>
@@ -4078,6 +4357,7 @@ S: [S]tar ID
 
 This object will only activate if you stand on it or the area around it in specific coordinates in Shifting Sand Land's Pyramid, and nowhere else.</description>
 		<bankreq>0=5</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='280'>
@@ -4092,6 +4372,7 @@ XXSS where:
 
 S: [S]tar ID</description>
 		<bankreq>7=27</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='281'>
@@ -4123,6 +4404,7 @@ S: [S]tar ID
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>0=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='282'>
@@ -4136,6 +4418,7 @@ S: [S]tar ID
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>0=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='283'>
@@ -4145,6 +4428,7 @@ S: [S]tar ID
 		<actorid>212</actorid>
 		<description>Entrance to Big Boo's Haunt.</description>
 		<bankreq>0=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='284'>
@@ -4175,6 +4459,7 @@ T: [T]ype
 		
 (Source: Floralz, Splatty, et al)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='285'>
@@ -4185,6 +4470,7 @@ T: [T]ype
 		<description>Meltable by Yoshi's fire breath and smashable by giant players.
 If you put a Power Star inside it (by literally placing it inside it), the &quot;Power Star appear&quot; cutscene will play when the block is melted. No parameters are needed for this.</description>
 		<bankreq>2=5</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='286'>
@@ -4194,6 +4480,7 @@ If you put a Power Star inside it (by literally placing it inside it), the &quot
 		<actorid>325</actorid>
 		<description>Maybe the flying book that is shot out of bookcases in the libary room in BBH?</description>
 		<bankreq>7=13</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='287'>
@@ -4203,6 +4490,7 @@ If you put a Power Star inside it (by literally placing it inside it), the &quot
 		<actorid>327</actorid>
 		<description>Chomps and flies at the player. This object is placed in a bookshelf in the game.</description>
 		<bankreq>7=13</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='288'>
@@ -4212,6 +4500,7 @@ If you put a Power Star inside it (by literally placing it inside it), the &quot
 		<actorid>328</actorid>
 		<description></description>
 		<bankreq>7=13</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='289'>
@@ -4221,6 +4510,7 @@ If you put a Power Star inside it (by literally placing it inside it), the &quot
 		<actorid>213</actorid>
 		<description>Maybe this is the actor for the book switches on the Secret Door Bookcase?</description>
 		<bankreq>7=13</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='290'>
@@ -4237,6 +4527,7 @@ XXSS where:
 
 S: [S]tar ID</description>
 		<bankreq>7=20</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='291'>
@@ -4246,6 +4537,7 @@ S: [S]tar ID</description>
 		<actorid>218</actorid>
 		<description></description>
 		<bankreq>1=5</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='292'>
@@ -4268,6 +4560,7 @@ C: [C]hest number
 *** t_box.bmd
 *** t_box_open.bca</description>
 		<bankreq>0=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='293'>
@@ -4279,6 +4572,7 @@ C: [C]hest number
 
 Appears lower than its position if the two pillars in the castle basement have been groundpounded.</description>
 		<bankreq>7=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='294'>
@@ -4288,6 +4582,7 @@ Appears lower than its position if the two pillars in the castle basement have b
 		<actorid>326</actorid>
 		<description>A chair that flies at the player.</description>
 		<bankreq>7=13</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='295'>
@@ -4308,6 +4603,7 @@ F - Disappears once the Castle Grounds water is drained
 		
 (Source: Floralz)</description>
 		<bankreq>7=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='296'>
@@ -4317,6 +4613,7 @@ F - Disappears once the Castle Grounds water is drained
 		<actorid>340</actorid>
 		<description>Little stairs.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='297'>
@@ -4326,6 +4623,7 @@ F - Disappears once the Castle Grounds water is drained
 		<actorid>341</actorid>
 		<description>Rope barrier.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='298'>
@@ -4335,6 +4633,7 @@ F - Disappears once the Castle Grounds water is drained
 		<actorid>342</actorid>
 		<description>A red and white flag, like the ones present on Peach's castle's roof. Purely decorative object.</description>
 		<bankreq>7=2</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='299'>
@@ -4354,6 +4653,7 @@ T: [T]ype
 ==Other Requirements==
 * Must be in &quot;Shifting Sand Land - pyramid&quot; map</description>
 		<bankreq>7=18</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='300'>
@@ -4363,6 +4663,7 @@ T: [T]ype
 		<actorid>163</actorid>
 		<description>A round, mummified Thwomp that rolls back and forth trying to roll over the player. Nintendo places it 0.175 above the floor. When spawned it rolls forward, pauses, rolls back, pauses and so on. It ignores all collisions and rotation and has no apparent parameters.</description>
 		<bankreq>7=18</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='301'>
@@ -4376,6 +4677,7 @@ T: [T]ype
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>0=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='302'>
@@ -4411,6 +4713,7 @@ D - Still, unless on a slide surface, where it will move forward very quickly, r
 ** /data/normal_obj/scale_up_kinoko
 *** scale_up_kinoko.bmd</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='303'>
@@ -4420,6 +4723,7 @@ D - Still, unless on a slide surface, where it will move forward very quickly, r
 		<actorid>35</actorid>
 		<description></description>
 		<bankreq>7=5</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='304'>
@@ -4439,6 +4743,7 @@ There should be a Star Marker with parameters 2 followed by Star ID eg. 25 for S
 ==Misc. Info==
 * It is called SECRET_COIN because it it often put in the same place as coins.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='305'>
@@ -4469,6 +4774,7 @@ param &gt;&gt; 0 &amp; 0xf is the event ID to trigger when the switch is pressed
 ===VS Mode Practice Behaviours==
 * On use: only plays &quot;running out of time&quot; ticking sound part, not the main part</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='306'>
@@ -4480,6 +4786,7 @@ param &gt;&gt; 0 &amp; 0xf is the event ID to trigger when the switch is pressed
 
 Alone, not a really useful object.</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 		<param n='0'>
 			<name>Digit</name>
 			<offset>0</offset>
@@ -4497,6 +4804,7 @@ Alone, not a really useful object.</description>
 		<actorid>214</actorid>
 		<description></description>
 		<bankreq>0=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='308'>
@@ -4514,6 +4822,7 @@ S: [S]tar ID
 		
 (Source: Floralz)</description>
 		<bankreq>7=11</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='309'>
@@ -4523,6 +4832,7 @@ S: [S]tar ID
 		<actorid>356</actorid>
 		<description>In the Cool, Cool Mountain penguin slide, detects when the player takes the shortcut. Plays the 'secret found' sound effect, but, during races, also tells the racing penguin that the player is cheating.</description>
 		<bankreq>7=12</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='310'>
@@ -4532,6 +4842,7 @@ S: [S]tar ID
 		<actorid>243</actorid>
 		<description>Maybe created by LLL ring to shoot fire for it.</description>
 		<bankreq>7=15</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='311'>
@@ -4541,6 +4852,7 @@ S: [S]tar ID
 		<actorid>244</actorid>
 		<description>Rings from Manta.</description>
 		<bankreq>0=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='312'>
@@ -4560,6 +4872,7 @@ S: [S]tar ID
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='313'>
@@ -4573,6 +4886,7 @@ S: [S]tar ID
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='314'>
@@ -4586,6 +4900,7 @@ S: [S]tar ID
 ===VS Mode Practice Behaviours==
 * On load: Freezes/Crashes</description>
 		<bankreq>3=1</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='315'>
@@ -4619,6 +4934,7 @@ D: Activation [d]elay (in frames), if 0 or higher than 0x7fff, the delay is 150
 
 (Source: Splatty)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='316'>
@@ -4636,6 +4952,7 @@ M: Event ID to [m]atch with corresponding Enemy Switch Tag
 
 (Source: Splatty)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='317'>
@@ -4655,6 +4972,7 @@ T: [T]ype
 F - Spawns rings
 </description>
 		<bankreq>0=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='318'>
@@ -4664,6 +4982,7 @@ F - Spawns rings
 		<actorid>246</actorid>
 		<description></description>
 		<bankreq>7=19</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='319'>
@@ -4676,6 +4995,7 @@ F - Spawns rings
 		
 (Source: Floralz)</description>
 		<bankreq>7=19</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='320'>
@@ -4693,6 +5013,7 @@ R: Chase [r]adius
 
 (Source: Floralz)</description>
 		<bankreq>5=3</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='321'>
@@ -4704,6 +5025,7 @@ R: Chase [r]adius
 
 [b]Do not use as a stage object, for it will crash the game.[/b]</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='322'>
@@ -4713,6 +5035,7 @@ R: Chase [r]adius
 		<actorid>195</actorid>
 		<description></description>
 		<bankreq>7=48</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='323'>
@@ -4739,6 +5062,7 @@ E: Sound [e]ffect to play
 
 (Source: Splatty, Floralz)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='324'>
@@ -4759,6 +5083,7 @@ T: [T]ype
 
 (Source: Splatty)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 
 	<object id='325'>
@@ -4787,6 +5112,7 @@ E: Sound [e]ffect to play
 ===VS Mode Practice Behaviours==
 * On load: no sound (testing 0 and 4)?</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 	<object id='511'>
 		<category>1</category>
@@ -4805,5 +5131,6 @@ A: What [A]rea's Minimap to load. Use the Minimap editor for reference
 
 (Source: Floralz)</description>
 		<bankreq>none</bankreq>
+		<dlreq>none</dlreq>
 	</object>
 </database>
