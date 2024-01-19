@@ -142,6 +142,7 @@
     <Compile Include="src\core\formats\BMD.cs" />
     <Compile Include="src\core\formats\BMD.NitroTexture.cs" />
     <Compile Include="src\core\formats\BTP.cs" />
+    <Compile Include="src\core\formats\DynamicLibraryManager.cs" />
     <Compile Include="src\core\formats\Graphic.cs" />
     <Compile Include="src\core\formats\KCL.cs" />
     <Compile Include="src\core\formats\NeuQuant.cs" />
