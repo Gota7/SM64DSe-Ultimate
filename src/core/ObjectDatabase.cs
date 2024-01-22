@@ -108,6 +108,9 @@ namespace SM64DSe
 
         public static void LoadProjectSpecific()
         {
+            if (Program.m_ROM == null)
+                return;
+            
             string parentDirectory = System.IO.Directory.GetParent(Program.m_ROM.m_Path).FullName;
             string projectObjects = Path.Combine(parentDirectory, "objects.json");
             if (!File.Exists(projectObjects))

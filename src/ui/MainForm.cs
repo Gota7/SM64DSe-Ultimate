@@ -286,7 +286,11 @@ namespace SM64DSe
         private void btnOpenROM_Click(object sender, EventArgs e)
         {
             if (ofdOpenFile.ShowDialog(this) == DialogResult.OK)
+            {
                 LoadROM(ofdOpenFile.FileName);
+                // Load object database + objects.json if exist
+                ObjectDatabase.LoadProjectSpecific();
+            }
         }
 
         private void btnOpenFilesystem_Click(object sender, EventArgs e) {
@@ -326,6 +330,8 @@ namespace SM64DSe
                                 File.WriteAllLines(sfd.FileName, outSettings);
                                 Program.m_ROMPath = sfd.FileName;
                                 LoadROMExtracted(basePath, patchPath, fd.SelectedPath, buildPath);
+                                // Load object database + objects.json if exist
+                                ObjectDatabase.Load();
                             }
                         }
                     }
