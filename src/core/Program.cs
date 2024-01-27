@@ -65,7 +65,8 @@ namespace SM64DSe
             // If first argument is provided (drag and drop)
             if (args.Length == 0 || args.Length == 1)
             {
-                Application.Run(new MainForm(args[0]));
+                string path = args.Length == 1 ? args[0] : null;
+                Application.Run(new MainForm(path));
                 return;
             }
             
