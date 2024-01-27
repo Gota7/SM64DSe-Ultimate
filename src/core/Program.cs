@@ -71,8 +71,8 @@ namespace SM64DSe
             
             // If not, assume the first argument is the command
             Parser.Default.ParseArguments<PatchOptions, ExtractOptions>(args)
-                .WithParsed<PatchOptions>(CliManager.ExecutePatch)
-                .WithParsed<ExtractOptions>(CliManager.ExecuteExtract);
+                .WithParsed<PatchOptions>(CliManager.ExecutePatch);
+            // .WithParsed<ExtractOptions>(CliManager.ExecuteExtract); // not supported atm
         }
     }
 }
