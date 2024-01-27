@@ -2,5 +2,3 @@ bin/**/*
 obj/
 .vs/
 .idea
-packages/
-packages/**/*
