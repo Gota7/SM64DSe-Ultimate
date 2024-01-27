@@ -20,8 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using OpenTK.Graphics.OpenGL;
-using System.IO;
+using CommandLine;
+using Serilog;
+using SM64DSe.core.cli;
+using SM64DSe.core.cli.options;
 
 namespace SM64DSe
 {
@@ -42,44 +44,35 @@ namespace SM64DSe
         public static string m_ROMBuildPath;
 
         public static List<LevelEditorForm> m_LevelEditors;
-
-        public static Dictionary<string, int> shaderPrograms = new Dictionary<string, int>();
-
-        //code from https://www.codeproject.com/Articles/1167387/OpenGL-with-OpenTK-in-Csharp-Part-Compiling-Shader
-        private static void LoadShader(string name, string vertShaderName, string fragShaderName)
-        {
-            int vertexShader = GL.CreateShader(ShaderType.VertexShader);
-            GL.ShaderSource(vertexShader,
-            File.ReadAllText(@"Shaders\"+ vertShaderName + ".vert"));
-            GL.CompileShader(vertexShader);
-
-            int fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-            GL.ShaderSource(fragmentShader,
-            File.ReadAllText(@"Shaders\"+ fragShaderName + ".frag"));
-            GL.CompileShader(fragmentShader);
-
-            int program = GL.CreateProgram();
-            GL.AttachShader(program, vertexShader);
-            GL.AttachShader(program, fragmentShader);
-            GL.LinkProgram(program);
-
-            GL.DetachShader(program, vertexShader);
-            GL.DetachShader(program, fragmentShader);
-            GL.DeleteShader(vertexShader);
-            GL.DeleteShader(fragmentShader);
-
-            if (shaderPrograms.ContainsKey(name))
-                shaderPrograms[name] = program;
-            else
-                shaderPrograms.Add(name, program);
-        }
-
+        
         [STAThread]
         static void Main(string[] args)
         {
+            // Attach console if possible
+            ConsoleUtils.AttachConsole();
+            
+            // Create a logger
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            Log.Information($"SM64DSe-Ultimate version {AppVersion}");
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(args));
+
+            // If first argument is provided (drag and drop)
+            if (args.Length == 0 || args.Length == 1)
+            {
+                Application.Run(new MainForm(args[0]));
+                return;
+            }
+            
+            // If not, assume the first argument is the command
+            Parser.Default.ParseArguments<PatchOptions, ExtractOptions>(args)
+                .WithParsed<PatchOptions>(CliManager.ExecutePatch)
+                .WithParsed<ExtractOptions>(CliManager.ExecuteExtract);
         }
     }
 }

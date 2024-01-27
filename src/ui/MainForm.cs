@@ -200,7 +200,7 @@ namespace SM64DSe
             }
         }
 
-        public MainForm(string[] args)
+        public MainForm(string romPath)
         {
             InitializeComponent();
             Text = Program.AppTitle + " " + Program.AppVersion + " " + Program.AppDate;
@@ -212,12 +212,16 @@ namespace SM64DSe
             slStatusLabel.Text = "Ready";
             ObjectDatabase.Initialize();
 
-            if (args.Length >= 1) {
-                if (args[0].EndsWith(".nds")) { 
-                    LoadROM(args[0]);
-                } else {
-                    string[] inSettings = File.ReadAllLines(args[0]);
-                    Program.m_ROMPath = args[0];
+            if (romPath != null)
+            {
+                if (romPath.EndsWith(".nds"))
+                {
+                    LoadROM(romPath);
+                }
+                else
+                {
+                    string[] inSettings = File.ReadAllLines(romPath);
+                    Program.m_ROMPath = romPath;
                     LoadROMExtracted(inSettings[0], inSettings[1], inSettings[2], inSettings[3]);
                 }
             }
