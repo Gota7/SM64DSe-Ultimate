@@ -615,9 +615,6 @@
     <EmbeddedResource Include="src\ui\ParticleViewerForm.resx">
       <DependentUpon>ParticleViewerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ui\PatchViewerForm.resx">
-      <DependentUpon>PatchViewerForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="src\ui\ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
