@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Serilog;
 using SM64DSe.SM64DSFormats;
 
 namespace SM64DSe
@@ -69,6 +70,7 @@ namespace SM64DSe
             m_LevelSettings = new LevelSettings(m_Overlay);
             if (m_LevelSettings.LevelFormatVersion > k_LevelFormatVersion)
             {
+                Log.Error($"Reading version {m_LevelSettings.LevelFormatVersion} when current editor has format {k_LevelFormatVersion}");
                 throw new InvalidDataException("This level was added by a later version of SM64DSe and cannot be read");
             }
 

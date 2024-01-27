@@ -263,6 +263,7 @@
     <Compile Include="src\core\PropertyBag.cs" />
     <Compile Include="src\core\Strings.cs" />
     <Compile Include="src\core\TriangleUtil.cs" />
+    <Compile Include="src\core\utils\DynamicLibraries\DLUtils.cs" />
     <Compile Include="src\core\utils\SP2\CommandInfo.cs" />
     <Compile Include="src\core\utils\SP2\SP2Patcher.cs" />
     <Compile Include="src\ui\AdditionalPatchesForm.cs">
@@ -717,7 +718,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
-    <Content Include="assets\AdditionalPatches.xml" >
+    <Content Include="assets\AdditionalPatches.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\basic_eur_us_chars.txt">
@@ -756,6 +757,7 @@
     <Content Include="Documentation\kcl_format.txt" />
     <Content Include="Documentation\SM64DS Level Format Doc v2.1x.txt" />
     <Content Include="Documentation\SM64DS Text Editing.txt" />
+    <Content Include="Documentation\SP2.md" />
     <Content Include="src\utils\Templates\Enemy.cpp" />
     <Content Include="src\utils\Templates\Enemy.h" />
     <Content Include="src\utils\Templates\Platform.cpp" />
