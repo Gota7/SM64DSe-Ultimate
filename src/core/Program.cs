@@ -63,7 +63,7 @@ namespace SM64DSe
             Application.SetCompatibleTextRenderingDefault(false);
 
             // If first argument is provided (drag and drop)
-            if (args.Length == 0 || args.Length == 1)
+            if (args.Length == 0 || (args.Length == 1 && args[0] != "--help"))
             {
                 string path = args.Length == 1 ? args[0] : null;
                 Application.Run(new MainForm(path));
