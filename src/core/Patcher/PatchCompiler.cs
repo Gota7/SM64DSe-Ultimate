@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using System.IO;
+using Serilog;
 
 namespace SM64DSe.Patcher
 {
@@ -30,6 +31,8 @@ namespace SM64DSe.Patcher
 
         public static int runProcess(string proc, string cwd)
         {
+            Log.Debug($"Run process in working directory {cwd}.");
+            Log.Debug(proc);
             ProcessStartInfo info = new ProcessStartInfo();
             info.FileName = "cmd";
             info.Arguments = "/C " + proc + " || pause";

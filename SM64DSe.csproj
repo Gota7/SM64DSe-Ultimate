@@ -61,7 +61,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommandLine, Version=2.9.1.0, Culture=neutral, PublicKeyToken=5a870481e358d379, processorArchitecture=MSIL">
+      <HintPath>packages\CommandLineParser.2.9.1\lib\net461\CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -84,6 +89,12 @@
     <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
     </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>packages\Serilog.3.1.2-dev-02097\lib\net471\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Console, Version=5.0.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>packages\Serilog.Sinks.Console.5.0.1\lib\net471\Serilog.Sinks.Console.dll</HintPath>
+    </Reference>
     <Reference Include="SixLabors.ImageSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
       <HintPath>packages\SixLabors.ImageSharp.1.0.4\lib\net472\SixLabors.ImageSharp.dll</HintPath>
     </Reference>
@@ -93,15 +104,18 @@
     </Reference>
     <Reference Include="System.Core">
     </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.DiagnosticSource.7.0.2\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
     </Reference>
@@ -136,7 +150,14 @@
     <Compile Include="src\core\3DStuff.cs" />
     <Compile Include="src\core\BasicBigFloat.cs" />
     <Compile Include="src\core\BiDictionaryOneToOne.cs" />
+    <Compile Include="src\core\cli\options\CompileOptions.cs" />
+    <Compile Include="src\core\cli\options\ExtractOptions.cs" />
+    <Compile Include="src\core\cli\options\PatchOptions.cs" />
+    <Compile Include="src\core\cli\CLIWorker.cs" />
+    <Compile Include="src\core\cli\workers\Compiler.cs" />
+    <Compile Include="src\core\cli\workers\Patcher.cs" />
     <Compile Include="src\core\Compression.cs" />
+    <Compile Include="src\core\ConsoleUtils.cs" />
     <Compile Include="src\core\DataHelper.cs" />
     <Compile Include="src\core\formats\BCA.cs" />
     <Compile Include="src\core\formats\BMD.cs" />
@@ -245,6 +266,10 @@
     <Compile Include="src\core\PropertyBag.cs" />
     <Compile Include="src\core\Strings.cs" />
     <Compile Include="src\core\TriangleUtil.cs" />
+    <Compile Include="src\core\utils\DynamicLibraries\DLUtils.cs" />
+    <Compile Include="src\core\utils\SP2\CommandInfo.cs" />
+    <Compile Include="src\core\utils\SP2\Env.cs" />
+    <Compile Include="src\core\utils\SP2\SP2Patcher.cs" />
     <Compile Include="src\ui\AdditionalPatchesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -694,6 +719,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
+    <Content Include="assets\AdditionalPatches.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\basic_eur_us_chars.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -730,6 +758,7 @@
     <Content Include="Documentation\kcl_format.txt" />
     <Content Include="Documentation\SM64DS Level Format Doc v2.1x.txt" />
     <Content Include="Documentation\SM64DS Text Editing.txt" />
+    <Content Include="Documentation\SP2.md" />
     <Content Include="src\utils\Templates\Enemy.cpp" />
     <Content Include="src\utils\Templates\Enemy.h" />
     <Content Include="src\utils\Templates\Platform.cpp" />

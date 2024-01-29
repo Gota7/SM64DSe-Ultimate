@@ -20,16 +20,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using OpenTK.Graphics.OpenGL;
-using System.IO;
+using CommandLine;
+using Serilog;
+using SM64DSe.core.cli;
+using SM64DSe.core.cli.options;
 
 namespace SM64DSe
 {
     static class Program
     {
         public static string AppTitle = "SM64DS Editor ULTIMATE";
-        public static string AppVersion = "v3.0.0";
-        public static string AppDate = "Dec 02, 2021";
+        public static string AppVersion = "v3.1.0";
+        public static string AppDate = "Jan 27, 2024";
 
         public static string ServerURL = "http://kuribo64.net/";
 
@@ -42,44 +44,36 @@ namespace SM64DSe
         public static string m_ROMBuildPath;
 
         public static List<LevelEditorForm> m_LevelEditors;
-
-        public static Dictionary<string, int> shaderPrograms = new Dictionary<string, int>();
-
-        //code from https://www.codeproject.com/Articles/1167387/OpenGL-with-OpenTK-in-Csharp-Part-Compiling-Shader
-        private static void LoadShader(string name, string vertShaderName, string fragShaderName)
-        {
-            int vertexShader = GL.CreateShader(ShaderType.VertexShader);
-            GL.ShaderSource(vertexShader,
-            File.ReadAllText(@"Shaders\"+ vertShaderName + ".vert"));
-            GL.CompileShader(vertexShader);
-
-            int fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-            GL.ShaderSource(fragmentShader,
-            File.ReadAllText(@"Shaders\"+ fragShaderName + ".frag"));
-            GL.CompileShader(fragmentShader);
-
-            int program = GL.CreateProgram();
-            GL.AttachShader(program, vertexShader);
-            GL.AttachShader(program, fragmentShader);
-            GL.LinkProgram(program);
-
-            GL.DetachShader(program, vertexShader);
-            GL.DetachShader(program, fragmentShader);
-            GL.DeleteShader(vertexShader);
-            GL.DeleteShader(fragmentShader);
-
-            if (shaderPrograms.ContainsKey(name))
-                shaderPrograms[name] = program;
-            else
-                shaderPrograms.Add(name, program);
-        }
-
+        
         [STAThread]
         static void Main(string[] args)
         {
+            // Attach console if possible
+            ConsoleUtils.AttachConsole();
+            
+            // Create a logger
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .CreateLogger();
+
+            Log.Information($"SM64DSe-Ultimate version {AppVersion}");
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(args));
+
+            // If first argument is provided (drag and drop)
+            if (args.Length == 0 || (args.Length == 1 && args[0] != "--help"))
+            {
+                string path = args.Length == 1 ? args[0] : null;
+                Application.Run(new MainForm(path));
+                return;
+            }
+            
+            // If not, assume the first argument is the command
+            Parser.Default.ParseArguments<PatchOptions, CompileOptions>(args)
+                .WithParsed<PatchOptions>(new core.cli.workers.Patcher().Execute)
+                .WithParsed<CompileOptions>(new core.cli.workers.Compiler().Execute);
         }
     }
 }
