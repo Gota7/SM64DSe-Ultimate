@@ -237,7 +237,7 @@ namespace SM64DSe.Patcher
             {
                 for (var i = 0; i < envs.Length; i++)
                 {
-                    additionalEnvs += $"{envs[i].GetName()}=${envs[i].GetValue()} ";
+                    additionalEnvs += $"{envs[i].GetName()}={envs[i].GetValue()} ";
                 }
             }
             
