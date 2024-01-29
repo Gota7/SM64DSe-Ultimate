@@ -35,3 +35,23 @@ You can force the editor to install the required patch for vanilla rom to be edi
 ````
 
 > Lean more about the `.sp2` format in [Documentation/SP2](Documentation/SP2.md).
+
+**compile**
+
+The `compile` command aims to provide an easy way to build and insert dynamic library and overlays from source code.
+
+> Currently only the dynamic libraries are supported.
+
+````
+SM64DSe.exe compile (DL|OVERLAY) [ROM-FILE] [SOURCE-CODE] [INTERNAL-PATH]
+
+# flags
+
++ `--force` force the editor to use the required patch on the rom
++ `--create` if the internal path does not exist, the file will be created, by default it replaces an existing one.
++ `--recursive` if the internal path provided does not exist, create the parent directory.
+
+# Example
+
+SM64DSe.exe compile DL ./europe.nds ./src data/dynamic/peach_npc.dylb --force --create --recursive
+````
