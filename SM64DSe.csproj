@@ -150,9 +150,12 @@
     <Compile Include="src\core\3DStuff.cs" />
     <Compile Include="src\core\BasicBigFloat.cs" />
     <Compile Include="src\core\BiDictionaryOneToOne.cs" />
-    <Compile Include="src\core\cli\CliManager.cs" />
+    <Compile Include="src\core\cli\options\CompileOptions.cs" />
     <Compile Include="src\core\cli\options\ExtractOptions.cs" />
     <Compile Include="src\core\cli\options\PatchOptions.cs" />
+    <Compile Include="src\core\cli\CLIWorker.cs" />
+    <Compile Include="src\core\cli\workers\Compiler.cs" />
+    <Compile Include="src\core\cli\workers\Patcher.cs" />
     <Compile Include="src\core\Compression.cs" />
     <Compile Include="src\core\ConsoleUtils.cs" />
     <Compile Include="src\core\DataHelper.cs" />
@@ -265,6 +268,7 @@
     <Compile Include="src\core\TriangleUtil.cs" />
     <Compile Include="src\core\utils\DynamicLibraries\DLUtils.cs" />
     <Compile Include="src\core\utils\SP2\CommandInfo.cs" />
+    <Compile Include="src\core\utils\SP2\Env.cs" />
     <Compile Include="src\core\utils\SP2\SP2Patcher.cs" />
     <Compile Include="src\ui\AdditionalPatchesForm.cs">
       <SubType>Form</SubType>

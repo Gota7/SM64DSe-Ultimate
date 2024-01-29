@@ -6,7 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+using SM64DSe.core.utils.SP2;
 
 namespace SM64DSe.Patcher
 {
@@ -226,13 +228,27 @@ namespace SM64DSe.Patcher
                 throw new Exception("Generating DL failed: cleanup function missing");
         }
 
-        public byte[] makeDynamicLibrary()
+        public byte[] MakeDynamicLibrary(Env[] envs = null)
         {
             const uint baseAddress = 0x02400000;
 
-            string make = "(make CODEADDR=0x" + baseAddress.ToString("X8")
-                    + " && make CODEADDR=0x" + (baseAddress + 4).ToString("X8")
-                    + " TARGET=newcode1)";
+            string additionalEnvs = "";
+            if (envs != null)
+            {
+                for (var i = 0; i < envs.Length; i++)
+                {
+                    additionalEnvs += $"{envs[i].GetName()}=${envs[i].GetValue()} ";
+                }
+            }
+            
+            string makeTemplate = "(make CODEADDR=0x{0} {1} && make CODEADDR=0x{2} TARGET=newcode1 {3})";
+            string make = String.Format(
+                makeTemplate, 
+                baseAddress.ToString("X8"),
+                additionalEnvs,
+                (baseAddress + 4).ToString("X8"),
+                additionalEnvs
+                );
 
             if (PatchCompiler.runProcess(make, romdir.FullName) != 0)
                 return null;

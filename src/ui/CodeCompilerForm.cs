@@ -38,7 +38,7 @@ namespace SM64DSe
 			{
                 try
 				{
-                    ret = pm.makeDynamicLibrary();
+                    ret = pm.MakeDynamicLibrary();
                 }
                 catch (Exception ex)
                 {

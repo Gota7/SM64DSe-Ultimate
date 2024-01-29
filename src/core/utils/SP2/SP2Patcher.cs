@@ -114,6 +114,15 @@ namespace SM64DSe.core.utils.SP2
             patchTimer.Stop();
             StopFilesystemEditIfNecessary();
         }
+
+        private void add_or_replace(string internalPath, byte[] data)
+        {
+            StopFilesystemEditIfNecessary();
+            if (Program.m_ROM.FileExists(internalPath))
+            {
+                Program.m_ROM.ReinsertFile(Program.m_ROM.GetFileIDFromName(internalPath), data);
+            }
+        }
         
         private void ProcessCommand(string[] p, CommandInfo info, TreeNode dummyNode)
         {
@@ -186,7 +195,7 @@ namespace SM64DSe.core.utils.SP2
                         RemoveFirstAndLastChars(ref p[2]);
 
                         pm.modifyMakefileSources(sourceDirs);
-                        byte[] data = pm.makeDynamicLibrary();
+                        byte[] data = pm.MakeDynamicLibrary();
 
                         NitroFile dlFile = Program.m_ROM.GetFileFromName(p[2]);
                         dlFile.m_Data = data;

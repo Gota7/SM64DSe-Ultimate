@@ -668,11 +668,13 @@ namespace SM64DSe
         public ushort GetFileIDFromOverlayID(uint ovlid) { return m_OverlayEntries[ovlid].FileID; } // TODO!!!!!
         public ushort GetFileIDFromInternalID(ushort intid) { return m_FileTable[intid]; }
 
+        // return 0 if does not exist
         public ushort GetDirIDFromName(string name)
         {
+            string dirName = name.EndsWith("/") ? name.Substring(0, name.Length - 1) : name;
             foreach (DirEntry de in m_DirEntries)
             {
-                if (de.FullName == name)
+                if (de.FullName == dirName)
                     return de.ID;
             }
 
