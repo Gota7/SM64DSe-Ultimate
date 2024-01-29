@@ -50,6 +50,7 @@ SM64DSe.exe compile (DL|OVERLAY) [ROM-FILE] [SOURCE-CODE] [INTERNAL-PATH]
 + `--force` force the editor to use the required patch on the rom
 + `--create` if the internal path does not exist, the file will be created, by default it replaces an existing one.
 + `--recursive` if the internal path provided does not exist, create the parent directory.
++ `--env` environment variable to provide to the make command. E.g. `--env SOURCES=code/peach --env INCLUDE=includes` 
 
 # Example
 
