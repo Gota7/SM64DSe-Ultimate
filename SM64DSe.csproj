@@ -152,9 +152,13 @@
     <Compile Include="src\core\BiDictionaryOneToOne.cs" />
     <Compile Include="src\core\cli\options\CompileOptions.cs" />
     <Compile Include="src\core\cli\options\ExtractOptions.cs" />
+    <Compile Include="src\core\cli\options\FileInsertOptions.cs" />
+    <Compile Include="src\core\cli\options\InsertDLOptions.cs" />
     <Compile Include="src\core\cli\options\PatchOptions.cs" />
     <Compile Include="src\core\cli\CLIWorker.cs" />
     <Compile Include="src\core\cli\workers\Compiler.cs" />
+    <Compile Include="src\core\cli\workers\DLInserter.cs" />
+    <Compile Include="src\core\cli\workers\FileInserter.cs" />
     <Compile Include="src\core\cli\workers\Patcher.cs" />
     <Compile Include="src\core\Compression.cs" />
     <Compile Include="src\core\ConsoleUtils.cs" />
@@ -204,7 +208,9 @@
     <Compile Include="src\core\KuppaScript\KuppaScript.cs" />
     <Compile Include="src\core\KuppaScript\NumberInterpreter.cs" />
     <Compile Include="src\core\Level.cs" />
-    <Compile Include="src\core\LevelEditorForm.EditingHandler.cs" />
+    <Compile Include="src\core\LevelEditorForm.EditingHandler.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\core\LevelObject.cs" />
     <Compile Include="src\core\ModelCache.cs" />
     <Compile Include="src\core\NARC.cs" />
@@ -333,10 +339,18 @@
     <Compile Include="src\ui\FormationForm.Designer.cs">
       <DependentUpon>FormationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ui\FormControls\BackgroundImageDataGridView.cs" />
-    <Compile Include="src\ui\FormControls\MenuButton.cs" />
-    <Compile Include="src\ui\FormControls\ModelGLControl.cs" />
-    <Compile Include="src\ui\FormControls\PaletteColourGrid.cs" />
+    <Compile Include="src\ui\FormControls\BackgroundImageDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\ui\FormControls\MenuButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\ui\FormControls\ModelGLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\ui\FormControls\PaletteColourGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="src\ui\GraphicEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -445,7 +459,9 @@
     <Compile Include="src\ui\ParticleViewerForm.Designer.cs">
       <DependentUpon>ParticleViewerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\ui\PatchViewerForm.cs" />
+    <Compile Include="src\ui\PatchViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\ui\PatchViewerForm.Designer.cs" />
     <Compile Include="src\ui\ProgressDialog.cs">
       <SubType>Form</SubType>
@@ -517,7 +533,9 @@
       <DependentUpon>UshortEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\utils\Templates\CommonTemplate.cs" />
-    <Compile Include="src\utils\Templates\PlatformTemplateForm.cs" />
+    <Compile Include="src\utils\Templates\PlatformTemplateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\utils\Templates\PlatformTemplateForm.designer.cs">
       <DependentUpon>PlatformTemplateForm.cs</DependentUpon>
     </Compile>
@@ -813,9 +831,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\utils" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -827,10 +843,7 @@
     <ZipDirectory SourceDirectory="bin\release" Overwrite="true" DestinationFile="$(MSBuildProjectDirectory)\bin\release.zip" />
   </Target>
   <Target Name="AfterBuild" AfterTargets="Build" Condition="'$(Configuration)'=='Release'">
-    <ZipDirectory
-            SourceDirectory="bin\release"
-            Overwrite="true"
-            DestinationFile="$(MSBuildProjectDirectory)\bin\release.zip" />
+    <ZipDirectory SourceDirectory="bin\release" Overwrite="true" DestinationFile="$(MSBuildProjectDirectory)\bin\release.zip" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -18,6 +18,8 @@ namespace SM64DSe.Patcher
         DirectoryInfo romdir;
         uint m_CodeAddr;
 
+        const uint baseAddress = 0x02400000;
+
         public PatchMaker(DirectoryInfo romdir, uint codeAddr)
         {
             //handler = new Arm9BinaryHandler();
@@ -230,14 +232,12 @@ namespace SM64DSe.Patcher
 
         public byte[] MakeDynamicLibrary(Env[] envs = null)
         {
-            const uint baseAddress = 0x02400000;
-
             string additionalEnvs = "";
             if (envs != null)
             {
-                for (var i = 0; i < envs.Length; i++)
+                foreach (var env in envs)
                 {
-                    additionalEnvs += $"{envs[i].GetName()}={envs[i].GetValue()} ";
+                    additionalEnvs += $"{env.GetName()}={env.GetValue()} ";
                 }
             }
             
@@ -253,6 +253,11 @@ namespace SM64DSe.Patcher
             if (PatchCompiler.runProcess(make, romdir.FullName) != 0)
                 return null;
 
+            return MakeDynamicLibraryFromBinaries();
+        }
+
+        public byte[] MakeDynamicLibraryFromBinaries()
+        {
             byte[] code0 = File.ReadAllBytes(romdir.FullName + "/newcode.bin");
             byte[] code1 = File.ReadAllBytes(romdir.FullName + "/newcode1.bin");
 
