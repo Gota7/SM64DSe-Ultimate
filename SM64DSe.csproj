@@ -152,12 +152,12 @@
     <Compile Include="src\core\BiDictionaryOneToOne.cs" />
     <Compile Include="src\core\cli\options\CompileOptions.cs" />
     <Compile Include="src\core\cli\options\FileInsertOptions.cs" />
-    <Compile Include="src\core\cli\options\InsertDLOptions.cs" />
+    <Compile Include="src\core\cli\options\InsertDLsOptions.cs" />
     <Compile Include="src\core\cli\options\PatchOptions.cs" />
     <Compile Include="src\core\cli\CLIWorker.cs" />
     <Compile Include="src\core\cli\utils\TargetParser.cs" />
     <Compile Include="src\core\cli\workers\Compiler.cs" />
-    <Compile Include="src\core\cli\workers\DLInserter.cs" />
+    <Compile Include="src\core\cli\workers\DLsInserter.cs" />
     <Compile Include="src\core\cli\workers\FileInserter.cs" />
     <Compile Include="src\core\cli\workers\Patcher.cs" />
     <Compile Include="src\core\Compression.cs" />

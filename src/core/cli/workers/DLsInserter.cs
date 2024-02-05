@@ -7,9 +7,9 @@ using SM64DSe.Patcher;
 
 namespace SM64DSe.core.cli.workers
 {
-    public class DLInserter : CLIWorker<DlOptions>
+    public class DLsInserter : CLIWorker<InsertDLsOptions>
     {
-        public override void Execute(DlOptions options)
+        public override void Execute(InsertDLsOptions options)
         {
             this.SetupRom(options.RomPath);
 

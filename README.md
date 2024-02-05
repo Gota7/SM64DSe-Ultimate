@@ -57,12 +57,12 @@ SM64DSe.exe compile (DL|OVERLAY) [ROM-FILE] [SOURCE-CODE] [INTERNAL-PATH]
 SM64DSe.exe compile DL ./europe.nds ./src data/dynamic/peach_npc.dylb --force --create --recursive
 ````
 
-### **📥 insertDL**
+### **📥 insertDLs**
 
-The `insertDL` command will use already built binaries to generate one or many dynamics libraries and insert them inside the rom filesystem.
+The `insertDLs` command will use already built binaries to generate one or many dynamics libraries and insert them inside the rom filesystem.
 
 ````
-SM64DSe.exe insertDL [ROM-FILE] [BUILD-FOLDER] [TARGET-FILE]
+SM64DSe.exe insertDLs [ROM-FILE] [BUILD-FOLDER] [TARGETS-FILE]
 
 # flags
 + `--newcode-lo` (Default `newcode_lo.bin`)
@@ -74,11 +74,13 @@ SM64DSe.exe insertDL [ROM-FILE] [BUILD-FOLDER] [TARGET-FILE]
 
 # Example
 
-SM64DSe.exe insertDL ./europe.nds ./build ./targets.json --newcode-lo=newcode.bin --newcode-hi=newcode1.bin
+SM64DSe.exe insertDLs ./europe.nds ./build ./targets.json --newcode-lo=newcode.bin --newcode-hi=newcode1.bin
 
 ````
 
-> The `TARGET-FILE` values must point to a text file either **plain text** or **json**.
+⚠️ The editor **will not** build the binaries for you, you need to execute `make` or any building process ahead. This will only combine for each target the existing `newcode_lo` and `newcode_hi` in a dynamic library.
+
+> The `TARGETS-FILE` values must point to a text file either **plain text** or **json**.
 > 
 > For plain text, the format is per line `[directory]: [internal-path]`. E.g. 
 > ```

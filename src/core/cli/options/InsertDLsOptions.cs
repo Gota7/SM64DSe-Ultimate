@@ -2,8 +2,8 @@
 
 namespace SM64DSe.core.cli
 {
-    [Verb("insertDL", HelpText = "Generate a DL from precompiled binaries and insert it to the ROM")]
-    public class DlOptions : FileOptions
+    [Verb("insertDLs", HelpText = "Generate a DL from precompiled binaries and insert it to the ROM")]
+    public class InsertDLsOptions : FileOptions
     {
         [Value(0, Required = true, HelpText = "Path to the rom")]
         public string RomPath { get; set; }
