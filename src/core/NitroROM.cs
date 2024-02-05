@@ -816,7 +816,6 @@ namespace SM64DSe
                 try
                 {
                     msgFile = GetFileFromName("data/message/msg_data_eng.bin");
-                    Console.WriteLine(" !European!");
                 }
                 catch (Exception)
                 {

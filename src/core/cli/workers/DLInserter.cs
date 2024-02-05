@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Serilog;
+using SM64DSe.core.cli.utils;
 using SM64DSe.Patcher;
 
 namespace SM64DSe.core.cli.workers
 {
-    public class DLInserter : CLIWorker<InsertDLOptions>
+    public class DLInserter : CLIWorker<DlOptions>
     {
-        public override void Execute(InsertDLOptions options)
+        public override void Execute(DlOptions options)
         {
             this.SetupRom(options.RomPath);
 
@@ -29,65 +31,41 @@ namespace SM64DSe.core.cli.workers
 
             this.EnsurePatch(options.Force);
 
-            try
+            // key: folder name
+            // value: rom directory
+            Dictionary<string, string> targets = TargetParser.ParseFile(options.TargetListPath);
+            
+            // For each target
+            foreach (var target in targets)
             {
-                using (StreamReader reader = new StreamReader(options.TargetListPath))
+                string folderPath = Path.Combine(options.BuildFolderPath, target.Key);
+                
+                string codePath0 = Path.Combine(folderPath, options.NewCodeLo);
+                string codePath1 = Path.Combine(folderPath, options.NewCodeHi);
+                
+                // Ensure the binaries exist
+                foreach (var path in new[] {codePath0, codePath1})
                 {
-                    while (!reader.EndOfStream)
+                    if (!File.Exists(path))
                     {
-                        string line = reader.ReadLine();
-
-                        if (!string.IsNullOrWhiteSpace(line))
-                        {
-                            // Split the line at the first colon
-                            string[] parts = line.Split(new [] {':'}, 2);
-
-                            if (parts.Length != 2)
-                            {
-                                Log.Error($"Invalid syntax in {options.TargetListPath}: {line}");
-                                Environment.Exit(1);
-                                return;
-                            }
-
-                            string folderName = parts[0].Trim();
-                            string folderPath = Path.Combine(options.BuildFolderPath, folderName);
-                            string internalPath = parts[1].Trim();
-
-                            string codePath0 = Path.Combine(folderPath, "newcode.bin");
-                            string codePath1 = Path.Combine(folderPath, "newcode1.bin");
-
-                            // Ensure the binaries exist
-                            foreach (var path in new[] {codePath0, codePath1})
-                            {
-                                if (!File.Exists(path))
-                                {
-                                    Log.Error($"Binary file {path} not found.");
-                                    Environment.Exit(1);
-                                    return;
-                                }
-                            }
-
-                            PatchMaker pm = new PatchMaker(
-                                new DirectoryInfo(folderPath),
-                                0x02400000
-                            );
-
-                            byte[] dl = pm.MakeDynamicLibraryFromBinaries();
-
-                            if (dl != null)
-                            {
-                                Log.Information($"Created DL from '{folderName}'");
-
-                                FileInserter.InsertFile(internalPath, dl, options);
-                            }
-                        }
+                        Log.Error($"Binary file {path} not found.");
+                        Environment.Exit(1);
+                        return;
                     }
                 }
-            }
-            catch (IOException ex)
-            {
-                Log.Error($"Error reading the target list: {ex.Message}");
-                Environment.Exit(1);
+
+                PatchMaker pm = new PatchMaker(
+                    new DirectoryInfo(folderPath),
+                    0x02400000
+                );
+
+                byte[] dl = pm.MakeDynamicLibraryFromBinaries();
+
+                if (dl != null)
+                {
+                    Log.Information($"Created DL from '{target.Key}' in '{target.Value}'");
+                    FileInserter.InsertFile(target.Value, dl, options);
+                }
             }
         }
     }

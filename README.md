@@ -20,7 +20,7 @@ The CLI is mainly work in progress as it only support a few elements.
 
 > The CLI is aimed to provide tools for developers to 
 
-**patch**
+### **🩹 patch**
 
 The `patch` command is used to execute a `.sp2` file containing instructions.
 ````
@@ -36,7 +36,7 @@ You can force the editor to install the required patch for vanilla rom to be edi
 
 > Lean more about the `.sp2` format in [Documentation/SP2](Documentation/SP2.md).
 
-**compile**
+### **🔨 compile**
 
 The `compile` command aims to provide an easy way to build and insert dynamic library and overlays from source code.
 
@@ -56,3 +56,38 @@ SM64DSe.exe compile (DL|OVERLAY) [ROM-FILE] [SOURCE-CODE] [INTERNAL-PATH]
 
 SM64DSe.exe compile DL ./europe.nds ./src data/dynamic/peach_npc.dylb --force --create --recursive
 ````
+
+### **📥 insertDL**
+
+The `insertDL` command will use already built binaries to generate one or many dynamics libraries and insert them inside the rom filesystem.
+
+````
+SM64DSe.exe insertDL [ROM-FILE] [BUILD-FOLDER] [TARGET-FILE]
+
+# flags
++ `--newcode-lo` (Default `newcode_lo.bin`)
++ `--newcode-hi` (Default `newcode_hi.bin`)
+
++ `--force` force the editor to use the required patch on the rom
++ `--create` if the internal path does not exist, the file will be created, by default it replaces an existing one.
++ `--recursive` if the internal path provided does not exist, create the parent directory.
+
+# Example
+
+SM64DSe.exe insertDL ./europe.nds ./build ./targets.json --newcode-lo=newcode.bin --newcode-hi=newcode1.bin
+
+````
+
+> The `TARGET-FILE` values must point to a text file either **plain text** or **json**.
+> 
+> For plain text, the format is per line `[directory]: [internal-path]`. E.g. 
+> ```
+> infinite_floor: data/enemy/peach/peach_jump.bca
+> test_cutscene:  data/enemy/peach/peach_jump_end.bca
+> ```
+> 
+> For json format, we simply require a dictionnary string: string. E.g.
+> 
+> ```{"infinite_floor": "data/enemy/peach/peach_jump.bca", "test_cutscene": "data/enemy/peach/peach_jump_end.bca"}```
+
+You can find an example in the repository [pants64DS/Misc-SM64DS-Patches/dynamic_lib](https://github.com/pants64DS/Misc-SM64DS-Patches/tree/master/dynamic_lib)
