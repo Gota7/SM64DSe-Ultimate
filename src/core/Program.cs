@@ -71,9 +71,10 @@ namespace SM64DSe
             }
             
             // If not, assume the first argument is the command
-            Parser.Default.ParseArguments<PatchOptions, CompileOptions>(args)
+            Parser.Default.ParseArguments<PatchOptions, CompileOptions, InsertDLOptions>(args)
                 .WithParsed<PatchOptions>(new core.cli.workers.Patcher().Execute)
-                .WithParsed<CompileOptions>(new core.cli.workers.Compiler().Execute);
+                .WithParsed<CompileOptions>(new core.cli.workers.Compiler().Execute)
+                .WithParsed<InsertDLOptions>(new core.cli.workers.DLInserter().Execute);
         }
     }
 }
