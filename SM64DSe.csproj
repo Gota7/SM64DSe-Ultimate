@@ -151,11 +151,11 @@
     <Compile Include="src\core\BasicBigFloat.cs" />
     <Compile Include="src\core\BiDictionaryOneToOne.cs" />
     <Compile Include="src\core\cli\options\CompileOptions.cs" />
-    <Compile Include="src\core\cli\options\ExtractOptions.cs" />
     <Compile Include="src\core\cli\options\FileInsertOptions.cs" />
     <Compile Include="src\core\cli\options\InsertDLOptions.cs" />
     <Compile Include="src\core\cli\options\PatchOptions.cs" />
     <Compile Include="src\core\cli\CLIWorker.cs" />
+    <Compile Include="src\core\cli\utils\TargetParser.cs" />
     <Compile Include="src\core\cli\workers\Compiler.cs" />
     <Compile Include="src\core\cli\workers\DLInserter.cs" />
     <Compile Include="src\core\cli\workers\FileInserter.cs" />
@@ -831,7 +831,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

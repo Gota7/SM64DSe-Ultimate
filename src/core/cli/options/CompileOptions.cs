@@ -11,7 +11,7 @@ namespace SM64DSe.core.cli.options
     }
     
     [Verb("compile", HelpText = "Compile ")]
-    public class CompileOptions : FileInsertOptions
+    public class CompileOptions : FileOptions
     {
         [Value(1, Required = true, HelpText = "Output type (DL | OVERLAY | CLEAN)")]
         public CompileOptionsType Type { get; set; }

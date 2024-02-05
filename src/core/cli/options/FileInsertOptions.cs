@@ -3,7 +3,7 @@ using CommandLine;
 namespace SM64DSe.core.cli
 {
     // meant to be used as a base class
-    public class FileInsertOptions
+    public abstract class FileOptions
     {
         [Option("force", Required = false, HelpText = "Force the editor to patch the file when dealing with vanilla rom.")]
         public bool Force { get; set; }

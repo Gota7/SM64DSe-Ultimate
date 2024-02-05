@@ -7,7 +7,7 @@ namespace SM64DSe.core.cli.workers
 {
     public class FileInserter
     {
-        public static void InsertFile(string internalPath, byte[] data, FileInsertOptions options)
+        public static void InsertFile(string internalPath, byte[] data, FileOptions options)
         {
             if (Program.m_ROM.FileExists(internalPath))
             {
