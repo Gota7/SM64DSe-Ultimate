@@ -72,13 +72,12 @@ SM64DSe.exe insertDLs [ROM-FILE] [BUILD-FOLDER] [TARGETS-FILE]
 + `--create` if the internal path does not exist, the file will be created, by default it replaces an existing one.
 + `--recursive` if the internal path provided does not exist, create the parent directory.
 
-The options `--newcode-lo` and `--newcode-hi` can be used to specify the names of the input files **without extensions**. The command assumes that each targeted folder contains two `.bin` files with the given filenames (`newcode_lo.bin` and `newcode_hi.bin` by default), and a `.sym` file with the name specified with `--newcode-lo` (or `newcode_lo.sym` by default).
-
 # Example
 
 SM64DSe.exe insertDLs ./europe.nds ./build ./targets.json --newcode-lo=newcode --newcode-hi=newcode1
-
 ````
+
+The options `--newcode-lo` and `--newcode-hi` can be used to specify the names of the input files **without extensions**. The command assumes that each targeted folder contains two `.bin` files with the given filenames (`newcode_lo.bin` and `newcode_hi.bin` by default), and a `.sym` file with the name specified with `--newcode-lo` (or `newcode_lo.sym` by default).
 
 ⚠️ The editor **will not** build the binaries for you, you need to execute `make` or any building process ahead. This will only combine for each target the existing `newcode_lo` and `newcode_hi` in a dynamic library.
 
