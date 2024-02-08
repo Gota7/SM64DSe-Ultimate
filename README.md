@@ -65,16 +65,18 @@ The `insertDLs` command will use already built binaries to generate one or many 
 SM64DSe.exe insertDLs [ROM-FILE] [BUILD-FOLDER] [TARGETS-FILE]
 
 # flags
-+ `--newcode-lo` (Default `newcode_lo.bin`)
-+ `--newcode-hi` (Default `newcode_hi.bin`)
++ `--newcode-lo` (Default `newcode_lo`)
++ `--newcode-hi` (Default `newcode_hi`)
 
 + `--force` force the editor to use the required patch on the rom
 + `--create` if the internal path does not exist, the file will be created, by default it replaces an existing one.
 + `--recursive` if the internal path provided does not exist, create the parent directory.
 
+The options `--newcode-lo` and `--newcode-hi` can be used to specify the names of the input files **without extensions**. The command assumes that each targeted folder contains two `.bin` files with the given filenames (`newcode_lo.bin` and `newcode_hi.bin` by default), and a `.sym` file with the name specified with `--newcode-lo` (or `newcode_lo.sym` by default).
+
 # Example
 
-SM64DSe.exe insertDLs ./europe.nds ./build ./targets.json --newcode-lo=newcode.bin --newcode-hi=newcode1.bin
+SM64DSe.exe insertDLs ./europe.nds ./build ./targets.json --newcode-lo=newcode --newcode-hi=newcode1
 
 ````
 
