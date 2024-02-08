@@ -40,15 +40,16 @@ namespace SM64DSe.core.cli.workers
             {
                 string folderPath = Path.Combine(options.BuildFolderPath, target.Key);
                 
-                string codePath0 = Path.Combine(folderPath, options.NewCodeLo);
-                string codePath1 = Path.Combine(folderPath, options.NewCodeHi);
+                string symFilePath   = Path.Combine(folderPath, options.NewCodeLo + ".sym");
+                string loBinFilePath = Path.Combine(folderPath, options.NewCodeLo + ".bin");
+                string hiBinFilePath = Path.Combine(folderPath, options.NewCodeHi + ".bin");
                 
                 // Ensure the binaries exist
-                foreach (var path in new[] {codePath0, codePath1})
+                foreach (var path in new[] {symFilePath, loBinFilePath, hiBinFilePath})
                 {
                     if (!File.Exists(path))
                     {
-                        Log.Error($"Binary file {path} not found.");
+                        Log.Error($"Required file '{path}' not found.");
                         Environment.Exit(1);
                         return;
                     }
@@ -59,7 +60,7 @@ namespace SM64DSe.core.cli.workers
                     0x02400000
                 );
 
-                byte[] dl = pm.MakeDynamicLibraryFromBinaries();
+                byte[] dl = pm.MakeDynamicLibraryFromBinaries(options.NewCodeLo, options.NewCodeHi);
 
                 if (dl != null)
                 {

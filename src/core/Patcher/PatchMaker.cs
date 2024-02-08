@@ -172,7 +172,7 @@ namespace SM64DSe.Patcher
             }
         }
 
-        private (uint, uint)? getInitAndCleanup()
+        private (uint, uint)? getInitAndCleanup(string symFileName)
         {
             StreamReader symbolFile = null;
             uint initFuncOffset  = 0;
@@ -180,7 +180,7 @@ namespace SM64DSe.Patcher
 
             try
             {
-                symbolFile = new StreamReader(new FileStream(romdir.FullName + "/newcode.sym", FileMode.Open));
+                symbolFile = new StreamReader(new FileStream($"{romdir.FullName}/{symFileName}", FileMode.Open));
 
                 while (!symbolFile.EndOfStream)
                 {
@@ -256,10 +256,10 @@ namespace SM64DSe.Patcher
             return MakeDynamicLibraryFromBinaries();
         }
 
-        public byte[] MakeDynamicLibraryFromBinaries()
+        public byte[] MakeDynamicLibraryFromBinaries(string codeLo = "/newcode", string codeHi = "/newcode1")
         {
-            byte[] code0 = File.ReadAllBytes(romdir.FullName + "/newcode.bin");
-            byte[] code1 = File.ReadAllBytes(romdir.FullName + "/newcode1.bin");
+            byte[] code0 = File.ReadAllBytes($"{romdir.FullName}/{codeLo}.bin");
+            byte[] code1 = File.ReadAllBytes($"{romdir.FullName}/{codeHi}.bin");
 
             if (code0.Length != code1.Length)
                 throw new Exception("Generating DL failed: code lengths don't match");
@@ -309,7 +309,7 @@ namespace SM64DSe.Patcher
             alignStream(output.BaseStream, 4);
 
             var relocationOffset = output.BaseStream.Position;
-            var addresses = getInitAndCleanup();
+            var addresses = getInitAndCleanup(codeLo + ".sym");
             if (addresses == null) return null;
 
             uint initFuncOffset  = (((uint, uint))addresses).Item1 - baseAddress + 0x10;
