@@ -69,12 +69,20 @@ namespace SM64DSe
                 Application.Run(new MainForm(path));
                 return;
             }
-            
+
             // If not, assume the first argument is the command
-            Parser.Default.ParseArguments<PatchOptions, CompileOptions, InsertDLsOptions>(args)
-                .WithParsed<PatchOptions>(new core.cli.workers.Patcher().Execute)
-                .WithParsed<CompileOptions>(new core.cli.workers.Compiler().Execute)
-                .WithParsed<InsertDLsOptions>(new core.cli.workers.DLsInserter().Execute);
+            try
+            {
+                Parser.Default.ParseArguments<PatchOptions, CompileOptions, InsertDLsOptions>(args)
+                    .WithParsed<PatchOptions>(new core.cli.workers.Patcher().Execute)
+                    .WithParsed<CompileOptions>(new core.cli.workers.Compiler().Execute)
+                    .WithParsed<InsertDLsOptions>(new core.cli.workers.DLsInserter().Execute);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+                Environment.Exit(1);
+            }
         }
     }
 }
