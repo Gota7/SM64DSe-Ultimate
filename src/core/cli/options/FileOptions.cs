@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace SM64DSe.core.cli
+namespace SM64DSe.core.cli.options
 {
     // meant to be used as a base class
     public abstract class FileOptions

@@ -7,7 +7,7 @@ namespace SM64DSe.core.cli
 {
     public abstract class CLIWorker<T>
     {
-        public abstract void Execute(T options);
+        public abstract int Execute(T options);
 
         protected void SetupRom(string path)
         {

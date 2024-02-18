@@ -57,6 +57,33 @@ SM64DSe.exe compile (DL|OVERLAY) [ROM-FILE] [SOURCE-CODE] [INTERNAL-PATH]
 SM64DSe.exe compile DL ./europe.nds ./src data/dynamic/peach_npc.dylb --force --create --recursive
 ````
 
+### **📁 filesystem**
+
+The filesystem or in short `fs` command allows you to interact with the rom's filesystem.
+
+To make the difference between your computer filesystem and the rom filesystem, we use URI (Uniform Resource Identifier) to indicate when a rom filesystem is targeted.
+> E.g. `rom://file/data/message/msg_data_eng.bin` is an URI with `rom` as scheme and `file` as authority. the remaining path is the internal path of the targeted file/directory.
+>
+> ⚠️ Currently only `file` authority is supported. Later we could support `overlay` if some people needs it.
+
+````
+SM64DSe.exe fs ( rm | cp ) [ROM-FILE] [TARGET] [DESTINATION]
+
+# flags
++ `--force` force the editor to use the required patch on the rom
++ `--create` if the internal path does not exist, the file will be created, by default it replaces an existing one.
++ `--recursive` if the internal path provided does not exist, create the parent directory.
+
+# Example
+
+# Copy a local `msg_data_eng.bin` file inside the rom filesystem in `data/message/msg_data_eng.bin `
+SM64DSe.exe fs cp ./europe.nds ./msg_data_eng.bin rom://file/data/message/msg_data_eng.bin
+# Delete the rom file data/message/msg_data_eng.bin 
+SM64DSe.exe fs rm ./europe.nds rom://file/data/message/msg_data_eng.bin 
+# Copy one rom file to another path of the rom
+SM64DSe.exe fs rm rom://file/data/message/msg_data_eng.bin rom://file/data/message/msg_data_eng.bin.bak
+````
+
 ### **📥 insertDLs**
 
 The `insertDLs` command will use already built binaries to generate one or many dynamics libraries and insert them inside the rom filesystem.

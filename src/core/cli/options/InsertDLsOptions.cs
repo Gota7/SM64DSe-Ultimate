@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace SM64DSe.core.cli
+namespace SM64DSe.core.cli.options
 {
     [Verb("insertDLs", HelpText = "Generate a DL from precompiled binaries and insert it to the ROM")]
     public class InsertDLsOptions : FileOptions

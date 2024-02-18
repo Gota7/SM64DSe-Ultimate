@@ -9,7 +9,7 @@ namespace SM64DSe.core.cli.workers
 {
     public class Patcher: CLIWorker<PatchOptions>
     {
-        public override void Execute(PatchOptions options)
+        public override int Execute(PatchOptions options)
         {
             Log.Information($"Patch {options.romPath} with file {options.PatchFile}");
             this.SetupRom(options.romPath);
@@ -18,8 +18,7 @@ namespace SM64DSe.core.cli.workers
             if (!File.Exists(options.PatchFile))
             {
                 Log.Error($"File {options.PatchFile} not found. Aborting patch.");
-                Environment.Exit(1);
-                return;
+                return 1;
             }
             
             this.EnsurePatch(options.Force);
@@ -52,13 +51,11 @@ namespace SM64DSe.core.cli.workers
             if (!success)
             {
                 Log.Error("Patch failed. See logs above.");
-                Environment.Exit(1);
+                return 1;
             }
-            else
-            {
-                Log.Information("Patch applied with success. Congrats!");
-                Environment.Exit(0);
-            }
+
+            Log.Information("Patch applied with success. Congrats!");
+            return 0;
         }
     }
 }
