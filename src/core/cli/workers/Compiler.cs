@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 using Serilog;
 using SM64DSe.core.cli.options;
 using SM64DSe.core.cli.utils;
