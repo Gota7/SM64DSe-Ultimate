@@ -153,6 +153,7 @@
     <Compile Include="src\core\cli\options\CompileOptions.cs" />
     <Compile Include="src\core\cli\options\FileOptions.cs" />
     <Compile Include="src\core\cli\options\FileSystemOptions.cs" />
+    <Compile Include="src\core\cli\options\GenerateOptions.cs" />
     <Compile Include="src\core\cli\options\InsertDLsOptions.cs" />
     <Compile Include="src\core\cli\options\PatchOptions.cs" />
     <Compile Include="src\core\cli\CLIWorker.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="src\core\cli\workers\Compiler.cs" />
     <Compile Include="src\core\cli\workers\DLsInserter.cs" />
     <Compile Include="src\core\cli\workers\FileSystem.cs" />
+    <Compile Include="src\core\cli\workers\Generator.cs" />
     <Compile Include="src\core\cli\workers\Patcher.cs" />
     <Compile Include="src\core\Compression.cs" />
     <Compile Include="src\core\ConsoleUtils.cs" />

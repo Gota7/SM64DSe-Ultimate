@@ -84,6 +84,19 @@ SM64DSe.exe fs rm ./europe.nds rom://file/data/message/msg_data_eng.bin
 SM64DSe.exe fs cp rom://file/data/message/msg_data_eng.bin rom://file/data/message/msg_data_eng.bin.bak
 ````
 
+### **📘 generate**
+
+The editor is often used to generate headers file for sounds and files. You can do the same using the `generate` command.
+
+````
+SM64DSe.exe generate ( sound | filesystem ) [ROM-FILE] [OUTPUT]
+
+# Example
+
+SM64DSe.exe generate filesystem C:\Users\axels\OneDrive\Bureau\SM64DS\EUROPE.nds files.h
+SM64DSe.exe generate sound C:\Users\axels\OneDrive\Bureau\SM64DS\EUROPE.nds sound.h
+````
+
 ### **📥 insertDLs**
 
 The `insertDLs` command will use already built binaries to generate one or many dynamics libraries and insert them inside the rom filesystem.
