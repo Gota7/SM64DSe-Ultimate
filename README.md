@@ -81,7 +81,7 @@ SM64DSe.exe fs cp ./europe.nds ./msg_data_eng.bin rom://file/data/message/msg_da
 # Delete the rom file data/message/msg_data_eng.bin 
 SM64DSe.exe fs rm ./europe.nds rom://file/data/message/msg_data_eng.bin 
 # Copy one rom file to another path of the rom
-SM64DSe.exe fs rm rom://file/data/message/msg_data_eng.bin rom://file/data/message/msg_data_eng.bin.bak
+SM64DSe.exe fs cp rom://file/data/message/msg_data_eng.bin rom://file/data/message/msg_data_eng.bin.bak
 ````
 
 ### **📥 insertDLs**
