@@ -30,8 +30,8 @@ namespace SM64DSe
     static class Program
     {
         public static string AppTitle = "SM64DS Editor ULTIMATE";
-        public static string AppVersion = "v3.2.0";
-        public static string AppDate = "Jan 27, 2024";
+        public static string AppVersion = "v3.2.1";
+        public static string AppDate = "Feb 18, 2024";
 
         public static string ServerURL = "http://kuribo64.net/";
 
@@ -71,18 +71,34 @@ namespace SM64DSe
             }
 
             // If not, assume the first argument is the command
+            Parser.Default.ParseArguments<PatchOptions, CompileOptions, InsertDLsOptions, FileSystemOptions>(args)
+                .WithParsed<PatchOptions>(options => HandleWorkerExecution(new core.cli.workers.Patcher(), options))
+                .WithParsed<CompileOptions>(options => HandleWorkerExecution(new core.cli.workers.Compiler(), options))
+                .WithParsed<InsertDLsOptions>(options => HandleWorkerExecution(new core.cli.workers.DLsInserter(), options))
+                .WithParsed<FileSystemOptions>(options => HandleWorkerExecution(new core.cli.workers.FileSystem(), options));
+        }
+        
+        // Define a method to handle worker execution and return codes
+        private static void HandleWorkerExecution<T>(CLIWorker<T> worker, T options)
+        {
+            int returnCode;
             try
             {
-                Parser.Default.ParseArguments<PatchOptions, CompileOptions, InsertDLsOptions>(args)
-                    .WithParsed<PatchOptions>(new core.cli.workers.Patcher().Execute)
-                    .WithParsed<CompileOptions>(new core.cli.workers.Compiler().Execute)
-                    .WithParsed<InsertDLsOptions>(new core.cli.workers.DLsInserter().Execute);
+                returnCode = worker.Execute(options);
             }
             catch (Exception e)
             {
                 Log.Error(e.ToString());
-                Environment.Exit(1);
+                returnCode = 1;
             }
+            finally
+            {
+                Log.CloseAndFlush();
+                ConsoleUtils.FreeConsole();
+            }
+            
+            // Handle the return code here, e.g., exit the program if necessary
+            Environment.Exit(returnCode);
         }
     }
 }

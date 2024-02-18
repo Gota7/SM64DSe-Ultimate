@@ -2,8 +2,9 @@
 using System.IO;
 using System.Windows.Forms;
 using Serilog;
+using FileOptions = SM64DSe.core.cli.options.FileOptions;
 
-namespace SM64DSe.core.cli.workers
+namespace SM64DSe.core.cli.utils
 {
     public class FileInserter
     {
@@ -11,7 +12,7 @@ namespace SM64DSe.core.cli.workers
         {
             if (Program.m_ROM.FileExists(internalPath))
             {
-                Log.Warning($"Replacing {internalPath} with the dynamic library content.");
+                Log.Warning($"Replacing {internalPath}.");
                 NitroFile dlFile = Program.m_ROM.GetFileFromName(internalPath);
                 dlFile.m_Data = data;
                 dlFile.SaveChanges();
@@ -59,7 +60,7 @@ namespace SM64DSe.core.cli.workers
             }
             else
             {
-                throw new FileNotFoundException($"You tried to compile and insert a dynamic library to a non-existent file ({internalPath}). If you want to create it you can use --create option.");
+                throw new FileNotFoundException($"You tried insert data to a non-existent file ({internalPath}). If you want to create it you can use --create option.");
             }
         }
 

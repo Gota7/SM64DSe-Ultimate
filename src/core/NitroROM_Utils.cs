@@ -376,19 +376,33 @@ namespace SM64DSe {
             Array.Resize<NitroROM.FileEntry>(ref this.m_FileEntries, this.m_FileEntries.Length - index);
         }
 
-        public void RemoveFile(string filename, TreeNode root) {
+        public void SafeRemoveFile(string filename)
+        {
             int fileIdFromName = (int)this.GetFileIDFromName(filename);
-            if (fileIdFromName == (int)ushort.MaxValue) {
-                int num1 = (int)MessageBox.Show("This is a bug and shouldn't happen.", "Sorry,");
-            } else if (fileIdFromName >= 32768) {
-                int num2 = (int)MessageBox.Show("Manipulation of archives not supported", "Sorry,");
+            if (fileIdFromName == (int)ushort.MaxValue)
+            {
+                throw new Exception("Something went terribly wrong: invalid fileId");
+            } else if (fileIdFromName >= 32768)
+            {
+                throw new ArgumentException("Manipulation of archives not supported");
             } else {
                 this.AllowEmptySpaceInOv0();
                 this.RemoveFileEntriesAndCorrectIDs(new List<int>()
                 {
-          fileIdFromName
-        });
+                    fileIdFromName
+                });
+            }
+        }
+
+        public void RemoveFile(string filename, TreeNode root) {
+            try
+            {
+                SafeRemoveFile(filename);
                 ROMFileSelect.GetFileOrDir(filename, root).Remove();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Sorry.");
             }
         }
 

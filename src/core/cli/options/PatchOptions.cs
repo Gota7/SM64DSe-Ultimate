@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace SM64DSe.core.cli
+namespace SM64DSe.core.cli.options
 {
     [Verb("patch", HelpText = "Apply a patch to the ROM")]
     public class PatchOptions

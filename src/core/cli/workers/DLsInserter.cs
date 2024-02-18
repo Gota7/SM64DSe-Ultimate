@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Serilog;
+using SM64DSe.core.cli.options;
 using SM64DSe.core.cli.utils;
 using SM64DSe.Patcher;
 
@@ -9,7 +10,7 @@ namespace SM64DSe.core.cli.workers
 {
     public class DLsInserter : CLIWorker<InsertDLsOptions>
     {
-        public override void Execute(InsertDLsOptions options)
+        public override int Execute(InsertDLsOptions options)
         {
             this.SetupRom(options.RomPath);
 
@@ -17,16 +18,14 @@ namespace SM64DSe.core.cli.workers
             if (!Directory.Exists(options.BuildFolderPath))
             {
                 Log.Error($"Folder {options.BuildFolderPath} not found.");
-                Environment.Exit(1);
-                return;
+                return 1;
             }
 
             // Ensure the target list file exists
             if (!File.Exists(options.TargetListPath))
             {
                 Log.Error($"Target list {options.TargetListPath} not found.");
-                Environment.Exit(1);
-                return;
+                return 1;
             }
 
             this.EnsurePatch(options.Force);
@@ -50,8 +49,7 @@ namespace SM64DSe.core.cli.workers
                     if (!File.Exists(path))
                     {
                         Log.Error($"Required file '{path}' not found.");
-                        Environment.Exit(1);
-                        return;
+                        return 1;
                     }
                 }
 
@@ -68,6 +66,8 @@ namespace SM64DSe.core.cli.workers
                     FileInserter.InsertFile(target.Value, dl, options);
                 }
             }
+
+            return 0;
         }
     }
 }

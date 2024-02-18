@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using Serilog;
 using SM64DSe.core.cli.options;
+using SM64DSe.core.cli.utils;
 using SM64DSe.core.utils.SP2;
 using SM64DSe.Patcher;
 
@@ -13,7 +14,7 @@ namespace SM64DSe.core.cli.workers
     {
         public static readonly byte[] EMPTY_FILE = { 0xde, 0xad, 0xbe, 0xef };
 
-        public override void Execute(CompileOptions options)
+        public override int Execute(CompileOptions options)
         {
             Log.Information($"Compile source {options.Source} to {options.Type} in rom {options.RomPath} in path {options.InternalPath}");
 
@@ -27,18 +28,18 @@ namespace SM64DSe.core.cli.workers
             switch (options.Type)
             {
                 case CompileOptionsType.DL:
-                    MakeDynamicLibrary(options);
-                    break;
+                    return MakeDynamicLibrary(options);
                 case CompileOptionsType.OVERLAY:
-                    MakeOverlay(options);
-                    break;
+                    return MakeOverlay(options);
                 case CompileOptionsType.CLEAN:
-                    PatchCompiler.cleanPatch(new DirectoryInfo(options.Source));
-                    break;
+                    return PatchCompiler.cleanPatch(new DirectoryInfo(options.Source));
+                default:
+                    // unknown
+                    return 1;
             }
         }
 
-        private void MakeOverlay(CompileOptions options)
+        private int MakeOverlay(CompileOptions options)
         {
             // Setup rom
             this.SetupRom(options.RomPath);
@@ -47,7 +48,7 @@ namespace SM64DSe.core.cli.workers
             throw new NotImplementedException("Make overlay is not implemented yet.");
         }
 
-        private void MakeDynamicLibrary(CompileOptions options)
+        private int MakeDynamicLibrary(CompileOptions options)
         {
             // Setup rom
             this.SetupRom(options.RomPath);
@@ -82,6 +83,7 @@ namespace SM64DSe.core.cli.workers
             byte[] data = pm.MakeDynamicLibrary(environments.ToArray());
 
             FileInserter.InsertFile(options.InternalPath, data, options);
+            return 0;
         }
     }
 }
