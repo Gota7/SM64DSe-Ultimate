@@ -2,13 +2,13 @@
 using System.IO;
 using System.Windows.Forms;
 using Serilog;
-using FileOptions = SM64DSe.core.cli.options.FileOptions;
+using SM64DSe.core.cli.options;
 
 namespace SM64DSe.core.cli.utils
 {
     public class FileInserter
     {
-        public static void InsertFile(string internalPath, byte[] data, FileOptions options)
+        public static void InsertFile(string internalPath, byte[] data, AbstractFileOptions options)
         {
             if (Program.m_ROM.FileExists(internalPath))
             {

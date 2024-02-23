@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
+using SM64DSe.core.cli.options;
 using SM64DSe.core.cli.workers;
-using FileOptions = SM64DSe.core.cli.options.FileOptions;
 
 namespace SM64DSe.core.cli.utils
 {
@@ -38,7 +38,7 @@ namespace SM64DSe.core.cli.utils
             }
         }
 
-        public int To(string value, FileOptions options)
+        public int To(string value, AbstractFileOptions options)
         {
             if (target == value)
                 throw new ArgumentException("Cannot have same target and value.");

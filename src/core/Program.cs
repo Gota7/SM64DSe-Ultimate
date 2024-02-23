@@ -71,35 +71,7 @@ namespace SM64DSe
             }
 
             // If not, assume the first argument is the command
-            Parser.Default.ParseArguments<PatchOptions, CompileOptions, InsertDLsOptions, FileSystemOptions, GenerateOptions>(args)
-                .WithParsed<PatchOptions>(options => HandleWorkerExecution(new core.cli.workers.Patcher(), options))
-                .WithParsed<CompileOptions>(options => HandleWorkerExecution(new core.cli.workers.Compiler(), options))
-                .WithParsed<InsertDLsOptions>(options => HandleWorkerExecution(new core.cli.workers.DLsInserter(), options))
-                .WithParsed<FileSystemOptions>(options => HandleWorkerExecution(new core.cli.workers.FileSystem(), options))
-                .WithParsed<GenerateOptions>(options => HandleWorkerExecution(new core.cli.workers.Generator(), options));
-        }
-        
-        // Define a method to handle worker execution and return codes
-        private static void HandleWorkerExecution<T>(CLIWorker<T> worker, T options)
-        {
-            int returnCode;
-            try
-            {
-                returnCode = worker.Execute(options);
-            }
-            catch (Exception e)
-            {
-                Log.Error(e.ToString());
-                returnCode = 1;
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-                ConsoleUtils.FreeConsole();
-            }
-            
-            // Handle the return code here, e.g., exit the program if necessary
-            Environment.Exit(returnCode);
+            CLIService.Run(args);
         }
     }
 }

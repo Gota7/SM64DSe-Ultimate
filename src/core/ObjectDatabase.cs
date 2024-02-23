@@ -125,11 +125,11 @@ namespace SM64DSe
                 // This would overwrite any previously defined objects
                 foreach (ObjectInfo objectInfo in items)
                 {
-                    if (objectInfo.m_InternalName.StartsWith("@CUSTOM%"))
+                    if (objectInfo.m_InternalName != null && objectInfo.m_InternalName.StartsWith("@CUSTOM%"))
                     {
                         objectInfo.m_IsCustomModelPath = objectInfo.m_InternalName.Substring(8);
                     }
-                    if (objectInfo.m_DynamicLibraryRequirement.StartsWith("@CUSTOM%"))
+                    if (objectInfo.m_DynamicLibraryRequirement != null && objectInfo.m_DynamicLibraryRequirement.StartsWith("@CUSTOM%"))
                     {
                         objectInfo.m_DynamicLibraryRequirement = objectInfo.m_DynamicLibraryRequirement.Substring(8);
                     }

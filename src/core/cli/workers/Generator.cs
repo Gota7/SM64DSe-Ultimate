@@ -9,7 +9,7 @@ namespace SM64DSe.core.cli.workers
         public override int Execute(GenerateOptions options)
         {
             // Setup rom
-            this.SetupRom(options.RomPath);
+            this.SetupRom(options);
 
             if (options.Format != "header")
                 throw new ArgumentException("Only header format is supported today.");

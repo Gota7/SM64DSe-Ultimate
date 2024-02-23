@@ -3,7 +3,6 @@ using System.IO;
 using Serilog;
 using SM64DSe.core.cli.options;
 using SM64DSe.core.cli.utils;
-using FileOptions = SM64DSe.core.cli.options.FileOptions;
 
 namespace SM64DSe.core.cli.workers
 {
@@ -11,12 +10,12 @@ namespace SM64DSe.core.cli.workers
     {
         public override int Execute(FileSystemOptions options)
         {
-            Log.Information($"Execute {options.Operation} on {options.Target} - {options.Destination}");
-
             // Setup rom
-            this.SetupRom(options.RomPath);
+            this.SetupRom(options);
             this.EnsurePatch(options.Force);
-
+            
+            Log.Information($"Execute {options.Operation} on {options.Target} - {options.Destination}");
+            
             switch (options.Operation)
             {
                 case FileSystemOperation.cp:
@@ -28,7 +27,7 @@ namespace SM64DSe.core.cli.workers
             }
         }
 
-        protected int Copy(string target, string destination, FileOptions options)
+        protected int Copy(string target, string destination, AbstractFileOptions options)
         {
             if (!RomUriUtils.IsRomUri(target) && !RomUriUtils.IsRomUri(destination))
                 throw new ArgumentException("At least one of the arguments should be a rom target.");

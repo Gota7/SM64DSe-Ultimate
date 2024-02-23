@@ -3,11 +3,8 @@
 namespace SM64DSe.core.cli.options
 {
     [Verb("insertDLs", HelpText = "Generate a DL from precompiled binaries and insert it to the ROM")]
-    public class InsertDLsOptions : FileOptions
+    public class InsertDLsOptions : AbstractFileOptions
     {
-        [Value(0, Required = true, HelpText = "Path to the rom")]
-        public string RomPath { get; set; }
-
         [Value(1, Required = true, HelpText = "Path to the build folder")]
         public string BuildFolderPath { get; set; }
 

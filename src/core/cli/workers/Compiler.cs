@@ -11,8 +11,6 @@ namespace SM64DSe.core.cli.workers
 {
     public class Compiler: CLIWorker<CompileOptions>
     {
-        public static readonly byte[] EMPTY_FILE = { 0xde, 0xad, 0xbe, 0xef };
-
         public override int Execute(CompileOptions options)
         {
             Log.Information($"Compile source {options.Source} to {options.Type} in rom {options.RomPath} in path {options.InternalPath}");
@@ -30,6 +28,8 @@ namespace SM64DSe.core.cli.workers
                     return MakeDynamicLibrary(options);
                 case CompileOptionsType.OVERLAY:
                     return MakeOverlay(options);
+                case CompileOptionsType.TARGET:
+                    return MakeTarget(options);
                 case CompileOptionsType.CLEAN:
                     return PatchCompiler.cleanPatch(new DirectoryInfo(options.Source));
                 default:
@@ -40,28 +40,41 @@ namespace SM64DSe.core.cli.workers
 
         private int MakeOverlay(CompileOptions options)
         {
-            // Setup rom
-            this.SetupRom(options.RomPath);
-            this.EnsurePatch(options.Force);
-            
             throw new NotImplementedException("Make overlay is not implemented yet.");
         }
 
-        private int MakeDynamicLibrary(CompileOptions options)
+        private int MakeTarget(CompileOptions options)
         {
-            // Setup rom
-            this.SetupRom(options.RomPath);
-            this.EnsurePatch(options.Force);
+            Env[] envs = ParseEnvs(options.Env);
+            string additionalEnvs = "";
+            if (options.Env != null)
+            {
+                foreach (var env in envs)
+                {
+                    additionalEnvs += $"{env.GetName()}={env.GetValue()} ";
+                }
+            }
             
-            PatchMaker pm = new PatchMaker(
-                new DirectoryInfo(options.Source), 
-                0x02400000
+            string makeTemplate = "make {0}";
+            string make = String.Format(
+                makeTemplate, 
+                additionalEnvs
             );
 
+            int result = PatchCompiler.runProcess(make, options.Source);
+            if (result != 0)
+            {
+                throw new Exception($"make command failed with result {result}");
+            }
+            return 0;
+        }
+
+        static Env[] ParseEnvs(IEnumerable<string> envs)
+        {
             List<Env> environments = new List<Env>();
             
             // Parse the environment variables provided by the --env option
-            foreach (string s in options.Env)
+            foreach (string s in envs)
             {
                 string[] content = s.Split('=');
                 if (content.Length != 2)
@@ -78,8 +91,22 @@ namespace SM64DSe.core.cli.workers
                 
                 environments.Add(new Env(content[0], value));
             }
+
+            return environments.ToArray();
+        }
+
+        private int MakeDynamicLibrary(CompileOptions options)
+        {
+            // Setup rom
+            this.SetupRom(options);
+            this.EnsurePatch(options.Force);
             
-            byte[] data = pm.MakeDynamicLibrary(environments.ToArray());
+            PatchMaker pm = new PatchMaker(
+                new DirectoryInfo(options.Source), 
+                0x02400000
+            );
+            
+            byte[] data = pm.MakeDynamicLibrary(ParseEnvs(options.Env));
 
             FileInserter.InsertFile(options.InternalPath, data, options);
             return 0;

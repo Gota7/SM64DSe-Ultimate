@@ -12,8 +12,10 @@ namespace SM64DSe.core.cli.workers
     {
         public override int Execute(InsertDLsOptions options)
         {
-            this.SetupRom(options.RomPath);
-
+            // Setup rom
+            this.SetupRom(options);
+            this.EnsurePatch(options.Force);
+            
             // Ensure the build folder exists
             if (!Directory.Exists(options.BuildFolderPath))
             {
@@ -28,7 +30,6 @@ namespace SM64DSe.core.cli.workers
                 return 1;
             }
 
-            this.EnsurePatch(options.Force);
 
             // key: folder name
             // value: rom directory

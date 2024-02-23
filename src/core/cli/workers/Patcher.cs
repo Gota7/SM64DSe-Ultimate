@@ -11,8 +11,11 @@ namespace SM64DSe.core.cli.workers
     {
         public override int Execute(PatchOptions options)
         {
-            Log.Information($"Patch {options.romPath} with file {options.PatchFile}");
-            this.SetupRom(options.romPath);
+            // Setup rom
+            this.SetupRom(options);
+            this.EnsurePatch(options.Force);
+            
+            Log.Information($"Patch {options.RomPath} with file {options.PatchFile}");
             
             // Ensure the patch file exists
             if (!File.Exists(options.PatchFile))
@@ -20,8 +23,6 @@ namespace SM64DSe.core.cli.workers
                 Log.Error($"File {options.PatchFile} not found. Aborting patch.");
                 return 1;
             }
-            
-            this.EnsurePatch(options.Force);
             
             Log.Information("Starting .sp2 patches");
             SP2Patcher patcher = new SP2Patcher(options.PatchFile);

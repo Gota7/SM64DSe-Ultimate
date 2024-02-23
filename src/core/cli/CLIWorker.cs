@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Serilog;
+using SM64DSe.core.cli.options;
 using SM64DSe.core.utils.DynamicLibraries;
 
 namespace SM64DSe.core.cli
@@ -9,8 +10,24 @@ namespace SM64DSe.core.cli
     {
         public abstract int Execute(T options);
 
-        protected void SetupRom(string path)
+        protected void SetupRom(AbstractRomOptions options)
         {
+            if (options.RomPath == null && Program.m_ROM == null)
+            {
+                throw new Exception("--rom option must be set when not executing in batches.");
+            }
+
+            if (options.RomPath != null && Program.m_ROM != null)
+            {
+                throw new Exception("A rom seem to already be loaded. You cannot use --rom option in batches.");
+            }
+
+            if (Program.m_ROM != null)
+                return;
+            
+            // Extracting path
+            string path = options.RomPath;
+            
             // Ensure rom provided is .nds format
             if (!path.EndsWith(".nds"))
             {

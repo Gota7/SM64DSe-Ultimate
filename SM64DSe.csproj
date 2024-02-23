@@ -150,8 +150,11 @@
     <Compile Include="src\core\3DStuff.cs" />
     <Compile Include="src\core\BasicBigFloat.cs" />
     <Compile Include="src\core\BiDictionaryOneToOne.cs" />
+    <Compile Include="src\core\cli\CLIService.cs" />
+    <Compile Include="src\core\cli\options\AbstractRomOptions.cs" />
+    <Compile Include="src\core\cli\options\BatchesOptions.cs" />
     <Compile Include="src\core\cli\options\CompileOptions.cs" />
-    <Compile Include="src\core\cli\options\FileOptions.cs" />
+    <Compile Include="src\core\cli\options\AbstractFileOptions.cs" />
     <Compile Include="src\core\cli\options\FileSystemOptions.cs" />
     <Compile Include="src\core\cli\options\GenerateOptions.cs" />
     <Compile Include="src\core\cli\options\InsertDLsOptions.cs" />
@@ -161,6 +164,7 @@
     <Compile Include="src\core\cli\utils\FileInserter.cs" />
     <Compile Include="src\core\cli\utils\TargetParser.cs" />
     <Compile Include="src\core\cli\utils\RomUriUtils.cs" />
+    <Compile Include="src\core\cli\workers\Batches.cs" />
     <Compile Include="src\core\cli\workers\Compiler.cs" />
     <Compile Include="src\core\cli\workers\DLsInserter.cs" />
     <Compile Include="src\core\cli\workers\FileSystem.cs" />
