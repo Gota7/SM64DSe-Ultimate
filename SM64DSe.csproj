@@ -64,6 +64,9 @@
     <Reference Include="CommandLine, Version=2.9.1.0, Culture=neutral, PublicKeyToken=5a870481e358d379, processorArchitecture=MSIL">
       <HintPath>packages\CommandLineParser.2.9.1\lib\net461\CommandLine.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.4.2.13, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>packages\SharpZipLib.1.4.2\lib\netstandard2.0\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="mscorlib" />
@@ -116,6 +119,9 @@
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
     </Reference>
@@ -222,6 +228,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\core\LevelObject.cs" />
+    <Compile Include="src\core\managers\AddonsManager.cs" />
     <Compile Include="src\core\ModelCache.cs" />
     <Compile Include="src\core\NARC.cs" />
     <Compile Include="src\core\NARCFile.cs" />
@@ -283,6 +290,7 @@
     <Compile Include="src\core\Strings.cs" />
     <Compile Include="src\core\TriangleUtil.cs" />
     <Compile Include="src\core\utils\DynamicLibraries\DLUtils.cs" />
+    <Compile Include="src\core\utils\Github\GitHubHelper.cs" />
     <Compile Include="src\core\utils\SP2\CommandInfo.cs" />
     <Compile Include="src\core\utils\SP2\Env.cs" />
     <Compile Include="src\core\utils\SP2\SP2Patcher.cs" />
@@ -327,6 +335,12 @@
     </Compile>
     <Compile Include="src\ui\CodeFixerForm.designer.cs">
       <DependentUpon>CodeFixerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\ui\dialogs\DropdownDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\dialogs\DropdownDialog.Designer.cs">
+      <DependentUpon>DropdownDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="src\ui\dls\DL Editor.cs">
       <SubType>Form</SubType>
@@ -750,6 +764,9 @@
     <Content Include="assets\AdditionalPatches.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\addons.json" >
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\basic_eur_us_chars.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -769,8 +786,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\external-tools\ninja.exe" />
+    <Content Include="assets\Images\brick.png" />
+    <Content Include="assets\Images\cloud.png" />
     <Content Include="assets\Images\DummyTex.png" />
     <Content Include="assets\Images\KuppaScript.ico" />
+    <Content Include="assets\Images\question.png" />
+    <Content Include="assets\Images\Small\folder.png" />
+    <Content Include="assets\Images\Small\github.png" />
     <Content Include="assets\jap_chars.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

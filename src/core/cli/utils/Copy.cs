@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Serilog;
 using SM64DSe.core.cli.options;
 using SM64DSe.core.cli.workers;
 
@@ -9,9 +10,13 @@ namespace SM64DSe.core.cli.utils
     {
         private byte[] data = null;
         private string target;
+        private string currentDir;
         
-        public Copy(string target)
+        public Copy(string target, string currentDir = null)
         {
+            this.target = target;
+            this.currentDir = currentDir;
+            
             // Load bytes from internal path
             if (RomUriUtils.IsRomUri(target))
             {
@@ -31,10 +36,22 @@ namespace SM64DSe.core.cli.utils
             // Load bytes from system
             else
             {
-                if (!File.Exists(target))
+                if (currentDir != null)
+                {
+                    string nTarget = Path.Combine(currentDir, target);
+                    if (!File.Exists(nTarget))
+                    {
+                        throw new FileNotFoundException($"File {nTarget} does not exists.");
+                    }
+                    this.target = nTarget;
+                }
+                else if (!File.Exists(target))
+                {
                     throw new FileNotFoundException($"File {target} does not exists.");
+                }
 
-                data = File.ReadAllBytes(target);
+                Log.Debug($"Reading {this.target}");
+                data = File.ReadAllBytes(this.target);
             }
         }
 
@@ -50,6 +67,10 @@ namespace SM64DSe.core.cli.utils
             }
             else
             {
+                if (currentDir != null)
+                {
+                    value = Path.Combine(currentDir, value);
+                }
                 File.WriteAllBytes(value, data);
             }
             return 0;

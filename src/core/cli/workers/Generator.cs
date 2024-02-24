@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Serilog;
 using SM64DSe.core.cli.options;
 
@@ -13,16 +14,22 @@ namespace SM64DSe.core.cli.workers
 
             if (options.Format != "header")
                 throw new ArgumentException("Only header format is supported today.");
+
+            string output = options.Output;
+            if (this._currentDirectory != null)
+            {
+                output = Path.Combine(_currentDirectory, output);
+            }
             
             switch (options.Type)
             {
                 case GenerationTarget.sound:
-                    SoundHeaderGenerator.Generate(options.Output);
-                    Log.Information($"header file {options.Output} generated for sounds.");
+                    SoundHeaderGenerator.Generate(output);
+                    Log.Information($"header file {output} generated for sounds.");
                     break;
                 case GenerationTarget.filesystem:
-                    FileHeaderGenerator.Generate(options.Output);
-                    Log.Information($"header file {options.Output} generated for filesystem.");
+                    FileHeaderGenerator.Generate(output);
+                    Log.Information($"header file {output} generated for filesystem.");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

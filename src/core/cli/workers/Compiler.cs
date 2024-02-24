@@ -11,14 +11,21 @@ namespace SM64DSe.core.cli.workers
 {
     public class Compiler: CLIWorker<CompileOptions>
     {
+        private string sources;
         public override int Execute(CompileOptions options)
         {
-            Log.Information($"Compile source {options.Source} to {options.Type} in rom {options.RomPath} in path {options.InternalPath}");
+            sources = options.Source;
+            if (_currentDirectory != null)
+            {
+                sources = Path.Combine(_currentDirectory, sources);
+            }
+            
+            Log.Information($"Compile source {sources} to {options.Type} in rom {options.RomPath} in path {options.InternalPath}");
 
             // Ensure the source directory exists
-            if (!Directory.Exists(options.Source))
+            if (!Directory.Exists(sources))
             {
-                Log.Error($"Directory {options.Source} not found. Aborting patch.");
+                Log.Error($"Directory {sources} not found. Aborting patch.");
                 throw new DirectoryNotFoundException();
             }
             
@@ -31,7 +38,7 @@ namespace SM64DSe.core.cli.workers
                 case CompileOptionsType.TARGET:
                     return MakeTarget(options);
                 case CompileOptionsType.CLEAN:
-                    return PatchCompiler.cleanPatch(new DirectoryInfo(options.Source));
+                    return PatchCompiler.cleanPatch(new DirectoryInfo(sources));
                 default:
                     // unknown
                     return 1;
@@ -61,7 +68,7 @@ namespace SM64DSe.core.cli.workers
                 additionalEnvs
             );
 
-            int result = PatchCompiler.runProcess(make, options.Source);
+            int result = PatchCompiler.runProcess(make, sources);
             if (result != 0)
             {
                 throw new Exception($"make command failed with result {result}");
@@ -102,7 +109,7 @@ namespace SM64DSe.core.cli.workers
             this.EnsurePatch(options.Force);
             
             PatchMaker pm = new PatchMaker(
-                new DirectoryInfo(options.Source), 
+                new DirectoryInfo(sources), 
                 0x02400000
             );
             

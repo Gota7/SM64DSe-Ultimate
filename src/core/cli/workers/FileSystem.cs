@@ -32,7 +32,7 @@ namespace SM64DSe.core.cli.workers
             if (!RomUriUtils.IsRomUri(target) && !RomUriUtils.IsRomUri(destination))
                 throw new ArgumentException("At least one of the arguments should be a rom target.");
 
-            return new Copy(target).To(destination, options);
+            return new Copy(target, _currentDirectory).To(destination, options);
         }
 
         protected int Remove(string target)

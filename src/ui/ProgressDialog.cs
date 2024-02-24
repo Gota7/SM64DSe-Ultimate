@@ -29,7 +29,7 @@ namespace SM64DSe
 {
     public partial class ProgressDialog : Form
     {
-        public ProgressDialog(string actiontxt, int maxsteps, object userdata)
+        public ProgressDialog(string actiontxt, int maxsteps, object userdata = null)
         {
             InitializeComponent();
 

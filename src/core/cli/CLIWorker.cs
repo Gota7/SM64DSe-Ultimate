@@ -6,9 +6,16 @@ using SM64DSe.core.utils.DynamicLibraries;
 
 namespace SM64DSe.core.cli
 {
+    public static class Worker
+    {
+        public static string _currentDirectory;
+    }
+    
     public abstract class CLIWorker<T>
     {
         public abstract int Execute(T options);
+
+        protected readonly string _currentDirectory = Worker._currentDirectory;
 
         protected void SetupRom(AbstractRomOptions options)
         {

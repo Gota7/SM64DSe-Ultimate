@@ -15,30 +15,42 @@ namespace SM64DSe.core.cli.workers
             // Setup rom
             this.SetupRom(options);
             this.EnsurePatch(options.Force);
+
+            string buildFolder = options.BuildFolderPath;
+            if (_currentDirectory != null)
+            {
+                buildFolder = Path.Combine(_currentDirectory, buildFolder);
+            }
             
             // Ensure the build folder exists
-            if (!Directory.Exists(options.BuildFolderPath))
+            if (!Directory.Exists(buildFolder))
             {
-                Log.Error($"Folder {options.BuildFolderPath} not found.");
+                Log.Error($"Folder {buildFolder} not found.");
                 return 1;
             }
 
             // Ensure the target list file exists
-            if (!File.Exists(options.TargetListPath))
+            string targetListPath = options.TargetListPath;
+            if (_currentDirectory != null)
             {
-                Log.Error($"Target list {options.TargetListPath} not found.");
+                targetListPath = Path.Combine(_currentDirectory, targetListPath);
+            }
+            
+            if (!File.Exists(targetListPath))
+            {
+                Log.Error($"Target list {targetListPath} not found.");
                 return 1;
             }
 
 
             // key: folder name
             // value: rom directory
-            Dictionary<string, string> targets = TargetParser.ParseFile(options.TargetListPath);
+            Dictionary<string, string> targets = TargetParser.ParseFile(targetListPath);
             
             // For each target
             foreach (var target in targets)
             {
-                string folderPath = Path.Combine(options.BuildFolderPath, target.Key);
+                string folderPath = Path.Combine(buildFolder, target.Key);
                 
                 string symFilePath   = Path.Combine(folderPath, options.NewCodeLo + ".sym");
                 string loBinFilePath = Path.Combine(folderPath, options.NewCodeLo + ".bin");
