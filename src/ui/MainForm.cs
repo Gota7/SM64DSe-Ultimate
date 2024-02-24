@@ -1437,7 +1437,7 @@ namespace SM64DSe
             if (this.addonsChoice.SelectedIndex == 0)
             {
                 this.btnOpenAddonFolder.Visible = false;
-                this.btn_list_versions.Visible = true;
+                this.btnDownloadAddon.Visible = true;
                 this.btn_open_github.Visible = true;
 
                 this.btnInstall.Visible = false;
@@ -1445,19 +1445,19 @@ namespace SM64DSe
                 if (this.addons_list.SelectedItems.Count == 1)
                 {
                     this.btn_open_github.Enabled = true;
-                    this.btn_list_versions.Enabled = true;
+                    this.btnDownloadAddon.Enabled = true;
                 }
                 else
                 {
                     this.btn_open_github.Enabled = false;
-                    this.btn_list_versions.Enabled = false;
+                    this.btnDownloadAddon.Enabled = false;
                 }
             }
             // local
             else
             {
                 this.btnOpenAddonFolder.Visible = true;
-                this.btn_list_versions.Visible = false;
+                this.btnDownloadAddon.Visible = false;
                 this.btn_open_github.Visible = false;
 
                 this.btnInstall.Visible = true;
@@ -1473,7 +1473,13 @@ namespace SM64DSe
             }
         }
 
-        private void btn_list_versions_Click(object sender, EventArgs e)
+        /**
+         * To download an addon
+         * (1) We will get the releases from github
+         * (2) Ask the user which version he wants to download
+         * (3) Download the requested version
+         */
+        private void btnDownloadAddon_Click(object sender, EventArgs e)
         {
             AddonObject o = GetAddonObjectSelected(this._addonObjects);
             if (o == null)
@@ -1501,26 +1507,33 @@ namespace SM64DSe
                 return;
             }
 
-            List<string> versions = new List<string>();
-            foreach (var gitHubRelease in releases)
+            int selected = 0;
+            if (releases.Count > 1)
             {
-                string name = gitHubRelease.Name;
-                if (gitHubRelease.Prerelease)
+                List<string> versions = new List<string>();
+                foreach (var gitHubRelease in releases)
                 {
-                    name += " (prerelease)";
+                    string name = gitHubRelease.Name;
+                    if (gitHubRelease.Prerelease)
+                    {
+                        name += " (prerelease)";
+                    }
+                    versions.Add(name);
                 }
-                versions.Add(name);
+            
+                DropdownDialog dialog = new DropdownDialog($"Select a version for {o.Name} to download", versions.ToArray(), 0);
+                dialog.ShowDialog();
+                selected = dialog.GetSelected();
+                if (selected == -1)
+                    return; // cancel
+                Log.Debug($"User selected version index {selected}");
             }
             
-            DropdownDialog dialog = new DropdownDialog($"Select a version for {o.Name} to download", versions.ToArray(), 0);
-            dialog.ShowDialog();
-            int selected = dialog.GetSelected();
-            if (selected == -1)
-                return; // cancel
-            
-            Log.Debug($"User selected version index {selected}");
-            
+            Log.Debug($"Downloading version {releases[selected].Name}");
             AddonsManager.GetInstance().DownloadAndExtract(o, releases[selected]);
+            MessageBox.Show(
+                $"Addon {o.Name} version {releases[selected].Name} has been downloaded.\n\n" +
+                $"You can find it by switching from 'online' to 'local'.");
         }
 
         private T GetAddonObjectSelected<T>(List<T> objects)
@@ -1583,6 +1596,9 @@ namespace SM64DSe
             Log.Debug("Reloading filesystem.");
             this.tvFileList.Nodes.Clear();
             ROMFileSelect.LoadFileList(this.tvFileList);
+            
+            // Show the user that it has been installed
+            MessageBox.Show($"The addon {name} has been installed properly.");
         }
 
         private void btnOpenAddonFolder_Click(object sender, EventArgs e)

@@ -109,7 +109,7 @@
 	        this.btnInstall = new System.Windows.Forms.Button();
 	        this.addonsChoice = new System.Windows.Forms.ComboBox();
 	        this.btn_open_github = new System.Windows.Forms.Button();
-	        this.btn_list_versions = new System.Windows.Forms.Button();
+	        this.btnDownloadAddon = new System.Windows.Forms.Button();
 	        this.addons_list = new System.Windows.Forms.ListView();
 	        this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
 	        this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
@@ -849,7 +849,7 @@
 	        this.addons.Controls.Add(this.btnInstall);
 	        this.addons.Controls.Add(this.addonsChoice);
 	        this.addons.Controls.Add(this.btn_open_github);
-	        this.addons.Controls.Add(this.btn_list_versions);
+	        this.addons.Controls.Add(this.btnDownloadAddon);
 	        this.addons.Controls.Add(this.addons_list);
 	        this.addons.Controls.Add(this.btnRefreshAddons);
 	        this.addons.Location = new System.Drawing.Point(4, 22);
@@ -922,15 +922,15 @@
 	        // 
 	        // btn_list_versions
 	        // 
-	        this.btn_list_versions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-	        this.btn_list_versions.Enabled = false;
-	        this.btn_list_versions.Location = new System.Drawing.Point(0, 366);
-	        this.btn_list_versions.Name = "btn_list_versions";
-	        this.btn_list_versions.Size = new System.Drawing.Size(86, 23);
-	        this.btn_list_versions.TabIndex = 7;
-	        this.btn_list_versions.Text = "See versions";
-	        this.btn_list_versions.UseVisualStyleBackColor = true;
-	        this.btn_list_versions.Click += new System.EventHandler(this.btn_list_versions_Click);
+	        this.btnDownloadAddon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+	        this.btnDownloadAddon.Enabled = false;
+	        this.btnDownloadAddon.Location = new System.Drawing.Point(0, 366);
+	        this.btnDownloadAddon.Name = "btnDownloadAddon";
+	        this.btnDownloadAddon.Size = new System.Drawing.Size(86, 23);
+	        this.btnDownloadAddon.TabIndex = 7;
+	        this.btnDownloadAddon.Text = "Download";
+	        this.btnDownloadAddon.UseVisualStyleBackColor = true;
+	        this.btnDownloadAddon.Click += new System.EventHandler(this.btnDownloadAddon_Click);
 	        // 
 	        // addons_list
 	        // 
@@ -1025,7 +1025,7 @@
 
         private System.Windows.Forms.Button btn_open_github;
 
-        private System.Windows.Forms.Button btn_list_versions;
+        private System.Windows.Forms.Button btnDownloadAddon;
 
         private System.Windows.Forms.ImageList addons_image_list;
 
