@@ -22,9 +22,10 @@ jobs:
         
       - name: Update AssemblyInfo.cs with version from tag
         run: |
-          sed -i "s/AssemblyInformationalVersion(\".*\")/AssemblyInformationalVersion(\"$GITHUB_REF_NAME\")/" Properties/AssemblyInfo.cs
-          sed -i "s/AssemblyCodeSource(\".*\")/AssemblyCodeSource(\"$GITHUB_REPOSITORY\")/" Properties/AssemblyInfo.cs
-
+          (Get-Content Properties/AssemblyInfo.cs) | ForEach-Object {
+              $_ -replace 'AssemblyInformationalVersion\(".*"\)', "AssemblyInformationalVersion(`"$env:GITHUB_REF_NAME`")" `
+                 -replace 'AssemblyCodeSource\(".*"\)', "AssemblyCodeSource(`"$env:GITHUB_REPOSITORY`")"
+          } | Set-Content Properties/AssemblyInfo.cs
       - name: MSBuild
         working-directory: .
         run: msbuild SM64DSe.csproj -p:Configuration=Release
