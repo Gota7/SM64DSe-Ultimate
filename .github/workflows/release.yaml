@@ -22,8 +22,8 @@ jobs:
         
       - name: Update AssemblyInfo.cs with version from tag
         run: |
-          sed -i 's/AssemblyInformationalVersion(".*")/AssemblyInformationalVersion("$GITHUB_REF_NAME")/' Properties/AssemblyInfo.cs
-          sed -i 's/AssemblyCodeSource(".*")/AssemblyCodeSource("$GITHUB_REPOSITORY")/' Properties/AssemblyInfo.cs
+          sed -i "s/AssemblyInformationalVersion(\".*\")/AssemblyInformationalVersion(\"$GITHUB_REF_NAME\")/" Properties/AssemblyInfo.cs
+          sed -i "s/AssemblyCodeSource(\".*\")/AssemblyCodeSource(\"$GITHUB_REPOSITORY\")/" Properties/AssemblyInfo.cs
 
       - name: MSBuild
         working-directory: .
