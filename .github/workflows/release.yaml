@@ -19,6 +19,11 @@ jobs:
 
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v1.1
+        
+      - name: Update AssemblyInfo.cs with version from tag
+        run: |
+          sed -i 's/AssemblyInformationalVersion(".*")/AssemblyInformationalVersion("$GITHUB_REF_NAME")/' Properties/AssemblyInfo.cs
+          sed -i 's/AssemblyCodeSource(".*")/AssemblyCodeSource("$GITHUB_REPOSITORY")/' Properties/AssemblyInfo.cs
 
       - name: MSBuild
         working-directory: .

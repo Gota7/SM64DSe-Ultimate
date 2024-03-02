@@ -78,6 +78,7 @@
 	        this.ssStatusBar = new System.Windows.Forms.StatusStrip();
 	        this.slStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 	        this.spbStatusProgress = new System.Windows.Forms.ToolStripProgressBar();
+	        this.updateLabel = new System.Windows.Forms.ToolStripStatusLabel();
 	        this.tbcMainFormTabControl = new System.Windows.Forms.TabControl();
 	        this.tbpLevels = new System.Windows.Forms.TabPage();
 	        this.splitContainerLevels = new System.Windows.Forms.SplitContainer();
@@ -502,7 +503,7 @@
 	        // 
 	        // ssStatusBar
 	        // 
-	        this.ssStatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.slStatusLabel, this.spbStatusProgress });
+	        this.ssStatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.slStatusLabel, this.spbStatusProgress, this.updateLabel });
 	        this.ssStatusBar.Location = new System.Drawing.Point(0, 443);
 	        this.ssStatusBar.Name = "ssStatusBar";
 	        this.ssStatusBar.Size = new System.Drawing.Size(576, 22);
@@ -521,6 +522,22 @@
 	        this.spbStatusProgress.Size = new System.Drawing.Size(150, 16);
 	        this.spbStatusProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 	        this.spbStatusProgress.Visible = false;
+	        // 
+	        // updateLabel
+	        // 
+	        this.updateLabel.Image = global::SM64DSe.Properties.Resources.github;
+	        this.updateLabel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+	        this.updateLabel.IsLink = true;
+	        this.updateLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+	        this.updateLabel.LinkColor = System.Drawing.Color.Black;
+	        this.updateLabel.Margin = new System.Windows.Forms.Padding(6, 3, 0, 2);
+	        this.updateLabel.Name = "updateLabel";
+	        this.updateLabel.Size = new System.Drawing.Size(200, 26);
+	        this.updateLabel.Text = "New Version Available";
+	        this.updateLabel.ToolTipText = "Click for details";
+	        this.updateLabel.Visible = false;
+	        this.updateLabel.VisitedLinkColor = System.Drawing.Color.Black;
+	        this.updateLabel.Click += new System.EventHandler(this.updateLabel_Click);
 	        // 
 	        // tbcMainFormTabControl
 	        // 
@@ -1013,6 +1030,8 @@
 	        this.ResumeLayout(false);
 	        this.PerformLayout();
         }
+
+        private System.Windows.Forms.ToolStripStatusLabel updateLabel;
 
         private System.Windows.Forms.Button btnOpenAddonFolder;
 

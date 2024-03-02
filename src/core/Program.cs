@@ -19,18 +19,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using CommandLine;
 using Serilog;
 using SM64DSe.core.cli;
 using SM64DSe.core.cli.options;
+using SM64DSe.core.updater;
 
 namespace SM64DSe
 {
     static class Program
     {
         public static string AppTitle = "SM64DS Editor ULTIMATE";
-        public static string AppVersion = "v3.3.0";
+        // The ProductVersion is extracted from AssemblyInformationalVersion
+        public static string AppVersion = Application.ProductVersion;
         public static string AppDate = "Feb 24, 2024";
 
         public static string ServerURL = "http://kuribo64.net/";

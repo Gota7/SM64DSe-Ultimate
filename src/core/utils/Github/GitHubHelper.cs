@@ -23,6 +23,9 @@ namespace SM64DSe.core.utils.Github
         
         [JsonProperty("prerelease")]
         public bool Prerelease { get; set; }
+        
+        [JsonProperty("html_url")]
+        public string HtmlUrl { get; set; }
     }
 
     class GitHubHelper

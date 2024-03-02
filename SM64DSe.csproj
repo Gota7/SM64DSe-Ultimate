@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyCodeSource.cs" />
     <Compile Include="src\core\3DStuff.cs" />
     <Compile Include="src\core\BasicBigFloat.cs" />
     <Compile Include="src\core\BiDictionaryOneToOne.cs" />
@@ -289,6 +290,7 @@
     <Compile Include="src\core\PropertyBag.cs" />
     <Compile Include="src\core\Strings.cs" />
     <Compile Include="src\core\TriangleUtil.cs" />
+    <Compile Include="src\core\updater\Updater.cs" />
     <Compile Include="src\core\utils\DynamicLibraries\DLUtils.cs" />
     <Compile Include="src\core\utils\Github\GitHubHelper.cs" />
     <Compile Include="src\core\utils\SP2\CommandInfo.cs" />
@@ -764,7 +766,7 @@
     <Content Include="assets\AdditionalPatches.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\addons.json" >
+    <Content Include="assets\addons.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\basic_eur_us_chars.txt">
