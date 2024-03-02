@@ -25,6 +25,13 @@ using System.Net;
 using System.Web;
 using SM64DSe.ImportExport.LevelImportExport;
 using System.Globalization;
+using System.Threading.Tasks;
+using Serilog;
+using SM64DSe.core.managers;
+using SM64DSe.core.updater;
+using SM64DSe.core.utils.DynamicLibraries;
+using SM64DSe.core.utils.Github;
+using SM64DSe.ui.dialogs;
 
 namespace SM64DSe
 {
@@ -181,28 +188,13 @@ namespace SM64DSe
             btnLZForceDecompression.Enabled = false;
         }
 
-        private void EnableOrDisableASMHackingCompilationAndGenerationFeatures()
-        {
-            if (Program.m_ROM.m_Version != NitroROM.Version.EUR)
-            {
-                btnASMHacking.DropDownItems.Remove(mnitASMHackingCompilation);
-                btnASMHacking.DropDownItems.Remove(mnitASMHackingGeneration);
-                btnASMHacking.DropDownItems.Remove(tssASMHacking001);
-            }
-            else
-            {
-                if (btnASMHacking.DropDownItems.IndexOf(mnitASMHackingCompilation) < 0)
-                {
-                    btnASMHacking.DropDownItems.Insert(0, mnitASMHackingCompilation);
-                    btnASMHacking.DropDownItems.Insert(1, mnitASMHackingGeneration);
-                    btnASMHacking.DropDownItems.Insert(2, tssASMHacking001);
-                }
-            }
-        }
+        private GitHubRelease nextRelease = null;
 
-        public MainForm(string[] args)
+        public MainForm(string romPath)
         {
             InitializeComponent();
+            SetupAddons();
+            
             Text = Program.AppTitle + " " + Program.AppVersion + " " + Program.AppDate;
             Program.m_ROMPath = "";
             Program.m_LevelEditors = new List<LevelEditorForm>();
@@ -211,13 +203,35 @@ namespace SM64DSe
 
             slStatusLabel.Text = "Ready";
             ObjectDatabase.Initialize();
+            
+            Task.Run(() =>
+            {
+                try
+                {
+                    nextRelease = Updater.CheckUpdate();
+                }
+                catch (Exception e)
+                {
+                    Log.Warning("Something went wrong while trying to check for updates.", e);
+                }
+            }).ContinueWith(task =>
+            {
+                if (nextRelease != null)
+                {
+                    this.updateLabel.Visible = true;
+                }   
+            });
 
-            if (args.Length >= 1) {
-                if (args[0].EndsWith(".nds")) { 
-                    LoadROM(args[0]);
-                } else {
-                    string[] inSettings = File.ReadAllLines(args[0]);
-                    Program.m_ROMPath = args[0];
+            if (romPath != null)
+            {
+                if (romPath.EndsWith(".nds"))
+                {
+                    LoadROM(romPath);
+                }
+                else
+                {
+                    string[] inSettings = File.ReadAllLines(romPath);
+                    Program.m_ROMPath = romPath;
                     LoadROMExtracted(inSettings[0], inSettings[1], inSettings[2], inSettings[3]);
                 }
             }
@@ -898,60 +912,24 @@ namespace SM64DSe
                 MessageBox.Show("This feature is not for extracted ROMs!");
                 return;
             }
-
+            
             if (Program.m_ROM.m_Version != NitroROM.Version.EUR)
             {
-
                 MessageBox.Show("This is for EUR roms only!");
-
+                return;
             }
-            else
+
+            if (DLUtils.HasDynamicLibrarySupport())
             {
-
-                bool autorw = Program.m_ROM.CanRW();
-                if (!autorw) Program.m_ROM.BeginRW();
-                if (Program.m_ROM.Read32(0x6590) != 0) //the patch makes this not 0
-                {
-                    if (!autorw) Program.m_ROM.EndRW();
-                    MessageBox.Show("Rom has already been patched!");
-                    return;
-                }
-                if (!autorw) Program.m_ROM.EndRW();
-
-                if (MessageBox.Show("This will patch the ROM. " +
-                    "Continue with the patch?", "Table Shifting Patch", MessageBoxButtons.YesNo) == DialogResult.No)
-                    return;
-
-                if (!autorw) Program.m_ROM.BeginRW();
-                NitroOverlay ov2 = new NitroOverlay(Program.m_ROM, 2);
-
-                //Move the ACTOR_SPAWN_TABLE so it can expand
-                Program.m_ROM.WriteBlock(0x6590, Program.m_ROM.ReadBlock(0x90864, 0x61c));
-                Program.m_ROM.WriteBlock(0x90864, new byte[0x61c]);
-
-                //Adjust pointers
-                Program.m_ROM.Write32(0x1a198, 0x02006590);
-
-                //Move the OBJ_TO_ACTOR_TABLE so it can expand
-                Program.m_ROM.WriteBlock(0x4b00, ov2.ReadBlock(0x0210cbf4 - ov2.GetRAMAddr(), 0x28c));
-                ov2.WriteBlock(0x0210cbf4 - ov2.GetRAMAddr(), new byte[0x28c]);
-
-                //Adjust pointers
-                ov2.Write32(0x020fe890 - ov2.GetRAMAddr(), 0x02004b00);
-                ov2.Write32(0x020fe958 - ov2.GetRAMAddr(), 0x02004b00);
-                ov2.Write32(0x020fea44 - ov2.GetRAMAddr(), 0x02004b00);
-
-                //Add the dynamic library loading and cleanup code
-                Program.m_ROM.WriteBlock(0x90864, Properties.Resources.dynamic_library_loader);
-
-                //Add the hooks (by replacing LoadObjBankOverlays())
-                Program.m_ROM.WriteBlock(0x2df70, Properties.Resources.static_overlay_loader);
-
-                if (!autorw) Program.m_ROM.EndRW();
-                ov2.SaveChanges();
-
+                MessageBox.Show("Rom has already been patched!");
+                return;
             }
-
+            
+            if (MessageBox.Show("This will patch the ROM. " +
+                                "Continue with the patch?", "Table Shifting Patch", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+            
+            DLUtils.ApplyDynamicLibraryPatch();
         }
 
         private void kuppaScriptEditorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1384,5 +1362,289 @@ namespace SM64DSe
 
             SoundHeaderGenerator.Generate(o.FileName);
         }
-	}
+
+        /**
+         * Method related to addons
+         */
+        private List<AddonObject> _addonObjects = null;
+        private List<LocalAddon> _localAddons = null;
+        private void SetupAddons()
+        {
+            // Set online as default
+            this.addonsChoice.SelectedIndex = 0;
+            
+            // init image list
+            addons_image_list.Images.Clear();
+            addons_image_list.Images.Add(Properties.Resources.cloud);
+            addons_image_list.Images.Add(Properties.Resources.brick);
+            addons_image_list.Images.Add(Properties.Resources.question);
+            addons_image_list.ImageSize = new Size(32, 32);
+            
+            // Default to addons
+            ShowOnlineAddons();
+            addonsList_Resize(null, null);
+        }
+
+        private void addonsList_Resize(object sender,  EventArgs e)
+        {
+            if (this.addons_list.Width < 5)
+                return;
+            addons_list.TileSize = new Size(this.addons_list.Width - 5, 50);
+        }
+
+        private void ShowOnlineAddons()
+        {
+            // clear any existing items
+            addons_list.Items.Clear();
+            
+            this._addonObjects = AddonsManager.GetInstance().GetAddons();
+            Log.Debug($"Found {this._addonObjects.Count} addons.");
+            foreach (AddonObject addonObject in this._addonObjects)
+            {
+                ListViewItem item = new ListViewItem(addonObject.Name, 0);
+                item.SubItems.Add(addonObject.Description);
+
+                addons_list.Items.Add(item);
+            }
+        }
+
+        private void ShowLocalAddons()
+        {
+            // clear any existing items
+            addons_list.Items.Clear();
+            
+            this._localAddons = AddonsManager.GetInstance().GetLocalAddons();
+            Log.Debug($"Found {this._localAddons.Count} local addons.");
+            foreach (LocalAddon addonObject in this._localAddons)
+            {
+                ListViewItem item;
+                if (addonObject.Parent != null)
+                {
+                    item = new ListViewItem(addonObject.Parent.Name, 1);
+                }
+                else
+                {
+                    // unknown addon
+                    item = new ListViewItem(addonObject.Path, 2);
+                }
+                
+                item.SubItems.Add($"{addonObject.Versions.Length} versions on your system.");
+                addons_list.Items.Add(item);
+            }
+        }
+        
+        
+        private void addonsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshAddonsButton();
+        }
+
+        private void AddonsChoice_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            this.addons_list.SelectedItems.Clear();
+            RefreshAddonsButton();
+            if (this.addonsChoice.SelectedIndex == 0)
+            {
+                this.ShowOnlineAddons();
+            }
+            else
+            {
+                this.ShowLocalAddons();
+            }
+        }
+
+        private void RefreshAddonsButton()
+        {
+            // online
+            if (this.addonsChoice.SelectedIndex == 0)
+            {
+                this.btnOpenAddonFolder.Visible = false;
+                this.btnDownloadAddon.Visible = true;
+                this.btn_open_github.Visible = true;
+
+                this.btnInstall.Visible = false;
+                
+                if (this.addons_list.SelectedItems.Count == 1)
+                {
+                    this.btn_open_github.Enabled = true;
+                    this.btnDownloadAddon.Enabled = true;
+                }
+                else
+                {
+                    this.btn_open_github.Enabled = false;
+                    this.btnDownloadAddon.Enabled = false;
+                }
+            }
+            // local
+            else
+            {
+                this.btnOpenAddonFolder.Visible = true;
+                this.btnDownloadAddon.Visible = false;
+                this.btn_open_github.Visible = false;
+
+                this.btnInstall.Visible = true;
+                
+                if (this.addons_list.SelectedItems.Count == 1)
+                {
+                    this.btnInstall.Enabled = true;
+                }
+                else
+                {
+                    this.btnInstall.Enabled = false;
+                }
+            }
+        }
+
+        /**
+         * To download an addon
+         * (1) We will get the releases from github
+         * (2) Ask the user which version he wants to download
+         * (3) Download the requested version
+         */
+        private void btnDownloadAddon_Click(object sender, EventArgs e)
+        {
+            AddonObject o = GetAddonObjectSelected(this._addonObjects);
+            if (o == null)
+                return;
+
+            List<GitHubRelease> releases = null;
+
+            try
+            {
+                spbStatusProgress.Visible = true;
+                releases = AddonsManager.GetInstance().GetGitHubRelease(o);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Something went wrong while trying to get the releases of {o.Repository}", ex);
+            }
+            finally
+            {
+                spbStatusProgress.Visible = false;
+            }
+            
+            if (releases == null || releases.Count == 0)
+            {
+                MessageBox.Show($"No releases found for repository {o.Repository}.", "Error");
+                return;
+            }
+
+            int selected = 0;
+            if (releases.Count > 1)
+            {
+                List<string> versions = new List<string>();
+                foreach (var gitHubRelease in releases)
+                {
+                    string name = gitHubRelease.Name;
+                    if (gitHubRelease.Prerelease)
+                    {
+                        name += " (prerelease)";
+                    }
+                    versions.Add(name);
+                }
+            
+                DropdownDialog dialog = new DropdownDialog($"Select a version for {o.Name} to download", versions.ToArray(), 0);
+                dialog.ShowDialog();
+                selected = dialog.GetSelected();
+                if (selected == -1)
+                    return; // cancel
+                Log.Debug($"User selected version index {selected}");
+            }
+            
+            Log.Debug($"Downloading version {releases[selected].Name}");
+            AddonsManager.GetInstance().DownloadAndExtract(o, releases[selected]);
+            MessageBox.Show(
+                $"Addon {o.Name} version {releases[selected].Name} has been downloaded.\n\n" +
+                $"You can find it by switching from 'online' to 'local'.");
+        }
+
+        private T GetAddonObjectSelected<T>(List<T> objects)
+        {
+            if (this.addons_list.SelectedItems.Count != 1)
+                throw new Exception("SelectedItems not valid");
+            
+            int selected = this.addons_list.SelectedItems[0].Index;
+            if (objects.Count < selected)
+            {
+                Log.Error("Index selected above addons count.");
+                throw new Exception("Index selected above addons count.");
+            }
+
+            return objects[selected];
+        }
+
+        private void btn_open_github_Click(object sender, EventArgs e)
+        {
+            AddonObject o = GetAddonObjectSelected(this._addonObjects);
+            if (o != null)
+                System.Diagnostics.Process.Start(o.Repository);
+        }
+
+        private void btnInstall_Click(object sender, EventArgs e)
+        {
+            LocalAddon o = GetAddonObjectSelected(this._localAddons);
+            if (o.Versions.Length == 0)
+            {
+                Log.Error("Trying to perform install on an empty addon folder.");
+                return;
+            }
+
+            int selected = 0;
+            string name = (o.Parent != null)?o.Parent.Name:o.Path;
+            // If we have more than one version we should ask the user which one he wants to install
+            if (o.Versions.Length > 1)
+            {
+                DropdownDialog dialog = new DropdownDialog($"Select a version for {name} to install", o.Versions, 0);
+                dialog.ShowDialog();
+                selected = dialog.GetSelected();
+                if (selected == -1)
+                    return; // cancel
+                Log.Debug($"User selected version index {selected}");
+            }
+            
+            DialogResult res = MessageBox.Show(
+                $"Are you sure you want to install the addon {name}, this could corrupt your ROM, act carefully.",
+                "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (res != DialogResult.Yes)
+            {
+                Log.Debug("Addon installation cancelled.");
+                return;
+            }
+            
+            AddonsManager.GetInstance().PerformInstall(o, selected);
+            Log.Information("Installation finished.");
+            
+            Log.Debug("Reloading filesystem.");
+            this.tvFileList.Nodes.Clear();
+            ROMFileSelect.LoadFileList(this.tvFileList);
+            
+            // Show the user that it has been installed
+            MessageBox.Show($"The addon {name} has been installed properly.");
+        }
+
+        private void btnOpenAddonFolder_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe",AddonsManager.GetInstance().GetAddonsFolder());
+        }
+
+        private void btnRefreshAddons_Click(object sender, EventArgs e)
+        {
+            AddonsChoice_SelectionChangeCommitted(null, null);
+        }
+
+        private void updateLabel_Click(object sender, EventArgs e)
+        {
+            if (nextRelease == null)
+                return;
+
+            DialogResult result = MessageBox.Show($"A new release of the editor is availabe: {nextRelease.Name}. Do you want to open the GitHub release page ?",
+                "New Update", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+            if (result != DialogResult.OK)
+                return;
+            
+            System.Diagnostics.Process.Start(nextRelease.HtmlUrl);
+        }
+    }
 }

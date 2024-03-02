@@ -28,6 +28,7 @@ using System.Xml;
 using System.Net;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace SM64DSe
 {
@@ -106,18 +107,9 @@ namespace SM64DSe
             m_WebClient = new WebClient();
         }
 
-        public static void LoadProjectSpecific()
+        public static void LoadFromFile(string path)
         {
-            if (Program.m_ROM == null)
-                return;
-            
-            string parentDirectory = System.IO.Directory.GetParent(Program.m_ROM.m_Path).FullName;
-            string projectObjects = Path.Combine(parentDirectory, "objects.json");
-            if (!File.Exists(projectObjects))
-                return;
-            
-            Console.WriteLine("We found an objects.json aside the ROM, loading it as additonal objects");
-            using (StreamReader r = new StreamReader(projectObjects))
+            using (StreamReader r = new StreamReader(path))
             {
                 string json = r.ReadToEnd();
                 List<ObjectInfo> items = JsonConvert.DeserializeObject<List<ObjectInfo>>(json);
@@ -125,17 +117,32 @@ namespace SM64DSe
                 // This would overwrite any previously defined objects
                 foreach (ObjectInfo objectInfo in items)
                 {
-                    if (objectInfo.m_InternalName.StartsWith("@CUSTOM%"))
+                    if (objectInfo.m_InternalName != null && objectInfo.m_InternalName.StartsWith("@CUSTOM%"))
                     {
                         objectInfo.m_IsCustomModelPath = objectInfo.m_InternalName.Substring(8);
                     }
-                    if (objectInfo.m_DynamicLibraryRequirement.StartsWith("@CUSTOM%"))
+                    if (objectInfo.m_DynamicLibraryRequirement != null && objectInfo.m_DynamicLibraryRequirement.StartsWith("@CUSTOM%"))
                     {
                         objectInfo.m_DynamicLibraryRequirement = objectInfo.m_DynamicLibraryRequirement.Substring(8);
                     }
                     m_ObjectInfo[objectInfo.m_ID] = objectInfo;
                 }
+                Log.Information($"{items.Count} has been loaded.");
             }
+        }
+
+        public static void LoadProjectSpecific()
+        {
+            if (Program.m_ROM == null)
+                return;
+            
+            string parentDirectory = Directory.GetParent(Program.m_ROM.m_Path).FullName;
+            string projectObjects = Path.Combine(parentDirectory, "objects.json");
+            if (!File.Exists(projectObjects))
+                return;
+            
+            Console.WriteLine("We found an objects.json aside the ROM, loading it as additonal objects");
+            LoadFromFile(projectObjects);
         }
 
         public static void Load()
