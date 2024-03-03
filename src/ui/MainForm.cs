@@ -1383,6 +1383,9 @@ namespace SM64DSe
             // Default to addons
             ShowOnlineAddons();
             addonsList_Resize(null, null);
+
+            // Update buttons
+            RefreshAddonsButton();
         }
 
         private void addonsList_Resize(object sender,  EventArgs e)
@@ -1492,6 +1495,14 @@ namespace SM64DSe
                 {
                     this.btnInstall.Enabled = false;
                 }
+            }
+            
+            // If the rom is null - do not allow to switch from online to local
+            if (Program.m_ROM == null)
+            {
+                this.addonsChoice.Enabled = false;
+                this.btnDownloadAddon.Enabled = false;  
+                this.btnInstall.Enabled = false;  
             }
         }
 
