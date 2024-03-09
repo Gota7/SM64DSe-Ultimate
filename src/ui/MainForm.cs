@@ -1504,6 +1504,10 @@ namespace SM64DSe
                 this.btnDownloadAddon.Enabled = false;  
                 this.btnInstall.Enabled = false;  
             }
+            else
+            {
+                this.addonsChoice.Enabled = true;
+            }
         }
 
         /**
