@@ -153,6 +153,7 @@ namespace SM64DSe
             btnEditLevelNames.Enabled = true;
 
             slStatusLabel.Text = "Loaded ROM Version: " + Program.m_ROM.m_Version.ToString().Replace('_', ' ');
+            RefreshAddonsButton();
         }
 
         private void LoadROMExtracted(string basePath, string patchPath, string conversionPath, string buildPath) {
@@ -1498,7 +1499,7 @@ namespace SM64DSe
             }
             
             // If the rom is null - do not allow to switch from online to local
-            if (Program.m_ROM == null)
+            if (Program.m_ROM == null || Program.m_IsROMFolder)
             {
                 this.addonsChoice.Enabled = false;
                 this.btnDownloadAddon.Enabled = false;  
