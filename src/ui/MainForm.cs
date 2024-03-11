@@ -187,6 +187,8 @@ namespace SM64DSe
             btnLZDecompressWithHeader.Enabled = false;
             btnLZForceCompression.Enabled = false;
             btnLZForceDecompression.Enabled = false;
+            
+            RefreshAddonsButton();
         }
 
         private GitHubRelease nextRelease = null;
@@ -1497,13 +1499,24 @@ namespace SM64DSe
                     this.btnInstall.Enabled = false;
                 }
             }
+
+            if (Program.m_ROM != null && Program.m_ROM.m_Version != NitroROM.Version.EUR)
+            {
+                this.addons_list.Visible = false;
+                this.addonsWarning.Visible = true;
+            }
+            else
+            {
+                this.addons_list.Visible = true;
+                this.addonsWarning.Visible = false;
+            }
             
             // If the rom is null - do not allow to switch from online to local
-            if (Program.m_ROM == null || Program.m_IsROMFolder)
+            if (Program.m_ROM == null || Program.m_IsROMFolder || Program.m_ROM.m_Version != NitroROM.Version.EUR)
             {
                 this.addonsChoice.Enabled = false;
                 this.btnDownloadAddon.Enabled = false;  
-                this.btnInstall.Enabled = false;  
+                this.btnInstall.Enabled = false;
             }
             else
             {

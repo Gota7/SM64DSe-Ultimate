@@ -106,6 +106,7 @@
 	        this.btnExtractOverlay = new System.Windows.Forms.Button();
 	        this.btnDecompressOverlay = new System.Windows.Forms.Button();
 	        this.addons = new System.Windows.Forms.TabPage();
+	        this.addonsWarning = new System.Windows.Forms.Label();
 	        this.btnOpenAddonFolder = new System.Windows.Forms.Button();
 	        this.btnInstall = new System.Windows.Forms.Button();
 	        this.addonsChoice = new System.Windows.Forms.ComboBox();
@@ -532,7 +533,7 @@
 	        this.updateLabel.LinkColor = System.Drawing.Color.Black;
 	        this.updateLabel.Margin = new System.Windows.Forms.Padding(6, 3, 0, 2);
 	        this.updateLabel.Name = "updateLabel";
-	        this.updateLabel.Size = new System.Drawing.Size(200, 26);
+	        this.updateLabel.Size = new System.Drawing.Size(137, 17);
 	        this.updateLabel.Text = "New Version Available";
 	        this.updateLabel.ToolTipText = "Click for details";
 	        this.updateLabel.Visible = false;
@@ -862,6 +863,7 @@
 	        // 
 	        // addons
 	        // 
+	        this.addons.Controls.Add(this.addonsWarning);
 	        this.addons.Controls.Add(this.btnOpenAddonFolder);
 	        this.addons.Controls.Add(this.btnInstall);
 	        this.addons.Controls.Add(this.addonsChoice);
@@ -876,6 +878,18 @@
 	        this.addons.TabIndex = 3;
 	        this.addons.Text = "🧩 addons";
 	        this.addons.UseVisualStyleBackColor = true;
+	        // 
+	        // addonsWarning
+	        // 
+	        this.addonsWarning.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+	        this.addonsWarning.BackColor = System.Drawing.Color.Transparent;
+	        this.addonsWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+	        this.addonsWarning.ForeColor = System.Drawing.Color.Red;
+	        this.addonsWarning.Location = new System.Drawing.Point(6, 37);
+	        this.addonsWarning.Name = "addonsWarning";
+	        this.addonsWarning.Size = new System.Drawing.Size(554, 75);
+	        this.addonsWarning.TabIndex = 12;
+	        this.addonsWarning.Text = "The addons system is not compatible with non-europe ROM.";
 	        // 
 	        // btnOpenAddonFolder
 	        // 
@@ -937,7 +951,7 @@
 	        this.btn_open_github.UseVisualStyleBackColor = false;
 	        this.btn_open_github.Click += new System.EventHandler(this.btn_open_github_Click);
 	        // 
-	        // btn_list_versions
+	        // btnDownloadAddon
 	        // 
 	        this.btnDownloadAddon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 	        this.btnDownloadAddon.Enabled = false;
@@ -1030,6 +1044,8 @@
 	        this.ResumeLayout(false);
 	        this.PerformLayout();
         }
+
+        private System.Windows.Forms.Label addonsWarning;
 
         private System.Windows.Forms.ToolStripStatusLabel updateLabel;
 
