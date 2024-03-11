@@ -55,6 +55,12 @@ namespace SM64DSe.core.cli
             Program.m_IsROMFolder = false;
             Program.m_ROMPath = path;
             Program.m_ROM = new NitroROM(path);
+
+            if (Program.m_ROM.m_Version != NitroROM.Version.EUR)
+            {
+                Log.Error("Only europe ROM are supported.");
+                throw new Exception("Only Europe ROM are compatible.");
+            }
         }
 
         protected void EnsurePatch(bool force)
