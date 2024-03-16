@@ -145,7 +145,11 @@ namespace SM64DSe
             btnMore.Enabled = true;
             extractROMButton.Visible = true;
             btnBuildROM.Visible = false;
-            btnRunROM.Visible = false;
+            
+            // Show run button if emulator executable is defined
+            string executable = Properties.Settings.Default.EmulatorExecutablePath;
+            btnRunROM.Visible = executable != null && executable.Trim() != "";
+            
             btnLZCompressWithHeader.Enabled = true;
             btnLZDecompressWithHeader.Enabled = true;
             btnLZForceCompression.Enabled = true;
