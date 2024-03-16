@@ -598,9 +598,6 @@
     <EmbeddedResource Include="src\ui\CodeFixerForm.resx">
       <DependentUpon>CodeFixerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\ui\dialogs\RunningDialog.resx">
-      <DependentUpon>RunningDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="src\ui\dls\DL Editor.resx">
       <DependentUpon>DL Editor.cs</DependentUpon>
     </EmbeddedResource>
