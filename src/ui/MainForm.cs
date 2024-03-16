@@ -54,6 +54,11 @@ namespace SM64DSe
                 Program.m_ROM.EndRW();
             }
 
+            if (filename.Contains(" "))
+            {
+                MessageBox.Show("Your ROM path contains white spaces. This can cause some issues.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
             Program.m_IsROMFolder = false;
             Program.m_ROMPath = filename;
             try { Program.m_ROM = new NitroROM(Program.m_ROMPath); }
