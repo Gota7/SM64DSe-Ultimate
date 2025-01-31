@@ -83,7 +83,7 @@
     </Patch>
     <Patch>
         <PatchName>Disable Level Boundaries</PatchName>
-        <Author>Pants64</Author>
+        <Author>pants64</Author>
         <EURPatch>
             <AddressDataPair>
                 <Address>69028</Address>
@@ -246,7 +246,7 @@
     </Patch>
     <Patch>
         <PatchName>Hide Minigame and VS buttons on title screen</PatchName>
-        <Author>Splatterboy</Author>
+        <Author>Splatty</Author>
         <OverlayToPatch>7</OverlayToPatch>
         <EURPatch>
             <AddressDataPair>
@@ -377,7 +377,7 @@
     </Patch>
     <Patch>
         <PatchName>Force English graphics to appear</PatchName>
-        <Author>Pants64</Author>
+        <Author>pants64</Author>
         <EURPatch>
             <AddressDataPair>
                 <Address>368316</Address>
@@ -403,7 +403,7 @@
     </Patch>
     <Patch>
         <PatchName>Remove hardcoded minimap stuff for hub</PatchName>
-        <Author>Splatterboy</Author>
+        <Author>Splatty</Author>
         <OverlayToPatch>2</OverlayToPatch>
         <EURPatch>
             <AddressDataPair>
@@ -430,7 +430,7 @@
     </Patch>
     <Patch>
         <PatchName>Change Player struct size (default: 0x768)</PatchName>
-        <Author>Splatterboy</Author>
+        <Author>Splatty</Author>
         <OverlayToPatch>2</OverlayToPatch>
         <EURPatch>
             <AddressDataPair>
@@ -457,7 +457,7 @@
     </Patch>
     <Patch>
         <PatchName>Optimize File Loading</PatchName>
-        <Author>Josh65536</Author>
+        <Author>HayashiSTL</Author>
         <EURPatch>
             <AddressDataPair>
                 <Address>97272</Address>
@@ -678,7 +678,7 @@
     </Patch>
     <Patch>
         <PatchName>Load external SPA file [1/5]</PatchName>
-        <Author>Splatterboy</Author>
+        <Author>Splatty</Author>
         <EURPatch>
             <AddressDataPair>
                 <Address>483092</Address>
@@ -1339,7 +1339,7 @@
     </Patch>
     <Patch>
         <PatchName>Fix title screen SPA file [5/5]</PatchName>
-        <Author>Splatterboy</Author>
+        <Author>Splatty</Author>
         <FileToPatch>data/DSMT/mdst_kira1_spa.bin</FileToPatch>
         <EURPatch>
             <AddressDataPair>

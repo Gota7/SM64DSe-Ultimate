@@ -1,5 +1,5 @@
 ---===[ SM64DS LEVEL FORMAT DOC ]===---
-By Mega-Mario
+By Arisotura
 
 Last updated: 2017/06/10
 

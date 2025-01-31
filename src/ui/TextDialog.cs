@@ -12,7 +12,7 @@ using System.Windows.Forms;
 namespace SM64DSe {
 
     /// <summary>
-    /// Text dialog. Credits to Josh65536.
+    /// Text dialog. Credits to HayashiSTL
     /// </summary>
     public class TextDialog : Form {
         private IContainer components;

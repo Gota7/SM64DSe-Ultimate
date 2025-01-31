@@ -2,7 +2,7 @@
  * 
  * Animation format for BMD models.
  * 
- * Based on Mega-Mario's specification and Gericom's MKDS Course Modifier implementation with additional information added to 
+ * Based on Arisotura's specification and Gericom's MKDS Course Modifier implementation with additional information added to
  * specification.
  */ 
 

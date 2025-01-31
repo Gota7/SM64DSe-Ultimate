@@ -1,4 +1,4 @@
-SM64DS BMD (Binary Model Data) format documentation -- by Mega-Mario
+SM64DS BMD (Binary Model Data) format documentation -- by Arisotura
 
 0. File header
 It is 60 bytes long and laid out as such:

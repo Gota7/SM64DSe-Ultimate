@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace SM64DSe {
 
     /// <summary>
-    /// Utilities for editing the filesystem. Credits to Josh65536.
+    /// Utilities for editing the filesystem. Credits to HayashiSTL
     /// </summary>
     public partial class NitroROM {
 
