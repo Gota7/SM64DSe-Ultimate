@@ -44,6 +44,7 @@ namespace SM64DSe
             chkRememberLastUsedModelImportationSettings.Checked = Properties.Settings.Default.RememberLastUsedModelImportationSettings;
             chkRememberLastUsedCollisionTypeAssignments.Checked = Properties.Settings.Default.RememberMaterialCollisionTypeAssignments;
             chkDisableTextureSizeWarning.Checked = Properties.Settings.Default.DisableTextureSizeWarning;
+            emulatorExecutablePath.Text = Properties.Settings.Default.EmulatorExecutablePath;
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -54,7 +55,16 @@ namespace SM64DSe
             Properties.Settings.Default.RememberLastUsedModelImportationSettings = chkRememberLastUsedModelImportationSettings.Checked;
             Properties.Settings.Default.RememberMaterialCollisionTypeAssignments = chkRememberLastUsedCollisionTypeAssignments.Checked;
             Properties.Settings.Default.DisableTextureSizeWarning = chkDisableTextureSizeWarning.Checked;
+            Properties.Settings.Default.EmulatorExecutablePath = this.emulatorExecutablePath.Text;
             Properties.Settings.Default.Save();
+        }
+
+        private void browserBtn_Click(object sender, EventArgs e)
+        {
+            if (this.openFileExe.ShowDialog() == DialogResult.OK)
+            {
+                emulatorExecutablePath.Text = this.openFileExe.FileName;
+            }
         }
     }
 }

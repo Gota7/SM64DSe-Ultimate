@@ -14,5 +14,8 @@ namespace SM64DSe
         {
             return AttachConsole(ATTACH_PARENT_PROCESS);
         }
+        
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern bool FreeConsole();
     }
 }

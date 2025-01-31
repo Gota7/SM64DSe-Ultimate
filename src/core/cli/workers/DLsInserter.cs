@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Serilog;
+using SM64DSe.core.cli.options;
 using SM64DSe.core.cli.utils;
 using SM64DSe.Patcher;
 
@@ -9,36 +10,47 @@ namespace SM64DSe.core.cli.workers
 {
     public class DLsInserter : CLIWorker<InsertDLsOptions>
     {
-        public override void Execute(InsertDLsOptions options)
+        public override int Execute(InsertDLsOptions options)
         {
-            this.SetupRom(options.RomPath);
+            // Setup rom
+            this.SetupRom(options);
+            this.EnsurePatch(options.Force);
 
-            // Ensure the build folder exists
-            if (!Directory.Exists(options.BuildFolderPath))
+            string buildFolder = options.BuildFolderPath;
+            if (_currentDirectory != null)
             {
-                Log.Error($"Folder {options.BuildFolderPath} not found.");
-                Environment.Exit(1);
-                return;
+                buildFolder = Path.Combine(_currentDirectory, buildFolder);
+            }
+            
+            // Ensure the build folder exists
+            if (!Directory.Exists(buildFolder))
+            {
+                Log.Error($"Folder {buildFolder} not found.");
+                return 1;
             }
 
             // Ensure the target list file exists
-            if (!File.Exists(options.TargetListPath))
+            string targetListPath = options.TargetListPath;
+            if (_currentDirectory != null)
             {
-                Log.Error($"Target list {options.TargetListPath} not found.");
-                Environment.Exit(1);
-                return;
+                targetListPath = Path.Combine(_currentDirectory, targetListPath);
+            }
+            
+            if (!File.Exists(targetListPath))
+            {
+                Log.Error($"Target list {targetListPath} not found.");
+                return 1;
             }
 
-            this.EnsurePatch(options.Force);
 
             // key: folder name
             // value: rom directory
-            Dictionary<string, string> targets = TargetParser.ParseFile(options.TargetListPath);
+            Dictionary<string, string> targets = TargetParser.ParseFile(targetListPath);
             
             // For each target
             foreach (var target in targets)
             {
-                string folderPath = Path.Combine(options.BuildFolderPath, target.Key);
+                string folderPath = Path.Combine(buildFolder, target.Key);
                 
                 string symFilePath   = Path.Combine(folderPath, options.NewCodeLo + ".sym");
                 string loBinFilePath = Path.Combine(folderPath, options.NewCodeLo + ".bin");
@@ -50,8 +62,7 @@ namespace SM64DSe.core.cli.workers
                     if (!File.Exists(path))
                     {
                         Log.Error($"Required file '{path}' not found.");
-                        Environment.Exit(1);
-                        return;
+                        return 1;
                     }
                 }
 
@@ -68,6 +79,8 @@ namespace SM64DSe.core.cli.workers
                     FileInserter.InsertFile(target.Value, dl, options);
                 }
             }
+
+            return 0;
         }
     }
 }

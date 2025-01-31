@@ -26,6 +26,7 @@ using System.Globalization;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Windows.Forms;
+using SM64DSe.ui.dialogs;
 
 namespace SM64DSe
 {
@@ -491,7 +492,27 @@ namespace SM64DSe
         }
 
         public static void RunROM() {
-            BuildROM(true);
+            if (Program.m_IsROMFolder)
+            {
+                BuildROM(true);
+                return;
+            }
+
+            // Stop read write
+            Program.m_ROM.EndRW();
+
+            string executable = Properties.Settings.Default.EmulatorExecutablePath;
+            if (executable == null || executable.Trim() == "")
+            {
+                throw new Exception("Executable not found");
+            }
+
+            if (!File.Exists(executable))
+            {
+                throw new Exception("executable file does not exist.");
+            }
+
+            new RunningDialog(executable).ShowDialog();
         }
 
         public static FileStream GetExtractedStream(string path) {

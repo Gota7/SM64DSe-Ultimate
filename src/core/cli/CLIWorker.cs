@@ -1,16 +1,40 @@
 ﻿using System;
 using System.IO;
 using Serilog;
+using SM64DSe.core.cli.options;
 using SM64DSe.core.utils.DynamicLibraries;
 
 namespace SM64DSe.core.cli
 {
+    public static class Worker
+    {
+        public static string _currentDirectory;
+    }
+    
     public abstract class CLIWorker<T>
     {
-        public abstract void Execute(T options);
+        public abstract int Execute(T options);
 
-        protected void SetupRom(string path)
+        protected readonly string _currentDirectory = Worker._currentDirectory;
+
+        protected void SetupRom(AbstractRomOptions options)
         {
+            if (options.RomPath == null && Program.m_ROM == null)
+            {
+                throw new Exception("--rom option must be set when not executing in batches.");
+            }
+
+            if (options.RomPath != null && Program.m_ROM != null)
+            {
+                throw new Exception("A rom seem to already be loaded. You cannot use --rom option in batches.");
+            }
+
+            if (Program.m_ROM != null)
+                return;
+            
+            // Extracting path
+            string path = options.RomPath;
+            
             // Ensure rom provided is .nds format
             if (!path.EndsWith(".nds"))
             {
@@ -31,6 +55,12 @@ namespace SM64DSe.core.cli
             Program.m_IsROMFolder = false;
             Program.m_ROMPath = path;
             Program.m_ROM = new NitroROM(path);
+
+            if (Program.m_ROM.m_Version != NitroROM.Version.EUR)
+            {
+                Log.Error("Only europe ROM are supported.");
+                throw new Exception("Only Europe ROM are compatible.");
+            }
         }
 
         protected void EnsurePatch(bool force)

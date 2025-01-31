@@ -1,9 +1,9 @@
 using CommandLine;
 
-namespace SM64DSe.core.cli
+namespace SM64DSe.core.cli.options
 {
     // meant to be used as a base class
-    public abstract class FileOptions
+    public abstract class AbstractFileOptions: AbstractRomOptions
     {
         [Option("force", Required = false, HelpText = "Force the editor to patch the file when dealing with vanilla rom.")]
         public bool Force { get; set; }

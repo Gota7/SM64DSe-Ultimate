@@ -37,6 +37,18 @@ namespace SM64DSe.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(null)]
+        public string EmulatorExecutablePath {
+            get {
+                return ((string)(this["EmulatorExecutablePath"]));
+            }
+            set {
+                this["EmulatorExecutablePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool RememberLastUsedModelImportationSettings {
             get {
