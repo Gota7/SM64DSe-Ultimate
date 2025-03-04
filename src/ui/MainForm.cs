@@ -116,7 +116,7 @@ namespace SM64DSe
                     MessageBox.Show(
                         "An error occured while patching your ROM.\n" + 
                         "No changes have been made to your ROM.\n" + 
-                        "Try using a different ROM. If the error persists, report it to Mega-Mario, with the details below:\n\n" + 
+                        "Try using a different ROM.\n\n" + 
                         ex.Message + "\n" + 
                         ex.StackTrace,
                         Program.AppTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -435,19 +435,26 @@ namespace SM64DSe
         {
             string msg = Program.AppTitle + " " + Program.AppVersion + " " + Program.AppDate + "\n\n" +
                 "A level editor for Super Mario 64 DS.\n" +
-                "Coding and design by Mega-Mario (StapleButter), with help from others (see credits).\n" +
+                "Coding and design by Arisotura, with help from others (see credits).\n" +
                 "Provided to you by Kuribo64, the SM64DS hacking department.\n" +
+                "Currently maintained by the SM64DS Hacking Discord\n" +
                 "\n" +
                 "Credits:\n" +
                 "- Treeki: the overlay decompression (Jap77), the object list and other help\n" +
                 "- Dirbaio: other help\n" +
                 "- blank: help with generating collision\n" + 
-                "- mibts: ASM hacking template v2, BCA optimisation, level editor enhancements and other help\n" + 
-                "- Fiachra Murray: current developer and maintainer\n" + 
+                "- HayashiSTL: ASM hacking template v2, file system editor, BCA optimisation, level editor enhancements and other help\n" + 
+                "- Fiachra: ASM hacking template v1, improvements to the BMD and KCL importer/exporter\n" + 
+                "- Gota7: Kuppa Script editor and compiler, overlay editor, SP scripting support, support for extracted ROMs, various improvements to the level editor\n" +
+                "- jupahe64: Improvements to the BMD and KCL importer/exporter, texture animation editor, various other stuff\n" +
+                "- SplattyDS: SPA editor, file and sound header generators, various fixes and improvements\n" +
+                "- pants64DS: Revamped dynamic library generator, CLI improvements\n" +
+                "- Floralz: Object parameters, documentation and various fixes\n" +
+                "- axel7083: CLI, addons\n" +
                 "\n" +
-                Program.AppTitle + " is free software. If you paid for it, notify Mega-Mario about it.\n" +
-                "\n" +
-                "Visit Kuribo64's site (http://kuribo64.net/) for more details.";
+                Program.AppTitle + " is free software. If you paid for it, notify Arisotura about it.\n" +
+                "\nVisit Kuribo64's site (http://kuribo64.net/) for more details.\n" +
+                "Link to the SM64DS Hacking Discord server: http://discord.gg/PhpA9Wt";
 
             MessageBox.Show(msg, "About " + Program.AppTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
