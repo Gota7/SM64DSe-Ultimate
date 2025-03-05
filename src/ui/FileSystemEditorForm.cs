@@ -10,7 +10,7 @@ using System.Windows.Forms;
 namespace SM64DSe {
 
     /// <summary>
-    /// Filesystem editor form. Credits to Josh65536.
+    /// Filesystem editor form. Credits to HayashiSTL.
     /// </summary>
     public class FilesystemEditorForm : Form {
         private string m_SelectedFile = "";
@@ -27,7 +27,7 @@ namespace SM64DSe {
 
         public FilesystemEditorForm(MainForm main) {
             this.InitializeComponent();
-            this.Text = "Josh65536's File System Editor";
+            this.Text = "HayashiSTL's File System Editor";
             Icon = main.Icon;
             this.m_ROM = Program.m_ROM;
             ROMFileSelect.LoadFileList(this.tvFiles);

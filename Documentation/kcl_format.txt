@@ -1,4 +1,4 @@
-SM64DS KCL (3D collision map) format documentation -- by Mega-Mario
+SM64DS KCL (3D collision map) format documentation -- by Arisotura
 
 0. File header
 It is 56 bytes long and laid out as such:

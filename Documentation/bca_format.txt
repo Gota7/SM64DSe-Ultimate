@@ -1,4 +1,4 @@
-SM64DS BCA (Binary Character Animation) format documentation -- by Mega-Mario
+SM64DS BCA (Binary Character Animation) format documentation -- by Arisotura
 
 Updated 2014/04/18 with new information from Gericom's MKDS Course Modifier
 Updated 2014/04/21 by Fiachra

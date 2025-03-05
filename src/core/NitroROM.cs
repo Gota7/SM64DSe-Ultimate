@@ -105,7 +105,7 @@ namespace SM64DSe
                 default:
                     m_Version = Version.UNK;
                     EndRW();
-                    throw new Exception("Unknown ROM version. Tell Mega-Mario about it.");
+                    throw new Exception("Unknown ROM version.");
             }
 
             m_FileStream.Position = 0x28;

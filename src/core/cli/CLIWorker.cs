@@ -87,7 +87,7 @@ namespace SM64DSe.core.cli
                     Log.Error(
                         "An error occured while patching your ROM.\n" + 
                         "No changes have been made to your ROM.\n" + 
-                        "Try using a different ROM. If the error persists, report it to Mega-Mario, with the details below:\n\n" + 
+                        "Try using a different ROM.\n\n" + 
                         ex.Message + "\n" + 
                         ex.StackTrace);
                     Program.m_ROM.EndRW(false);
