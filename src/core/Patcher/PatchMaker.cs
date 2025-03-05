@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using SM64DSe.core.utils.SP2;
+using Serilog;
 
 namespace SM64DSe.Patcher
 {
@@ -115,9 +116,22 @@ namespace SM64DSe.Patcher
         public void makeOverlay(uint overlayID)
         {
             FileInfo f = new FileInfo(romdir.FullName + "/newcode.bin");
-            if (!f.Exists) return;
+
+            if (!f.Exists)
+            {
+                Log.Error($"File {romdir.FullName}/newcode.bin not found. Aborting patch.");
+                throw new FileNotFoundException();
+            }
+
             FileStream fs = f.OpenRead();
             FileInfo symFile = new FileInfo(romdir.FullName + "/newcode.sym");
+
+            if (!symFile.Exists)
+            {
+                Log.Error($"File {romdir.FullName}/newcode.sym not found. Aborting patch.");
+                throw new FileNotFoundException();
+            }
+
             StreamReader symStr = symFile.OpenText();
 
             byte[] newdata = new byte[fs.Length];

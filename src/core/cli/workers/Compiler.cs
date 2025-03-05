@@ -28,6 +28,9 @@ namespace SM64DSe.core.cli.workers
                 Log.Error($"Directory {sources} not found. Aborting patch.");
                 throw new DirectoryNotFoundException();
             }
+
+            if (options.NoRunMake && options.Type != CompileOptionsType.OVERLAY)
+                throw new ArgumentException("The --no-run-make option is only supported for overlays.");
             
             switch (options.Type)
             {
@@ -47,7 +50,20 @@ namespace SM64DSe.core.cli.workers
 
         private int MakeOverlay(CompileOptions options)
         {
-            throw new NotImplementedException("Make overlay is not implemented yet.");
+            if (!options.NoRunMake) this.MakeTarget(options);
+
+            this.SetupRom(options);
+
+            uint overlayID = uint.Parse(options.InternalPath);
+
+            PatchMaker pm = new PatchMaker(
+                new DirectoryInfo(sources),
+                new NitroOverlay(Program.m_ROM, overlayID).GetRAMAddr()
+            );
+
+            pm.makeOverlay(overlayID);
+            Log.Information($"Overlay {overlayID} written successfully");
+            return 0;
         }
 
         private int MakeTarget(CompileOptions options)
@@ -61,14 +77,8 @@ namespace SM64DSe.core.cli.workers
                     additionalEnvs += $"{env.GetName()}={env.GetValue()} ";
                 }
             }
-            
-            string makeTemplate = "make {0}";
-            string make = String.Format(
-                makeTemplate, 
-                additionalEnvs
-            );
 
-            int result = PatchCompiler.runProcess(make, sources);
+            int result = PatchCompiler.runProcess("make " + additionalEnvs, sources);
             if (result != 0)
             {
                 throw new Exception($"make command failed with result {result}");

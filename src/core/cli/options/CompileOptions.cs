@@ -25,5 +25,8 @@ namespace SM64DSe.core.cli.options
         
         [Option('e', "env", HelpText = "Environment variable for the makefile.\nE.g. --env SOURCES=sources/peach/")]
         public IEnumerable<string>Env { get; set; }
+
+        [Option('n', "no-run-make", HelpText = "Don't call make")]
+        public bool NoRunMake { get; set; }
     }
 }
