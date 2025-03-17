@@ -34,7 +34,7 @@ namespace SM64DSe
         public static string AppTitle = "SM64DS Editor ULTIMATE";
         // The ProductVersion is extracted from AssemblyInformationalVersion
         public static string AppVersion = Application.ProductVersion;
-        public static string AppDate = "Feb 24, 2024";
+        public static string AppDate = "Mar 17, 2025";
 
         public static string ServerURL = "http://kuribo64.net/";
 
