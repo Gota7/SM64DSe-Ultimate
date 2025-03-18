@@ -159,6 +159,7 @@ namespace SM64DSe {
             m_BinReader.BaseStream.Position = 0x68;
             uint bannerOffset = m_BinReader.ReadUInt32();
 
+            Helper.AlignWriter(newBinWriter, 0x200); // The banner needs to be aligned to 512 bytes to work properly on some platforms
             Helper.WritePosAndRestore(newBinWriter, 0x68, 0);
 
             m_BinReader.BaseStream.Position = bannerOffset;
