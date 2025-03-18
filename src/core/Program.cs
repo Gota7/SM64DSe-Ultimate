@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using CommandLine;
@@ -31,10 +32,10 @@ namespace SM64DSe
 {
     static class Program
     {
-        public static string AppTitle = "SM64DS Editor ULTIMATE";
+        public static readonly string AppTitle = "SM64DS Editor ULTIMATE";
         // The ProductVersion is extracted from AssemblyInformationalVersion
-        public static string AppVersion = Application.ProductVersion;
-        public static string AppDate = "Mar 17, 2025";
+        public static readonly string AppVersion = Application.ProductVersion;
+        public static readonly string AppDate = GetBuildDate();
 
         public static string ServerURL = "http://kuribo64.net/";
 
@@ -75,6 +76,24 @@ namespace SM64DSe
 
             // If not, assume the first argument is the command
             CLIService.Run(args);
+        }
+
+        static string GetBuildDate()
+        {
+            string exePath = Assembly.GetExecutingAssembly().Location;
+
+            using (FileStream stream = new FileStream(exePath, FileMode.Open, FileAccess.Read))
+            using (BinaryReader reader = new BinaryReader(stream))
+            {
+                stream.Seek(0x3C, SeekOrigin.Begin);
+                int peHeaderOffset = reader.ReadInt32();
+
+                stream.Seek(peHeaderOffset + 8, SeekOrigin.Begin);
+                int timestamp = reader.ReadInt32();
+
+                DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                return $"{epoch.AddSeconds(timestamp).ToLocalTime():MMM d, yyyy}";
+            }
         }
     }
 }
