@@ -1215,6 +1215,9 @@ namespace SM64DSe
         private void btnEditLevelList_Click(object sender, EventArgs e)
         {
             new LevelNameEditorForm().ShowDialog();
+            Program.m_ROM.BeginRW();
+            Program.m_ROM.LoadTables();
+            Program.m_ROM.EndRW();
             btnRefresh_Click(sender, e);
         }
 
