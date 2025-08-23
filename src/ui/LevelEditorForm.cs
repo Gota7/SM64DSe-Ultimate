@@ -154,7 +154,16 @@ namespace SM64DSe
 
         private void LoadLevelData()
         {
+            /*try
+			{*/
             m_Level = new Level(m_LevelID);
+            /*}
+            catch
+			{
+                MessageBox.Show($"An error has occurred while tring to open level {m_LevelID}", "An error has occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+                return;
+			}*/
 
             AlignPathNodes();
 
