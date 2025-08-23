@@ -107,7 +107,7 @@ namespace SM64DSe
             m_WebClient = new WebClient();
         }
 
-        public static void LoadFromFile(string path)
+        public static void LoadJsonFile(string path)
         {
             using (StreamReader r = new StreamReader(path))
             {
@@ -142,15 +142,17 @@ namespace SM64DSe
                 return;
             
             Console.WriteLine("We found an objects.json aside the ROM, loading it as additonal objects");
-            LoadFromFile(projectObjects);
+            LoadJsonFile(projectObjects);
         }
 
         public static void Load()
         {
+            Program.InitLocalFolder();
+
             FileStream fs = null; XmlReader xr = null;
             try 
             { 
-                fs = File.OpenRead("assets/objectdb.xml"); 
+                fs = File.OpenRead(Program.GetLocalObjectDbXmlPath());
                 xr = XmlReader.Create(fs);
 
                 xr.ReadToFollowing("database");

@@ -46,6 +46,10 @@ namespace SM64DSe
         public static string m_ROMPatchPath;
         public static string m_ROMConversionPath;
         public static string m_ROMBuildPath;
+        public static string m_LocalFolderPath;
+
+        public static string GetLocalObjectDbXmlPath() { return Path.Combine(m_LocalFolderPath, "objectdb.xml"); }
+        public static string GetLocalLevelsXmlPath() { return Path.Combine(m_LocalFolderPath, "levels.xml"); }
 
         public static List<LevelEditorForm> m_LevelEditors;
         
@@ -94,6 +98,29 @@ namespace SM64DSe
                 DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                 return $"{epoch.AddSeconds(timestamp).ToLocalTime():MMM d, yyyy}";
             }
+        }
+
+        // call this every time m_LocalFolderPath (or the 2 functions that use it) gets used to ensure their existence
+        // does nothing if the the folder / files already exist
+        public static void InitLocalFolder()
+        {
+            if (m_ROM == null)
+                return;
+
+            string parent = Directory.GetParent(m_ROM.m_Path).FullName;
+            m_LocalFolderPath = Path.Combine(parent, ".SM64DSe");
+
+            string objectDbXML = GetLocalObjectDbXmlPath();
+            string levelsXML = GetLocalLevelsXmlPath();
+
+            if (!Directory.Exists(m_LocalFolderPath))
+                Directory.CreateDirectory(m_LocalFolderPath);
+
+            if (!File.Exists(objectDbXML))
+                File.Copy("assets/objectdb.xml", objectDbXML);
+
+            if (!File.Exists(levelsXML))
+                File.Copy("assets/levels.xml", levelsXML);
         }
     }
 }

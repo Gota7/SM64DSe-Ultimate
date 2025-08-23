@@ -215,7 +215,7 @@ namespace SM64DSe.core.managers
             if (File.Exists(objects))
             {
                 Log.Warning("The addon installed own an objects.json - it will be copied.");
-                ObjectDatabase.LoadFromFile(objects);
+                ObjectDatabase.LoadJsonFile(objects);
                 UpdateObjects(
                     Path.Combine(Directory.GetParent(Program.m_ROM.m_Path).FullName, "objects.json"),
                     objects

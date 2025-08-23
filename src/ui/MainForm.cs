@@ -127,6 +127,8 @@ namespace SM64DSe
                 }
             }
 
+            Program.InitLocalFolder();
+
             Program.m_ROM.LoadTables();
             Program.m_ROM.EndRW();
 
@@ -213,8 +215,8 @@ namespace SM64DSe
 
             btnMore.DropDownItems.Add("Dump Object Info", null, btnDumpObjInfo_Click);
 
-            slStatusLabel.Text = "Ready";
             ObjectDatabase.Initialize();
+            slStatusLabel.Text = "Ready";
             
             Task.Run(() =>
             {
@@ -252,61 +254,6 @@ namespace SM64DSe
         private void MainForm_Shown(object sender, EventArgs e)
         {
             ObjectDatabase.LoadFallback();
-            try { ObjectDatabase.Load(); }
-            catch { }
-
-            if (!Properties.Settings.Default.AutoUpdateODB)
-                return;
-
-            ObjectDatabase.m_WebClient.DownloadProgressChanged += new System.Net.DownloadProgressChangedEventHandler(this.ODBDownloadProgressChanged);
-            //ObjectDatabase.m_WebClient.DownloadFileCompleted += new AsyncCompletedEventHandler(this.ODBDownloadDone);
-            ObjectDatabase.m_WebClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(this.ODBDownloadDone);
-
-            ObjectDatabase.Update(false);
-        }
-
-        private void ODBDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            if (!spbStatusProgress.Visible)
-            {
-                slStatusLabel.Text = "Updating object database...";
-                spbStatusProgress.Visible = true;
-            }
-
-            spbStatusProgress.Value = e.ProgressPercentage;
-        }
-
-        private void ODBDownloadDone(object sender, DownloadStringCompletedEventArgs e)
-        {
-            spbStatusProgress.Visible = false;
-
-            if (e.Cancelled || (e.Error != null))
-            {
-                slStatusLabel.Text = "Object database update " + (e.Cancelled ? "cancelled" : "failed") + ".";
-            }
-            else
-            {
-                if (e.Result == "noupdate")
-                {
-                    slStatusLabel.Text = "Object database already up to date.";
-                }
-                else
-                {
-                    slStatusLabel.Text = "Object database updated.";
-
-                    try
-                    {
-                        File.WriteAllText("assets/objectdb.xml", e.Result);
-                    }
-                    catch
-                    {
-                        slStatusLabel.Text = "Object database update failed.";
-                    }
-                }
-            }
-
-            try { ObjectDatabase.Load(); }
-            catch { }
         }
 
         private void btnOpenROM_Click(object sender, EventArgs e)
@@ -314,8 +261,9 @@ namespace SM64DSe
             if (ofdOpenFile.ShowDialog(this) == DialogResult.OK)
             {
                 LoadROM(ofdOpenFile.FileName);
-                // Load object database + objects.json if exist
-                ObjectDatabase.LoadProjectSpecific();
+
+                try { ObjectDatabase.Load(); }
+                catch { }
             }
         }
 
