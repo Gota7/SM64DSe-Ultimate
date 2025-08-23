@@ -56,13 +56,15 @@ namespace SM64DSe
             if (m_LevelNames.Count != m_ShortNames.Count)
                 throw new ArgumentException("The amount of full level names is not equal to the amount of short level names.");
 
+            Program.InitLocalFolder();
+
             // save the XML
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.IndentChars = "\t";
             settings.NewLineChars = "\r\n";
             settings.NewLineHandling = NewLineHandling.Replace;
-            using (XmlWriter writer = XmlWriter.Create(Path.Combine(Application.StartupPath, "assets/Levels.xml"), settings))
+            using (XmlWriter writer = XmlWriter.Create(Program.GetLocalLevelsXmlPath(), settings))
             {
                 writer.WriteStartDocument();
                 writer.WriteComment("SM64DS Editor Infinity");

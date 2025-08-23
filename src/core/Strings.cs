@@ -27,9 +27,11 @@ namespace SM64DSe
     {
         public static List<string> LevelNames()
         {
+            Program.InitLocalFolder();
+
             List<string> levelNames = new List<string>();
 
-            using (XmlReader reader = XmlReader.Create(Path.Combine(Application.StartupPath, "assets/Levels.xml")))
+            using (XmlReader reader = XmlReader.Create(Program.GetLocalLevelsXmlPath()))
             {
                 reader.MoveToContent();
 
@@ -51,9 +53,11 @@ namespace SM64DSe
 
         public static List<string> ShortLvlNames()
         {
+            Program.InitLocalFolder();
+
             List<string> levelNames = new List<string>();
 
-            using (XmlReader reader = XmlReader.Create(Path.Combine(Application.StartupPath, "assets/Levels.xml")))
+            using (XmlReader reader = XmlReader.Create(Program.GetLocalLevelsXmlPath()))
             {
                 reader.MoveToContent();
 
