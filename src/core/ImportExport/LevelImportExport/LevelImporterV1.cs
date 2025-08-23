@@ -125,7 +125,7 @@ namespace SM64DSe.ImportExport.LevelImportExport
                     }
                     else if (reader.LocalName.Equals("ActSelectorID"))
                     {
-                        levelSettings.ActSelectorID = byte.Parse(reader.ReadElementContentAsString());
+                        levelSettings.CourseID = byte.Parse(reader.ReadElementContentAsString());
                     }
 
                 }

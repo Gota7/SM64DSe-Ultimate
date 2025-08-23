@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -100,14 +101,15 @@ namespace SM64DSe
             nudICG.Value = m_LevelSettings.MinimapTsetFileID;
             nudICL.Value = m_LevelSettings.MinimapPalFileID;
 
+            int levelID = ((LevelEditorForm)Owner).m_LevelID;
+
             if (Program.m_IsROMFolder) {
-                Program.m_ROM.arm9R.BaseStream.Position = Helper.GetActSelectorIDTableAddress() + ((LevelEditorForm)Owner).m_LevelID - Program.m_ROM.headerSize;
+                Program.m_ROM.arm9R.BaseStream.Position = Helper.GetCourseIDTableAddress(levelID) + (levelID < 52 ? levelID : levelID - 52) - Program.m_ROM.headerSize;
                 txtActSelectorID.Text = Program.m_ROM.arm9R.ReadByte().ToString();
                 return;
             }
             Program.m_ROM.BeginRW();
-            txtActSelectorID.Text = Program.m_ROM.Read8((uint)(Helper.GetActSelectorIDTableAddress() + 
-                ((LevelEditorForm)Owner).m_LevelID)).ToString();
+            txtActSelectorID.Text = Program.m_ROM.Read8((uint)(Helper.GetCourseIDTableAddress(levelID) + (levelID < 52 ? levelID : levelID - 52))).ToString();
             Program.m_ROM.EndRW();
         }
 
@@ -184,8 +186,10 @@ namespace SM64DSe
             m_LevelSettings.MinimapTsetFileID = (ushort)nudICG.Value;
             m_LevelSettings.MinimapPalFileID = (ushort)nudICL.Value;
 
+            int levelID = ((LevelEditorForm)Owner).m_LevelID;
+
             if (Program.m_IsROMFolder) {
-                Program.m_ROM.arm9W.BaseStream.Position = Helper.GetActSelectorIDTableAddress() + ((LevelEditorForm)Owner).m_LevelID - Program.m_ROM.headerSize;
+                Program.m_ROM.arm9W.BaseStream.Position = Helper.GetCourseIDTableAddress(levelID) + (levelID < 52 ? levelID : levelID - 52) - Program.m_ROM.headerSize;
                 Program.m_ROM.arm9W.Write(byte.Parse(txtActSelectorID.Text));
                 Program.m_ROM.SaveArm9();
                 return;
@@ -194,11 +198,25 @@ namespace SM64DSe
             try
             {
                 Program.m_ROM.BeginRW();
-                Program.m_ROM.Write8((uint)(Helper.GetActSelectorIDTableAddress() + ((LevelEditorForm)Owner).m_LevelID), 
-                    byte.Parse(txtActSelectorID.Text));
+                Program.m_ROM.Write8((uint)(Helper.GetCourseIDTableAddress(levelID) + (levelID < 52 ? levelID : levelID - 52)), byte.Parse(txtActSelectorID.Text));
                 Program.m_ROM.EndRW();
             }
             catch { }
+
+            string parent = Directory.GetParent(Program.m_ROM.m_Path).FullName;
+            string bakFolderPath = Path.Combine(parent, "bak");
+            string bakFilePath = Path.Combine(bakFolderPath, "main.bin");
+
+            if (Directory.Exists(bakFolderPath) && File.Exists(bakFilePath))
+            {
+                string msg = "NSMBe 'bak' folder and 'bak/main.bin' detected.\nWould you like to apply your changes to NSMBe's backup file? (recommended)\nNot doing this will require manually hex editing the backup file with the correct course id each time you insert code with NSMBe.";
+                if (MessageBox.Show(msg, "NSMBe 'bak' folder detected", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    byte[] bak = File.ReadAllBytes(bakFilePath);
+                    Helper.Write8(bak, Helper.GetCourseIDTableAddress(levelID) - 0x4000 + (uint)(levelID < 52 ? levelID : levelID - 52), byte.Parse(txtActSelectorID.Text));
+                    File.WriteAllBytes(bakFilePath, bak);
+                }
+            }
         }
 
         private void cbxBackground_SelectedIndexChanged(object sender, EventArgs e)

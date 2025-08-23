@@ -918,7 +918,7 @@ namespace SM64DSe
         public byte CameraStartZoomedOut;
         public byte LevelFormatVersion;
         public byte OverlayInitialiserVersion;
-        public byte ActSelectorID;// NOT stored in the overlay - not possible
+        public byte CourseID;// NOT stored in the overlay - not possible
         public ushort[] DynLibIDs;
     }
 

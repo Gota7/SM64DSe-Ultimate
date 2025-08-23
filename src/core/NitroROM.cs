@@ -74,13 +74,13 @@ namespace SM64DSe
                     if (romversion == 0x01) {
                         m_Version = Version.USA_v2;
 
-                        m_LevelOvlIDTableOffset = 0x742B4;
+                        m_LevelOvlIDTableOffset1 = 0x742B4;
                         m_FileTableOffset = 0x11244;
                         m_FileTableLength = 1824;
                     } else {
                         m_Version = Version.USA_v1;
 
-                        m_LevelOvlIDTableOffset = 0x73594;
+                        m_LevelOvlIDTableOffset1 = 0x73594;
                         m_FileTableOffset = 0x1123C;
                         m_FileTableLength = 1824;
                     }
@@ -89,7 +89,7 @@ namespace SM64DSe
                 case 0x4A4D5341: // ASMJ / JAP
                     m_Version = Version.JAP;
 
-                    m_LevelOvlIDTableOffset = 0x73B38;
+                    m_LevelOvlIDTableOffset1 = 0x73B38;
                     m_FileTableOffset = 0x1123C;
                     m_FileTableLength = 1824;
                     break;
@@ -97,7 +97,8 @@ namespace SM64DSe
                 case 0x504D5341: // ASMP / EUR
                     m_Version = Version.EUR;
 
-                    m_LevelOvlIDTableOffset = 0x758C8;
+                    m_LevelOvlIDTableOffset1 = 0x758c8;
+                    m_LevelOvlIDTableOffset2 = 0x8f808;
                     m_FileTableOffset = 0x13098;
                     m_FileTableLength = 2058;
                     break;
@@ -259,12 +260,12 @@ namespace SM64DSe
                 case "ASME":
                     if (r.Version == 0x01) {
                         m_Version = Version.USA_v2;
-                        m_LevelOvlIDTableOffset = 0x742B4 - r.HeaderSize;
+                        m_LevelOvlIDTableOffset1 = 0x742B4 - r.HeaderSize;
                         m_FileTableOffset = 0x11244;
                         m_FileTableLength = 1824;
                     } else {
                         m_Version = Version.USA_v1;
-                        m_LevelOvlIDTableOffset = 0x73594 - r.HeaderSize;
+                        m_LevelOvlIDTableOffset1 = 0x73594 - r.HeaderSize;
                         m_FileTableOffset = 0x1123C;
                         m_FileTableLength = 1824;
                     }
@@ -272,14 +273,15 @@ namespace SM64DSe
                 // Jap.
                 case "ASMJ":
                     m_Version = Version.JAP;
-                    m_LevelOvlIDTableOffset = 0x73B38 - r.HeaderSize;
+                    m_LevelOvlIDTableOffset1 = 0x73B38 - r.HeaderSize;
                     m_FileTableOffset = 0x1123C;
                     m_FileTableLength = 1824;
                     break;
                 // Assume EUR.
                 case "ASMP":
                     m_Version = Version.EUR;
-                    m_LevelOvlIDTableOffset = 0x758C8 - r.HeaderSize;
+                    m_LevelOvlIDTableOffset1 = 0x758C8 - r.HeaderSize;
+                    m_LevelOvlIDTableOffset2 = 0x8f808 - r.HeaderSize;
                     m_FileTableOffset = 0x13098;
                     m_FileTableLength = 2058;
                     break;
@@ -594,18 +596,29 @@ namespace SM64DSe
 
             if (Program.m_IsROMFolder) {
                 var r = new BinaryReader(new MemoryStream(GetExtractedBytes("__ROM__/arm9.bin")));
-                r.BaseStream.Position = m_LevelOvlIDTableOffset;
-                m_LevelOvlIDTable = new uint[52];
+                m_LevelOvlIDTable = new List<uint>(52);
+                r.BaseStream.Position = m_LevelOvlIDTableOffset1;
                 for (uint i = 0; i < 52; i++)
-                    m_LevelOvlIDTable[i] = r.ReadUInt32();
+                    m_LevelOvlIDTable.Add(r.ReadUInt32());
+
+                r.BaseStream.Position = m_LevelOvlIDTableOffset2;
+                if (m_Version == Version.EUR)
+                    for (uint i = 0; i < 204; i++)
+                        m_LevelOvlIDTable.Add(r.ReadUInt32());
+
                 r.Dispose();
                 return;
             }
 
-            m_FileStream.Position = m_LevelOvlIDTableOffset;
-            m_LevelOvlIDTable = new uint[52];
+            m_LevelOvlIDTable = new List<uint>(52);
+            m_FileStream.Position = m_LevelOvlIDTableOffset1;
             for (uint i = 0; i < 52; i++)
-                m_LevelOvlIDTable[i] = m_BinReader.ReadUInt32();
+                m_LevelOvlIDTable.Add(m_BinReader.ReadUInt32());
+
+            m_FileStream.Position = m_LevelOvlIDTableOffset2;
+            if (m_Version == Version.EUR)
+                for (uint i = 0; i < 204; i++)
+                    m_LevelOvlIDTable.Add(m_BinReader.ReadUInt32());
         }
 
         public void BeginRW(bool buffered)
@@ -769,40 +782,40 @@ namespace SM64DSe
             }
         }*/
 
-        public String GetInternalLevelNameFromID(int id)
+        public String GetCourseNameFromID(int id)
         {
-            ushort actSelectID = GetActSelectorIdByLevelID(id);
+            ushort courseID = GetCourseIdFromLevelID(id);
             
-            return NameForActSelectID(actSelectID);
+            return NameForCourseID(courseID);
         }
 
-        public ushort GetActSelectorIdByLevelID(int id)
+        public ushort GetCourseIdFromLevelID(int id)
         {
             if (Program.m_IsROMFolder) {
-                arm9R.BaseStream.Position = Helper.GetActSelectorIDTableAddress() + id - headerSize;
+                arm9R.BaseStream.Position = Helper.GetCourseIDTableAddress(id) + (id < 52 ? id : id - 52) - headerSize;
                 return arm9R.ReadByte();
             }
             BeginRW();
-            ushort actSelectID = Read8((uint)(Helper.GetActSelectorIDTableAddress() + id));
+            ushort courseID = Read8((uint)(Helper.GetCourseIDTableAddress(id) + (id < 52 ? id : id - 52)));
             EndRW();
-            return actSelectID;
+            return courseID;
         }
 
-        public String GetActDescription(int levelID, int actID)
+        public String GetStarDescription(int levelID, int starID)
         {
-            int actSelectId = GetActSelectorIdByLevelID(levelID);
-            if (actSelectId < 16)
-                return m_MsgData[0x1B4 + actSelectId * 7 + actID];
-            return "Star"+ (actID+1);
+            int courseID = GetCourseIdFromLevelID(levelID);
+            if (courseID < 15)
+                return m_MsgData[0x1B4 + courseID * 7 + starID];
+            return "Star"+ (starID+1);
         }
 
-        public String NameForActSelectID(int actSelectID)
+        public String NameForCourseID(int courseID)
         {
-            if (actSelectID < 29)
+            if (courseID < 29)
             {
                 try
                 {
-                    string ret = m_MsgData[0x196 + actSelectID];
+                    string ret = m_MsgData[0x196 + courseID];
                     while (ret.StartsWith(" ")) {
                         ret = ret.Substring(1);
                     }
@@ -813,15 +826,15 @@ namespace SM64DSe
                     return "Name not Found";
                 }
             }
-            if (actSelectID == 29)
+            if (courseID == 29)
             {
                 return "Hub";
             }
-            if (actSelectID == 255)
+            if (courseID == 255)
             {
                 return "Test Map";
             }
-            return actSelectID.ToString();
+            return courseID.ToString();
         }
 
         public void UpdateStrings()
@@ -1294,10 +1307,11 @@ namespace SM64DSe
         private BinaryReader m_BinReader;
         private BinaryWriter m_BinWriter;
 
-        private uint m_LevelOvlIDTableOffset;
+        private uint m_LevelOvlIDTableOffset1;
+        private uint m_LevelOvlIDTableOffset2;
         private uint m_FileTableOffset, m_FileTableLength;
         private ushort[] m_FileTable;
-        private uint[] m_LevelOvlIDTable;
+        private List<uint> m_LevelOvlIDTable;
 
         private uint m_UsedSize;
 

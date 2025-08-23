@@ -157,7 +157,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(82, 13);
             this.label10.TabIndex = 2;
-            this.label10.Text = "Act Selector ID:";
+            this.label10.Text = "Course ID:";
             // 
             // cbxBackground
             // 
