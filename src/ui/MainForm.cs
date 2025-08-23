@@ -161,7 +161,7 @@ namespace SM64DSe
             btnLZDecompressWithHeader.Enabled = true;
             btnLZForceCompression.Enabled = true;
             btnLZForceDecompression.Enabled = true;
-            btnEditLevelNames.Enabled = true;
+            btnEditLevelList.Enabled = Program.m_ROM.m_Version == NitroROM.Version.EUR && !Program.m_IsROMFolder;
 
             slStatusLabel.Text = "Loaded ROM Version: " + Program.m_ROM.m_Version.ToString().Replace('_', ' ');
             RefreshAddonsButton();
@@ -315,7 +315,7 @@ namespace SM64DSe
 
         private void OpenLevel(int levelid)
         {
-            if ((levelid < 0) || (levelid >= 52))
+            if (levelid < 0 || (levelid >= 52 && Program.m_ROM.m_Version != NitroROM.Version.EUR))
                 return;
 
             foreach (LevelEditorForm lvledit in Program.m_LevelEditors)
@@ -760,7 +760,7 @@ namespace SM64DSe
             foreach (string lvlName in Strings.LevelNames())
             {
                 ids.Add("[" + i + "]");
-                internalNames.Add(Program.m_ROM.GetInternalLevelNameFromID(i));
+                internalNames.Add(Program.m_ROM.GetCourseNameFromID(i));
                 names.Add(lvlName);
                 i++;
             }
@@ -823,11 +823,11 @@ namespace SM64DSe
                 int hubCounter = 1;
                 foreach (string lvlName in Strings.ShortLvlNames())
                 {
-                    ushort selectorId = Program.m_ROM.GetActSelectorIdByLevelID(i);
+                    ushort selectorId = Program.m_ROM.GetCourseIdFromLevelID(i);
                     string lvlString = "";
                     if (selectorId < 29)
                     {
-                        lvlString = Program.m_ROM.GetInternalLevelNameFromID(i);
+                        lvlString = Program.m_ROM.GetCourseNameFromID(i);
                         while (lvlString.StartsWith(" "))
                             lvlString = lvlString.Remove(0, 1);
 
@@ -864,7 +864,7 @@ namespace SM64DSe
                     }
                     else
                     {
-                        lvlString = "Cant find a Levelname for ActSelectorID " + i;
+                        lvlString = "Cant find a Levelname for Course " + i;
                     }
                     lbxLevels.Items.Add(lvlString);
                     i++;
@@ -1212,7 +1212,7 @@ namespace SM64DSe
             new ParticleViewerForm().Show();
         }
 
-        private void btnEditLevelNames_Click(object sender, EventArgs e)
+        private void btnEditLevelList_Click(object sender, EventArgs e)
         {
             new LevelNameEditorForm().ShowDialog();
             btnRefresh_Click(sender, e);

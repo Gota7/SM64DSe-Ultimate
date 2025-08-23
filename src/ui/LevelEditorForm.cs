@@ -180,7 +180,7 @@ namespace SM64DSe
             btnCreateFormation.Width = 110;
             btnCreateFormation.Click += btnCreateCoinFormation_Click;
 
-            this.Text = string.Format("[{0}] {1} [{2}] - {3} {4}", levelid, Strings.LevelNames()[levelid], Program.m_ROM.GetInternalLevelNameFromID(levelid), Program.AppTitle, Program.AppVersion);
+            this.Text = string.Format("[{0}] {1} [{2}] - {3} {4}", levelid, Strings.LevelNames()[levelid], Program.m_ROM.GetCourseNameFromID(levelid), Program.AppTitle, Program.AppVersion);
             
             m_MouseDown = MouseButtons.None;
 
@@ -191,13 +191,13 @@ namespace SM64DSe
 
             btnStar1.Checked = true;
             btnStarAll.Checked = true;
-            btnStar1.ToolTipText = Program.m_ROM.GetActDescription(levelid, 0);
-            btnStar2.ToolTipText = Program.m_ROM.GetActDescription(levelid, 1);
-            btnStar3.ToolTipText = Program.m_ROM.GetActDescription(levelid, 2);
-            btnStar4.ToolTipText = Program.m_ROM.GetActDescription(levelid, 3);
-            btnStar5.ToolTipText = Program.m_ROM.GetActDescription(levelid, 4);
-            btnStar6.ToolTipText = Program.m_ROM.GetActDescription(levelid, 5);
-            btnStar7.ToolTipText = Program.m_ROM.GetActDescription(levelid, 6);
+            btnStar1.ToolTipText = Program.m_ROM.GetStarDescription(levelid, 0);
+            btnStar2.ToolTipText = Program.m_ROM.GetStarDescription(levelid, 1);
+            btnStar3.ToolTipText = Program.m_ROM.GetStarDescription(levelid, 2);
+            btnStar4.ToolTipText = Program.m_ROM.GetStarDescription(levelid, 3);
+            btnStar5.ToolTipText = Program.m_ROM.GetStarDescription(levelid, 4);
+            btnStar6.ToolTipText = Program.m_ROM.GetStarDescription(levelid, 5);
+            btnStar7.ToolTipText = Program.m_ROM.GetStarDescription(levelid, 6);
             m_ShowCommonLayer = true;
             m_AuxLayerNum = 1;
             btnEditObjects.Checked = true;
@@ -2782,8 +2782,6 @@ namespace SM64DSe
 
             if (m_OpenFileDialogue.ShowDialog() == DialogResult.OK)
             {
-                NitroOverlay ovl = new NitroOverlay(m_ROM, (uint)m_LevelID);
-
                 try { LevelDataXML_Importer.ImportLevel(m_Level, m_OpenFileDialogue.FileName, true); }
                 catch (InvalidDataException ex) { MessageBox.Show(ex.Message); return; }
                 catch (Exception ex) { new ExceptionMessageBox("Error parsing level, changes have not been saved", ex).ShowDialog(); return; }

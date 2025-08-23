@@ -443,13 +443,16 @@ namespace SM64DSe
             return FloatArrayToMatrix4(Array.ConvertAll<double, float>(vals, Convert.ToSingle));
         }
 
-        public static uint GetActSelectorIDTableAddress()
+        public static uint GetCourseIDTableAddress(int id)
         {
             switch (Program.m_ROM.m_Version)
             {
                 default:
                 case NitroROM.Version.EUR:
-                    return 0x75298;
+                    if (id < 52)
+                        return 0x75298;
+                    else
+                        return 0x8f73c;
                 case NitroROM.Version.USA_v1:
                     return 0x731F0;
                 case NitroROM.Version.USA_v2:
@@ -738,6 +741,17 @@ namespace SM64DSe
             return $"{(number < 0 ? "-" : "")}0x{Convert.ToString(Math.Abs(number), 16).PadLeft(2, '0')}";
         }
 
+        public static byte Read8(byte[] data, uint offset)
+        {
+            if (offset >= data.Length)
+            {
+                Console.WriteLine($"data.Length = {data.Length}");
+                throw new IndexOutOfRangeException();
+            }
+
+            return (byte)(data[offset] << 0x0);
+        }
+
         public static ushort Read16(byte[] data, uint offset)
         {
             if (offset + 1 >= data.Length)
@@ -758,6 +772,43 @@ namespace SM64DSe
             }
 
             return (uint)((data[offset] << 0x0) | (data[offset + 1] << 0x8) | (data[offset + 2] << 0x10) | (data[offset + 3] << 0x18));
+        }
+
+        public static void Write8(byte[] data, uint offset, byte value)
+        {
+            if (offset >= data.Length)
+            {
+                Console.WriteLine($"data.Length = {data.Length}");
+                throw new IndexOutOfRangeException();
+            }
+
+            data[offset] = value;
+        }
+
+        public static void Write16(byte[] data, uint offset, ushort value)
+        {
+            if (offset + 1 >= data.Length)
+            {
+                Console.WriteLine($"data.Length = {data.Length}");
+                throw new IndexOutOfRangeException();
+            }
+
+            data[offset] = (byte)(value & 0xff);
+            data[offset + 1] = (byte)(value >> 0x8 & 0xff);
+        }
+
+        public static void Write32(byte[] data, uint offset, uint value)
+        {
+            if (offset + 3 >= data.Length)
+            {
+                Console.WriteLine($"data.Length = {data.Length}");
+                throw new IndexOutOfRangeException();
+            }
+
+            data[offset] = (byte)(value & 0xff);
+            data[offset + 1] = (byte)(value >> 0x8 & 0xff);
+            data[offset + 2] = (byte)(value >> 0x10 & 0xff);
+            data[offset + 3] = (byte)(value >> 0x18 & 0xff);
         }
     }
 

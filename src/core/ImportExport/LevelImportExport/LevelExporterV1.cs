@@ -87,7 +87,7 @@ namespace SM64DSe.ImportExport.LevelImportExport
             writer.WriteEndElement();
 
             if (Program.m_IsROMFolder) {
-                Program.m_ROM.arm9R.BaseStream.Position = (uint)(Helper.GetActSelectorIDTableAddress() + level.m_LevelID) - Program.m_ROM.headerSize;
+                Program.m_ROM.arm9R.BaseStream.Position = (uint)(Helper.GetCourseIDTableAddress(level.m_LevelID) + level.m_LevelID) - Program.m_ROM.headerSize;
                 writer.WriteElementString("ActSelectorID", Program.m_ROM.arm9R.ReadByte().ToString());
                 writer.WriteEndElement();
                 return;
@@ -95,7 +95,7 @@ namespace SM64DSe.ImportExport.LevelImportExport
 
             Program.m_ROM.BeginRW();
             writer.WriteElementString("ActSelectorID",
-                Program.m_ROM.Read8((uint)(Helper.GetActSelectorIDTableAddress() + level.m_LevelID)).ToString());
+                Program.m_ROM.Read8((uint)(Helper.GetCourseIDTableAddress(level.m_LevelID) + level.m_LevelID)).ToString());
             Program.m_ROM.EndRW();
 
             writer.WriteEndElement();
