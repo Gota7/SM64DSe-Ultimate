@@ -108,7 +108,9 @@ namespace SM64DSe
                 return;
 
             string parent = Directory.GetParent(m_ROM.m_Path).FullName;
-            m_LocalFolderPath = Path.Combine(parent, ".SM64DSe");
+            string romFileName = Path.GetFileName(m_ROM.m_Path);
+            romFileName = romFileName.Remove(romFileName.Length - 4, 4);
+            m_LocalFolderPath = Path.Combine(parent, ".SM64DSe." + romFileName);
 
             string objectDbXML = GetLocalObjectDbXmlPath();
             string levelsXML = GetLocalLevelsXmlPath();
