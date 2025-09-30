@@ -329,13 +329,13 @@
     <Compile Include="src\ui\CodeCompilerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ui\CodeCompilerForm.designer.cs">
+    <Compile Include="src\ui\CodeCompilerForm.Designer.cs">
       <DependentUpon>CodeCompilerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\ui\CodeFixerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ui\CodeFixerForm.designer.cs">
+    <Compile Include="src\ui\CodeFixerForm.Designer.cs">
       <DependentUpon>CodeFixerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\ui\dialogs\DropdownDialog.cs">
@@ -522,7 +522,7 @@
     <Compile Include="src\ui\SoundViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\ui\SoundViewForm.designer.cs">
+    <Compile Include="src\ui\SoundViewForm.Designer.cs">
       <DependentUpon>SoundViewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\ui\TextDialog.cs">
@@ -568,7 +568,7 @@
     <Compile Include="src\utils\Templates\PlatformTemplateForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\utils\Templates\PlatformTemplateForm.designer.cs">
+    <Compile Include="src\utils\Templates\PlatformTemplateForm.Designer.cs">
       <DependentUpon>PlatformTemplateForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -804,7 +804,7 @@
     <Content Include="assets\jap_chars.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\Levels.xml">
+    <Content Include="assets\levels.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectdb.xml">
@@ -879,10 +879,10 @@
     <Error Condition="!Exists('packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Net.Compilers.3.0.0\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <Target Name="AfterBuild" AfterTargets="Build" Condition="'$(Configuration)'=='Release'">
-    <ZipDirectory SourceDirectory="bin\release" Overwrite="true" DestinationFile="$(MSBuildProjectDirectory)\bin\release.zip" />
+    <ZipDirectory SourceDirectory="bin\Release" Overwrite="true" DestinationFile="$(MSBuildProjectDirectory)\bin\release.zip" />
   </Target>
   <Target Name="AfterBuild" AfterTargets="Build" Condition="'$(Configuration)'=='Release'">
-    <ZipDirectory SourceDirectory="bin\release" Overwrite="true" DestinationFile="$(MSBuildProjectDirectory)\bin\release.zip" />
+    <ZipDirectory SourceDirectory="bin\Release" Overwrite="true" DestinationFile="$(MSBuildProjectDirectory)\bin\release.zip" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
