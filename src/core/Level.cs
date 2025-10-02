@@ -40,6 +40,7 @@ namespace SM64DSe
         public Dictionary<uint, LevelObject> m_LevelObjects;
         public List<LevelTexAnim> m_TexAnims;
         public CLPS m_CLPS;
+        public PlanetCamSettings m_PlanetCamSettings;
 
         public ushort[] m_MinimapFileIDs;
         public byte[] m_MinimapIndices;
@@ -75,6 +76,9 @@ namespace SM64DSe
             }
 
             LoadCLPS(m_Overlay);
+
+            m_PlanetCamSettings = new PlanetCamSettings();
+            m_PlanetCamSettings.Load(m_Overlay);
 
             // read object lists
 
@@ -692,8 +696,11 @@ namespace SM64DSe
                 {
                     binWriter.Write(x);
                 }
-                Helper.AlignWriter(binWriter, 4);
             }
+
+            SavePlanetCamSettings(binWriter);
+
+            Helper.AlignWriter(binWriter, 4);
 
             Array.Clear(m_Overlay.m_Data, 0, m_Overlay.m_Data.Length);
             Array.Resize(ref m_Overlay.m_Data, (int)stream.Length);
@@ -747,8 +754,11 @@ namespace SM64DSe
                 {
                     binWriter.Write(x);
                 }
-                Helper.AlignWriter(binWriter, 4);
             }
+
+            SavePlanetCamSettings(binWriter);
+
+            Helper.AlignWriter(binWriter, 4);
 
             Array.Clear(m_Overlay.m_Data, 0, m_Overlay.m_Data.Length);
             Array.Resize(ref m_Overlay.m_Data, (int)stream.Length);
@@ -761,6 +771,23 @@ namespace SM64DSe
         {
             Helper.WritePosAndRestore(binWriter, 0x60, Program.m_ROM.LevelOvlOffset);
             m_CLPS.SaveChanges(binWriter);
+        }
+
+        private void SavePlanetCamSettings(BinaryWriter binWriter)
+        {
+            if (m_PlanetCamSettings.Count == 0)
+            {
+                var pos = binWriter.BaseStream.Position;
+                binWriter.BaseStream.Position = 0x80;
+                binWriter.Write(0);
+                binWriter.BaseStream.Position = pos;
+            }
+            else
+            {
+                Helper.AlignWriter(binWriter, 2);
+                Helper.WritePosAndRestore(binWriter, 0x80, Program.m_ROM.LevelOvlOffset);
+                m_PlanetCamSettings.SaveChanges(binWriter);
+            }
         }
 
         private void SaveObjList(BinaryWriter binWriter, IEnumerable<LevelObject> objList, LevelObject.Type[] typeOrder)
@@ -1078,6 +1105,96 @@ namespace SM64DSe
         {
             public bool Equals(CLPS.Entry c1, CLPS.Entry c2) { return c1.flags == c2.flags; }
             public int GetHashCode(CLPS.Entry c) { return (int)(c.flags ^ c.m_WindID << 27); }
+        }
+    }
+
+    public class PlanetCamSettings : IEnumerable<PlanetCamSettings.Entry>
+    {
+        public List<PlanetCamSettings.Entry> m_Entries;
+
+        public PlanetCamSettings(List<PlanetCamSettings.Entry> entries)
+        {
+            m_Entries = entries;
+        }
+
+        public PlanetCamSettings()
+            : this(new List<PlanetCamSettings.Entry>()) { }
+
+        public int Count { get { return m_Entries.Count; } }
+
+        public Entry this[int index]
+        {
+            get
+            {
+                return m_Entries[index];
+            }
+
+            set
+            {
+                m_Entries[index] = value;
+            }
+        }
+
+        public void Clear()
+        {
+            m_Entries.Clear();
+        }
+
+        public void Add(Entry entry)
+        {
+            m_Entries.Add(entry);
+        }
+
+        public IEnumerator<Entry> GetEnumerator()
+        {
+            foreach (Entry entry in m_Entries)
+            {
+                yield return entry;
+            }
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public void SaveChanges(BinaryWriter binWriter)
+        {
+            binWriter.Write((ushort)Count);
+
+            foreach (Entry entry in m_Entries)
+                foreach (short value in entry.data)
+                    binWriter.Write(value);
+        }
+
+        public void Load(NitroOverlay ovl)
+        {
+            uint addr = ovl.ReadPointer(0x80);
+            if (addr == 0xFFFFFFFF) return;
+
+            uint numEntries = ovl.Read16(addr);
+            addr += 2;
+
+            for (int i = 0; i < numEntries; ++i)
+            {
+                var entry = new PlanetCamSettings.Entry();
+                entry.data = new short[8];
+
+                for (int j = 0; j < 8; ++j)
+                {
+                    entry.data[j] = (short)ovl.Read16(addr);
+
+                    addr += 2;
+                }
+
+                Add(entry);
+            }
+        }
+
+
+        public struct Entry
+        {
+            public short[] data;
         }
     }
 }

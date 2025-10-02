@@ -126,6 +126,7 @@ namespace SM64DSe
 			this.btnOpenDisplayOptions = new System.Windows.Forms.ToolStripButton();
 			this.btnMakeOverlay = new System.Windows.Forms.ToolStripButton();
 			this.btnDls = new System.Windows.Forms.ToolStripButton();
+			this.btnPlanetCam = new System.Windows.Forms.ToolStripButton();
 			this.btnOrthView = new System.Windows.Forms.ToolStripButton();
 			this.btnTextureAnims = new System.Windows.Forms.ToolStripButton();
 			this.tsToolBar = new System.Windows.Forms.ToolStrip();
@@ -1184,6 +1185,7 @@ namespace SM64DSe
             this.btnOpenDisplayOptions,
             this.btnMakeOverlay,
             this.btnDls,
+            this.btnPlanetCam,
             this.btnOrthView,
             this.btnTextureAnims,
             this.btnBezierCurve});
@@ -1395,6 +1397,16 @@ namespace SM64DSe
 			this.btnDls.Text = "DLs";
 			this.btnDls.ToolTipText = "Dynamic Libraries";
 			this.btnDls.Click += new System.EventHandler(this.btnDls_Click);
+			// 
+			// btnPlanetCam
+			// 
+			this.btnPlanetCam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.btnPlanetCam.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.btnPlanetCam.Name = "btnPlanetCam";
+			this.btnPlanetCam.Size = new System.Drawing.Size(80, 24);
+			this.btnPlanetCam.Text = "Planet Cam";
+			this.btnPlanetCam.ToolTipText = "Planet Camera Settings";
+			this.btnPlanetCam.Click += new System.EventHandler(this.btnPlanetCam_Click);
 			// 
 			// btnOrthView
 			// 
@@ -1946,6 +1958,7 @@ namespace SM64DSe
         private System.Windows.Forms.ToolStripButton btnOffsetAllCoords;
         private System.Windows.Forms.ToolStripButton btnOpenDisplayOptions;
         private System.Windows.Forms.ToolStripButton btnDls;
+        private System.Windows.Forms.ToolStripButton btnPlanetCam;
         private System.Windows.Forms.Button btnDuplicate;
         private System.Windows.Forms.ToolStripButton btnOrthView;
         private System.Windows.Forms.ToolStripButton btnTextureAnims;

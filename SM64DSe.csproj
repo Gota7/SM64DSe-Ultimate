@@ -326,6 +326,12 @@
     <Compile Include="src\ui\CLPS_Form.Designer.cs">
       <DependentUpon>CLPS_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\ui\PlanetCameraSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\ui\PlanetCameraSettingsForm.Designer.cs">
+      <DependentUpon>PlanetCameraSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\ui\CodeCompilerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -592,6 +598,9 @@
     <EmbeddedResource Include="src\ui\CLPS_Form.resx">
       <DependentUpon>CLPS_Form.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\ui\PlanetCameraSettingsForm.resx">
+      <DependentUpon>PlanetCameraSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\ui\CodeCompilerForm.resx">
       <DependentUpon>CodeCompilerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -824,6 +833,7 @@
     <Content Include="src\ui\AdditionalPatchesForm.resources" />
     <Content Include="src\ui\AnimationEditorForm.resources" />
     <Content Include="src\ui\CLPS_Form.resources" />
+    <Content Include="src\ui\PlanetCameraSettingsForm.resources" />
     <Content Include="src\ui\KCLEditorForm.resources" />
     <Content Include="src\ui\LevelEditorForm.resources" />
     <Content Include="src\ui\LevelSettingsForm.resources" />

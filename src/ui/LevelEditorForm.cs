@@ -223,7 +223,7 @@ namespace SM64DSe
             m_ShiftPressed = false;
 
             //btnMakeOverlay.Visible = (Program.m_ROM.m_Version == NitroROM.Version.EUR);
-            btnDls.Visible = (Program.m_ROM.m_Version == NitroROM.Version.EUR);
+            btnDls.Visible = btnPlanetCam.Visible = (Program.m_ROM.m_Version == NitroROM.Version.EUR);
             if (Program.m_IsROMFolder) {
                 romBuildButton.Visible = true;
                 romRunButton.Visible = true;
@@ -3312,6 +3312,11 @@ namespace SM64DSe
 
             //Show DL editor.
             new DL_Editor(m_Level.GetDynamicLibraryManager()).ShowDialog(this);
+        }
+
+        private void btnPlanetCam_Click(object sender, EventArgs e)
+        {
+            new PlanetCameraSettingsForm(m_Level.m_PlanetCamSettings).Show(this);
         }
 
         private void duplicateButton_Click(object sender, EventArgs e) {
