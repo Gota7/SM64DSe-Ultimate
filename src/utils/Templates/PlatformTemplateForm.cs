@@ -280,7 +280,7 @@ namespace SM64DSe.Templates
 
         private void btnClps_Click(object sender, EventArgs e)
         {
-            new CLPS_Form(m_CLPS).ShowDialog();
+            new CLPS_Form(m_CLPS, false).ShowDialog();
         }
 
         private void chkLevelSpecific_CheckedChanged(object sender, EventArgs e)

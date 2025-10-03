@@ -24,7 +24,7 @@ namespace SM64DSe
             BEHAV_2,
             CAM_THROUGH,
             TOXIC,
-            UNK_26,
+            CAM_ONLY,
             PAD_1,
             WIND_ID,
             PAD_2
@@ -47,7 +47,10 @@ namespace SM64DSe
             public void SetFlag(ref ulong flags, ulong val)
                 { flags = flags & ~(m_And << m_Shift) | (val & m_And) << m_Shift; }
         }
-        ColStruct[] columns = new ColStruct[12]
+
+        ColStruct[] columns;
+
+        static readonly ColStruct[] constantColumns = new ColStruct[11]
         {
             new ColStruct ("Texture"     ,  0, 0x1fuL, new string[]{"Basic/Rocky ",
                                                                     "Path-Textured ",
@@ -145,17 +148,30 @@ namespace SM64DSe
                                                                     "Go-Through " }),
             new ColStruct ("Toxic"       , 25, 0x01uL, new string[]{"",
                                                                     "Toxic "}),
-            new ColStruct ("Unk << 26"   , 26, 0x01uL, new string[]{}),
+            new ColStruct ("Camera Only" , 26, 0x01uL, new string[]{}),
             new ColStruct ("Pad << 27"   , 27, 0x1fuL, new string[]{}),
             new ColStruct ("Wind Path ID", 32, 0xffuL, new string[]{}),
-            new ColStruct ("Pad << 40"   , 40, 0xffffffuL, new string[]{}),
         };
 
         CLPS m_CLPS;
 
-        public CLPS_Form(CLPS CLPS)
+        public CLPS_Form(CLPS CLPS, bool showPlanetCamSettingsID)
         {
             InitializeComponent();
+
+            if (showPlanetCamSettingsID)
+            {
+                columns = new ColStruct[13];
+                columns[11] = new ColStruct ("Planet Camera Settings", 40, 0xffuL, new string[]{});
+                columns[12] = new ColStruct ("Pad << 48", 48, 0xffffuL, new string[]{});
+            }
+            else
+            {
+                columns = new ColStruct[12];
+                columns[11] = new ColStruct ("Pad << 40", 40, 0xffffffuL, new string[]{});
+            }
+
+            constantColumns.CopyTo(columns, 0);
 
             this.m_CLPS = CLPS;
 

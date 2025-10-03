@@ -2498,7 +2498,7 @@ namespace SM64DSe
 
         private void btnCLPS_Click(object sender, EventArgs e)
         {
-            new CLPS_Form(m_Level.m_CLPS).Show(this);
+            new CLPS_Form(m_Level.m_CLPS, m_Level.m_PlanetCamSettings.Count() != 0).Show(this);
         }
 
         private void btnAddPath_Click(object sender, EventArgs e)
