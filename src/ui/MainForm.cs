@@ -54,7 +54,7 @@ namespace SM64DSe
                 Program.m_ROM.EndRW();
             }
 
-            if (filename.Contains(" "))
+            if (Path.GetDirectoryName(filename).Contains(" "))
             {
                 MessageBox.Show("Your ROM path contains white spaces. This can cause some issues.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
