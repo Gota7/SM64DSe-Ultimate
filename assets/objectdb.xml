@@ -1418,9 +1418,7 @@
 		<name>Star Marker</name>
 		<internalname>STARBASE</internalname>
 		<actorid>180</actorid>
-		<description>Tells where the associated Power Star lands after it spawns.
-
-			Optionally, this object can show a horizontal star shadow at its position, usually when the star is spawned by collecting red coins.
+		<description>Tells where the associated Power Star lands after it spawns. Optionally, this object can show a horizontal star shadow at its position, usually when the star is spawned by collecting red coins.
 
 			Parameter 1:
 			XXTS where:
@@ -4303,9 +4301,9 @@
 			2 - Mario Key
 			3 - Luigi Key
 			4 - Wario Key
-			5 - Castle Entrance Key (Unused),
-			6 - White Door Key (Unused),
-			7 - Last Star (Unused)
+			5 - Castle Entrance Key,
+			6 - White Door Key,
+			7 - Last Star
 
 
 			(Source: Hodgeblossom)
@@ -4330,9 +4328,9 @@
 			2 - Mario Key
 			3 - Luigi Key
 			4 - Wario Key
-			5 - Castle Entrance Key (Unused),
-			6 - White Door Key (Unused),
-			7 - Last Star (Unused)
+			5 - Castle Entrance Key,
+			6 - White Door Key,
+			7 - Last Star
 
 
 			(Source: Hodgeblossom)</description>

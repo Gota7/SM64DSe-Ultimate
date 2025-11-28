@@ -2315,7 +2315,6 @@ namespace SM64DSe
                             4,"4 - Star Sphere (Switch Star Empty)",
                             4,"4 - Star Sphere (Switch Star Inside)",
                             6,"6 - Star Sphere (Switch Star Base)"
-                            //10,"Same as 2?"
                         }){ Name = "Type:" }
                     };
                 case 65: //Whomp King
@@ -2855,9 +2854,9 @@ namespace SM64DSe
                             2,"2 - Mario Key",
                             3,"3 - Luigi Key",
                             4,"4 - Wario Key",
-                            5,"5 - Castle Entrance Key (Unused)",
-                            6,"6 - White Door Key (Unused)",
-                            7,"7 - Last Star (Unused)"
+                            5,"5 - Castle Entrance Key",
+                            6,"6 - White Door Key",
+                            7,"7 - Last Star"
                         }){ Name = "Type:" }
                     };
                 case 278: //Last Star
