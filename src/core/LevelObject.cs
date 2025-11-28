@@ -3000,7 +3000,7 @@ namespace SM64DSe
                     };
                 case 304: //Invisible Secret
                     return new ParameterField[] {
-                        new ListField("Parameter 1",8,4,new object[]{
+                        new ListField("Parameter 1",4,4,new object[]{
                             0,"0 Secrets",
                             1,"1 Secret",
                             2,"2 Secrets",

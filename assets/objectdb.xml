@@ -4734,7 +4734,7 @@
 		<description>When touched, a number appears. Touching 5 reveals a Star.
 
 			Parameter 1:
-			XXNS where:
+			XNXS where:
 
 			N: Secrets [N]eeded
 			S: [S]tar ID
