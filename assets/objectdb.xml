@@ -4734,12 +4734,21 @@
 		<description>When touched, a number appears. Touching 5 reveals a Star.
 
 			Parameter 1:
-			XXSS where:
+			XXNS where:
 
+			N: Secrets [N]eeded
 			S: [S]tar ID
 
-			There should be a Star Marker with parameters 2 followed by Star ID eg. 25 for Star 5
+			(!) The Secrets Needed parameter controls when the secret is able to be activated.
+			Vanilla uses 0xf (recommended), in which case the secret can always be activated.
+			Otherwise, the secret may only be collected if the amount of secrets already collected
+			by the player is equal to the Secrets Needed parameter (not more or less).
 
+			There should be a Star Marker with parameters 2 followed by Star ID eg. 25 for Star 5.
+
+			If a Question Block, Exclamation Block, or Pushable Block actor are placed within .2 units
+			of this object, the secret will only be activated given the Question Block or Exclamation
+			Block are hit, or the Pushable Block is pushed .3 units.
 			==Misc. Info==
 			* It is called SECRET_COIN because it it often put in the same place as coins.</description>
 		<bankreq>none</bankreq>
