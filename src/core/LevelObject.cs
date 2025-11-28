@@ -1893,7 +1893,6 @@ namespace SM64DSe
                     return new ParameterField[] {
                         new ListField("Parameter 1",8,4,new object[]{
                             1,"1 - Silver-Star",
-                            2,"2 - Cap",
                             15,"F - Nothing"
                         }){ Name = "Spawns:" },
                         new ListField("Parameter 1",4,4,new object[]{
@@ -3007,7 +3006,7 @@ namespace SM64DSe
                             3,"3 Secrets",
                             4,"4 Secrets",
                             5,"5 Secrets",
-                            15,"0xf Always"
+                            15,"F Always"
                         }){ Name = "Secrets Needed" },
                         new ListField("Parameter 1",12,4,new object[]{
                             0,"100 Coins",
