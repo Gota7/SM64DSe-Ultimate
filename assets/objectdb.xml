@@ -1428,10 +1428,11 @@
 			T: [T]ype
 			0 - Used for Red Coins, appears as blue rotating horizontal star
 			1 - Appears as Star Sphere. Smashes when touched. Makes matching Power Star with T set to 3 become collectable, start spinning and start jumping about
-			3, 5, 7, 9, B - Appears invisible, and nothing seems to spawn a star. Star Switches set to this ID will appear already pressed
-			2, A - Star can be spawned by events like Koopa the Quick, numbered &quot;secrets&quot; or from a baddie being beaten
-			4 - Appears as the Star Sphere, but won't spawn stars from Switch Stars, baddies nor silver stars?
-			6 - For Switch Stars, appears as Star Sphere
+			2 - Star can be spawned by events like Koopa the Quick, numbered &quot;secrets&quot; or from a baddie being beaten
+			3 - Used for unactivated VS mode Star Spheres.
+			4 - Appears as the Star Sphere, used for an unactivated Switch Star
+			5 - Appears as the Star Sphere, used for an activated Switch Star
+			6 - For Switch Stars, appears as Star Sphere. Spawns a Power Star upon init, which then spawns a Type 4 Star Marker in its place
 
 			S: [S]tar ID</description>
 		<bankreq>none</bankreq>

@@ -2308,11 +2308,13 @@ namespace SM64DSe
                             7,"7. Star"
                         }){ Name = "Star:" },
                         new ListField("Parameter 1",8,4,new object[]{
-                            0,"0 - Red Coin Shadow Star",
-                            1,"1 - Empty, breaks on contact. Used in VS mode",
-                            2,"2 - Default Star Spawner",
-                            4,"4 - Star Sphere (No function?)",
-                            6,"6 - Switch Star Star Sphere"
+                            0,"0 - Star Base (Red Coins)",
+                            1,"1 - Star Sphere (VS)",
+                            2,"2 - Star Marker",
+                            3,"3 - Star Sphere (VS Hidden)",
+                            4,"4 - Star Sphere (Switch Star Empty)",
+                            4,"4 - Star Sphere (Switch Star Inside)",
+                            6,"6 - Star Sphere (Switch Star Base)"
                             //10,"Same as 2?"
                         }){ Name = "Type:" }
                     };
