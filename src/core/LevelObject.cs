@@ -2464,7 +2464,7 @@ namespace SM64DSe
                     return new ParameterField[] {
                         new DefaultField("Parameter 1", 11, 5) { Name = "M ID:" }
                     };
-                case 114: //RR Y Axis Rotating Lift (I dumbed down this parameter to make it a bit easier to use in the editor. Not sure how I would implement overflow, so this could probably be improved -Floralz)
+                case 114: //RR Y Axis Rotating Lift (I dumbed down this parameter to make it a bit easier to use in the editor. Not sure how I would implement overflow, so this could probably be improved -Hodgeblossom)
                     return new ParameterField[] {
                         new FloatConvertField("Parameter 3",0,16,0x1000,2f){ Name = "Rotation Speed:"}
                     };

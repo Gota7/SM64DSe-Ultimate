@@ -397,7 +397,7 @@ namespace SM64DSe
                 "- jupahe64: Improvements to the BMD and KCL importer/exporter, texture animation editor, various other stuff\n" +
                 "- SplattyDS: SPA editor, file and sound header generators, various fixes and improvements\n" +
                 "- pants64DS: Revamped dynamic library generator, CLI improvements\n" +
-                "- Floralz: Object parameters, documentation and various fixes\n" +
+                "- Hodgeblossom: Object parameters, documentation and various fixes\n" +
                 "- axel7083: CLI, addons\n" +
                 "\n" +
                 Program.AppTitle + " is free software. If you paid for it, notify Arisotura about it.\n" +
