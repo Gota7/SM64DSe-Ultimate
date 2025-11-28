@@ -3915,7 +3915,7 @@
 		<description>This hat turns your current character into Mario, Luigi or Wario.
 
 			Parameter 1:
-			SCTG where:
+			SCST where:
 
 			S: [S]pawn Condition
 			0 - Disabled until cap respawns here, gravity is always applied
@@ -3927,12 +3927,13 @@
 			1 - Luigi
 			2 - Wario
 
-			T: [T]ype
+			S: [S]pecial
 			0 - Normal
 			1 - Appears only temporarily (Normal), Held animation in ending cutscene (Castle Grounds)
 
-			G: [G]ravity
-			0 - Gravity is applied
+			T: [T]ype
+			0 - Gravity is applied, despawns after a bit
+			2 - Gravity is applied, never despawns (used when spawned from a cap block)
 			1+ - No gravity (Float in air)
 
 

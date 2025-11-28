@@ -2781,9 +2781,10 @@ namespace SM64DSe
                             1,"1 - Held animation in ending cutscene"
                         }){ Name = "Type:" },
                         new ListField("Parameter 1",12,4,new object[]{
-                            0,"0 - Gravity is applied",
+                            0,"0 - Gravity is applied, despawns after a bit",
+                            2,"2 - Gravity is applied, never despawns (Cap Block)",
                             4,"4 - No gravity (Float in air)",
-                        }){ Name = "Gravity:" }
+                        }){ Name = "Type:" }
                     };
                 case 255: //Bowser Puzzle Piece
                     return new ParameterField[] {
