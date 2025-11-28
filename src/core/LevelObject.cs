@@ -2779,7 +2779,7 @@ namespace SM64DSe
                         new ListField("Parameter 1",8,4,new object[]{
                             0,"0 - Normal",
                             1,"1 - Held animation in ending cutscene"
-                        }){ Name = "Type:" },
+                        }){ Name = "Special:" },
                         new ListField("Parameter 1",12,4,new object[]{
                             0,"0 - Gravity is applied, despawns after a bit",
                             2,"2 - Gravity is applied, never despawns (Cap Block)",
