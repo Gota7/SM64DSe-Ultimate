@@ -3,7 +3,7 @@
 <!--
 	Super Mario 64 DS Object Info Database
 	built on 10/04/2023 15:21:40 for SM64DS Editor
-	Thanks to colinzinho, Fiachra, Hiccup, Jesse, HayashiSTL, natnew, PyrHacKhan, shibboleet, skawo, Floralz, Splatty for their contributions!
+	Thanks to colinzinho, Fiachra, Hiccup, Jesse, HayashiSTL, natnew, PyrHacKhan, shibboleet, skawo, Hodgeblossom, Splatty for their contributions!
 -->
 
 <database timestamp='1689735014'>
@@ -51,7 +51,7 @@
 			3 - Yoshi with cap (Normal), Yoshi (Castle Grounds)
 
 
-			(Source: Splatty, Floralz)
+			(Source: Splatty, Hodgeblossom)
 		</description>
 		<bankreq>none</bankreq>
 		<dlreq>none</dlreq>
@@ -173,7 +173,7 @@
 			R: Z-[r]otation for the platform
 
 
-			(Source: Floralz, Splatty)</description>
+			(Source: Hodgeblossom, Splatty)</description>
 		<bankreq>4=3</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -291,7 +291,7 @@
 			40 - Follows Path, but moves at a fast, constant speed, even if on a flat surface
 
 
-			(Source: Floralz, et al)</description>
+			(Source: Hodgeblossom, et al)</description>
 		<bankreq>6=1</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -318,7 +318,7 @@
 			Set Star ID to F if you do not want a star to spawn when breaking the rock, eg. FF04 will spawn a stationary  rock that does nothing when broken
 
 
-			(Floralz, et al)</description>
+			(Hodgeblossom, et al)</description>
 		<bankreq>7=14</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -350,7 +350,7 @@
 			F - None
 
 
-			(Source: skawo, Floralz)
+			(Source: skawo, Hodgeblossom)
 
 			==Misc. Info==
 			===VS Mode Practice Behaviours==
@@ -384,7 +384,7 @@
 			F - None
 
 
-			(Source: skawo, Floralz)
+			(Source: skawo, Hodgeblossom)
 
 			==Misc. Info==
 			===VS Mode Practice Behaviours==
@@ -418,7 +418,7 @@
 			F - None
 
 
-			(Source: skawo, Floralz)
+			(Source: skawo, Hodgeblossom)
 
 			==Misc. Info==
 			===VS Mode Practice Behaviours==
@@ -489,7 +489,7 @@
 			3 - Red Coin locations
 
 
-			(Source: Floralz, et al)
+			(Source: Hodgeblossom, et al)
 
 			==Misc. Info==
 			===VS Mode Practice Behaviours==
@@ -563,7 +563,7 @@
 			1 - Plays jingle when broken
 
 
-			(Source: Splatty, Floralz)
+			(Source: Splatty, Hodgeblossom)
 
 			==Misc. Info==
 			===VS Mode Practice Behaviours==
@@ -587,7 +587,7 @@
 			1 - Plays jingle when broken
 
 
-			(Source: Splatty, Floralz)</description>
+			(Source: Splatty, Hodgeblossom)</description>
 		<bankreq>none</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -839,7 +839,7 @@
 			F - Like Type 1 (Duplicate?)
 
 
-			(Source: Splatty, Floralz)</description>
+			(Source: Splatty, Hodgeblossom)</description>
 		<bankreq>none</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -870,7 +870,7 @@
 			F - Like Type 1 (Duplicate?)
 
 
-			(Source: Splatty, Floralz)</description>
+			(Source: Splatty, Hodgeblossom)</description>
 		<bankreq>none</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -899,7 +899,7 @@
 			F - Like Type 1 (Duplicate?)
 
 
-			(Source: Splatty, Floralz)
+			(Source: Splatty, Hodgeblossom)
 
 			==Misc. Info==
 			===Files===
@@ -1040,7 +1040,7 @@
 			2 - Uses timer
 
 
-			(Source: Fiachra, Hiccup, Splatty, Floralz)</description>
+			(Source: Fiachra, Hiccup, Splatty, Hodgeblossom)</description>
 		<bankreq>none</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -1157,7 +1157,7 @@
 			D - Still, unless on a slide surface, where it will move forward very quickly, ricocheting off walls, but never disappears
 
 
-			(Source: Floralz, Splatty)
+			(Source: Hodgeblossom, Splatty)
 			* Files:
 			** /data/ARCHIVE/arc1.narc/data/normal_obj/oneup_kinoko
 			*** oneup_kinoko.bmd</description>
@@ -1306,7 +1306,7 @@
 			P: [P]ath ID
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>2=5</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -1375,7 +1375,7 @@
 			S - [S]tar ID
 
 
-			(Source: Hiccup, Floralz)</description>
+			(Source: Hiccup, Hodgeblossom)</description>
 		<bankreq>none</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -1403,7 +1403,7 @@
 			S: (Unused) [S]tar ID parameter
 
 
-			(Source: Hiccup, Floralz)
+			(Source: Hiccup, Hodgeblossom)
 
 
 			==Misc. Info==
@@ -1418,9 +1418,7 @@
 		<name>Star Marker</name>
 		<internalname>STARBASE</internalname>
 		<actorid>180</actorid>
-		<description>Tells where the associated Power Star lands after it spawns.
-
-			Optionally, this object can show a horizontal star shadow at its position, usually when the star is spawned by collecting red coins.
+		<description>Tells where the associated Power Star lands after it spawns. Optionally, this object can show a horizontal star shadow at its position, usually when the star is spawned by collecting red coins.
 
 			Parameter 1:
 			XXTS where:
@@ -1428,10 +1426,11 @@
 			T: [T]ype
 			0 - Used for Red Coins, appears as blue rotating horizontal star
 			1 - Appears as Star Sphere. Smashes when touched. Makes matching Power Star with T set to 3 become collectable, start spinning and start jumping about
-			3, 5, 7, 9, B - Appears invisible, and nothing seems to spawn a star. Star Switches set to this ID will appear already pressed
-			2, A - Star can be spawned by events like Koopa the Quick, numbered &quot;secrets&quot; or from a baddie being beaten
-			4 - Appears as the Star Sphere, but won't spawn stars from Switch Stars, baddies nor silver stars?
-			6 - For Switch Stars, appears as Star Sphere
+			2 - Star can be spawned by events like Koopa the Quick, numbered &quot;secrets&quot; or from a baddie being beaten
+			3 - Used for unactivated VS mode Star Spheres.
+			4 - Appears as the Star Sphere, used for an unactivated Switch Star
+			5 - Appears as the Star Sphere, used for an activated Switch Star
+			6 - For Switch Stars, appears as Star Sphere. Spawns a Power Star upon init, which then spawns a Type 4 Star Marker in its place
 
 			S: [S]tar ID</description>
 		<bankreq>none</bankreq>
@@ -1513,7 +1512,7 @@
 			B - Like Type 4, it contains a Yellow coin, but unlike that, it can exist in areas other than Level ID 29 (Hub areas), until 15 stars are collected (Hardcoded to contain a Red Coin in Level ID 29 (Hub areas) once 3 Power Stars are collected)
 
 
-			(Source: Floralz, Splatty)</description>
+			(Source: Hodgeblossom, Splatty)</description>
 		<bankreq>0=2</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -1538,7 +1537,7 @@
 			4 - Stays still, doesn't turn transparent, cannot be defeated or stomped but can be pushed around by walking into it
 
 
-			(Source: Floralz, et al)</description>
+			(Source: Hodgeblossom, et al)</description>
 		<bankreq>0=2</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -1571,7 +1570,7 @@
 			A: [A]ct ID for them to be set down
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>0=2</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -2047,7 +2046,7 @@
 			M: [M]atch this with the M id of its corresponding trigger object
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>7=29</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -2117,7 +2116,7 @@
 
 			R: [R]otation speed. Vanilla uses 0 for counter-clockwise and FEC9 for clockwise.
 
-			(Source: Fiachra, Floralz)</description>
+			(Source: Fiachra, Hodgeblossom)</description>
 		<bankreq>7=29</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -2213,7 +2212,7 @@
 
 			R: [R]otation speed. Vanilla uses 0 for counter-clockwise and FEC9 for clockwise.
 
-			(Source: Fiachra, Floralz)</description>
+			(Source: Fiachra, Hodgeblossom)</description>
 		<bankreq>7=22</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -2266,7 +2265,7 @@
 			M: [M]atch this with the M id of its corresponding trigger object
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>7=22</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -2497,7 +2496,7 @@
 			P: [P]ath ID to follow
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>4=2</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -2548,7 +2547,7 @@
 			1 - Larger chase radius
 
 
-			(Source:Floralz)
+			(Source:Hodgeblossom)
 
 			==Misc. Info==
 			===VS Mode Practice Behaviours==
@@ -2630,7 +2629,7 @@
 			S: [S]tar ID
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>7=23</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -2658,7 +2657,7 @@
 			P: [P]ath ID to follow
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>7=23</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -2874,7 +2873,7 @@
 			M: [M]atch this with the M id of its corresponding trigger object
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>7=36</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -2927,7 +2926,7 @@
 			R: Z-[r]otation
 
 
-			(Source: Floralz)
+			(Source: Hodgeblossom)
 		</description>
 		<bankreq>7=9</bankreq>
 		<dlreq>none</dlreq>
@@ -2950,7 +2949,7 @@
 			R: Z-[r]otation
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>7=9</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -3193,7 +3192,7 @@
 			1 - Plays jingle when broken
 
 
-			(Source: Splatty, Floralz)</description>
+			(Source: Splatty, Hodgeblossom)</description>
 		<bankreq>none</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -3356,7 +3355,7 @@
 			FF - Spawns where placed, sinks down, then rises to where it was placed, etc.
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>7=38</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -3386,7 +3385,7 @@
 			P - [P]ath ID
 
 
-			(Source: skawo, Floralz)</description>
+			(Source: skawo, Hodgeblossom)</description>
 		<bankreq>4=3</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -3472,7 +3471,7 @@
 			M: [M]atch this with the M id of its corresponding trigger object
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>7=40</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -3611,7 +3610,7 @@
 			P - [P]ath ID
 
 
-			(Source: skawo, Floralz)</description>
+			(Source: skawo, Hodgeblossom)</description>
 		<bankreq>4=3</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -3648,7 +3647,7 @@
 			P - [P]ath ID. Appears to start on the last node of the path.
 
 
-			(Source: Floralz, et al)
+			(Source: Hodgeblossom, et al)
 
 			==Misc. Info==
 			===VS Mode Practice Behaviours==
@@ -3796,7 +3795,7 @@
 			P: [P]ath ID
 
 
-			(Source: Floralz, et al)</description>
+			(Source: Hodgeblossom, et al)</description>
 		<bankreq>0=3</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -3830,7 +3829,7 @@
 			1+ - Cooresponds with Type 1. If no mole with Type set to 0 and On Spawn set to 1+ exist, crash
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>2=4</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -3889,7 +3888,7 @@
 			P: [P]ath ID
 
 
-			(Source: Floralz)
+			(Source: Hodgeblossom)
 
 			==Misc. Info==
 			===VS Mode Practice Behaviours==
@@ -3916,7 +3915,7 @@
 		<description>This hat turns your current character into Mario, Luigi or Wario.
 
 			Parameter 1:
-			SCTG where:
+			SCST where:
 
 			S: [S]pawn Condition
 			0 - Disabled until cap respawns here, gravity is always applied
@@ -3928,16 +3927,17 @@
 			1 - Luigi
 			2 - Wario
 
-			T: [T]ype
+			S: [S]pecial
 			0 - Normal
 			1 - Appears only temporarily (Normal), Held animation in ending cutscene (Castle Grounds)
 
-			G: [G]ravity
-			0 - Gravity is applied
+			T: [T]ype
+			0 - Gravity is applied, despawns after a bit
+			2 - Gravity is applied, never despawns (used when spawned from a cap block)
 			1+ - No gravity (Float in air)
 
 
-			(Source: Floralz, Hiccup, skawo, Sparsite)
+			(Source: Hodgeblossom, Hiccup, skawo, Sparsite)
 
 			==Trivia==
 			* Name is prefixed with OBJ because/despite...
@@ -3970,7 +3970,7 @@
 			[A] [B] [C] [D]
 
 
-			(Source: Floralz)
+			(Source: Hodgeblossom)
 		</description>
 		<bankreq>0=3</bankreq>
 		<dlreq>none</dlreq>
@@ -4066,7 +4066,7 @@
 			R: Z-[r]otation
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>7=9</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -4302,12 +4302,12 @@
 			2 - Mario Key
 			3 - Luigi Key
 			4 - Wario Key
-			5 - Castle Entrance Key (Unused),
-			6 - White Door Key (Unused),
-			7 - Last Star (Unused)
+			5 - Castle Entrance Key,
+			6 - White Door Key,
+			7 - Last Star
 
 
-			(Source: Floralz)
+			(Source: Hodgeblossom)
 		</description>
 		<bankreq>4=1</bankreq>
 		<dlreq>none</dlreq>
@@ -4329,12 +4329,12 @@
 			2 - Mario Key
 			3 - Luigi Key
 			4 - Wario Key
-			5 - Castle Entrance Key (Unused),
-			6 - White Door Key (Unused),
-			7 - Last Star (Unused)
+			5 - Castle Entrance Key,
+			6 - White Door Key,
+			7 - Last Star
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>4=1</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -4398,7 +4398,7 @@
 			S: [S]tar ID
 
 
-			(Source: Floralz, et al)
+			(Source: Hodgeblossom, et al)
 
 			==Misc. Info==
 			===VS Mode Practice Behaviours==
@@ -4457,7 +4457,7 @@
 			1 - Plays jingle when broken
 
 
-			(Source: Floralz, Splatty, et al)</description>
+			(Source: Hodgeblossom, Splatty, et al)</description>
 		<bankreq>none</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -4601,7 +4601,7 @@
 			F - Disappears once the Castle Grounds water is drained
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>7=2</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -4707,7 +4707,7 @@
 			D - Still, unless on a slide surface, where it will move forward very quickly, ricocheting off walls, but never disappears
 
 
-			(Source: Floralz, Splatty)
+			(Source: Hodgeblossom, Splatty)
 
 			* Files:
 			** /data/normal_obj/scale_up_kinoko
@@ -4734,12 +4734,21 @@
 		<description>When touched, a number appears. Touching 5 reveals a Star.
 
 			Parameter 1:
-			XXSS where:
+			XNXS where:
 
+			N: Secrets [N]eeded
 			S: [S]tar ID
 
-			There should be a Star Marker with parameters 2 followed by Star ID eg. 25 for Star 5
+			(!) The Secrets Needed parameter controls when the secret is able to be activated.
+			Vanilla uses 0xf (recommended), in which case the secret can always be activated.
+			Otherwise, the secret may only be collected if the amount of secrets already collected
+			by the player is equal to the Secrets Needed parameter (not more or less).
 
+			There should be a Star Marker with parameters 2 followed by Star ID eg. 25 for Star 5.
+
+			If a Question Block, Exclamation Block, or Pushable Block actor are placed within .2 units
+			of this object, the secret will only be activated given the Question Block or Exclamation
+			Block are hit, or the Pushable Block is pushed .3 units.
 			==Misc. Info==
 			* It is called SECRET_COIN because it it often put in the same place as coins.</description>
 		<bankreq>none</bankreq>
@@ -4820,7 +4829,7 @@
 			S: [S]tar ID
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>7=11</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -4993,7 +5002,7 @@
 		<description>The name and bank of this object seems to point to this being the actual suckage part of the Whirlpool object. However, it does not seem to do anything when placed on its own.
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>7=19</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -5011,7 +5020,7 @@
 			R: Chase [r]adius
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>5=3</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -5060,7 +5069,7 @@
 			9 - Waterfall 3
 
 
-			(Source: Splatty, Floralz)</description>
+			(Source: Splatty, Hodgeblossom)</description>
 		<bankreq>none</bankreq>
 		<dlreq>none</dlreq>
 	</object>
@@ -5129,7 +5138,7 @@
 			A: What [A]rea's Minimap to load. Use the Minimap editor for reference
 
 
-			(Source: Floralz)</description>
+			(Source: Hodgeblossom)</description>
 		<bankreq>none</bankreq>
 		<dlreq>none</dlreq>
 	</object>

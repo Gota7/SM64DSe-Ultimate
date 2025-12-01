@@ -1893,7 +1893,6 @@ namespace SM64DSe
                     return new ParameterField[] {
                         new ListField("Parameter 1",8,4,new object[]{
                             1,"1 - Silver-Star",
-                            2,"2 - Cap",
                             15,"F - Nothing"
                         }){ Name = "Spawns:" },
                         new ListField("Parameter 1",4,4,new object[]{
@@ -2309,12 +2308,13 @@ namespace SM64DSe
                             7,"7. Star"
                         }){ Name = "Star:" },
                         new ListField("Parameter 1",8,4,new object[]{
-                            0,"0 - Red Coin Shadow Star",
-                            1,"1 - Empty, breaks on contact. Used in VS mode",
-                            2,"2 - Default Star Spawner",
-                            4,"4 - Star Sphere (No function?)",
-                            6,"6 - Switch Star Star Sphere"
-                            //10,"Same as 2?"
+                            0,"0 - Star Base (Red Coins)",
+                            1,"1 - Star Sphere (VS)",
+                            2,"2 - Star Marker",
+                            3,"3 - Star Sphere (VS Hidden)",
+                            4,"4 - Star Sphere (Switch Star Empty)",
+                            4,"4 - Star Sphere (Switch Star Inside)",
+                            6,"6 - Star Sphere (Switch Star Base)"
                         }){ Name = "Type:" }
                     };
                 case 65: //Whomp King
@@ -2464,7 +2464,7 @@ namespace SM64DSe
                     return new ParameterField[] {
                         new DefaultField("Parameter 1", 11, 5) { Name = "M ID:" }
                     };
-                case 114: //RR Y Axis Rotating Lift (I dumbed down this parameter to make it a bit easier to use in the editor. Not sure how I would implement overflow, so this could probably be improved -Floralz)
+                case 114: //RR Y Axis Rotating Lift (I dumbed down this parameter to make it a bit easier to use in the editor. Not sure how I would implement overflow, so this could probably be improved -Hodgeblossom)
                     return new ParameterField[] {
                         new FloatConvertField("Parameter 3",0,16,0x1000,2f){ Name = "Rotation Speed:"}
                     };
@@ -2779,11 +2779,12 @@ namespace SM64DSe
                         new ListField("Parameter 1",8,4,new object[]{
                             0,"0 - Normal",
                             1,"1 - Held animation in ending cutscene"
-                        }){ Name = "Type:" },
+                        }){ Name = "Special:" },
                         new ListField("Parameter 1",12,4,new object[]{
-                            0,"0 - Gravity is applied",
+                            0,"0 - Gravity is applied, despawns after a bit",
+                            2,"2 - Gravity is applied, never despawns (Cap Block)",
                             4,"4 - No gravity (Float in air)",
-                        }){ Name = "Gravity:" }
+                        }){ Name = "Type:" }
                     };
                 case 255: //Bowser Puzzle Piece
                     return new ParameterField[] {
@@ -2854,9 +2855,9 @@ namespace SM64DSe
                             2,"2 - Mario Key",
                             3,"3 - Luigi Key",
                             4,"4 - Wario Key",
-                            5,"5 - Castle Entrance Key (Unused)",
-                            6,"6 - White Door Key (Unused)",
-                            7,"7 - Last Star (Unused)"
+                            5,"5 - Castle Entrance Key",
+                            6,"6 - White Door Key",
+                            7,"7 - Last Star"
                         }){ Name = "Type:" }
                     };
                 case 278: //Last Star
@@ -3000,6 +3001,15 @@ namespace SM64DSe
                     };
                 case 304: //Invisible Secret
                     return new ParameterField[] {
+                        new ListField("Parameter 1",4,4,new object[]{
+                            0,"0 Secrets",
+                            1,"1 Secret",
+                            2,"2 Secrets",
+                            3,"3 Secrets",
+                            4,"4 Secrets",
+                            5,"5 Secrets",
+                            15,"F Always"
+                        }){ Name = "Secrets Needed" },
                         new ListField("Parameter 1",12,4,new object[]{
                             0,"100 Coins",
                             1,"1. Star",
