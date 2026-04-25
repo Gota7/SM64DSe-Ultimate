@@ -1682,16 +1682,22 @@ namespace SM64DSe
                     List<int> currRotationValues = def.m_RotationValuesInt;
                     List<int> currTranslationXValues = def.m_TranslationXValuesInt;
                     List<int> currTranslationYValues = def.m_TranslationYValuesInt;
+
+                    int numScaleValues = def.m_ScaleValues.Count;
+                    int numRotationValues = def.m_RotationValues.Count;
+                    int numTranslationXValues = def.m_TranslationXValues.Count;
+                    int numTranslationYValues = def.m_TranslationYValues.Count;
+
                     binWriter.Write(0x0000ffff);
                     binWriter.Write(0x00000000);
                     binWriter.Write(0x00000001);
-                    binWriter.Write((ushort)def.m_ScaleValues.Count);
+                    binWriter.Write((ushort)numScaleValues);
                     binWriter.Write((ushort)Helper.FindSubList(scaleValues, currScaleValues));
-                    binWriter.Write((ushort)def.m_RotationValues.Count);
+                    binWriter.Write((ushort)numRotationValues);
                     binWriter.Write((ushort)Helper.FindSubList(rotationValues, currRotationValues));
-                    binWriter.Write((ushort)def.m_TranslationXValues.Count);
+                    binWriter.Write((ushort)numTranslationXValues);
                     binWriter.Write((ushort)Helper.FindSubList(translationValues, currTranslationXValues));
-                    binWriter.Write((ushort)def.m_TranslationYValues.Count);
+                    binWriter.Write((ushort)numTranslationYValues);
                     binWriter.Write((ushort)Helper.FindSubList(translationValues, currTranslationYValues));
                 }
                 foreach (Def def in texAnim.m_Defs)

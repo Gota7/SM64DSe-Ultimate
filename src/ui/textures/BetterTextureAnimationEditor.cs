@@ -275,6 +275,15 @@ namespace SM64DSe.SM64DSFormats
                         m_ScaleValues = new List<float>(entry.m_ScaleValues),
                     };
 
+                    if (newEntry.m_TranslationXValues.Count == 0)
+                        newEntry.m_TranslationXValues.Add(0f);
+                    if (newEntry.m_TranslationYValues.Count == 0)
+                        newEntry.m_TranslationYValues.Add(0f);
+                    if (newEntry.m_RotationValues.Count == 0)
+                        newEntry.m_RotationValues.Add(0f);
+                    if (newEntry.m_ScaleValues.Count == 0)
+                        newEntry.m_ScaleValues.Add(1f);
+
                     m_entries.Add(entry.m_MaterialName, newEntry);
                 }
 
@@ -686,8 +695,6 @@ namespace SM64DSe.SM64DSFormats
             //Console.WriteLine(materialName);
             List<LevelTexAnim.Def> newEntries = new List<LevelTexAnim.Def>();
 
-
-
             foreach (LevelTexAnim.Def entry in m_parent.m_Level.m_TexAnims[area].m_Defs)
             {
                 if (entry.m_MaterialName == materialName) {
@@ -743,12 +750,21 @@ namespace SM64DSe.SM64DSFormats
 
         private void btnSaveAnim_Click(object sender, EventArgs e)
         {
-            SaveAnimation(m_animId, m_animEntry.m_MaterialName);
+            int area = m_animId;
+            string materialName = m_animEntry.m_MaterialName;
+
+            if (!m_unsavedEntries[area].ContainsKey(materialName))
+                m_unsavedEntries[area].Add(materialName, m_animEntry);
+
+            SaveAnimation(area, materialName);
         }
 
         private void btnDeleteAnim_Click(object sender, EventArgs e)
         {
-            m_animEntry.m_RotationValues = new List<float>();
+            m_animEntry.m_TranslationXValues = new List<float>(new float[] { 0f });
+            m_animEntry.m_TranslationYValues = new List<float>(new float[] { 0f });
+            m_animEntry.m_RotationValues = new List<float>(new float[] { 0f });
+            m_animEntry.m_ScaleValues = new List<float>(new float[] { 1f });
 
             if (m_unsavedEntries[m_animId].ContainsKey(m_animEntry.m_MaterialName))
                 m_unsavedEntries[m_animId][m_animEntry.m_MaterialName] = m_animEntry;
@@ -773,10 +789,10 @@ namespace SM64DSe.SM64DSFormats
             {
                 m_DefaultScale = 1,
                 m_MaterialName = tvMaterials.SelectedNode.Name,
-                m_TranslationXValues = new List<float>(),
-                m_TranslationYValues = new List<float>(),
-                m_RotationValues = new List<float>(),
-                m_ScaleValues = new List<float>()
+                m_TranslationXValues = new List<float>(new float[] { 1f }),
+                m_TranslationYValues = new List<float>(new float[] { 1f }),
+                m_RotationValues = new List<float>(new float[] { 0f }),
+                m_ScaleValues = new List<float>(new float[] { 1f })
             };
             newEntry.m_RotationValues.Add(0);
             newEntry.m_ScaleValues.Add(1);
