@@ -145,7 +145,8 @@ namespace SM64DSe.ImportExport.LevelImportExport
         {
             LevelTexAnim.Def texAnim = new LevelTexAnim.Def();
 
-            int scaleStart = 0, scaleLength = 0;
+            int scaleXStart = 0, scaleXLength = 0;
+            int scaleYStart = 0, scaleYLength = 0;
             int rotationStart = 0, rotationLength = 0;
             int translationXStart = 0, translationXLength = 0;
             int translationYStart = 0, translationYLength = 0;
@@ -161,13 +162,21 @@ namespace SM64DSe.ImportExport.LevelImportExport
                 {
                     texAnim.m_DefaultScale = uint.Parse(reader.ReadElementContentAsString()) / 4096f;
                 }
-                else if (reader.NodeType.Equals(XmlNodeType.Element) && reader.LocalName.Equals("ScaleStartIndex"))
+                else if (reader.NodeType.Equals(XmlNodeType.Element) && reader.LocalName.Equals("ScaleXStartIndex"))
                 {
-                    scaleStart = reader.ReadElementContentAsInt();
+                    scaleXStart = reader.ReadElementContentAsInt();
                 }
-                else if (reader.NodeType.Equals(XmlNodeType.Element) && reader.LocalName.Equals("ScaleLength"))
+                else if (reader.NodeType.Equals(XmlNodeType.Element) && reader.LocalName.Equals("ScaleXLength"))
                 {
-                    scaleLength = reader.ReadElementContentAsInt();
+                    scaleXLength = reader.ReadElementContentAsInt();
+                }
+                else if (reader.NodeType.Equals(XmlNodeType.Element) && (reader.LocalName.Equals("ScaleYStartIndex") || reader.LocalName.Equals("ScaleStartIndex")))
+                {
+                    scaleYStart = reader.ReadElementContentAsInt();
+                }
+                else if (reader.NodeType.Equals(XmlNodeType.Element) && (reader.LocalName.Equals("ScaleYLength") || reader.LocalName.Equals("ScaleLength")))
+                {
+                    scaleYLength = reader.ReadElementContentAsInt();
                 }
                 else if (reader.NodeType.Equals(XmlNodeType.Element) && reader.LocalName.Equals("RotationStartIndex"))
                 {
@@ -195,7 +204,8 @@ namespace SM64DSe.ImportExport.LevelImportExport
                 }
                 else if (reader.NodeType.Equals(XmlNodeType.EndElement) && reader.LocalName.Equals("TextureAnimation"))
                 {
-                    texAnim.m_ScaleValues = scales.GetRange(scaleStart, scaleLength);
+                    texAnim.m_ScaleXValues = scales.GetRange(scaleXStart, scaleXLength);
+                    texAnim.m_ScaleYValues = scales.GetRange(scaleYStart, scaleYLength);
                     texAnim.m_RotationValues = rotations.GetRange(rotationStart, rotationLength);
                     texAnim.m_TranslationXValues = translations.GetRange(translationXStart, translationXLength);
                     texAnim.m_TranslationYValues = translations.GetRange(translationYStart, translationYLength);

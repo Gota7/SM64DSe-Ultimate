@@ -50,7 +50,7 @@ namespace SM64DSe
             txtMaterialName.Text = texAnimDef.m_MaterialName;
             txtNumFrames.Text = texAnim.m_NumFrames.ToString();
             lbxScaleValues.Items.Clear();
-            for (int i = 0; i < texAnimDef.m_ScaleValues.Count; i++)
+            for (int i = 0; i < texAnimDef.m_ScaleYValues.Count; i++)
             {
                 lbxScaleValues.Items.Add("Scale value " + i.ToString("D4"));
             }
@@ -69,7 +69,7 @@ namespace SM64DSe
             {
                 lbxTranslationYValues.Items.Add("Translation Y value " + i.ToString("D4"));
             }
-            txtScaleLength.Text = texAnimDef.m_NumScaleValues.ToString();
+            txtScaleLength.Text = texAnimDef.m_NumScaleYValues.ToString();
             txtRotationLength.Text = texAnimDef.m_NumRotationValues.ToString();
             txtTranslationXLength.Text = texAnimDef.m_NumTranslationXValues.ToString();
             txtTranslationYLength.Text = texAnimDef.m_NumTranslationYValues.ToString();
@@ -123,7 +123,7 @@ namespace SM64DSe
 
         private float ReadScaleValue(int area, int texAnim, int index)
         {
-            return m_Level.m_TexAnims[area].m_Defs[texAnim].m_ScaleValues[index];
+            return m_Level.m_TexAnims[area].m_Defs[texAnim].m_ScaleYValues[index];
         }
 
         private float ReadRotationValue(int area, int texAnim, int index)
@@ -143,7 +143,7 @@ namespace SM64DSe
 
         private void SetScaleValue(float value, int area, int texAnim, int index)
         {
-            m_Level.m_TexAnims[area].m_Defs[texAnim].m_ScaleValues[index] = value;
+            m_Level.m_TexAnims[area].m_Defs[texAnim].m_ScaleYValues[index] = value;
         }
 
         private void SetRotationValue(float value, int area, int texAnim, int index)
@@ -163,7 +163,7 @@ namespace SM64DSe
 
         private void AddScaleValue(float value, int area, int texAnim, int index)
         {
-            m_Level.m_TexAnims[area].m_Defs[texAnim].m_ScaleValues.Insert(index, value);
+            m_Level.m_TexAnims[area].m_Defs[texAnim].m_ScaleYValues.Insert(index, value);
         }
 
         private void AddRotationValue(float value, int area, int texAnim, int index)
@@ -183,7 +183,7 @@ namespace SM64DSe
 
         private void SetScaleSize(ushort value, int area, int texAnim)
         {
-            Helper.ResizeList(m_Level.m_TexAnims[area].m_Defs[texAnim].m_ScaleValues, value, 1.0f);
+            Helper.ResizeList(m_Level.m_TexAnims[area].m_Defs[texAnim].m_ScaleYValues, value, 1.0f);
         }
 
         private void SetRotationSize(ushort value, int area, int texAnim)
@@ -203,7 +203,7 @@ namespace SM64DSe
 
         private void RemoveScaleValue(int area, int texAnim, int index)
         {
-            m_Level.m_TexAnims[area].m_Defs[texAnim].m_ScaleValues.RemoveAt(index);
+            m_Level.m_TexAnims[area].m_Defs[texAnim].m_ScaleYValues.RemoveAt(index);
         }
 
         private void RemoveRotationValue(int area, int texAnim, int index)

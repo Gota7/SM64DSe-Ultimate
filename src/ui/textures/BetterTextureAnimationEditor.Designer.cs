@@ -382,7 +382,8 @@
             "Translation X",
             "Translation Y",
             "Rotation",
-            "Scale"});
+            "Scale X",
+            "Scale Y"});
             this.cbSelectProperty.Location = new System.Drawing.Point(2, 32);
             this.cbSelectProperty.Name = "cbSelectProperty";
             this.cbSelectProperty.Size = new System.Drawing.Size(131, 21);

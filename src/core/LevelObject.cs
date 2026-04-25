@@ -1560,28 +1560,34 @@ namespace SM64DSe
                 def.m_MaterialName = ovl.ReadString(ovl.ReadPointer(animOffset + 0x04), -1);
                 def.m_DefaultScale = ovl.Read32(animOffset + 0x08);
 
-                uint numScale = ovl.Read16(animOffset + 0x0C);
-                uint numRot   = ovl.Read16(animOffset + 0x10);
+                uint numScaleX = ovl.Read16(animOffset + 0x08);
+                uint numScaleY = ovl.Read16(animOffset + 0x0C);
+                uint numRot    = ovl.Read16(animOffset + 0x10);
                 uint numTransX = ovl.Read16(animOffset + 0x14);
                 uint numTransY = ovl.Read16(animOffset + 0x18);
 
-                uint scaleIndex = ovl.Read16(animOffset + 0x0E);
-                uint rotIndex   = ovl.Read16(animOffset + 0x12);
+                uint scaleXIndex = ovl.Read16(animOffset + 0x0A);
+                uint scaleYIndex = ovl.Read16(animOffset + 0x0E);
+                uint rotIndex    = ovl.Read16(animOffset + 0x12);
                 uint transXIndex = ovl.Read16(animOffset + 0x16);
                 uint transYIndex = ovl.Read16(animOffset + 0x1A);
 
-                def.m_ScaleValues = new List<float>((int)numScale);
+                def.m_ScaleXValues = new List<float>((int)numScaleX);
+                def.m_ScaleYValues = new List<float>((int)numScaleY);
                 def.m_RotationValues   = new List<float>((int)numRot);
                 def.m_TranslationXValues = new List<float>((int)numTransX);
                 def.m_TranslationYValues = new List<float>((int)numTransY);
 
-                uint scaleStartOffset = scaleOffset + (scaleIndex * 4);
+                uint scaleXStartOffset = scaleOffset + (scaleXIndex * 4);
+                uint scaleYStartOffset = scaleOffset + (scaleYIndex * 4);
                 uint rotationStartOffset = rotOffset + (rotIndex * 2);
                 uint translationXStartOffset = transOffset + (transXIndex * 4);
                 uint translationYStartOffset = transOffset + (transYIndex * 4);
 
-                for (uint offs = scaleStartOffset; offs < scaleStartOffset + numScale * 4; offs += 4)
-                    def.m_ScaleValues.Add((int)ovl.Read32(offs) / 4096.0f);
+                for (uint offs = scaleXStartOffset; offs < scaleXStartOffset + numScaleX * 4; offs += 4)
+                    def.m_ScaleXValues.Add((int)ovl.Read32(offs) / 4096.0f);
+                for (uint offs = scaleYStartOffset; offs < scaleYStartOffset + numScaleY * 4; offs += 4)
+                    def.m_ScaleYValues.Add((int)ovl.Read32(offs) / 4096.0f);
                 for (uint offs = rotationStartOffset; offs < rotationStartOffset + numRot * 2; offs += 2)
                     def.m_RotationValues  .Add((short)ovl.Read16(offs) / 4096.0f * 360.0f);
                 for (uint offs = translationXStartOffset; offs < translationXStartOffset + numTransX * 4; offs += 4)
@@ -1643,7 +1649,7 @@ namespace SM64DSe
         public static void SaveAll(System.IO.BinaryWriter binWriter, List<LevelTexAnim> texAnimList, uint areaTableOffset, uint numAreas)
         {
             List<int> scaleValues = CombineTransformValues(
-                texAnimList.Select(x => x.m_Defs.Select(y => y.m_ScaleValuesInt.ToList())
+                texAnimList.Select(x => x.m_Defs.Select(y => y.m_CombinedScaleValuesInt.ToList())
                     .ToList()).ToList());
             List<int> rotationValues   = CombineTransformValues(
                 texAnimList.Select(x => x.m_Defs.Select(y => y.m_RotationValuesInt.ToList())
@@ -1678,21 +1684,24 @@ namespace SM64DSe
                 uint defStrPtrOffset = (uint)binWriter.BaseStream.Position + 0x04;
                 foreach (Def def in texAnim.m_Defs)
                 {
-                    List<int> currScaleValues = def.m_ScaleValuesInt;
+                    List<int> currScaleXValues = def.m_ScaleXValuesInt;
+                    List<int> currScaleYValues = def.m_ScaleYValuesInt;
                     List<int> currRotationValues = def.m_RotationValuesInt;
                     List<int> currTranslationXValues = def.m_TranslationXValuesInt;
                     List<int> currTranslationYValues = def.m_TranslationYValuesInt;
 
-                    int numScaleValues = def.m_ScaleValues.Count;
+                    int numScaleXValues = def.m_ScaleXValues.Count;
+                    int numScaleYValues = def.m_ScaleYValues.Count;
                     int numRotationValues = def.m_RotationValues.Count;
                     int numTranslationXValues = def.m_TranslationXValues.Count;
                     int numTranslationYValues = def.m_TranslationYValues.Count;
 
                     binWriter.Write(0x0000ffff);
                     binWriter.Write(0x00000000);
-                    binWriter.Write(0x00000001);
-                    binWriter.Write((ushort)numScaleValues);
-                    binWriter.Write((ushort)Helper.FindSubList(scaleValues, currScaleValues));
+                    binWriter.Write((ushort)numScaleXValues);
+                    binWriter.Write((ushort)Helper.FindSubList(scaleValues, currScaleXValues));
+                    binWriter.Write((ushort)numScaleYValues);
+                    binWriter.Write((ushort)Helper.FindSubList(scaleValues, currScaleYValues));
                     binWriter.Write((ushort)numRotationValues);
                     binWriter.Write((ushort)Helper.FindSubList(rotationValues, currRotationValues));
                     binWriter.Write((ushort)numTranslationXValues);
@@ -1716,7 +1725,8 @@ namespace SM64DSe
         
         public uint m_NumFrames;
 
-        public int m_NumScaleValues { get { int count = 0; foreach (Def def in m_Defs) { count += def.m_NumScaleValues; } return count; } }
+        public int m_NumScaleXValues { get { int count = 0; foreach (Def def in m_Defs) { count += def.m_NumScaleXValues; } return count; } }
+        public int m_NumScaleYValues { get { int count = 0; foreach (Def def in m_Defs) { count += def.m_NumScaleYValues; } return count; } }
         public int m_NumRotationValues { get { int count = 0; foreach (Def def in m_Defs) { count += def.m_NumRotationValues; } return count; } }
         public int m_NumTranslationXValues { get { int count = 0; foreach (Def def in m_Defs) { count += def.m_NumTranslationXValues; } return count; } }
         public int m_NumTranslationYValues { get { int count = 0; foreach (Def def in m_Defs) { count += def.m_NumTranslationYValues; } return count; } }
@@ -1724,18 +1734,21 @@ namespace SM64DSe
         public class Def
         {
             public string m_MaterialName;
-            public List<float> m_ScaleValues = new List<float>();
+            public List<float> m_ScaleXValues = new List<float>();
+            public List<float> m_ScaleYValues = new List<float>();
             public List<float> m_RotationValues = new List<float>();
             public List<float> m_TranslationXValues = new List<float>();
             public List<float> m_TranslationYValues = new List<float>();
             public float m_DefaultScale = 1;
 
-            public int m_NumScaleValues { get { return (m_ScaleValues != null) ? m_ScaleValues.Count : 0; } }
+            public int m_NumScaleXValues { get { return (m_ScaleXValues != null) ? m_ScaleXValues.Count : 0; } }
+            public int m_NumScaleYValues { get { return (m_ScaleYValues != null) ? m_ScaleYValues.Count : 0; } }
             public int m_NumRotationValues { get { return (m_RotationValues != null) ? m_RotationValues.Count : 0; } }
             public int m_NumTranslationXValues { get { return (m_TranslationXValues != null) ? m_TranslationXValues.Count : 0; } }
             public int m_NumTranslationYValues { get { return (m_TranslationYValues != null) ? m_TranslationYValues.Count : 0; } }
 
-            public List<int> m_ScaleValuesInt { get { return Helper.FloatListTo20_12IntList(m_ScaleValues); } }
+            public List<int> m_ScaleXValuesInt { get { return Helper.FloatListTo20_12IntList(m_ScaleXValues); } }
+            public List<int> m_ScaleYValuesInt { get { return Helper.FloatListTo20_12IntList(m_ScaleYValues); } }
             public List<int> m_RotationValuesInt { get { return Helper.FloatListToRotationIntList(m_RotationValues); } }
             public List<int> m_TranslationXValuesInt { get { return Helper.FloatListTo20_12IntList(m_TranslationXValues); } }
             public List<int> m_TranslationYValuesInt { get { return Helper.FloatListTo20_12IntList(m_TranslationYValues); } }
@@ -1748,6 +1761,17 @@ namespace SM64DSe
                     translations.AddRange(m_TranslationXValues);
                     translations.AddRange(m_TranslationYValues);
                     return translations;
+                }
+            }
+            public List<int> m_CombinedScaleValuesInt { get { return Helper.FloatListTo20_12IntList(m_CombinedScaleValues); } }
+            public List<float> m_CombinedScaleValues
+            {
+                get
+                {
+                    List<float> scales = new List<float>();
+                    scales.AddRange(m_ScaleXValues);
+                    scales.AddRange(m_ScaleYValues);
+                    return scales;
                 }
             }
             public List<int> m_CombinedTranslationValuesInt { get { return Helper.FloatListTo20_12IntList(m_CombinedTranslationValues); } }

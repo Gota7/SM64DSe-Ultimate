@@ -26,7 +26,8 @@ namespace SM64DSe.SM64DSFormats
         private float m_translationX = 0;
         private float m_translationY = 0;
         private float m_rotation = 0;
-        private float m_scale = 1;
+        private float m_scaleX = 1;
+        private float m_scaleY = 1;
         
         private System.Windows.Forms.Timer m_texAnimTimer;
         private int m_texAnimFrame = 0;
@@ -47,7 +48,8 @@ namespace SM64DSe.SM64DSFormats
             TRANSLATION_X = 0,
             TRANSLATION_Y = 1,
             ROTATION = 2,
-            SCALE = 3
+            SCALE_X = 3,
+            SCALE_Y = 4,
         }
 
         private float m_zoomFactor = 1;
@@ -108,14 +110,16 @@ namespace SM64DSe.SM64DSFormats
                 m_translationX = LevelTexAnim.AnimationValue(m_animEntry.m_TranslationXValues, 0, 0);
                 m_translationY = LevelTexAnim.AnimationValue(m_animEntry.m_TranslationYValues, 0, 0);
                 m_rotation = LevelTexAnim.AnimationValue(m_animEntry.m_RotationValues, 0, 0);
-                m_scale = LevelTexAnim.AnimationValue(m_animEntry.m_ScaleValues, 0, 0);
+                m_scaleX = LevelTexAnim.AnimationValue(m_animEntry.m_ScaleXValues, 0, 0);
+                m_scaleY = LevelTexAnim.AnimationValue(m_animEntry.m_ScaleYValues, 0, 0);
             }
             else
             {
                 m_translationX = 0;
                 m_translationY = 0;
                 m_rotation = 0;
-                m_scale = 1;
+                m_scaleX = 1;
+                m_scaleY = 1;
             }
 
             SetupGUIForPauseMode();
@@ -129,7 +133,8 @@ namespace SM64DSe.SM64DSFormats
                 m_translationX = LevelTexAnim.AnimationValue(m_animEntry.m_TranslationXValues, m_texAnimFrame, (int)m_animations[m_animId].m_NumFrames);
                 m_translationY = LevelTexAnim.AnimationValue(m_animEntry.m_TranslationYValues, m_texAnimFrame, (int)m_animations[m_animId].m_NumFrames);
                 m_rotation = LevelTexAnim.AnimationValue(m_animEntry.m_RotationValues, m_texAnimFrame, (int)m_animations[m_animId].m_NumFrames);
-                m_scale = LevelTexAnim.AnimationValue(m_animEntry.m_ScaleValues, m_texAnimFrame, (int)m_animations[m_animId].m_NumFrames);
+                m_scaleX = LevelTexAnim.AnimationValue(m_animEntry.m_ScaleXValues, m_texAnimFrame, (int)m_animations[m_animId].m_NumFrames);
+                m_scaleY = LevelTexAnim.AnimationValue(m_animEntry.m_ScaleYValues, m_texAnimFrame, (int)m_animations[m_animId].m_NumFrames);
             }
             if (valueSettingPanel2.Visible)
             {
@@ -139,8 +144,10 @@ namespace SM64DSe.SM64DSFormats
                     m_translationY = InterpolatedValue(m_keyFrames, m_texAnimFrame) * (float)numScaling.Value;
                 else if ((AnimationProperty)cbSelectProperty.SelectedIndex == AnimationProperty.ROTATION)
                     m_rotation = InterpolatedValue(m_keyFrames, m_texAnimFrame) * (float)numScaling.Value;
-                else if ((AnimationProperty)cbSelectProperty.SelectedIndex == AnimationProperty.SCALE)
-                    m_scale = InterpolatedValue(m_keyFrames, m_texAnimFrame) * (float)numScaling.Value;
+                else if ((AnimationProperty)cbSelectProperty.SelectedIndex == AnimationProperty.SCALE_X)
+                    m_scaleX = InterpolatedValue(m_keyFrames, m_texAnimFrame) * (float)numScaling.Value;
+                else if ((AnimationProperty)cbSelectProperty.SelectedIndex == AnimationProperty.SCALE_Y)
+                    m_scaleY = InterpolatedValue(m_keyFrames, m_texAnimFrame) * (float)numScaling.Value;
             }
             m_texAnimFrame %= (int)m_animations[m_animId].m_NumFrames;
             m_timelineFrame = m_texAnimFrame % 120;
@@ -272,7 +279,8 @@ namespace SM64DSe.SM64DSFormats
                         m_TranslationXValues = new List<float>(entry.m_TranslationXValues),
                         m_TranslationYValues = new List<float>(entry.m_TranslationYValues),
                         m_RotationValues = new List<float>(entry.m_RotationValues),
-                        m_ScaleValues = new List<float>(entry.m_ScaleValues),
+                        m_ScaleXValues = new List<float>(entry.m_ScaleXValues),
+                        m_ScaleYValues = new List<float>(entry.m_ScaleYValues),
                     };
 
                     if (newEntry.m_TranslationXValues.Count == 0)
@@ -281,8 +289,10 @@ namespace SM64DSe.SM64DSFormats
                         newEntry.m_TranslationYValues.Add(0f);
                     if (newEntry.m_RotationValues.Count == 0)
                         newEntry.m_RotationValues.Add(0f);
-                    if (newEntry.m_ScaleValues.Count == 0)
-                        newEntry.m_ScaleValues.Add(1f);
+                    if (newEntry.m_ScaleXValues.Count == 0)
+                        newEntry.m_ScaleXValues.Add(1f);
+                    if (newEntry.m_ScaleYValues.Count == 0)
+                        newEntry.m_ScaleYValues.Add(1f);
 
                     m_entries.Add(entry.m_MaterialName, newEntry);
                 }
@@ -328,8 +338,10 @@ namespace SM64DSe.SM64DSFormats
                     m_animationValues.Add(Helper.Wrap(value,360f));
                 }
             }
-            else
-                m_animationValues = m_animEntry.m_ScaleValues;
+            else if (property == AnimationProperty.SCALE_X)
+                m_animationValues = m_animEntry.m_ScaleXValues;
+            else if (property == AnimationProperty.SCALE_Y)
+                m_animationValues = m_animEntry.m_ScaleYValues;
             foreach (float value in m_animationValues)
             {
                 if (value < m_valueFloor)
@@ -338,7 +350,7 @@ namespace SM64DSe.SM64DSFormats
                     m_valueCeiling = value;
             }
             if (m_animationValues.Count == 0)
-                m_animationValues.Add((property == AnimationProperty.SCALE) ? 1 : 0);
+                m_animationValues.Add((property == AnimationProperty.SCALE_X || property == AnimationProperty.SCALE_Y) ? 1 : 0);
             UpdateAnimation();
         }
 
@@ -369,7 +381,7 @@ namespace SM64DSe.SM64DSFormats
             //UV Rectangle
             Pen pen = new Pen(Color.Gold, 2);
             double angle = m_rotation * 0.0174533f;
-            RectangleF rect = new RectangleF(-32 * m_scale, -32 * m_scale, 64 * m_scale, 64 * m_scale);
+            RectangleF rect = new RectangleF(-32 * m_scaleX, -32 * m_scaleY, 64 * m_scaleX, 64 * m_scaleY);
             PointF center = new PointF(m_UVwindowRect.Width / 2f + m_translationX * 64 * m_zoomFactor, m_UVwindowRect.Height / 2f - m_translationY * 64 * m_zoomFactor);
 
             gfx.DrawPolygon(pen, new PointF[] {
@@ -392,9 +404,9 @@ namespace SM64DSe.SM64DSFormats
             //small Texture Preview Window
             texBrush.ResetTransform();
             if (texWidth > texHeight)
-                texBrush.ScaleTransform(32 / texWidth / m_scale, 32 / texWidth / m_scale);
+                texBrush.ScaleTransform(32 / texWidth / m_scaleX, 32 / texWidth / m_scaleY);
             else
-                texBrush.ScaleTransform(32 / texHeight / m_scale, 32 / texHeight / m_scale);
+                texBrush.ScaleTransform(32 / texHeight / m_scaleX, 32 / texHeight / m_scaleY);
             texBrush.TranslateTransform(width - 32 - m_translationX * 64, 32 + m_translationY * 64);
             texBrush.RotateTransform(-m_rotation);
             gfx.FillRectangle(texBrush, width - 64, 0, 64, 64);
@@ -627,7 +639,8 @@ namespace SM64DSe.SM64DSFormats
                 float value;
                 if (m_animationValues.Count > 0)
                     value = m_animationValues.Last();
-                else if ((AnimationProperty)cbSelectProperty.SelectedIndex == AnimationProperty.SCALE)
+                else if ((AnimationProperty)cbSelectProperty.SelectedIndex == AnimationProperty.SCALE_X
+                    || (AnimationProperty)cbSelectProperty.SelectedIndex == AnimationProperty.SCALE_Y)
                     value = 1;
                 else
                     value = 0;
@@ -680,8 +693,10 @@ namespace SM64DSe.SM64DSFormats
                         m_animEntry.m_RotationValues.Add(wrappedValue-360);
                 }
             }
-            else
-                m_animEntry.m_ScaleValues = m_animationValues;
+            else if (property == AnimationProperty.SCALE_X)
+                m_animEntry.m_ScaleXValues = m_animationValues;
+            else if (property == AnimationProperty.SCALE_Y)
+                m_animEntry.m_ScaleYValues = m_animationValues;
 
             if (m_unsavedEntries[m_animId].ContainsKey(m_animEntry.m_MaterialName))
                 m_unsavedEntries[m_animId][m_animEntry.m_MaterialName] = m_animEntry;
@@ -722,7 +737,8 @@ namespace SM64DSe.SM64DSFormats
             animEntry.m_TranslationXValues = OptimizeValues(animEntry.m_TranslationXValues);
             animEntry.m_TranslationYValues = OptimizeValues(animEntry.m_TranslationYValues);
             animEntry.m_RotationValues = OptimizeValues(animEntry.m_RotationValues);
-            animEntry.m_ScaleValues = OptimizeValues(animEntry.m_ScaleValues);
+            animEntry.m_ScaleXValues = OptimizeValues(animEntry.m_ScaleXValues);
+            animEntry.m_ScaleYValues = OptimizeValues(animEntry.m_ScaleYValues);
             return animEntry;
         }
 
@@ -764,7 +780,8 @@ namespace SM64DSe.SM64DSFormats
             m_animEntry.m_TranslationXValues = new List<float>(new float[] { 0f });
             m_animEntry.m_TranslationYValues = new List<float>(new float[] { 0f });
             m_animEntry.m_RotationValues = new List<float>(new float[] { 0f });
-            m_animEntry.m_ScaleValues = new List<float>(new float[] { 1f });
+            m_animEntry.m_ScaleXValues = new List<float>(new float[] { 1f });
+            m_animEntry.m_ScaleYValues = new List<float>(new float[] { 1f });
 
             if (m_unsavedEntries[m_animId].ContainsKey(m_animEntry.m_MaterialName))
                 m_unsavedEntries[m_animId][m_animEntry.m_MaterialName] = m_animEntry;
@@ -789,13 +806,12 @@ namespace SM64DSe.SM64DSFormats
             {
                 m_DefaultScale = 1,
                 m_MaterialName = tvMaterials.SelectedNode.Name,
-                m_TranslationXValues = new List<float>(new float[] { 1f }),
-                m_TranslationYValues = new List<float>(new float[] { 1f }),
+                m_TranslationXValues = new List<float>(new float[] { 0f }),
+                m_TranslationYValues = new List<float>(new float[] { 0f }),
                 m_RotationValues = new List<float>(new float[] { 0f }),
-                m_ScaleValues = new List<float>(new float[] { 1f })
+                m_ScaleXValues = new List<float>(new float[] { 1f }),
+                m_ScaleYValues = new List<float>(new float[] { 1f })
             };
-            newEntry.m_RotationValues.Add(0);
-            newEntry.m_ScaleValues.Add(1);
 
             if (m_entries.ContainsKey(tvMaterials.SelectedNode.Name))
                 m_entries[tvMaterials.SelectedNode.Name] = newEntry;
@@ -861,11 +877,17 @@ namespace SM64DSe.SM64DSFormats
                         m_animEntry.m_RotationValues.Add(wrappedValue - 360);
                 }
             }
-            else
+            else if (property == AnimationProperty.SCALE_X)
             {
-                m_animEntry.m_ScaleValues = new List<float>();
+                m_animEntry.m_ScaleXValues = new List<float>();
                 for (int i = 0; i < m_animations[m_animId].m_NumFrames; i++)
-                    m_animEntry.m_ScaleValues.Add(InterpolatedValue(m_keyFrames, i) * (float)numScaling.Value);
+                    m_animEntry.m_ScaleXValues.Add(InterpolatedValue(m_keyFrames, i) * (float)numScaling.Value);
+            }
+            else if (property == AnimationProperty.SCALE_Y)
+            {
+                m_animEntry.m_ScaleYValues = new List<float>();
+                for (int i = 0; i < m_animations[m_animId].m_NumFrames; i++)
+                    m_animEntry.m_ScaleYValues.Add(InterpolatedValue(m_keyFrames, i) * (float)numScaling.Value);
             }
 
             //add to unsaved

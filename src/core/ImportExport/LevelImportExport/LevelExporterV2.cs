@@ -56,8 +56,8 @@ namespace SM64DSe.ImportExport.LevelImportExport
                     writer.WriteElementString("NumberOfFrames", texAnim.m_NumFrames.ToString());
                     writer.WriteElementString("NumberOfAnimations", texAnim.m_NumDefs.ToString());
 
-                    List<float> scaleValues = texAnim.m_Defs.SelectMany(y => y.m_ScaleValues).ToList();
-                    List<int> scaleValuesInt = texAnim.m_Defs.SelectMany(y => y.m_ScaleValuesInt).ToList();
+                    List<float> scaleValues = texAnim.m_Defs.SelectMany(y => y.m_CombinedScaleValues).ToList();
+                    List<int> scaleValuesInt = texAnim.m_Defs.SelectMany(y => y.m_CombinedScaleValuesInt).ToList();
                     List<float> rotationValues = texAnim.m_Defs.SelectMany(y => y.m_RotationValues).ToList();
                     List<int> rotationValuesInt = texAnim.m_Defs.SelectMany(y => y.m_RotationValuesInt).ToList();
                     List<float> translationValues = texAnim.m_Defs.SelectMany(y => y.m_CombinedTranslationValues).ToList();
@@ -73,8 +73,10 @@ namespace SM64DSe.ImportExport.LevelImportExport
 
                         writer.WriteElementString("MaterialName", def.m_MaterialName);
                         writer.WriteElementString("DefaultScaleValue", def.m_DefaultScale.ToString());
-                        writer.WriteElementString("ScaleStartIndex", Helper.FindSubList(scaleValues, def.m_ScaleValues).ToString());
-                        writer.WriteElementString("ScaleLength", def.m_NumScaleValues.ToString());
+                        writer.WriteElementString("ScaleXStartIndex", Helper.FindSubList(scaleValues, def.m_ScaleXValues).ToString());
+                        writer.WriteElementString("ScaleXLength", def.m_NumScaleXValues.ToString());
+                        writer.WriteElementString("ScaleYStartIndex", Helper.FindSubList(scaleValues, def.m_ScaleYValues).ToString());
+                        writer.WriteElementString("ScaleYLength", def.m_NumScaleYValues.ToString());
                         writer.WriteElementString("RotationStartIndex", Helper.FindSubList(rotationValues, def.m_RotationValues).ToString());
                         writer.WriteElementString("RotationLength", def.m_NumRotationValues.ToString());
                         writer.WriteElementString("TranslationXStartIndex", Helper.FindSubList(translationValues, def.m_TranslationXValues).ToString());
