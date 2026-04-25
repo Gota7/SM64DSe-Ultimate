@@ -577,7 +577,7 @@ namespace SM64DSe.ImportExport.LevelImportExport
                 }
                 else if (reader.NodeType.Equals(XmlNodeType.EndElement) && reader.LocalName.Equals("TextureAnimation"))
                 {
-                    texAnim.m_ScaleValues = scales.GetRange(scaleStart, scaleLength);
+                    texAnim.m_ScaleYValues = scales.GetRange(scaleStart, scaleLength);
                     texAnim.m_RotationValues = rotations.GetRange(rotationStart, rotationLength);
                     texAnim.m_TranslationXValues = translations.GetRange(translationStart, translationLength);
                     return texAnim;

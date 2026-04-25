@@ -522,8 +522,8 @@ namespace SM64DSe.ImportExport.LevelImportExport
                     writer.WriteElementString("NumberOfFrames", texAnim.m_NumFrames.ToString());
                     writer.WriteElementString("NumberOfAnimations", texAnim.m_NumDefs.ToString());
 
-                    List<float> scales = texAnim.m_Defs.SelectMany(y => y.m_ScaleValues).ToList();
-                    List<int> scalesInt = texAnim.m_Defs.SelectMany(y => y.m_ScaleValuesInt).ToList();
+                    List<float> scales = texAnim.m_Defs.SelectMany(y => y.m_ScaleYValues).ToList();
+                    List<int> scalesInt = texAnim.m_Defs.SelectMany(y => y.m_ScaleYValuesInt).ToList();
                     List<float> rotations = texAnim.m_Defs.SelectMany(y => y.m_RotationValues).ToList();
                     List<int> rotationsInt = texAnim.m_Defs.SelectMany(y => y.m_RotationValuesInt).ToList();
                     List<float> translations = texAnim.m_Defs.SelectMany(y => y.m_TranslationXValues).ToList();
@@ -553,8 +553,8 @@ namespace SM64DSe.ImportExport.LevelImportExport
                         writer.WriteStartElement("TextureAnimation");
 
                         writer.WriteElementString("MaterialName", def.m_MaterialName);
-                        writer.WriteElementString("ScaleStartIndex", Helper.FindSubList(scales, def.m_ScaleValues).ToString());
-                        writer.WriteElementString("ScaleLength", def.m_NumScaleValues.ToString());
+                        writer.WriteElementString("ScaleStartIndex", Helper.FindSubList(scales, def.m_ScaleYValues).ToString());
+                        writer.WriteElementString("ScaleLength", def.m_NumScaleYValues.ToString());
                         writer.WriteElementString("RotationStartIndex", Helper.FindSubList(rotations, def.m_RotationValues).ToString());
                         writer.WriteElementString("RotationLength", def.m_NumRotationValues.ToString());
                         writer.WriteElementString("TranslationStartIndex", Helper.FindSubList(translations, def.m_TranslationXValues).ToString());

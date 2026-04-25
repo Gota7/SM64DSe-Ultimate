@@ -1045,9 +1045,10 @@ namespace SM64DSe
                                             {
                                                 if (entry.m_MaterialName == matgroup.m_Name)
                                                 {
-
-                                                    float scaleValue = LevelTexAnim.AnimationValue(entry.m_ScaleValues, texAnimFrame, (int)texAnim.m_NumFrames);
-                                                    coord = coord * scaleValue;
+                                                    float scaleX = LevelTexAnim.AnimationValue(entry.m_ScaleXValues, texAnimFrame, (int)texAnim.m_NumFrames);
+                                                    float scaleY = LevelTexAnim.AnimationValue(entry.m_ScaleYValues, texAnimFrame, (int)texAnim.m_NumFrames);
+                                                    coord.X *= scaleX;
+                                                    coord.Y *= scaleY;
 
                                                     float angle = LevelTexAnim.AnimationValue(entry.m_RotationValues, texAnimFrame, (int)texAnim.m_NumFrames);
                                                     coord = Vector2.Transform(coord, Quaternion.FromAxisAngle(Vector3.UnitZ, (angle + matgroup.m_TexCoordRot) * 0.0174533f));
