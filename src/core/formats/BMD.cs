@@ -1053,7 +1053,7 @@ namespace SM64DSe
                                                     float angle = LevelTexAnim.AnimationValue(entry.m_RotationValues, texAnimFrame, (int)texAnim.m_NumFrames);
                                                     coord = Vector2.Transform(coord, Quaternion.FromAxisAngle(Vector3.UnitZ, (angle + matgroup.m_TexCoordRot) * 0.0174533f));
 
-                                                    float transX = LevelTexAnim.AnimationValue(entry.m_TranslationXValues, texAnimFrame, (int)texAnim.m_NumFrames);
+                                                    float transX = -LevelTexAnim.AnimationValue(entry.m_TranslationXValues, texAnimFrame, (int)texAnim.m_NumFrames);
                                                     float transY = LevelTexAnim.AnimationValue(entry.m_TranslationYValues, texAnimFrame, (int)texAnim.m_NumFrames);
                                                     coord = Vector2.Add(coord, Vector2.Add(new Vector2(transX, transY), normalizedTranslation));
                                                 }
